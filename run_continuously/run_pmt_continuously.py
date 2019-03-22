@@ -9,7 +9,7 @@ class pmt_collect_continuously(EnvExperiment):
         p = cxn.parametervault
         self.duration = p.get_parameter(["PmtReadout", "duration"])["ms"]
         self.setattr_device("core")
-        self.pmt = self.get_device("pmt")#LTriggerIN")
+        self.pmt = self.get_device("LTriggerIN")
         self.cpld = self.get_device("urukul0_cpld")
         self.dds_866 = self.get_device("866")
         self.dds_397 = self.get_device("397")
