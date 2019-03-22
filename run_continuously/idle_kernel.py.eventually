@@ -1,0 +1,32 @@
+from artiq.experiment import *
+
+
+class IdleKernel(EnvExperiment):
+    def build(self):
+        self.setattr_device("core")
+        self.cpld = self.get_device("urukul0_cpld")
+        self.dds_866 = self.get_device("866")
+        self.dds_397 = self.get_device("397")
+
+    @kernel
+    def run(self):
+        start_time = now_mu() + self.core.seconds_to_mu(500*ms)
+        while self.core.get_rtio_counter_mu() < start_time:
+            pass
+        self.core.reset()
+        self.cpld.init()
+        self.dds_866.init()
+        self.dds_397.init()
+        self.core.break_realtime()
+
+        # I'm just going to turn on the 397/866 DDS and then
+        # add a ridiculously long delay
+
+        self.dds_866.sw.on()
+        self.dds_397.sw.on()
+        self.dds_866.set(80*MHz, amplitude=1.0)
+        self.dds_397.set(75*MHz, amplitude=1.0)
+        self.dds_866.set_att(22*dB)
+        self.dds_397.set_att(22*dB)
+        delay(10000*s)
+
