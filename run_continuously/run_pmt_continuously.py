@@ -19,13 +19,12 @@ class pmt_collect_continuously(EnvExperiment):
         self.core.reset()
         self.set_dataset("collection_duration", [self.duration])
         self.set_dataset("pmt_counts", [0], broadcast=True)
-        self.pmt.input()
-        delay(1*ms)
         self.run_pmt()
 
     @kernel
     def run_pmt(self):
         self.core.break_realtime()
+        self.pmt.input()
         self.cpld.init()
         self.dds_866.init()
         self.dds_397.init()
