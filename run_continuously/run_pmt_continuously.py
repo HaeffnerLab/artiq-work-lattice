@@ -24,7 +24,7 @@ class pmt_collect_continuously(EnvExperiment):
     @kernel
     def run_pmt(self):
         self.core.break_realtime()
-        self.pmt.input()
+        self.pmt.output()
         self.cpld.init()
         self.dds_866.init()
         self.dds_397.init()
