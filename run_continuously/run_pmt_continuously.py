@@ -20,7 +20,7 @@ class pmt_collect_continuously(EnvExperiment):
         self.set_dataset("collection_duration", [self.duration])
         self.set_dataset("pmt_counts", [0], broadcast=True)
         self.pmt.input()
-        delay_mu(1)
+        delay(1*ms)
         self.run_pmt()
 
     @kernel
