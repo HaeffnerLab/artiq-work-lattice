@@ -19,6 +19,7 @@ class pmt_collect_continuously(EnvExperiment):
         self.core.reset()
         self.set_dataset("collection_duration", [self.duration])
         self.set_dataset("pmt_counts", [0], broadcast=True)
+        self.pmt.input()
         self.run_pmt()
 
     @kernel
