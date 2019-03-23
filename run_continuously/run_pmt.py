@@ -18,7 +18,7 @@ class pmtcollect(EnvExperiment):
 
     def run(self):
         self.core.reset()
-        # Should we be using np arrays ??
+        # Should we use np arrays ??
         self.set_dataset("pmt_counts", [], broadcast=True)
         self.set_dataset("time", [], broadcast=True)
         self.set_dataset("collection_duration", [])
@@ -94,7 +94,7 @@ class pmtcollect(EnvExperiment):
         self.append_to_dataset("pmt_counts_866_off",
                                 pmt_counts_866_off)
         # self.append_to_dataset("differential", diff_counts)
-        
+
         return pmt_counts, pmt_counts_866_off
 
     def get_detection_time(self) -> TFloat:
