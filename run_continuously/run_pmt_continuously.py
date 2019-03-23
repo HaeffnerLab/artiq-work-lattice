@@ -34,8 +34,8 @@ class pmt_collect_continuously(EnvExperiment):
         self.dds_866.sw.on()
         self.dds_397.sw.on()
         while True:
+            self.core.break_realtime()
             t_count = self.pmt.gate_rising(self.duration*ms)
             pmt_count = self.pmt.count(t_count)
             self.append_to_dataset("pmt_counts", pmt_count)
-            self.core.break_realtime()
             #delay(10*ms)
