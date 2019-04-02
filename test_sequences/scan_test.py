@@ -27,25 +27,25 @@ class scanTest(EnvExperiment):
 
         self.dds_397.set(800*MHz)
         self.dds_866.set(500*MHz)
-        self.dds_397.sw.on()
-        self.dds_866.sw.on()
+        #self.dds_397.sw.on()
+        #self.dds_866.sw.on()
 
-        self.core.delay(1*s)
+        #self.core.delay(1*s)
 
-        self.dds_397.sw.off()
-        self.dds_866.sw.off()
+        #self.dds_397.sw.off()
+        #self.dds_866.sw.off()
 
-        self.core.delay(1*s)
+        #self.core.delay(1*s)
 
-        self.dds_397.set(20*MHz)
-        self.dds_866.set(20*MHz)
-        self.dds_397.sw.on()
-        self.dds_866.sw.on()
+        #self.dds_397.set(20*MHz)
+        #self.dds_866.set(20*MHz)
+        #self.dds_397.sw.on()
+        #self.dds_866.sw.on()
 
-        self.core.delay(1*s)
+        #self.core.delay(1*s)
 
-        self.dds_397.sw.off()
-        self.dds_866.sw.off()
+        #self.dds_397.sw.off()
+        #self.dds_866.sw.off()
 
 
 
