@@ -21,7 +21,7 @@ class scanTest(EnvExperiment):
                 self.pause()
                 self.kernel_run()
             except TerminationRequested:
-                break
+                return
 
     @kernel
     def kernel_run(self):
