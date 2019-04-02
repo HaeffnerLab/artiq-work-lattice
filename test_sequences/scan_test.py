@@ -17,9 +17,11 @@ class scanTest(EnvExperiment):
         self.dds_866.init()
         self.dds_397.init()
         while True:
-            if self.scheduler.termination_requested()
+            try:
+                self.pause()
+                self.kernel_run()
+            except TerminationRequested:
                 break
-            self.kernel_run()
 
     @kernel
     def kernel_run(self):
