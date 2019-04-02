@@ -20,6 +20,7 @@ class scanTest(EnvExperiment):
             if not self.scheduler.check_pause():
                 self.kernel_run()
             else:
+                self.core.close()
                 break
 
     @kernel
