@@ -18,6 +18,7 @@ class scanTest(EnvExperiment):
         self.dds_866.init()
         self.dds_397.init()
         while True:
+            self.core.comm.close()
             self.scheduler.pause()
             self.kernel_run()
 
