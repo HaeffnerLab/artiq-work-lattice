@@ -26,8 +26,8 @@ class scanTest(EnvExperiment):
     def kernel_run(self):
         self.core.break_realtime()
 
-        self.dds_397.set(80*MHz)
-        self.dds_866.set(100*MHz)
+        self.dds_397.set(800*MHz)
+        self.dds_866.set(500*MHz)
         self.dds_397.sw.on()
         self.dds_866.sw.on()
 
