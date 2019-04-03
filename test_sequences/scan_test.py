@@ -42,8 +42,8 @@ class scanTest(EnvExperiment):
 
         delay(1*s)
 
-        self.dds_397.set(500*MHz, profile=0)
-        self.dds_866.set(500*MHz, profile=0)
+        self.dds_397.set(100*MHz, profile=0)
+        self.dds_866.set(100*MHz, profile=0)
         self.dds_397.sw.on()
         self.dds_866.sw.on()
 
