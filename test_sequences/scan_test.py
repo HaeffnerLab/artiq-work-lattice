@@ -1,5 +1,5 @@
 from artiq.language import core, scan
-from artiq.experiment import *
+from artiq.experiment import EnvExperiment
 
 
 class scanTest(EnvExperiment):
@@ -23,8 +23,7 @@ class scanTest(EnvExperiment):
 
     @kernel
     def kernel_run(self):
-        #self.core.break_realtime()
-        self.core.reset()
+        self.core.break_realtime()
         self.cpld.init()
         self.dds_397.init()
         self.dds_866.init()
