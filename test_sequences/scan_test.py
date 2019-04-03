@@ -16,10 +16,11 @@ class scanTest(EnvExperiment):
         #self.set_dataset("pmt_counts", [])
         #self.set_dataset("time", [])
         while True:
-            self.scheduler.pause()
-            self.kernel_run()
-        except core.TerminationRequested:
-            break
+            try:
+                self.scheduler.pause()
+                self.kernel_run()
+            except core.TerminationRequested:
+                break
 
     @kernel
     def kernel_run(self):
