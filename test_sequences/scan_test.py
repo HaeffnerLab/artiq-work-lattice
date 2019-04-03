@@ -11,6 +11,7 @@ class scanTest(EnvExperiment):
         self.dds_397 = self.get_device("397")
         self.dds_866 = self.get_device("866")
         self.setattr_argument("scan", scan.RangeScan(0,10,10))
+        self.setattr_argument("count", NumberValue(ndecimals=0, step=1))
 
     def run(self):
         self.core.reset()
