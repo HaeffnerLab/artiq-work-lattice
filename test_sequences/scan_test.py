@@ -15,8 +15,6 @@ class scanTest(EnvExperiment):
     def run(self):
         self.core.reset()
         self.cpld.init()
-        self.dds_397.init()
-        self.dds_866.init()
         for _ in self.scan:
             try:
                 self.scheduler.pause()
@@ -27,6 +25,8 @@ class scanTest(EnvExperiment):
     @kernel
     def kernel_run(self):
         self.core.break_realtime()
+        self.dds_397.init()
+        self.dds_866.init()
         self.dds_397.set(10*MHz)
         self.dds_866.set(10*MHz)
         self.dds_397.set_att(22*dB)
