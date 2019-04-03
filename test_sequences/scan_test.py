@@ -1,4 +1,4 @@
-from artiq.language import *
+from artiq.language import core, scan
 from artiq.experiment import *
 
 
