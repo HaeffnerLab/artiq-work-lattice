@@ -11,11 +11,14 @@ class scanTest(EnvExperiment):
         self.dds_397 = self.get_device("397")
         self.dds_866 = self.get_device("866")
 
+    def prepare(self):
+        self.scan = scan.RangeScan(0, 10, 10)
+
     def run(self):
         self.core.reset()
         #self.set_dataset("pmt_counts", [])
         #self.set_dataset("time", [])
-        for _ in scan.NoScan(0, 5):
+        for _ in self.scan:
             try:
                 self.scheduler.pause()
                 self.kernel_run()
