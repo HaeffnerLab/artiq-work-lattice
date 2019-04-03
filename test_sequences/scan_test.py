@@ -1,5 +1,5 @@
 from artiq.language import core, scan
-from artiq.experiment import EnvExperiment#*
+from artiq.experiment import *
 
 
 class scanTest(EnvExperiment):
@@ -41,7 +41,4 @@ class scanTest(EnvExperiment):
             self.dds_397.sw.pulse(1*s)
             self.dds_866.sw.pulse(1*s)
         delay(1*s)
-
-
-
 
