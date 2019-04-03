@@ -15,7 +15,7 @@ class scanTest(EnvExperiment):
         self.core.reset()
         #self.set_dataset("pmt_counts", [])
         #self.set_dataset("time", [])
-        while True:
+        for _ in self.scan.NoSCan(0, 5):
             try:
                 self.scheduler.pause()
                 self.kernel_run()
