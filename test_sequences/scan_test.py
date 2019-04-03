@@ -32,8 +32,9 @@ class scanTest(EnvExperiment):
         self.dds_866.set(10*MHz)
         self.dds_397.set_att(22*dB)
         self.dds_866.set_att(15*dB)
-        self.dds_397.sw.pulse(1*s)
-        self.dds_866.sw.pulse(1*s)
+        with parallel:
+            self.dds_397.sw.pulse(1*s)
+            self.dds_866.sw.pulse(1*s)
 
         delay(1*s)
 
@@ -44,8 +45,9 @@ class scanTest(EnvExperiment):
 
         self.dds_397.set(100*MHz)
         self.dds_866.set(100*MHz)
-        self.dds_397.sw.pulse(1*s)
-        self.dds_866.sw.pulse(1*s)
+        with parallel:
+            self.dds_397.sw.pulse(1*s)
+            self.dds_866.sw.pulse(1*s)
 
         delay(1*s)
 
