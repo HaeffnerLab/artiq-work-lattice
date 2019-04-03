@@ -24,7 +24,7 @@ class scanTest(EnvExperiment):
     @kernel
     def kernel_run(self):
         self.core.break_realtime()
-        self.core.reset()
+        #self.core.reset()
         self.cpld.init()
         self.dds_397.init()
         self.dds_866.init()
