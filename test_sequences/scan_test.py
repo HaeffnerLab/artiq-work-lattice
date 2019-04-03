@@ -23,8 +23,8 @@ class scanTest(EnvExperiment):
 
     @kernel
     def kernel_run(self):
-        self.core.break_realtime()
-        #self.core.reset()
+        #self.core.break_realtime()
+        self.core.reset()
         self.cpld.init()
         self.dds_397.init()
         self.dds_866.init()
@@ -35,20 +35,12 @@ class scanTest(EnvExperiment):
             self.dds_866.set_att(15*dB)
             self.dds_397.sw.pulse(1*s)
             self.dds_866.sw.pulse(1*s)
-
         delay(1*s)
-
-        #self.dds_397.sw.off()
-        #self.dds_866.sw.off()
-
-        #delay(1*s)
-
-        self.dds_397.set(100*MHz)
-        self.dds_866.set(100*MHz)
         with parallel:
+            self.dds_397.set(100*MHz)
+            self.dds_866.set(100*MHz)
             self.dds_397.sw.pulse(1*s)
             self.dds_866.sw.pulse(1*s)
-
         delay(1*s)
 
 
