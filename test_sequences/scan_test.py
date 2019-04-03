@@ -1,5 +1,5 @@
 from artiq.language import core, scan
-from artiq.experiment import EnvExperiment
+from artiq.experiment import *
 
 
 class scanTest(EnvExperiment):
