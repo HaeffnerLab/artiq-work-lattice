@@ -18,7 +18,7 @@ class scanTest(EnvExperiment):
         while True:
             self.scheduler.pause()
             self.kernel_run()
-        except TerminationRequested:
+        except core.TerminationRequested:
             break
 
     @kernel
