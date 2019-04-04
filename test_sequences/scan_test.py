@@ -19,7 +19,8 @@ class scanTest(EnvExperiment):
         p = cxn.parametervault
         collections = p.get_collections()
         
-        # Takes over a second to do this
+        # Takes over a second to do this. We should move away from using labrad units
+        # in registry. Really we should rewrite parameter vault as 
         D = dict()
         L = locals()
         for collection in collections:
@@ -34,7 +35,6 @@ class scanTest(EnvExperiment):
                             param = param[units]
                         else:
                             param = param[units] * L[units]
-                            print(param)
                     except AttributeError:
                         pass
                     except KeyError:
