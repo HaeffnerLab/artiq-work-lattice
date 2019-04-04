@@ -21,6 +21,7 @@ class scanTest(EnvExperiment):
         
         # Takes over a second to do this
         D = dict()
+        L = locals()
         for collection in collections:
             d = dict()
             names = p.get_parameter_names(collection)
@@ -53,7 +54,7 @@ class scanTest(EnvExperiment):
 
     def run(self):
         self.core.reset()
-        for _ in scan.NoScan(0, self.p.StateReadout.repeat_each_measurement):
+        for _ in scan.NoScan(0, int(self.p.StateReadout.repeat_each_measurement)):
             try:
                 self.scheduler.pause()
                 self.kernel_run()
