@@ -4,6 +4,7 @@ from easydict import EasyDict as edict
 # from subsequences.state_readout
 import time
 import labrad
+import numpy as np
 
 
 class scanTest(EnvExperiment):
@@ -22,7 +23,7 @@ class scanTest(EnvExperiment):
         p = cxn.parametervault
         collections = p.get_collections()
         pmt_count_name = "pmt_counts_" + str(int(time.time()))
-        self.set_dataset(pmt_count_name, [], broadcast=True)
+        self.set_dataset(pmt_count_name, np.array([]), broadcast=True)
         # self.pmt = self.get_dataset(pmt_count_name)
         self.pmt_count_name = pmt_count_name
         
