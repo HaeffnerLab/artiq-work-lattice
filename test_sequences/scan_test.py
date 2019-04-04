@@ -1,6 +1,7 @@
 from artiq.language import core, scan
 from artiq.experiment import *
 from easydict import EasyDict as edict
+import time
 import labrad
 
 
@@ -18,6 +19,10 @@ class scanTest(EnvExperiment):
         cxn = labrad.connect()
         p = cxn.parametervault
         collections = p.get_collections()
+        pmt_count_name = "pmt_counts_" + str(int(time.time()))
+        self.set_dataset()
+        self.pmt = self.get_dataset(pmt_count_name, [])
+        self.get_dataset()
         
         # Takes over a second to do this. We should move away from using labrad units
         # in registry. Really we should rewrite parameter vault as 

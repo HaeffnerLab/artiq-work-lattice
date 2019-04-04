@@ -34,7 +34,7 @@ class pmt_collect_pulsed(EnvExperiment):
         self.dds_397.set(75*MHz)
         self.dds_866.set_att(22*dB)
         self.dds_397.set_att(22*dB)
-        #self.dds_866.sw.on()
+        self.dds_866.sw.on()
         self.dds_397.sw.on()
         while True:
             t_count = self.pmt.gate_rising(self.duration*ms)
