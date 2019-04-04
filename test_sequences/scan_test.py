@@ -1,5 +1,6 @@
 from artiq.language import core, scan
 from artiq.experiment import *
+import labrad
 
 
 class scanTest(EnvExperiment):
@@ -11,6 +12,10 @@ class scanTest(EnvExperiment):
         self.dds_397 = self.get_device("397")
         self.dds_866 = self.get_device("866")
         self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 10, 10)))
+
+    def prepare(self):
+        self.cxn = labrad.connect()
+        self.p = cxn.parametervault
 
     def run(self):
         self.core.reset()
@@ -42,3 +47,5 @@ class scanTest(EnvExperiment):
             self.dds_866.sw.pulse(1*s)
         delay(1*s)
 
+    def analyze(self):
+        self.cxn.disconnect()
