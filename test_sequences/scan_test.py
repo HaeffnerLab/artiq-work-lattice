@@ -32,6 +32,8 @@ class scanTest(EnvExperiment):
                     continue
             D[collection] = d
         self.p = edict(D)
+        
+        cxn.disconnect()
 
 
     def run(self):
@@ -63,6 +65,4 @@ class scanTest(EnvExperiment):
             self.dds_397.sw.pulse(1*s)
             self.dds_866.sw.pulse(1*s)
         delay(1*s)
-
-    def analyze(self):
-        self.cxn.disconnect()
+        
