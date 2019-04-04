@@ -25,11 +25,26 @@ class scanTest(EnvExperiment):
             d = dict()
             names = p.get_parameter_names(collection)
             for name in names:
+            try:
+                param = p.get_parameter([collection, name])
                 try:
-                    d[name] = p.get_parameter([collection, name])
-                except:
-                    #broken parameter
-                    continue
+                    units = param.units
+                    if units == "":
+                        param = param[units]
+                    else:
+                        param = param[units] * L[units]
+                        print(param)
+                except AttributeError:
+                    pass
+                except KeyError:
+                    if (units == "dBm" or
+                        units == "deg" or
+                        units == ""):
+                        param = param[units]
+                d[name] = param
+            except:
+                #broken parameter
+                continue
             D[collection] = d
         self.p = edict(D)
         
