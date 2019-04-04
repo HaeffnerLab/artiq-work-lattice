@@ -1,6 +1,7 @@
 from artiq.language import core, scan
 from artiq.experiment import *
 from easydict import EasyDict as edict
+# from subsequences.state_readout
 import time
 import labrad
 
