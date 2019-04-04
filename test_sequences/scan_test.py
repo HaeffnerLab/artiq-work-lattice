@@ -19,8 +19,8 @@ class scanTest(EnvExperiment):
         cxn = labrad.connect()
         p = cxn.parametervault
         collections = p.get_collections()
-        pmt_count_name = "pmt_counts_" + str(int(time.time()), [])
-        self.set_dataset()
+        pmt_count_name = "pmt_counts_" + str(int(time.time()))
+        self.set_dataset(pmt_count_name, [])
         self.pmt = self.get_dataset(pmt_count_name)
         self.get_dataset()
         
