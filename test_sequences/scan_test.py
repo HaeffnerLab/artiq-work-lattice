@@ -5,6 +5,8 @@ from easydict import EasyDict as edict
 import time
 import labrad
 import numpy as np
+from artiq.protocols.pc_rpc import Client
+
 
 
 class scanTest(EnvExperiment):
@@ -26,6 +28,7 @@ class scanTest(EnvExperiment):
         self.set_dataset(pmt_count_name, [], broadcast=True)
         # self.pmt = self.get_dataset(pmt_count_name)
         self.pmt_count_name = pmt_count_name
+        self.subscriber = Client("::1", 3251, "master_schedule")
         
         # Takes over a second to do this. We should move away from using labrad units
         # in registry. Really we should rewrite parameter vault as 
