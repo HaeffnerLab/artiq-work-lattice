@@ -19,7 +19,7 @@ class scanTest(EnvExperiment):
 
     def run(self):
         self.core.reset()
-        for _ in self.scan:
+        for _ in scan.NoScan(self.p["StateReadout"]["repeat_each_measurement"]):
             try:
                 self.scheduler.pause()
                 self.kernel_run()
