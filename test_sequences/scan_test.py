@@ -1,5 +1,6 @@
 from artiq.language import core, scan
 from artiq.experiment import *
+from easydict import EasyDict as edict
 import labrad
 
 
@@ -14,12 +15,28 @@ class scanTest(EnvExperiment):
         self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 10, 10)))
 
     def prepare(self):
-        self.cxn = labrad.connect()
-        self.p = self.cxn.parametervault
+        cxn = labrad.connect()
+        p = cxn.parametervault
+        collections = p.get_collections()
+        
+        # Takes over a second to do this
+        D = dict()
+        for collection in collections:
+            d = dict()
+            names = p.get_parameter_names(collection)
+            for name in names:
+                try:
+                    d[name] = p.get_parameter([collection, name])
+                except:
+                    #broken parameter
+                    continue
+            D[collection] = d
+        self.p = edict(D)
+
 
     def run(self):
         self.core.reset()
-        for _ in scan.NoScan(self.p["StateReadout"]["repeat_each_measurement"]):
+        for _ in scan.NoScan(self.p.StateReadout.repeat_each_measurement):
             try:
                 self.scheduler.pause()
                 self.kernel_run()
