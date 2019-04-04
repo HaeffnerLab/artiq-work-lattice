@@ -15,7 +15,7 @@ class scanTest(EnvExperiment):
 
     def prepare(self):
         self.cxn = labrad.connect()
-        self.p = cxn.parametervault
+        self.p = self.cxn.parametervault
 
     def run(self):
         self.core.reset()
