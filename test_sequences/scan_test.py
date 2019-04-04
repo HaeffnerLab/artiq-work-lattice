@@ -13,6 +13,7 @@ class scanTest(EnvExperiment):
         self.cpld = self.get_device("urukul0_cpld")
         self.dds_397 = self.get_device("397")
         self.dds_866 = self.get_device("866")
+        self.pmt = self.get_device("pmt")
         self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 10, 10)))
 
     def prepare(self):
@@ -21,7 +22,8 @@ class scanTest(EnvExperiment):
         collections = p.get_collections()
         pmt_count_name = "pmt_counts_" + str(int(time.time()))
         self.set_dataset(pmt_count_name, [], broadcast=True)
-        self.pmt = self.get_dataset(pmt_count_name)
+        # self.pmt = self.get_dataset(pmt_count_name)
+        self.pmt_count_name = pmt_count_name
         
         # Takes over a second to do this. We should move away from using labrad units
         # in registry. Really we should rewrite parameter vault as 
@@ -62,6 +64,7 @@ class scanTest(EnvExperiment):
             try:
                 self.scheduler.pause()
                 self.kernel_run()
+                self.state_readout()
             except core.TerminationRequested:
                 break
 
@@ -86,3 +89,10 @@ class scanTest(EnvExperiment):
             self.dds_866.sw.pulse(1*s)
         delay(1*s)
         
+
+    @kernel
+    def state_readout(self):
+        with parallel:
+            t_count = self.pmt.gate_rising(100*ms)
+            pmt_counts = self.pmt.count(t_count)
+        self.append_to_dataset(self.pmt_count_name, pmt_counts)
