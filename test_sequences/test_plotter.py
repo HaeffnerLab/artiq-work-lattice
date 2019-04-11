@@ -6,7 +6,7 @@ from artiq.protocols.pc_rpc import Client
 class FloppingF(EnvExperiment):
 
     def run(self):
-        c = Client("::1", 3286, "rcg")
+        self.c = Client("::1", 3286, "rcg")
         i = 1
         self.set_dataset("x", [])
         self.set_dataset("y", [])
@@ -20,4 +20,4 @@ class FloppingF(EnvExperiment):
 
     @rpc(flags={"async"})
     def send_to_rcg(self, x, y):
-        c.plot(x, y)
+        self.plot(x, y)
