@@ -17,6 +17,7 @@ class FloppingF(EnvExperiment):
             y = self.get_dataset("y")
             self.send_to_rcg(x, y)
             time.sleep(.5)
+            i+=1
 
     @rpc(flags={"async"})
     def send_to_rcg(self, x, y):
