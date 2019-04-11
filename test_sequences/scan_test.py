@@ -8,7 +8,6 @@ import numpy as np
 from artiq.protocols.pc_rpc import Client
 
 
-
 class scanTest(EnvExperiment):
 
     def build(self):
@@ -61,7 +60,6 @@ class scanTest(EnvExperiment):
         self.p = edict(D)
         
         cxn.disconnect()
-
 
     def run(self):
         self.core.reset()
