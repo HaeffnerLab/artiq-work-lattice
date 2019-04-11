@@ -20,4 +20,4 @@ class FloppingF(EnvExperiment):
 
     @rpc(flags={"async"})
     def send_to_rcg(self, x, y):
-        self.plot(x, y)
+        self.c.plot(x, y)
