@@ -8,7 +8,7 @@ class FloppingF(EnvExperiment):
 
     def run(self):
         self.c = Client("::1", 3286, "rcg")
-        i = 1
+        i = 0
         self.set_dataset("x", [])
         self.set_dataset("y", [])
         while True:
