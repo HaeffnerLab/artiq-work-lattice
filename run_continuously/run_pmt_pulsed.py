@@ -22,6 +22,7 @@ class pmt_collect_pulsed(EnvExperiment):
         self.set_dataset("collection_duration", [self.duration])
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
         self.set_dataset("diff_counts", [], broadcast=True)
+        self.set_dataset("pulsed", [True], broadcast=True)
         self.run_pmt()
 
     @kernel
