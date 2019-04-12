@@ -1,4 +1,4 @@
-PlotItemfrom artiq.language import core, scan
+from artiq.language import core, scan
 from artiq.experiment import *
 from easydict import EasyDict as edict
 # from subsequences.state_readout
@@ -28,9 +28,9 @@ class scanTest(EnvExperiment):
         # self.pmt = self.get_dataset(pmt_count_name)
         self.pmt_count_name = pmt_count_name
         self.subscriber = Client("::1", 3251, "master_schedule")
-        
+
         # Takes over a second to do this. We should move away from using labrad units
-        # in registry. Really we should rewrite parameter vault as 
+        # in registry. Really we should rewrite parameter vault as
         D = dict()
         L = locals()
         for collection in collections:
@@ -58,7 +58,7 @@ class scanTest(EnvExperiment):
                     continue
             D[collection] = d
         self.p = edict(D)
-        
+
         cxn.disconnect()
 
     def run(self):
@@ -91,7 +91,7 @@ class scanTest(EnvExperiment):
             self.dds_397.sw.pulse(1*s)
             self.dds_866.sw.pulse(1*s)
         delay(1*s)
-        
+
 
     @kernel
     def state_readout(self):
