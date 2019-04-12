@@ -13,7 +13,7 @@ class FloppingF(EnvExperiment):
         self.set_dataset("y", [])
         while True:
             self.append_to_dataset("x", i)
-            self.append_to_dataset("y", np.sin(2*np.pi/10 * i))
+            self.append_to_dataset("y", i)#np.sin(2*np.pi/10 * i))
             x = self.get_dataset("x")
             y = self.get_dataset("y")
             self.send_to_rcg(x, y)
