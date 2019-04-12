@@ -8,8 +8,8 @@ class change_cw(EnvExperiment):
         self.setattr_device("scheduler")
         self.dds = self.get_device("866")
         self.cpld = self.get_device("urukul0_cpld")
-        self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz", scale=0.1))
-        self.amplitude = self.get_argument("amplitude", NumberValue(-40, unit="dB", scale=0.1))
+        self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz"))
+        self.amplitude = self.get_argument("amplitude", NumberValue(-40, unit="dB"))
         self.state = self.get_argument("state", BooleanValue())
 
     @kernel
