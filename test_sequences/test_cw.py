@@ -14,8 +14,8 @@ class change_cw(EnvExperiment):
     @kernel
     def run(self):
         self.core.break_realtime()
-        self.dds.set(self.frequency)
-        self.dds.set_att(self.amplitude)
+        self.dds.set(self.frequency*MHz)
+        self.dds.set_att(self.amplitude*dB)
         if self.state:
             self.dds.sw.on()
         else:
