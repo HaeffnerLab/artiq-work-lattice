@@ -78,7 +78,7 @@ class scanTest(EnvExperiment):
                 y2val = np.random.binomial(1, np.cos(2*np.pi * xval)**2)
                 self.record_result("y1", (i, j), y1val)
                 self.record_result("y2", (i, j), y2val)
-            self.record_result(self.x, i, xval)
+            self.record_result("x", i, xval)
             dp = sum(self.y1) / self.N
             self.record_result("yfull", i, dp)
             self.send_to_rcg("x", self.yfull)
