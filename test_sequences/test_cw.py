@@ -14,8 +14,7 @@ class change_cw(EnvExperiment):
 
     @kernel
     def run(self):
-        #self.core.break_realtime()
-        self.core.reset()
+        self.core.break_realtime()
         self.cpld.init()
         self.dds.init()
         self.dds.set(self.frequency)
