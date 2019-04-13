@@ -26,6 +26,8 @@ class change_cw(EnvExperiment):
 
     def analyze(self):
         print(self.frequency)
+        print(self.frequency*MHz)
         print(self.amplitude)
+        print(self.amlitude*dB)
 
 
