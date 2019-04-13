@@ -9,7 +9,7 @@ class change_cw(EnvExperiment):
         self.dds = self.get_device("866")
         self.cpld = self.get_device("urukul0_cpld")
         self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz"))
-        self.amplitude = self.get_argument("amplitude", NumberValue(-40, unit="dB"))
+        self.amplitude = self.get_argument("amplitude", NumberValue(30, unit="dB"))
         self.state = self.get_argument("state", BooleanValue())
 
     @kernel
@@ -18,6 +18,8 @@ class change_cw(EnvExperiment):
         self.core.reset()
         self.cpld.init()
         self.dds.init()
+        print(self.frequency)
+        print(self.amplitude)
         self.dds.set(self.frequency)
         self.dds.set_att(self.amplitude)
         if self.state:
