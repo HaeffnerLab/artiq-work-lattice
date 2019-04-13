@@ -16,8 +16,8 @@ class change_cw(EnvExperiment):
 
     @kernel
     def run(self):
-        #if self.scheduler.check_pause():
-        #    return
+        if self.scheduler.check_pause():
+            return
         self.core.reset()
         self.cpld.init()
         self.dds.init()
