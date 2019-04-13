@@ -8,8 +8,8 @@ class change_cw(EnvExperiment):
         self.setattr_device("scheduler")
         self.dds = self.get_device("866")
         self.cpld = self.get_device("urukul0_cpld")
-        self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz"))
-        self.amplitude = self.get_argument("amplitude", NumberValue(30, unit="dB"))
+        self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz", scale=1))
+        self.amplitude = self.get_argument("amplitude", NumberValue(30, unit="dB", scale=1))
         self.state = self.get_argument("state", BooleanValue())
 
     @kernel
@@ -23,7 +23,6 @@ class change_cw(EnvExperiment):
             self.dds.sw.off()
         self.dds.set(self.frequency*MHz)
         self.dds.set_att(self.amplitude*dB)
-        delay(1*s)
 
     def analyze(self):
         print(self.frequency)
