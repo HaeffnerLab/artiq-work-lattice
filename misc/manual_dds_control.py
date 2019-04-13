@@ -9,11 +9,10 @@ class change_cw(EnvExperiment):
         self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz"))
         self.amplitude = self.get_argument("amplitude", NumberValue(30, unit="dB"))
         self.state = self.get_argument("state", BooleanValue())
-        urukul_number = 0
-        urukul_number = self.get_argument("urukul_number", NumberValue(0, ndecimals=0, scale=1))
+        urukul_number = int(self.get_argument("urukul_number", NumberValue(0, ndecimals=0, scale=1)))
         dds_name = self.get_argument("dds_name", StringValue("397"))
         self.dds = self.get_device(dds_name)
-        self.cpld = self.get_device("urukul{}_cpld".format(int(urukul_number)))
+        self.cpld = self.get_device("urukul{}_cpld".format(urukul_number))
 
     @kernel
     def run(self):
