@@ -66,6 +66,10 @@ class scanTest(EnvExperiment):
         #------------- Create datasets ----------------------------------------
         M = len(self.scan)
 
+        self.setattr_dataset("x")
+        self.setattr_dataset("y1")
+        self.setattr_dataset("y2")
+        self.setattr_dataset("yfull")
         self.set_dataset("x", np.full(M, np.nan))
         self.set_dataset("y1", np.full((M, N), np.nan))
         self.set_dataset("y2", np.full((M, N), np.nan))
