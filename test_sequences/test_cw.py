@@ -21,8 +21,8 @@ class change_cw(EnvExperiment):
             self.dds.sw.on()
         else:
             self.dds.sw.off()
-        self.dds.set(self.frequency)
-        self.dds.set_att(self.amplitude)
+        self.dds.set(self.frequency*MHz)
+        self.dds.set_att(self.amplitude*dB)
         delay(1*s)
 
     def analyze(self):
