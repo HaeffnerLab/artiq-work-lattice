@@ -23,5 +23,6 @@ class change_cw(EnvExperiment):
             self.dds.sw.off()
         self.dds.set(self.frequency)
         self.dds.set_att(self.amplitude)
+        delay(1*s)
 
 
