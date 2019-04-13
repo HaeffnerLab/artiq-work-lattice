@@ -76,12 +76,12 @@ class scanTest(EnvExperiment):
                 xval = step
                 y1val = np.random.binomial(1, np.sin(2*np.pi * xval))
                 y2val = np.random.binomial(1, np.cos(2*np.pi * xval)**2)
-                self.record_result(self.y1, (i, j), y1val)
-                self.record_result(self.y2, (i, j), y2val)
+                self.record_result("y1", (i, j), y1val)
+                self.record_result("y2", (i, j), y2val)
             self.record_result(self.x, i, xval)
             dp = sum(self.y1) / self.N
-            self.record_result(self.yfull, i, dp)
-            self.send_to_rcg(self.x, self.yfull)
+            self.record_result("yfull", i, dp)
+            self.send_to_rcg("x", self.yfull)
             time.sleep(0.5)
             
     @rpc(flags={"async"})
@@ -93,8 +93,7 @@ class scanTest(EnvExperiment):
     
     @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):
-        dataset.mutate_datset(idx, val)
-        # self.mutate_dataset(dataset, idx, val)
+        self.mutate_dataset(dataset, idx, val)
     
     # @kernel
     # def kernel_run(self):
