@@ -13,7 +13,7 @@ class scanTest(EnvExperiment):
     def build(self):
         self.setattr_device("core")
         self.setattr_device("scheduler")
-        self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 10, 100)))
+        self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 1, 100)))
 
     def prepare(self):
         
