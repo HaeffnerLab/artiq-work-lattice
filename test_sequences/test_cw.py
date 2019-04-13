@@ -18,8 +18,6 @@ class change_cw(EnvExperiment):
         self.core.reset()
         self.cpld.init()
         self.dds.init()
-        print(self.frequency)
-        print(self.amplitude)
         self.dds.set(self.frequency)
         self.dds.set_att(self.amplitude)
         if self.state:
