@@ -66,10 +66,6 @@ class scanTest(EnvExperiment):
         #------------- Create datasets ----------------------------------------
         M = len(self.scan)
 
-        self.setattr_dataset("x", np.full(M, np.nan))
-        self.setattr_dataset("y1", np.full((M, N), np.nan))
-        self.setattr_dataset("y2", np.full((M, N), np.nan))
-        self.setattr_dataset("yfull", np.full(M, np.nan))
         self.set_dataset("x", np.full(M, np.nan))
         self.set_dataset("y1", np.full((M, N), np.nan))
         self.set_dataset("y2", np.full((M, N), np.nan))
@@ -86,7 +82,7 @@ class scanTest(EnvExperiment):
             self.record_result("x", i, xval)
             dp = sum(self.y1[i]) / self.N
             self.record_result("yfull", i, dp)
-            self.send_to_rcg(self.x, self.yfull)
+            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull"))
             time.sleep(0.5)
             
     @rpc(flags={"async"})
