@@ -86,7 +86,7 @@ class scanTest(EnvExperiment):
             self.record_result("x", i, xval)
             dp = sum(self.y1[i]) / self.N
             self.record_result("yfull", i, dp)
-            self.send_to_rcg("x", self.yfull)
+            self.send_to_rcg(self.x, self.yfull)
             time.sleep(0.5)
             
     @rpc(flags={"async"})
