@@ -93,7 +93,8 @@ class scanTest(EnvExperiment):
     def send_to_rcg(self, x, y):
         try:
             self.rcg.plot(x, y)
-        except:
+        except Exception as e:
+            print("\noops: \n", e)
             return
     
     @rpc(flags={"async"})
