@@ -25,4 +25,8 @@ class change_cw(EnvExperiment):
         self.dds.set_att(self.amplitude)
         delay(1*s)
 
+    def analyze(self):
+        print(self.frequency)
+        print(self.amplitude)
+
 
