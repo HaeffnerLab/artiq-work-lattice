@@ -65,10 +65,10 @@ class scanTest(EnvExperiment):
 
         #------------- Create datasets ----------------------------------------
         M = len(self.scan)
-        self.setattr_dataset("x", np.full(M, np.nan))
-        self.setattr_dataset("y1", np.full((M, N), np.nan))
-        self.setattr_dataset("y2", np.full((M, N), np.nan))
-        self.setattr_dataset("yfull", np.full(M, np.nan))
+        self.x = self.set_dataset("x", np.full(M, np.nan))
+        self.y1 = self.set_dataset("y1", np.full((M, N), np.nan))
+        self.y2 = self.set_dataset("y2", np.full((M, N), np.nan))
+        self.yfull = self.set_dataset("yfull", np.full(M, np.nan))
 
     def run(self):
         for i, step in enumerate(self.scan):
