@@ -3,6 +3,7 @@ from artiq.experiment import *
 from easydict import EasyDict as edict
 # from subsequences.state_readout
 import time
+from datetime import datetime
 import labrad
 import numpy as np
 from artiq.protocols.pc_rpc import Client
@@ -81,8 +82,11 @@ class scanTest(EnvExperiment):
         self.setattr_dataset("yfull1")
         self.setattr_dataset("yfull2")
 
-        #------------- declare tab for plotting -------------------------------
+        #-------------  tab for plotting -------------------------------
         self.RCG_TAB = "Rabi"
+
+        #------------------------------------------------------------------
+        self.timestamp = None
 
     def run(self):
         for i, step in enumerate(self.scan):
@@ -97,14 +101,17 @@ class scanTest(EnvExperiment):
             self.record_result("yfull1", i, dp)
             dp1 = sum(self.get_dataset("y2")[i] / self.N)
             self.record_result("yfull2", i, dp1)
-            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull1"))
-            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull2"))
+            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull1"), "yfull1")
+            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull2"), "yfull2")
             time.sleep(0.5)
             
     @rpc(flags={"async"})
     def send_to_rcg(self, x, y):
+        if self.timestamp is None:
+            self.timestamp = datetime.now().strftime("%H%M_%S")
         try:
-            self.rcg.plot(x, y, tab_name=self.RCG_TAB)
+            self.rcg.plot(x, y, tab_name=self.RCG_TAB,
+                          plot_title=self.timestamp + " - ")
         except:
             return
     
