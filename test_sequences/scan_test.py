@@ -70,6 +70,11 @@ class scanTest(EnvExperiment):
         self.set_dataset("y1", np.full((M, N), np.nan))
         self.set_dataset("y2", np.full((M, N), np.nan))
         self.set_dataset("yfull", np.full(M, np.nan))
+        A = np.full((M, N), np.nan)
+        for m in A:
+            for n in m:
+                A[m, n] = np.random.normal(0, .05)
+        self.set_dataset("rand", A)
         self.setattr_dataset("x")
         self.setattr_dataset("y1")
         self.setattr_dataset("y2")
@@ -79,8 +84,8 @@ class scanTest(EnvExperiment):
         for i, step in enumerate(self.scan):
             for j, _ in enumerate(self.repeat):
                 xval = step
-                y1val = np.random.binomial(1, np.sin(2*np.pi * xval)**2)
-                y2val = np.random.binomial(1, np.cos(2*np.pi * xval)**2)
+                y1val = np.sin(2*np.pi * xval)**2 + self.get_dataset("rand")[i, j]
+                y2val = np.cos(2*np.pi * xval)**2 + self.get_dataset("rand")[i, j]
                 self.record_result("y1", (i, j), y1val)
                 self.record_result("y2", (i, j), y2val)
             self.record_result("x", i, xval)
