@@ -70,11 +70,11 @@ class scanTest(EnvExperiment):
         #------------- Create datasets ----------------------------------------
         M = len(self.scan)
 
-        self.set_dataset("x", np.full(M, np.nan))
-        self.set_dataset("y1", np.full((M, N), np.nan))
-        self.set_dataset("y2", np.full((M, N), np.nan))
-        self.set_dataset("yfull1", np.full(M, np.nan))
-        self.set_dataset("yfull2", np.full(M, np.nan))
+        self.set_dataset("x", np.full(M, np.nan), archive=False)
+        self.set_dataset("y1", np.full((M, N), np.nan), archive=False)
+        self.set_dataset("y2", np.full((M, N), np.nan), archive=False)
+        self.set_dataset("yfull1", np.full(M, np.nan), archive=False)
+        self.set_dataset("yfull2", np.full(M, np.nan), archive=False)
         A = np.full((M, N), np.nan)
         for x in np.nditer(A, op_flags=["readwrite"]):
             x[...] = np.random.normal(0, .1)
