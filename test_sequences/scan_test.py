@@ -157,19 +157,10 @@ class scanTest(EnvExperiment):
             try:
                 datagrp[dataset]
             except KeyError:
-                print()
-                print("first")
-                print(data)
-                print()
                 data = datagrp.create_dataset(dataset, data=data, maxshape=(None,))
                 if xdata:
                     data.attrs["x-axis"] = True
                 return
-            print()
-            print(dataset)
-            print("datagrp[dataset]: ", datagrp[dataset].value)
-            print("data: ", data)
-            print()
             datagrp[dataset].resize(datagrp[dataset].shape[0] + data.shape[0], axis=0)
             datagrp[dataset][-data.shape[0]:] = data
         
