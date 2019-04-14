@@ -119,7 +119,6 @@ class scanTest(EnvExperiment):
             self.save_result("yfull1", self.yfull1[-rem:])
             self.save_result("yfull2", self.yfull2[-rem:])
             time.sleep(0.5)
-            pass
             
     @rpc(flags={"async"})
     def send_to_rcg(self, x, y, name):
@@ -142,7 +141,8 @@ class scanTest(EnvExperiment):
                 return
         try:
             self.rcg.plot(x, y, tab_name=self.RCG_TAB,
-                          plot_title=self.timestamp + " - " + name, append=True)
+                          plot_title=self.timestamp + " - " + name, append=True,
+                          file_=os.path.join(os.getcwd(), self.filename))
         except:
             return
     
