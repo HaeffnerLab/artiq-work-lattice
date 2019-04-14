@@ -84,12 +84,13 @@ class scanTest(EnvExperiment):
         self.setattr_dataset("yfull1")
         self.setattr_dataset("yfull2")
 
-        #-------------  tab for plotting -------------------------------
+        #-------------  tab for plotting -------------------------------  
         self.RCG_TAB = "Rabi"
 
         #------------------------------------------------------------------
         self.timestamp = None
-        self.dir = os.path.join(os.path.expanduser("~"), "data", datetime.now().strftime("%Y-$m-%d"))
+        self.dir = os.path.join(os.path.expanduser("~"), "data", datetime.now().strftime("%Y-%m-%d"),
+                                self.__name__)
         os.makedirs(self.dir, exist_ok=True)
         os.chdir(self.dir)
 
@@ -108,6 +109,10 @@ class scanTest(EnvExperiment):
             self.record_result("yfull2", i, dp1)
             self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull1"), "yfull1")
             self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull2"), "yfull2")
+            if i % 5 == 0:
+                self.save_result("x", self.get_dataset("x"), xdata=True)
+                self.save_result("yfull1", self.get_dataset("yfull1"))
+                self.save_result("yuffl2", self.get_dataset("yfull2"))
             time.sleep(0.5)
             
     @rpc(flags={"async"})
@@ -119,6 +124,10 @@ class scanTest(EnvExperiment):
                 return
         if self.timestamp is None:
             self.timestamp = datetime.now().strftime("%H%M_%S")
+            with h5.File(self.timestamp + ".h5", "a") as f:
+                datagrp = f.create_group("data")
+                datagrp.create_dataset("time", data=[], maxshape=(None,))
+                f.create_dataset("parameters", data=self.p)
         try:
             self.rcg.plot(x, y, tab_name=self.RCG_TAB,
                           plot_title=self.timestamp + " - " + name, append=True)
@@ -130,8 +139,18 @@ class scanTest(EnvExperiment):
         self.mutate_dataset(dataset, idx, val)
 
     @rpc(flags={"async"})
-    def save_result(self, dataset, data):
-        pass
-    
-    def analyze(self):
-        print("here: ", os.getcwd())
+    def save_result(self, dataset, data, xdata=False):
+        with h5.File(self.timestamp + ".h5", "a") as f:
+            datagrp = f["data"]
+            try:
+                datagrp[dataset]
+            except KeyError:
+                datagrp.create_dataset(dataset, data=data, maxshape=(None,))
+                if xdata:
+                    datagrp.attrs["x-axis"] = True
+                return
+            datagrp[dataset].resize((datagrp[dataset].shape[0] + data.shape[0]), axis=0)
+            datagrp[dataset][-data.shape[0]:] = data
+
+            
+
