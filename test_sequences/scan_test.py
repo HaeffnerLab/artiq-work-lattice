@@ -71,9 +71,8 @@ class scanTest(EnvExperiment):
         self.set_dataset("y2", np.full((M, N), np.nan))
         self.set_dataset("yfull", np.full(M, np.nan))
         A = np.full((M, N), np.nan)
-        for m in A:
-            for n in m:
-                n = np.random.normal(0, .05)
+        for x in np.nditer(A, op_flags=["readwrite"]):
+            x[...] = np.random.normal(0, .1)
         self.set_dataset("rand", A)
         self.setattr_dataset("x")
         self.setattr_dataset("y1")
