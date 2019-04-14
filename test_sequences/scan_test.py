@@ -73,8 +73,8 @@ class scanTest(EnvExperiment):
         self.set_dataset("x", np.full(M, np.nan))
         self.set_dataset("y1", np.full((M, N), np.nan))
         self.set_dataset("y2", np.full((M, N), np.nan))
-        self.set_dataset("yfull1", np.full(M, np.nan))
-        self.set_dataset("yfull2", np.full(M, np.nan))
+        # self.set_dataset("yfull1", np.full(M, np.nan))
+        # self.set_dataset("yfull2", np.full(M, np.nan))
         A = np.full((M, N), np.nan)
         for x in np.nditer(A, op_flags=["readwrite"]):
             x[...] = np.random.normal(0, .1)
@@ -82,8 +82,10 @@ class scanTest(EnvExperiment):
         self.setattr_dataset("x")
         self.setattr_dataset("y1")
         self.setattr_dataset("y2")
-        self.setattr_dataset("yfull1")
-        self.setattr_dataset("yfull2")
+        # self.setattr_dataset("yfull1")
+        # self.setattr_dataset("yfull2")
+        self.yfull1 = np.full(M, np.nan)
+        self.yfull2 = np.full(M, np.nan)
 
         #-------------  tab for plotting -------------------------------  
         self.RCG_TAB = "Rabi"
@@ -105,11 +107,13 @@ class scanTest(EnvExperiment):
                 self.record_result("y2", (i, j), y2val)
             self.record_result("x", i, xval)
             dp = sum(self.get_dataset("y1")[i]) / self.N
-            self.record_result("yfull1", i, dp)
+            self.yfull1[i] = dp
+            # self.record_result("yfull1", i, dp)
             dp1 = sum(self.get_dataset("y2")[i] / self.N)
-            self.record_result("yfull2", i, dp1)
-            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull1"), "yfull1")
-            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull2"), "yfull2")
+            self.yfull2[i] = dp1
+            # self.record_result("yfull2", i, dp1)
+            self.send_to_rcg(self.get_dataset("x"), self.yfull1, "yfull1")
+            self.send_to_rcg(self.get_dataset("x"), self.yfull2, "yfull2")
             if (i + 1) % 5 == 0:
                 self.save_result("x", self.get_dataset("x"), xdata=True)
                 self.save_result("yfull1", self.get_dataset("yfull1"))
