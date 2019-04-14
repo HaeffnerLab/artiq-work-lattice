@@ -114,7 +114,6 @@ class scanTest(EnvExperiment):
             # self.record_result("yfull2", i, dp1)
             self.send_to_rcg(self.get_dataset("x"), self.yfull1, "yfull1")
             self.send_to_rcg(self.get_dataset("x"), self.yfull2, "yfull2")
-            self.testattr = "hello"
             if (i + 1) % 5 == 0:
                 self.save_result("x", self.get_dataset("x"), xdata=True)
                 self.save_result("yfull1", self.yfull1)
@@ -125,7 +124,8 @@ class scanTest(EnvExperiment):
     def send_to_rcg(self, x, y, name):
         if self.timestamp is None:
             self.timestamp = datetime.now().strftime("%H%M_%S")
-            with h5.File(self.timestamp + ".h5", "a") as f:
+            self.filename = self.timestamp + ".h5"
+            with h5.File(self.filename, "a") as f:
                 datagrp = f.create_group("data")
                 datagrp.attrs["plot_show"] = self.RCG_TAB
                 f.create_dataset("time", data=[], maxshape=(None,))
@@ -133,7 +133,7 @@ class scanTest(EnvExperiment):
             with open("../scan_list", "a+") as csvfile:
                 csvwriter = csv.writer(csvfile, delimiter=",")
                 csvwriter.writerow([self.timestamp, type(self).__name__, 
-                                                  os.path.join(self.dir, self.timestamp)])
+                                                  os.path.join(self.dir, self.filename)])
         if self.rcg is None:
             try:
                 self.rcg = Client("::1", 3286, "rcg")
@@ -151,7 +151,7 @@ class scanTest(EnvExperiment):
 
     @rpc(flags={"async"})
     def save_result(self, dataset, data, xdata=False):
-        with h5.File(self.timestamp + ".h5", "a") as f:
+        with h5.File(self.filename, "a") as f:
             datagrp = f["data"]
             try:
                 datagrp[dataset]
