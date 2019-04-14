@@ -109,7 +109,7 @@ class scanTest(EnvExperiment):
             self.record_result("yfull2", i, dp1)
             self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull1"), "yfull1")
             self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull2"), "yfull2")
-            if i % 5 == 0:
+            if (i + 1) % 5 == 0:
                 self.save_result("x", self.get_dataset("x"), xdata=True)
                 self.save_result("yfull1", self.get_dataset("yfull1"))
                 self.save_result("yuffl2", self.get_dataset("yfull2"))
