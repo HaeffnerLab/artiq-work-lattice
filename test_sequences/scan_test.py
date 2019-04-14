@@ -82,7 +82,7 @@ class scanTest(EnvExperiment):
         self.setattr_dataset("yfull2")
 
         #------------- declare tab for plotting -------------------------------
-        self.RCG-TAB = "Rabi"
+        self.RCG_TAB = "Rabi"
 
     def run(self):
         for i, step in enumerate(self.scan):
@@ -104,7 +104,7 @@ class scanTest(EnvExperiment):
     @rpc(flags={"async"})
     def send_to_rcg(self, x, y):
         try:
-            self.rcg.plot(x, y, tab_name=self.RCG-TAB)
+            self.rcg.plot(x, y, tab_name=self.RCG_TAB)
         except:
             return
     
