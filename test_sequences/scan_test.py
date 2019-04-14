@@ -70,21 +70,20 @@ class scanTest(EnvExperiment):
         #------------- Create datasets ----------------------------------------
         M = len(self.scan)
 
-        self.set_dataset("x", np.full(M, np.nan), broadcast=True, archive=False)
-        self.set_dataset("y1", np.full((M, N), np.nan), broadcast=True, archive=False)
-        self.set_dataset("y2", np.full((M, N), np.nan), broadcast=True, archive=False)
-        self.set_dataset("yfull1", np.full(M, np.nan),  broadcast=True, archive=False)
-        self.set_dataset("yfull2", np.full(M, np.nan), broadcast=True, archive=False)
+        self.set_dataset("x", np.full(M, np.nan))
+        self.set_dataset("y1", np.full((M, N), np.nan))
+        self.set_dataset("y2", np.full((M, N), np.nan))
+        self.set_dataset("yfull1", np.full(M, np.nan))
+        self.set_dataset("yfull2", np.full(M, np.nan))
         A = np.full((M, N), np.nan)
         for x in np.nditer(A, op_flags=["readwrite"]):
             x[...] = np.random.normal(0, .1)
-        self.set_dataset("rand", A, broadcast=True, archive=False)
-        self.setattr_dataset("x", archive=False)
-        self.setattr_dataset("y1", archive=False)
-        self.setattr_dataset("y2", archive=False)
-        self.setattr_dataset("yfull1", archive=False)
-        self.setattr_dataset("yfull2", archive=False)
-        self.setattr_dataset("rand", archive=False)
+        self.set_dataset("rand", A)
+        self.setattr_dataset("x")
+        self.setattr_dataset("y1")
+        self.setattr_dataset("y2")
+        self.setattr_dataset("yfull1")
+        self.setattr_dataset("yfull2")
 
         #-------------  tab for plotting -------------------------------  
         self.RCG_TAB = "Rabi"
@@ -100,21 +99,21 @@ class scanTest(EnvExperiment):
         for i, step in enumerate(self.scan):
             for j, _ in enumerate(self.repeat):
                 xval = step
-                y1val = np.sin(2*np.pi * xval)**2 + self.get_dataset("rand", archive=False)[i, j]
-                y2val = np.cos(2*np.pi * xval)**2 + self.get_dataset("rand", archive=False)[i, j]
+                y1val = np.sin(2*np.pi * xval)**2 + self.get_dataset("rand")[i, j]
+                y2val = np.cos(2*np.pi * xval)**2 + self.get_dataset("rand")[i, j]
                 self.record_result("y1", (i, j), y1val)
                 self.record_result("y2", (i, j), y2val)
             self.record_result("x", i, xval)
-            dp = sum(self.get_dataset("y1", archive=False)[i]) / self.N
+            dp = sum(self.get_dataset("y1")[i]) / self.N
             self.record_result("yfull1", i, dp)
-            dp1 = sum(self.get_dataset("y2", archive=False)[i] / self.N)
+            dp1 = sum(self.get_dataset("y2")[i] / self.N)
             self.record_result("yfull2", i, dp1)
-            self.send_to_rcg(self.get_dataset("x", archive=False), self.get_dataset("yfull1", archive=False), "yfull1")
-            self.send_to_rcg(self.get_dataset("x", archive=False), self.get_dataset("yfull2", archive=False), "yfull2")
+            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull1"), "yfull1")
+            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull2"), "yfull2")
             if (i + 1) % 5 == 0:
-                self.save_result("x", self.get_dataset("x", archive=False), xdata=True)
-                self.save_result("yfull1", self.get_dataset("yfull1", archive=False))
-                self.save_result("yuffl2", self.get_dataset("yfull2", archive=False))
+                self.save_result("x", self.get_dataset("x"), xdata=True)
+                self.save_result("yfull1", self.get_dataset("yfull1"))
+                self.save_result("yuffl2", self.get_dataset("yfull2"))
             time.sleep(0.5)
             
     @rpc(flags={"async"})
@@ -126,10 +125,11 @@ class scanTest(EnvExperiment):
                 datagrp.attrs["plot_show"] = self.RCG_TAB
                 f.create_dataset("time", data=[], maxshape=(None,))
                 f.create_dataset("parameters", data=str(self.p))
-            with open("../scan_list", "a+") as csvfile:
+            os.chdir(os.path.join(self.dir, ".."))
+            with open("scan_list", "a+") as csvfile:
                 csvwriter = csv.writer(csvfile, delimiter=",")
-                csvwriter.writerow([self.timestamp, type(self).__name__, 
-                                    os.path.join(self.dir, self.timestamp + ".h5")])
+                csvwriter.writerow(self.timestamp, type(self).__name__, 
+                                                  os.path.join(self.dir, self.timestamp))
         if self.rcg is None:
             try:
                 self.rcg = Client("::1", 3286, "rcg")
