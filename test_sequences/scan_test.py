@@ -106,12 +106,12 @@ class scanTest(EnvExperiment):
             time.sleep(0.5)
             
     @rpc(flags={"async"})
-    def send_to_rcg(self, x, y):
+    def send_to_rcg(self, x, y, name):
         if self.timestamp is None:
             self.timestamp = datetime.now().strftime("%H%M_%S")
         try:
             self.rcg.plot(x, y, tab_name=self.RCG_TAB,
-                          plot_title=self.timestamp + " - ")
+                          plot_title=self.timestamp + " - " + name)
         except:
             return
     
