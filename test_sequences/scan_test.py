@@ -147,6 +147,7 @@ class scanTest(EnvExperiment):
                 datagrp[dataset]
             except KeyError:
                 data = datagrp.create_dataset(dataset, data=data, maxshape=(None,))
+                print(xdata)
                 if xdata:
                     data.attrs["x-axis"] = True
                 return
