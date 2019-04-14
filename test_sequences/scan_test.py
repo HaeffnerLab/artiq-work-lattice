@@ -8,6 +8,7 @@ import labrad
 import numpy as np
 import h5py as h5
 import os
+import csv
 from artiq.protocols.pc_rpc import Client
 
 
@@ -124,6 +125,11 @@ class scanTest(EnvExperiment):
                 datagrp.attrs["plot_show"] = self.RCG_TAB
                 f.create_dataset("time", data=[], maxshape=(None,))
                 f.create_dataset("parameters", data=str(self.p))
+            os.chdir(os.path.join(self.dir, ".."))
+            with open("scan_list", "a+") as csvfile:
+                csvwriter = csv.writer(csvfile, delimiter=",")
+                csvwriter.writerow(self.timestamp, type(self).__name__, 
+                                                 os.path.join(self.dir, self.timestamp))
         if self.rcg is None:
             try:
                 self.rcg = Client("::1", 3286, "rcg")
@@ -152,6 +158,6 @@ class scanTest(EnvExperiment):
                 return
             datagrp[dataset].resize((datagrp[dataset].shape[0] + data.shape[0]), axis=0)
             datagrp[dataset][-data.shape[0]:] = data
-
+        
             
 
