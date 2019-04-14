@@ -65,7 +65,7 @@ class scanTest(EnvExperiment):
         #------------ make scan object ---------------------------------------
         N = int(self.p.StateReadout.repeat_each_measurement)
         self.N = N
-        self.repeat = scan.NoScan(0, N)
+        # self.repeat = scan.NoScan(0, N)
 
         #------------- Create datasets ----------------------------------------
         M = len(self.scan)
@@ -95,7 +95,7 @@ class scanTest(EnvExperiment):
 
     def run(self):
         for i, step in enumerate(self.scan):
-            for j, _ in enumerate(self.repeat):
+            for j in range(self.N):
                 xval = step
                 y1val = np.sin(2*np.pi * xval)**2 + self.rand[i, j]
                 y2val = np.cos(2*np.pi * xval)**2 + self.rand[i, j]
