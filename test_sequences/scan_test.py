@@ -53,7 +53,6 @@ class scanTest(EnvExperiment):
                     #broken parameter
                     continue
             D[collection] = d
-        self.D = D
         self.p = edict(D)
         cxn.disconnect()
 
@@ -130,7 +129,7 @@ class scanTest(EnvExperiment):
                 datagrp = f.create_group("scan_data")
                 datagrp.attrs["plot_show"] = self.RCG_TAB
                 f.create_dataset("time", data=[], maxshape=(None,))
-                f.create_dataset("parameters", data=self.D)#str(self.p))
+                f.create_dataset("parameters", data=str(self.p))
             with open("../scan_list", "a+") as csvfile:
                 csvwriter = csv.writer(csvfile, delimiter=",")
                 csvwriter.writerow([self.timestamp, type(self).__name__, 
