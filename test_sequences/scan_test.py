@@ -73,7 +73,7 @@ class scanTest(EnvExperiment):
         A = np.full((M, N), np.nan)
         for m in A:
             for n in m:
-                A[m, n] = np.random.normal(0, .05)
+                n = np.random.normal(0, .05)
         self.set_dataset("rand", A)
         self.setattr_dataset("x")
         self.setattr_dataset("y1")
