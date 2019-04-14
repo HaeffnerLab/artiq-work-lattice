@@ -70,15 +70,21 @@ class scanTest(EnvExperiment):
         #------------- Create datasets ----------------------------------------
         M = len(self.scan)
 
-        self.setattr_dataset("x", np.full(M, np.nan), broadcast=True, archive=False)
-        self.setattr_dataset("y1", np.full((M, N), np.nan), broadcast=True, archive=False)
-        self.setattr_dataset("y2", np.full((M, N), np.nan), broadcast=True, archive=False)
-        self.setattr_dataset("yfull1", np.full(M, np.nan),  broadcast=True, archive=False)
-        self.setattr_dataset("yfull2", np.full(M, np.nan), broadcast=True, archive=False)
+        self.set_dataset("x", np.full(M, np.nan), broadcast=True, archive=False)
+        self.set_dataset("y1", np.full((M, N), np.nan), broadcast=True, archive=False)
+        self.set_dataset("y2", np.full((M, N), np.nan), broadcast=True, archive=False)
+        self.set_dataset("yfull1", np.full(M, np.nan),  broadcast=True, archive=False)
+        self.set_dataset("yfull2", np.full(M, np.nan), broadcast=True, archive=False)
         A = np.full((M, N), np.nan)
         for x in np.nditer(A, op_flags=["readwrite"]):
             x[...] = np.random.normal(0, .1)
-        self.setattr_dataset("rand", A, broadcast=True, archive=False)
+        self.set_dataset("rand", A, broadcast=True, archive=False)
+        self.setattr_dataset("x")
+        self.setattr_dataset("y1")
+        self.setattr_dataset("y2")
+        self.setattr_dataset("yfull1")
+        self.setattr_dataset("yfull2")
+        self.setattr_dataset("rand")
 
         #-------------  tab for plotting -------------------------------  
         self.RCG_TAB = "Rabi"
