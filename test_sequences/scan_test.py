@@ -127,7 +127,7 @@ class scanTest(EnvExperiment):
             with h5.File(self.timestamp + ".h5", "a") as f:
                 datagrp = f.create_group("data")
                 datagrp.create_dataset("time", data=[], maxshape=(None,))
-                f.create_dataset("parameters", data=self.p)
+                f.create_dataset("parameters", data=str(self.p))
         try:
             self.rcg.plot(x, y, tab_name=self.RCG_TAB,
                           plot_title=self.timestamp + " - " + name, append=True)
