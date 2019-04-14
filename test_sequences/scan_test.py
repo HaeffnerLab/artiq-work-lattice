@@ -154,8 +154,11 @@ class scanTest(EnvExperiment):
                 if xdata:
                     data.attrs["x-axis"] = True
                 return
+            print("datagrp[dataset]: ", datagrp[dataset])
+            print("data: ", data)
             datagrp[dataset].resize(datagrp[dataset].shape[0] + data.shape[0], axis=0)
             datagrp[dataset][-data.shape[0]:] = data
         
+    
             
 
