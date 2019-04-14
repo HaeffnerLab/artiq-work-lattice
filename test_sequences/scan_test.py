@@ -88,7 +88,7 @@ class scanTest(EnvExperiment):
         self.RCG_TAB = "Rabi"
 
         #------------------------------------------------------------------
-        self.timestamp = None
+        self.timestamp = ""
         self.dir = os.path.join(os.path.expanduser("~"), "data", datetime.now().strftime("%Y-%m-%d"),
                                 type(self).__name__)
         os.makedirs(self.dir, exist_ok=True)
@@ -122,7 +122,7 @@ class scanTest(EnvExperiment):
                 self.rcg = Client("::1", 3286, "rcg")
             except:
                 return
-        if self.timestamp is None:
+        if self.timestamp is "":
             self.timestamp = datetime.now().strftime("%H%M_%S")
             with h5.File(self.timestamp + ".h5", "a") as f:
                 datagrp = f.create_group("data")
