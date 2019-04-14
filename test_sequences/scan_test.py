@@ -146,7 +146,7 @@ class scanTest(EnvExperiment):
     @rpc(flags={"async"})
     def save_result(self, dataset, data, xdata=False):
         with h5.File(self.filename, "a") as f:
-            datagrp = f["data"]
+            datagrp = f["scan_data"]
             try:
                 datagrp[dataset]
             except KeyError:
