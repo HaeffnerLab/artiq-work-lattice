@@ -82,7 +82,7 @@ class scanTest(EnvExperiment):
         self.setattr_dataset("yfull2")
 
         #------------- declare tab for plotting -------------------------------
-        self.rcg-tab = "Rabi"
+        self.M = "Rabi"
 
     def run(self):
         for i, step in enumerate(self.scan):
