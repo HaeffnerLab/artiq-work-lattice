@@ -142,12 +142,12 @@ class scanTest(EnvExperiment):
     @rpc(flags={"async"})
     def save_result(self, dataset, data, xdata=False):
         with h5.File(self.timestamp + ".h5", "a") as f:
+            print(xdata)
             datagrp = f["data"]
             try:
                 datagrp[dataset]
             except KeyError:
                 data = datagrp.create_dataset(dataset, data=data, maxshape=(None,))
-                print(xdata)
                 if xdata:
                     data.attrs["x-axis"] = True
                 return
