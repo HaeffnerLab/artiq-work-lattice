@@ -116,8 +116,8 @@ class scanTest(EnvExperiment):
             self.send_to_rcg(self.get_dataset("x"), self.yfull2, "yfull2")
             if (i + 1) % 5 == 0:
                 self.save_result("x", self.get_dataset("x"), xdata=True)
-                self.save_result("yfull1", self.get_dataset("yfull1"))
-                self.save_result("yuffl2", self.get_dataset("yfull2"))
+                self.save_result("yfull1", self.yfull1)
+                self.save_result("yuffl2", self.yfull2)
             time.sleep(0.5)
             
     @rpc(flags={"async"})
