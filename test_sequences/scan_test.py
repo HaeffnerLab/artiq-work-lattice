@@ -69,7 +69,8 @@ class scanTest(EnvExperiment):
         self.set_dataset("x", np.full(M, np.nan))
         self.set_dataset("y1", np.full((M, N), np.nan))
         self.set_dataset("y2", np.full((M, N), np.nan))
-        self.set_dataset("yfull", np.full(M, np.nan))
+        self.set_dataset("yfull1", np.full(M, np.nan))
+        self.set_dataset("yfull2", np.full(M, np.nan))
         A = np.full((M, N), np.nan)
         for x in np.nditer(A, op_flags=["readwrite"]):
             x[...] = np.random.normal(0, .1)
@@ -77,7 +78,11 @@ class scanTest(EnvExperiment):
         self.setattr_dataset("x")
         self.setattr_dataset("y1")
         self.setattr_dataset("y2")
-        self.setattr_dataset("yfull")
+        self.setattr_dataset("yfull1")
+        self.setattr_dataset("yfull2")
+
+        #------------- declare tab for plotting -------------------------------
+        self.rcg-tab = "Rabi"
 
     def run(self):
         for i, step in enumerate(self.scan):
@@ -89,40 +94,21 @@ class scanTest(EnvExperiment):
                 self.record_result("y2", (i, j), y2val)
             self.record_result("x", i, xval)
             dp = sum(self.get_dataset("y1")[i]) / self.N
-            self.record_result("yfull", i, dp)
-            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull"))
+            self.record_result("yfull1", i, dp)
+            dp1 = sum(self.get_dataset("y2")[i] / self.N)
+            self.record_result("yfull2", i, dp1)
+            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull1"))
+            self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull2"))
             time.sleep(0.5)
             
     @rpc(flags={"async"})
     def send_to_rcg(self, x, y):
         try:
-            self.rcg.plot(x, y)
-        except Exception as e:
-            print("\noops: \n", e)
+            self.rcg.plot(x, y, self.rcg-tab)
+        except:
             return
     
     @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):
         self.mutate_dataset(dataset, idx, val)
     
-    # @kernel
-    # def kernel_run(self):
-    #     self.core.break_realtime()
-    #     self.cpld.init()
-    #     self.dds_397.init()
-    #     self.dds_866.init()
-    #     self.dds_397.set(10*MHz)
-    #     self.dds_866.set(10*MHz)
-    #     self.dds_397.set_att(22*dB)
-    #     self.dds_866.set_att(15*dB)
-    #     with parallel:
-    #         self.dds_397.sw.pulse(1*s)
-    #         self.dds_866.sw.pulse(1*s)
-    #     delay(1*s)
-    #     self.dds_397.set(100*MHz)
-    #     self.dds_866.set(100*MHz)
-    #     with parallel:
-    #         self.dds_397.sw.pulse(1*s)
-    #         self.dds_866.sw.pulse(1*s)
-    #     delay(1*s)
-
