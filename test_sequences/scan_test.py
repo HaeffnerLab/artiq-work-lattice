@@ -6,6 +6,8 @@ import time
 from datetime import datetime
 import labrad
 import numpy as np
+import h5py as h5
+import os
 from artiq.protocols.pc_rpc import Client
 
 
@@ -87,6 +89,9 @@ class scanTest(EnvExperiment):
 
         #------------------------------------------------------------------
         self.timestamp = None
+        self.dir = os.path.join(os.path.expanduser("~"), "data", datetime.strftime("%Y-$m-%d"))
+        os.makedirs(self.dir, exist_ok=True)
+        os.chdir(self.dir)
 
     def run(self):
         for i, step in enumerate(self.scan):
@@ -118,4 +123,10 @@ class scanTest(EnvExperiment):
     @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):
         self.mutate_dataset(dataset, idx, val)
+
+    @rpc(flags={"async"})
+    def save_result(self, dataset, data):
+        pass
     
+    def analyze(self):
+        print("here: ", os.getcwd())
