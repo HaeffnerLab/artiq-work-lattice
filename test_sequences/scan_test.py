@@ -90,7 +90,7 @@ class scanTest(EnvExperiment):
         #------------------------------------------------------------------
         self.timestamp = None
         self.dir = os.path.join(os.path.expanduser("~"), "data", datetime.now().strftime("%Y-%m-%d"),
-                                self.__name__)
+                                type(self).__name__)
         os.makedirs(self.dir, exist_ok=True)
         os.chdir(self.dir)
 
