@@ -79,11 +79,11 @@ class scanTest(EnvExperiment):
         for x in np.nditer(A, op_flags=["readwrite"]):
             x[...] = np.random.normal(0, .1)
         self.set_dataset("rand", A)
-        self.setattr_dataset("x")
-        self.setattr_dataset("y1")
-        self.setattr_dataset("y2")
-        self.setattr_dataset("yfull1")
-        self.setattr_dataset("yfull2")
+        # self.setattr_dataset("x")
+        # self.setattr_dataset("y1")
+        # self.setattr_dataset("y2")
+        # self.setattr_dataset("yfull1")
+        # self.setattr_dataset("yfull2")
 
         #-------------  tab for plotting -------------------------------  
         self.RCG_TAB = "Rabi"
