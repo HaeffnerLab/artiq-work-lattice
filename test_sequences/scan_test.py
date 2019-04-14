@@ -112,6 +112,11 @@ class scanTest(EnvExperiment):
             
     @rpc(flags={"async"})
     def send_to_rcg(self, x, y, name):
+        if self.rcg is None:
+            try:
+                self.rcg = Client("::1", 3286, "rcg")
+            except:
+                return
         if self.timestamp is None:
             self.timestamp = datetime.now().strftime("%H%M_%S")
         try:
