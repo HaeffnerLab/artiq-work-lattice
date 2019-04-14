@@ -121,6 +121,7 @@ class scanTest(EnvExperiment):
             self.timestamp = datetime.now().strftime("%H%M_%S")
             with h5.File(self.timestamp + ".h5", "a") as f:
                 datagrp = f.create_group("data")
+                datagrp.attrs["plot_show"] = self.RCG_TAB
                 datagrp.create_dataset("time", data=[], maxshape=(None,))
                 f.create_dataset("parameters", data=str(self.p))
         if self.rcg is None:
