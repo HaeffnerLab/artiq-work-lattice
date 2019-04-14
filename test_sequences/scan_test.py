@@ -97,8 +97,8 @@ class scanTest(EnvExperiment):
         for i, step in enumerate(self.scan):
             for j, _ in enumerate(self.repeat):
                 xval = step
-                y1val = np.sin(2*np.pi * xval)**2 + self.rand[i, j]
-                y2val = np.cos(2*np.pi * xval)**2 + self.rand[i, j]
+                y1val = np.sin(2*np.pi * xval)**2 + self.rand[i][j]
+                y2val = np.cos(2*np.pi * xval)**2 + self.rand[i][j]
                 self.record_result("y1", (i, j), y1val)
                 self.record_result("y2", (i, j), y2val)
             self.record_result("x", i, xval)
