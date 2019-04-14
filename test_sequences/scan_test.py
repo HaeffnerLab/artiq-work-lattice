@@ -125,8 +125,7 @@ class scanTest(EnvExperiment):
                 datagrp.attrs["plot_show"] = self.RCG_TAB
                 f.create_dataset("time", data=[], maxshape=(None,))
                 f.create_dataset("parameters", data=str(self.p))
-            os.chdir(os.path.join(self.dir, ".."))
-            with open("scan_list", "a+") as csvfile:
+            with open("../scan_list", "a+") as csvfile:
                 csvwriter = csv.writer(csvfile, delimiter=",")
                 csvwriter.writerow([self.timestamp, type(self).__name__, 
                                                   os.path.join(self.dir, self.timestamp)])
