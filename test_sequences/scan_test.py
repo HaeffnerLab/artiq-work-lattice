@@ -89,7 +89,7 @@ class scanTest(EnvExperiment):
             self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull"))
             time.sleep(0.5)
             
-    @rpc(flags={"async"})
+    # @rpc(flags={"async"})
     def send_to_rcg(self, x, y):
         try:
             self.rcg.plot(x, y)
@@ -97,7 +97,7 @@ class scanTest(EnvExperiment):
             print("\noops: \n", e)
             return
     
-    @rpc(flags={"async"})
+    # @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):
         self.mutate_dataset(dataset, idx, val)
     
