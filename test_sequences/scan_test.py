@@ -99,9 +99,9 @@ class scanTest(EnvExperiment):
                 self.record_result("y1", (i, j), y1val)
                 self.record_result("y2", (i, j), y2val)
             self.record_result("x", i, xval)
-            dp = sum(self.y1)[i]) / self.N
+            dp = sum(self.y1[i]) / self.N
             self.record_result("yfull1", i, dp)
-            dp1 = sum(self.y2[i] / self.N)
+            dp1 = sum(self.y2[i]) / self.N
             self.record_result("yfull2", i, dp1)
             self.send_to_rcg(self.x, self.yfull1, "yfull1")
             self.send_to_rcg(self.x, self.yfull2, "yfull2")
