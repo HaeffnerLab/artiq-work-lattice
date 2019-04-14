@@ -83,7 +83,7 @@ class scanTest(EnvExperiment):
         self.setattr_dataset("y1", archive=False)
         self.setattr_dataset("y2", archive=False)
         self.setattr_dataset("yfull1", archive=False)
-        self.setattr_dataset("full2", archive=False)
+        self.setattr_dataset("yfull2", archive=False)
         self.setattr_dataset("rand", archive=False)
 
         #-------------  tab for plotting -------------------------------  
