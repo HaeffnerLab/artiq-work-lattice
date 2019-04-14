@@ -61,8 +61,9 @@ class scanTest(EnvExperiment):
         #------------ make scan object ---------------------------------------
         N = int(self.p.StateReadout.repeat_each_measurement)
         self.N = N
-        print("NNNNNN: ", N)
         self.repeat = scan.NoScan(0, N)
+        for i, _ in enumerate(self.repeat):
+            print(i, _)
 
         #------------- Create datasets ----------------------------------------
         M = len(self.scan)
