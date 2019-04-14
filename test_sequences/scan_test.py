@@ -128,8 +128,8 @@ class scanTest(EnvExperiment):
             os.chdir(os.path.join(self.dir, ".."))
             with open("scan_list", "a+") as csvfile:
                 csvwriter = csv.writer(csvfile, delimiter=",")
-                csvwriter.writerow(self.timestamp, type(self).__name__, 
-                                                 os.path.join(self.dir, self.timestamp))
+                csvwriter.writerow([self.timestamp, type(self).__name__, 
+                                                 os.path.join(self.dir, self.timestamp)])
         if self.rcg is None:
             try:
                 self.rcg = Client("::1", 3286, "rcg")
