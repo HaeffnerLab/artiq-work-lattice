@@ -111,7 +111,7 @@ class scanTest(EnvExperiment):
             self.timestamp = datetime.now().strftime("%H%M_%S")
         try:
             self.rcg.plot(x, y, tab_name=self.RCG_TAB,
-                          plot_title=self.timestamp + " - " + name)
+                          plot_title=self.timestamp + " - " + name, append=True)
         except:
             return
     
