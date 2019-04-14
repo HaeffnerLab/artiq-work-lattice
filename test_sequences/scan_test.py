@@ -122,7 +122,7 @@ class scanTest(EnvExperiment):
             with h5.File(self.timestamp + ".h5", "a") as f:
                 datagrp = f.create_group("data")
                 datagrp.attrs["plot_show"] = self.RCG_TAB
-                datagrp.create_dataset("time", data=[], maxshape=(None,))
+                f.create_dataset("time", data=[], maxshape=(None,))
                 f.create_dataset("parameters", data=str(self.p))
         if self.rcg is None:
             try:
@@ -152,8 +152,6 @@ class scanTest(EnvExperiment):
                 return
             datagrp[dataset].resize((datagrp[dataset].shape[0] + data.shape[0]), axis=0)
             datagrp[dataset][-data.shape[0]:] = data
-            if xdata:
-                datagrp[dataset].attrs["x-axis"] = True
 
             
 
