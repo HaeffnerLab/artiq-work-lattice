@@ -14,6 +14,9 @@ class change_cw(EnvExperiment):
         self.dds = self.get_device(dds_name)
         self.cpld = self.get_device("urukul{}_cpld".format(urukul_number))
 
+    def prepare(self):
+        self.archive = False
+
     @kernel
     def run(self):
         if self.scheduler.check_pause():
