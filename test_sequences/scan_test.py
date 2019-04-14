@@ -62,8 +62,6 @@ class scanTest(EnvExperiment):
         N = int(self.p.StateReadout.repeat_each_measurement)
         self.N = N
         self.repeat = scan.NoScan(0, N)
-        for i, _ in enumerate(self.repeat):
-            print(i, _)
 
         #------------- Create datasets ----------------------------------------
         M = len(self.scan)
@@ -86,7 +84,7 @@ class scanTest(EnvExperiment):
                 self.record_result("y1", (i, j), y1val)
                 self.record_result("y2", (i, j), y2val)
             self.record_result("x", i, xval)
-            dp = sum(self.get_dataset("y1")[i]) / self.N
+            dp = sum(list(self.get_dataset("y1")[i])) / self.N
             self.record_result("yfull", i, dp)
             self.send_to_rcg(self.get_dataset("x"), self.get_dataset("yfull"))
             time.sleep(0.5)
