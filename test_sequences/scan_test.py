@@ -131,7 +131,7 @@ class scanTest(EnvExperiment):
                 f.create_dataset("time", data=[], maxshape=(None,))
                 params = f.create_group("parameters")
                 for collection in self.p.keys():
-                    collectiongrp = f.create_group(collection)
+                    collectiongrp = params.create_group(collection)
                     for key, val in self.p[collection].items():
                         collectiongrp.create_dataset(key, data=str(val))
             with open("../scan_list", "a+") as csvfile:
