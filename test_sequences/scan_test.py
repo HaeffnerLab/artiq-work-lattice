@@ -95,7 +95,7 @@ class scanTest(EnvExperiment):
         self.RCG_TAB = "Rabi"
 
         #-------------- default scheduling -----------------------------
-        self.set_default_scheduling(priority=2)
+        self.core.set_default_scheduling(priority=2)
 
         #------------------------------------------------------------------
         self.timestamp = None
