@@ -14,7 +14,7 @@ class pmt_collect_pulsed(EnvExperiment):
         self.pmt = self.get_device("pmt")
         self.cpld = self.get_device("urukul0_cpld")
         self.dds_866 = self.get_device("866")
-        self.dds_397 = self.get_device("397")
+        # self.dds_397 = self.get_device("397")
 
 
     def run(self):
@@ -38,28 +38,25 @@ class pmt_collect_pulsed(EnvExperiment):
         self.core.break_realtime()
         self.cpld.init()
         self.dds_866.init()
-        self.dds_397.init()
-        self.dds_866.set(80*MHz)
-        self.dds_397.set(75*MHz)
-        self.dds_866.set_att(22*dB)
-        self.dds_397.set_att(22*dB)
+        # self.dds_397.init()
+        # self.dds_866.set(80*MHz)
+        # self.dds_397.set(75*MHz)
+        # self.dds_866.set_att(22*dB)
+        # self.dds_397.set_att(22*dB)
         self.dds_866.sw.on()
-        self.dds_397.sw.on()
+        # self.dds_397.sw.on()
         while not self.scheduler.check_pause():
             self.core.break_realtime()
             t_count = self.pmt.gate_rising(self.duration*ms)
             pmt_counts = self.pmt.count(t_count)
             self.dds_866.sw.off()
-            with parallel:
-                self.append_to_dataset("pmt_counts", pmt_counts)
-                with sequential:
-                    t_count = self.pmt.gate_rising(self.duration*ms)
-                    self.dds_866.sw.on()
-                    pmt_counts_866_off = self.pmt.count(t_count)
-            with parallel:
-                self.append_to_dataset("pmt_counts_866_off",
-                                        pmt_counts_866_off)
-                self.append_to_dataset("diff_counts",
-                                        pmt_counts - pmt_counts_866_off)
-            self.core.break_realtime()
+            self.record_data("pmt_counts", pmt_counts)
+            t_count = self.pmt.gate_rising(self.duration*ms)
+            self.dds_866.sw.on()
+            pmt_counts_866_off = self.pmt.count(t_count)
+            self.record_data("pmt_counts_866_off", pmt_counts_866_off)
+            self.record_data("diff_counts", pmt_counts - pmt_counts_866_off)
 
+    @rpc(flags={"async"})
+    def record_data(self, dataset, x):
+        self.append_to_dataset(dataset, x)
