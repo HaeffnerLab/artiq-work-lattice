@@ -24,9 +24,12 @@ class pmt_collect_continuously(EnvExperiment):
         self.set_dataset("diff_counts", [], broadcast=True)
         self.set_dataset("pulsed", [False], broadcast=True)
         while True:
-            self.run_pmt()
-            # self.core.comm.close()
-            # self.scheduler.pause()
+            try:
+                self.run_pmt()
+                # self.core.comm.close()
+                self.scheduler.pause()
+            except core.TerminationRequested:
+                break
 
 
     @kernel
