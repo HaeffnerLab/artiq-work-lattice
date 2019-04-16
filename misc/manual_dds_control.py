@@ -22,8 +22,8 @@ class change_cw(EnvExperiment):
         if self.scheduler.check_pause():
             return
         self.core.reset()
-        self.core.break_realtime()
-        # self.cpld.init()
+        # self.core.break_realtime()
+        self.cpld.init()
         self.dds.init()
         if self.state:
             self.dds.sw.on()
