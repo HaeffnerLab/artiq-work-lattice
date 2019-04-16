@@ -94,12 +94,16 @@ class scanTest(EnvExperiment):
         #-------------  tab for plotting -------------------------------  
         self.RCG_TAB = "Rabi"
 
+        #-------------- default scheduling -----------------------------
+        self.set_default_scheduling(priority=2)
+
         #------------------------------------------------------------------
         self.timestamp = None
         self.dir = os.path.join(os.path.expanduser("~"), "data", datetime.now().strftime("%Y-%m-%d"),
                                 type(self).__name__)
         os.makedirs(self.dir, exist_ok=True)
         os.chdir(self.dir)
+
 
     def run(self):
         for i, step in enumerate(self.scan):
