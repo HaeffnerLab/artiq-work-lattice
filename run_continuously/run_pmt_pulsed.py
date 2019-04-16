@@ -1,5 +1,4 @@
 import labrad
-from threading import Thread
 from artiq import *
 from artiq.language import *
 from artiq.language.core import TerminationRequested
@@ -16,6 +15,7 @@ class pmt_collect_pulsed(EnvExperiment):
         self.cpld = self.get_device("urukul0_cpld")
         self.dds_866 = self.get_device("866")
         # self.dds_397 = self.get_device("397")
+
 
     def run(self):
         self.core.reset()
@@ -55,14 +55,8 @@ class pmt_collect_pulsed(EnvExperiment):
             t_count = self.pmt.gate_rising(self.duration*ms)
             self.dds_866.sw.on()
             pmt_counts_866_off = self.pmt.count(t_count)
-            t1 = Thread(target=self.record_data, 
-                        args=("pmt_counts_866_off", pmt_counts_866_off))
-            t2 = Thread(target=self.record_data, 
-                        args=("diff_counts", pmt_counts - pmt_counts_866_off))
-            t1.start()
-            t2.start()
-            # self.record_data("pmt_counts_866_off", pmt_counts_866_off)
-            # self.record_data("diff_counts", pmt_counts - pmt_counts_866_off)
+            self.record_data("pmt_counts_866_off", pmt_counts_866_off)
+            self.record_data("diff_counts", pmt_counts - pmt_counts_866_off)
 
     @rpc(flags={"async"})
     def record_data(self, dataset, x):
