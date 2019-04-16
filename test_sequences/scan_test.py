@@ -18,7 +18,11 @@ class scanTest(EnvExperiment):
         self.setattr_device("core")
         self.setattr_device("scheduler")
         self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 1, 100)))
-        self.set_default_scheduling(priority=2)
+        #-------------- get initial states of all DDSs ---------------------
+        for key, val in self.get_device_db().items():
+            if "class" in val:
+                if val["class"][:2] == "AD":
+                    setattr(self, "dds_" + key, self.get_device(key))
 
     def prepare(self):
         
@@ -101,12 +105,6 @@ class scanTest(EnvExperiment):
                                 datetime.now().strftime("%Y-%m-%d"), type(self).__name__)
         os.makedirs(self.dir, exist_ok=True)
         os.chdir(self.dir)
-
-        #-------------- get initial states of all DDSs ---------------------
-        for key, val in self.get_device_db().items():
-            if "class" in val:
-                if val["class"][:2] == "AD":
-                    print(key, val)
     
 
     def run(self):
