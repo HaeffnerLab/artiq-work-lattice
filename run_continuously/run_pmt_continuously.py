@@ -12,9 +12,9 @@ class pmt_collect_continuously(EnvExperiment):
         self.setattr_device("core")
         self.setattr_device("scheduler")
         self.pmt = self.get_device("pmt")
-        self.cpld = self.get_device("urukul0_cpld")
-        self.dds_866 = self.get_device("866")
-        self.dds_397 = self.get_device("397")
+        # self.cpld = self.get_device("urukul0_cpld")
+        # self.dds_866 = self.get_device("866")
+        # self.dds_397 = self.get_device("397")
 
 
     def run(self):
@@ -36,16 +36,16 @@ class pmt_collect_continuously(EnvExperiment):
     @kernel
     def run_pmt(self):
         self.core.break_realtime()
-        self.cpld.init()
-        self.dds_866.init()
-        self.dds_397.init()
-        with parallel:
-            self.dds_866.set(80*MHz)
-            self.dds_397.set(75*MHz)
-            self.dds_866.set_att(22*dB)
-            self.dds_397.set_att(22*dB)
-            self.dds_866.sw.on()
-            self.dds_397.sw.on()
+        # self.cpld.init()
+        # self.dds_866.init()
+        # self.dds_397.init()
+        # with parallel:
+        #     self.dds_866.set(80*MHz)
+        #     self.dds_397.set(75*MHz)
+        #     self.dds_866.set_att(22*dB)
+        #     self.dds_397.set_att(22*dB)
+        #     self.dds_866.sw.on()
+        #     self.dds_397.sw.on()
         while not self.scheduler.check_pause():
             self.core.break_realtime()
             t_count = self.pmt.gate_rising(self.duration*ms)
