@@ -27,7 +27,7 @@ class pmt_collect_continuously(EnvExperiment):
         while True:
             try:
                 self.run_pmt()
-                self.core.comm.close()
+                # self.core.comm.close()
                 self.scheduler.pause()
             except TerminationRequested:
                 break
