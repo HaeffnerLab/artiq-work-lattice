@@ -188,4 +188,5 @@ class scanTest(EnvExperiment):
         self.pmt_hist.plot(data)
     
             
+    # def analyze(self):
 
