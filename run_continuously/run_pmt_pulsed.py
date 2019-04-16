@@ -46,9 +46,9 @@ class pmt_collect_pulsed(EnvExperiment):
         self.dds_866.sw.on()
         self.dds_397.sw.on()
         while not self.scheduler.check_pause():
+            self.core.break_realtime()
             t_count = self.pmt.gate_rising(self.duration*ms)
             pmt_counts = self.pmt.count(t_count)
-            self.core.break_realtime()
             self.dds_866.sw.off()
             with parallel:
                 self.append_to_dataset("pmt_counts", pmt_counts)
