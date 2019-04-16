@@ -105,7 +105,7 @@ class scanTest(EnvExperiment):
         #-------------- get initial states of all DDSs ---------------------
         for key, val in self.get_device_db():
             if "class" in val:
-                if val["class"][:2] = "AD":
+                if val["class"][:2] == "AD":
                     print(key, val)
     
 
