@@ -1,6 +1,7 @@
 import labrad
 from artiq import *
 from artiq.language import *
+from artiq.language.core import TerminationRequested
 
 class pmt_collect_continuously(EnvExperiment):
 
@@ -28,7 +29,7 @@ class pmt_collect_continuously(EnvExperiment):
                 self.run_pmt()
                 # self.core.comm.close()
                 self.scheduler.pause()
-            except core.TerminationRequested:
+            except TerminationRequested:
                 break
 
 
