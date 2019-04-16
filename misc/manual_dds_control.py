@@ -23,7 +23,7 @@ class change_cw(EnvExperiment):
             return
         self.core.reset()
         # self.core.break_realtime()
-        # self.cpld.init()
+        self.cpld.init(blind=False)
         self.dds.init()
         if self.state:
             self.dds.sw.on()
