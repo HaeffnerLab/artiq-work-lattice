@@ -18,7 +18,7 @@ class scanTest(EnvExperiment):
         self.setattr_device("core")
         self.setattr_device("scheduler")
         self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 1, 100)))
-        self.set_default_scheduling(priority=2)
+        self.set_default_scheduling(priority=2, pipeline_name="main", flush=None)
 
     def prepare(self):
         
