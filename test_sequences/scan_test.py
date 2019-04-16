@@ -18,7 +18,7 @@ class scanTest(EnvExperiment):
         self.setattr_device("core")
         self.setattr_device("scheduler")
         self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 1, 100)))
-        self.set_default_scheduling(priority=2, pipeline_name="main", flush=None)
+        self.set_default_scheduling(priority=2)
 
     def prepare(self):
         
@@ -97,11 +97,14 @@ class scanTest(EnvExperiment):
 
         #------------------------------------------------------------------
         self.timestamp = None
-        self.dir = os.path.join(os.path.expanduser("~"), "data", datetime.now().strftime("%Y-%m-%d"),
-                                type(self).__name__)
+        self.dir = os.path.join(os.path.expanduser("~"), "data", 
+                                datetime.now().strftime("%Y-%m-%d"), type(self).__name__)
         os.makedirs(self.dir, exist_ok=True)
         os.chdir(self.dir)
 
+        #-------------- get initial states of all DDSs ---------------------
+        devices = self.get_device_db()
+        print(devices)
 
     def run(self):
         for i, step in enumerate(self.scan):
