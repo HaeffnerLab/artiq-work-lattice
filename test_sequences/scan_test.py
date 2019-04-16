@@ -120,7 +120,7 @@ class scanTest(EnvExperiment):
                 self.save_result("x", self.get_dataset("x")[i - 4:i + 1], xdata=True)
                 self.save_result("yfull1", self.yfull1[i - 4:i + 1])
                 self.save_result("yfull2", self.yfull2[i - 4:i + 1])
-                self.send_to_hist(sum([self.hist_counts[i-j] for j in range(5)], []))
+                self.send_to_hist(self.hist_counts[i-j:].flatten())
             time.sleep(0.5)
         else:
             rem = (i + 1) % 5
