@@ -103,8 +103,11 @@ class scanTest(EnvExperiment):
         os.chdir(self.dir)
 
         #-------------- get initial states of all DDSs ---------------------
-        devices = self.get_device_db()
-        print(devices)
+        for key, val in self.get_device_db():
+            if "class" in val:
+                if val["class"][:2] = "AD":
+                    print(key, val)
+    
 
     def run(self):
         for i, step in enumerate(self.scan):
