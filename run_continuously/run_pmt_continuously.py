@@ -9,6 +9,7 @@ class pmt_collect_continuously(EnvExperiment):
         p = cxn.parametervault
         self.duration = p.get_parameter(["PmtReadout", "duration"])["ms"]
         self.setattr_device("core")
+        self.setattr_device("scheduler")
         self.pmt = self.get_device("pmt")
         self.cpld = self.get_device("urukul0_cpld")
         self.dds_866 = self.get_device("866")
@@ -22,7 +23,10 @@ class pmt_collect_continuously(EnvExperiment):
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
         self.set_dataset("diff_counts", [], broadcast=True)
         self.set_dataset("pulsed", [False], broadcast=True)
-        self.run_pmt()
+        while True:
+            self.run_pmt()
+            self.scheduler.pause()
+
 
     @kernel
     def run_pmt(self):
@@ -38,6 +42,8 @@ class pmt_collect_continuously(EnvExperiment):
             self.dds_866.sw.on()
             self.dds_397.sw.on()
         while True:
+            if self.scheduler.check_pause():
+                break
             self.core.break_realtime()
             t_count = self.pmt.gate_rising(self.duration*ms)
             pmt_count = self.pmt.count(t_count)
