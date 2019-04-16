@@ -56,11 +56,15 @@ class scanTest(EnvExperiment):
         self.p = edict(D)
         cxn.disconnect()
 
-        #------------ try to make rcg connection -----------------------------
+        #------------ try to make rcg/hist connection -----------------------------
         try:
             self.rcg = Client("::1", 3286, "rcg")
         except:
             self.rcg = None
+        try:
+            self.pmt_hist = Client("::1", 3287, "pmt_histogram")
+        except:
+            self.pmt_hist = None
 
         #------------ make scan object ---------------------------------------
         N = int(self.p.StateReadout.repeat_each_measurement)
@@ -118,6 +122,7 @@ class scanTest(EnvExperiment):
             self.save_result("x", self.get_dataset("x")[-rem:], xdata=True)
             self.save_result("yfull1", self.yfull1[-rem:])
             self.save_result("yfull2", self.yfull2[-rem:])
+            self.send_to_hist(self.get_dataset("y1")[i])
             time.sleep(0.5)
             
     @rpc(flags={"async"})
@@ -168,6 +173,9 @@ class scanTest(EnvExperiment):
             datagrp[dataset].resize(datagrp[dataset].shape[0] + data.shape[0], axis=0)
             datagrp[dataset][-data.shape[0]:] = data
         
+    @rpc(flags={"async"})
+    def send_to_hist(self, data):
+        self.pmt_hist.plot(data)
     
             
 
