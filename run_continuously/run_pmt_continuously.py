@@ -33,7 +33,6 @@ class pmt_collect_continuously(EnvExperiment):
             except TerminationRequested:
                 break
 
-
     @kernel
     def run_pmt(self):
         self.core.break_realtime()
