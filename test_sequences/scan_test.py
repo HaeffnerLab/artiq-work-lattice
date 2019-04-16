@@ -116,13 +116,13 @@ class scanTest(EnvExperiment):
                 self.save_result("x", self.get_dataset("x")[i - 4:i + 1], xdata=True)
                 self.save_result("yfull1", self.yfull1[i - 4:i + 1])
                 self.save_result("yfull2", self.yfull2[i - 4:i + 1])
+                self.send_to_hist(self.get_dataset("y1")[i])
             time.sleep(0.5)
         else:
             rem = (i + 1) % 5
             self.save_result("x", self.get_dataset("x")[-rem:], xdata=True)
             self.save_result("yfull1", self.yfull1[-rem:])
             self.save_result("yfull2", self.yfull2[-rem:])
-            self.send_to_hist(self.get_dataset("y1")[i])
             time.sleep(0.5)
             
     @rpc(flags={"async"})
