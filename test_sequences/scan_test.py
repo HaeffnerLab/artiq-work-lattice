@@ -18,6 +18,7 @@ class scanTest(EnvExperiment):
         self.setattr_device("core")
         self.setattr_device("scheduler")
         self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 1, 100)))
+        self.set_default_scheduling(priority=2)
 
     def prepare(self):
         
@@ -93,9 +94,6 @@ class scanTest(EnvExperiment):
 
         #-------------  tab for plotting -------------------------------  
         self.RCG_TAB = "Rabi"
-
-        #-------------- default scheduling -----------------------------
-        self.core.set_default_scheduling(priority=2)
 
         #------------------------------------------------------------------
         self.timestamp = None
