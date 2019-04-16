@@ -49,6 +49,7 @@ class pmt_collect_pulsed(EnvExperiment):
             self.core.break_realtime()
             t_count = self.pmt.gate_rising(self.duration*ms)
             pmt_counts = self.pmt.count(t_count)
+            self.core.break_realtime()
             self.dds_866.sw.off()
             self.record_data("pmt_counts", pmt_counts)
             t_count = self.pmt.gate_rising(self.duration*ms)
