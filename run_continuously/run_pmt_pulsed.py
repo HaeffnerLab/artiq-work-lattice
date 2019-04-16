@@ -1,6 +1,7 @@
 import labrad
 from artiq import *
 from artiq.language import *
+from artiq.language.core import TerminationRequested
 
 class pmt_collect_pulsed(EnvExperiment):
 
@@ -23,7 +24,14 @@ class pmt_collect_pulsed(EnvExperiment):
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
         self.set_dataset("diff_counts", [], broadcast=True)
         self.set_dataset("pulsed", [True], broadcast=True)
-        self.run_pmt()
+        while True:
+            try:
+                self.run_pmt()
+                self.core.comm.close()
+                self.scheduler.pause()
+                self.core.comm.open()
+            except TerminationRequested:
+                break
 
     @kernel
     def run_pmt(self):
@@ -37,7 +45,7 @@ class pmt_collect_pulsed(EnvExperiment):
         self.dds_397.set_att(22*dB)
         self.dds_866.sw.on()
         self.dds_397.sw.on()
-        while True:
+        while not self.scheduler.check_pause():
             t_count = self.pmt.gate_rising(self.duration*ms)
             pmt_counts = self.pmt.count(t_count)
             self.core.break_realtime()

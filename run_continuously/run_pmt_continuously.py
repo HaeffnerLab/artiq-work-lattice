@@ -46,9 +46,7 @@ class pmt_collect_continuously(EnvExperiment):
             self.dds_397.set_att(22*dB)
             self.dds_866.sw.on()
             self.dds_397.sw.on()
-        while True:
-            if self.scheduler.check_pause():
-                return
+        while not self.scheduler.check_pause():
             self.core.break_realtime()
             t_count = self.pmt.gate_rising(self.duration*ms)
             pmt_count = self.pmt.count(t_count)
