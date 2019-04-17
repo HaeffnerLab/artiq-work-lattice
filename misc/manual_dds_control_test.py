@@ -10,7 +10,7 @@ class change_cw11(EnvExperiment):
 
     @kernel
     def run(self):
-        self.core.break_realtime()
+        self.core.reset()
         self.cpld.init()
         self.dds.init()
         self.dds.set(80*MHz)
