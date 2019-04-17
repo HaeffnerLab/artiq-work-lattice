@@ -21,6 +21,8 @@ class change_cw(EnvExperiment):
     def prepare(self):
         self.archive = False
         self.state = "state"
+        self.frequency = "frequency"
+        self.att = "att"
 
     @kernel
     def run(self):
@@ -36,8 +38,8 @@ class change_cw(EnvExperiment):
                 self.ddss[dds].sw.on()
             else:
                 self.ddss[dds].sw.off()
-            self.ddss[dds].set(self.specs[dds]["frequency"])
-            self.ddss[dds].set_att(self.specs[dds]["att"])
+            self.ddss[dds].set(self.specs[dds][self.frequency])
+            self.ddss[dds].set_att(self.specs[dds][self.att])
         
         
         # if self.state:
