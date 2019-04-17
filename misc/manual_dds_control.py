@@ -27,12 +27,12 @@ class change_cw(EnvExperiment):
     def run(self):
         if self.scheduler.check_pause():
             return
-        self.core.reset()
-        self.dds_init()
-        # for dds in self.ddss.keys():
-        #     self.core.break_realtime()
-        #     self.set_dds(self.ddss[dds], 
-        #                 self.specs[dds]["state"], self.specs[dds]["frequency"], self.specs[dds]["att"])
+        # self.core.reset()
+        # self.dds_init()
+        for dds in self.ddss.keys():
+            self.core.break_realtime()
+            self.set_dds(self.ddss[dds], 
+                        self.specs[dds]["state"], self.specs[dds]["frequency"], self.specs[dds]["att"])
             # if self.specs[dds][self.state]:
             #     self.ddss[dds].sw.on()
             # else:
@@ -81,11 +81,11 @@ class change_cw(EnvExperiment):
         dds.set(frequency)
         dds.set_att(att)
 
-    @kernel
-    def dds_init(self):
-        self.core.break_realtime()
-        for cpld in self.cplds:
-            cpld.init()
-        for dds in self.ddss.values():
-            dds.init()
+    # @kernel
+    # def dds_init(self):
+    #     self.core.break_realtime()
+    #     for cpld in self.cplds:
+    #         cpld.init()
+    #     for dds in self.ddss.values():
+    #         dds.init()
 
