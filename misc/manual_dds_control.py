@@ -1,15 +1,13 @@
 from artiq import *
 from artiq.language import *
-from artiq.protocols import pyon
+# from artiq.protocols import pyon
 
 class change_cw(EnvExperiment):
 
     def build(self):
         self.setattr_device("core")
         self.setattr_device("scheduler")
-        a = self.get_argument("specs", PYONValue())
-        print("a: ", a)
-        self.specs = pyon.decode(a)
+        self.specs = self.get_argument("specs", PYONValue())
         for key, val in self.specs.items():
             print(key, "\n")
             for i,j in val.items():
