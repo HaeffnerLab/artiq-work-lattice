@@ -43,6 +43,7 @@ class change_cw(EnvExperiment):
         #                 float(self.specs[dds]["att"]))
 
         self.cpld.init()
+        self.core.break_realtime()
         self.dds.init()
         self.set_dds(self.dds, True, 100*MHz, 10)
 
