@@ -35,7 +35,7 @@ class change_cw(EnvExperiment):
 
     @kernel
     def run(self):
-        # self.core.reset()
+        self.core.reset()
         if self.scheduler.check_pause():
             return
         self.core.break_realtime()
