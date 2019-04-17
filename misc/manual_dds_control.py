@@ -7,12 +7,6 @@ class change_cw(EnvExperiment):
         self.setattr_device("core")
         self.setattr_device("scheduler")
         self.specs = self.get_argument("specs", PYONValue())
-        # self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz"))
-        # self.amplitude = self.get_argument("amplitude", NumberValue(30, unit="dB"))
-        # self.state = self.get_argument("state", BooleanValue())
-        # urukul_number = self.get_argument("urukul_number", StringValue("0"))
-        # dds_name = self.get_argument("dds_name", StringValue("397"))
-        # self.ddss = {dds_name: self.get_device(dds_name) for dds_name in self.specs.keys()}
         self.dds_dict = dict()
         try:
             for name in self.specs.keys():
@@ -32,10 +26,6 @@ class change_cw(EnvExperiment):
             self.freq_list.append(settings["frequency"])
             self.att_list.append(settings["att"])
             self.state_list.append(settings["state"])
-        print(self.dds_list)
-        print(self.freq_list)
-        print(self.att_list)
-        print(self.state_list)
 
     @kernel
     def run(self):
@@ -52,68 +42,3 @@ class change_cw(EnvExperiment):
                     self.dds_list[i].sw.on()
                 else:
                     self.dds_list[i].sw.off()
-
-        # self.core.break_realtime()
-        # for dds in list(self.ddss.values())[0:1]:
-        #     # self.core.break_realtime()
-        #     self.init_dds(dds)
-        # for dds in list(self.ddss.keys())[0:1]:
-        #     self.set_dds(self.ddss[dds], 
-        #                 self.specs[dds]["state"], 
-        #                 self.specs[dds]["frequency"], 
-        #                 float(self.specs[dds]["att"]))
-            # if self.specs[dds][self.state]:
-            #     self.ddss[dds].sw.on()
-            # else:
-            #     self.ddss[dds].sw.off()
-            # self.ddss[dds].set(self.specs[dds]["frequency"])
-            # self.ddss[dds].set_att(self.specs[dds]["att"])        
-
-    # def run(self):
-    #     if self.scheduler.check_pause():
-    #         return
-    #     self.core.reset()
-    #     for cpld in self.cplds:
-    #         cpld.init()
-    #     for dds in self.ddss.values():
-    #         dds.init()
-    #     for dds 
-        # for dds in self.ddss.keys():
-        #     if self.specs[dds][self.state]:
-        #         self.ddss[dds].sw.on()
-        #     else:
-        #         self.ddss[dds].sw.off()
-        #     self.ddss[dds].set(self.specs[dds]["frequency"])
-        #     self.ddss[dds].set_att(self.specs[dds]["att"])
-        
-        
-        # if self.state:
-        #     self.dds.sw.on()
-        # else:
-        #     self.dds.sw.off()
-        # self.dds.set(self.frequency)
-        # self.dds.set_att(self.amplitude)
-
-    # def analyze(self):
-    #     pass
-    #     #print(self.frequency)
-    #     #print(self.frequency*MHz)
-    #     #print(self.amplitude)
-    #     #print(self.amplitude*dB)
-
-    # @kernel
-    # def set_dds(self, dds, state, frequency, att):
-    #     dds.set(frequency)
-    #     dds.set_att(att*dB)
-    #     if state:
-    #         dds.sw.on()
-    #     else:
-    #         dds.sw.off()
-
-    # @kernel
-    # def init_dds(self, dds):
-    #     dds.init()
-
-    # @kernel
-    # def init_cpld(self, cpld):
-    #     cpld.init()
