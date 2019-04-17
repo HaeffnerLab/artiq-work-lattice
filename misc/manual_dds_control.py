@@ -78,12 +78,12 @@ class change_cw(EnvExperiment):
 
     @kernel
     def set_dds(self, dds, state, frequency, att):
+        dds.set(frequency)
+        dds.set_att(att)
         if state:
             dds.sw.on()
         else:
             dds.sw.off()
-        dds.set(frequency)
-        dds.set_att(att)
 
     @kernel
     def init_dds(self, dds):
