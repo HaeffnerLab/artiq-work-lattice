@@ -14,6 +14,7 @@ class change_cw(EnvExperiment):
                 self.dds_dict[name] = self.get_device(name)
         except AttributeError:
             pass
+        self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(3)]
 
     def prepare(self):
         self.archive = False
@@ -30,6 +31,8 @@ class change_cw(EnvExperiment):
     @kernel
     def run(self):
         self.core.reset()
+        for cpld in self.cpld_list:
+            cpld.init()
         if self.scheduler.check_pause():
             return
         self.core.break_realtime()
