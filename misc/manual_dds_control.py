@@ -28,7 +28,7 @@ class change_cw(EnvExperiment):
     def run(self):
         if self.scheduler.check_pause():
             return
-        # self.core.reset()
+        self.core.reset()
         # self.dds_init()
         for dds in self.ddss.values():
             dds.init()
