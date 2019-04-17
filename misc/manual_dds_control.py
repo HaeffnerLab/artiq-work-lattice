@@ -7,8 +7,9 @@ class change_cw(EnvExperiment):
     def build(self):
         self.setattr_device("core")
         self.setattr_device("scheduler")
-
-        self.specs = pyon.decode(self.get_argument("specs", PYONValue()))
+        a = self.get_argument("specs", PYONValue())
+        print("a: ", a)
+        self.specs = pyon.decode(a)
         for key, val in self.specs.items():
             print(key, "\n")
             for i,j in val.items():
