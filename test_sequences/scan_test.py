@@ -25,7 +25,7 @@ class scanTest(EnvExperiment):
                     setattr(self, "dds_" + key, self.get_device(key))
 
     def prepare(self):
-        
+
         # ------------   Grab parametervault params -------------------------------
         cxn = labrad.connect()
         p = cxn.parametervault
@@ -60,7 +60,7 @@ class scanTest(EnvExperiment):
             D[collection] = d
         self.p = edict(D)
         cxn.disconnect()
-        
+
         #--------------grab cw parameters ----------------------------------------
         # Because parameters are grabbed in prepare stage, loaded dds cw parameters
         # may not be the most current.
@@ -112,16 +112,16 @@ class scanTest(EnvExperiment):
             for col in range(N):
                 self.hist_counts[row][col] = np.random.normal(10, 5)
 
-        #-------------  tab for plotting -------------------------------  
+        #-------------  tab for plotting -------------------------------
         self.RCG_TAB = "Rabi"
 
         #------------------------------------------------------------------
         self.timestamp = None
-        self.dir = os.path.join(os.path.expanduser("~"), "data", 
+        self.dir = os.path.join(os.path.expanduser("~"), "data",
                                 datetime.now().strftime("%Y-%m-%d"), type(self).__name__)
         os.makedirs(self.dir, exist_ok=True)
         os.chdir(self.dir)
-    
+
 
     def run(self):
         for i, step in enumerate(self.scan):
@@ -150,9 +150,9 @@ class scanTest(EnvExperiment):
             self.save_result("yfull1", self.yfull1[-rem:])
             self.save_result("yfull2", self.yfull2[-rem:])
 
-        # self.reset_cw_settings(self.dds_list, self.freq_list, 
+        # self.reset_cw_settings(self.dds_list, self.freq_list,
         #                        self.amp_list, self.state_list, self.att_list)
-            
+
     @rpc(flags={"async"})
     def send_to_rcg(self, x, y, name):
         if self.timestamp is None:
@@ -169,7 +169,7 @@ class scanTest(EnvExperiment):
                         collectiongrp.create_dataset(key, data=str(val))
             with open("../scan_list", "a+") as csvfile:
                 csvwriter = csv.writer(csvfile, delimiter=",")
-                csvwriter.writerow([self.timestamp, type(self).__name__, 
+                csvwriter.writerow([self.timestamp, type(self).__name__,
                                                   os.path.join(self.dir, self.filename)])
         if self.rcg is None:
             try:
@@ -182,7 +182,7 @@ class scanTest(EnvExperiment):
                           file_=os.path.join(os.getcwd(), self.filename))
         except:
             return
-    
+
     @kernel
     def reset_cw_settings(self, dds_list, freq_list, amp_list, state_list, att_list):
         self.core.break_realtime()
@@ -195,7 +195,7 @@ class scanTest(EnvExperiment):
                     dds_list[i].sw.on()
                 else:
                     dds_list[i].sw.off()
-    
+
     @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):
         self.mutate_dataset(dataset, idx, val)
@@ -213,11 +213,12 @@ class scanTest(EnvExperiment):
                 return
             datagrp[dataset].resize(datagrp[dataset].shape[0] + data.shape[0], axis=0)
             datagrp[dataset][-data.shape[0]:] = data
-        
+
     @rpc(flags={"async"})
     def send_to_hist(self, data):
         self.pmt_hist.plot(data)
 
     def analyze(self):
-        self.rcg.close_rpc()
-        self.pmt_hist.close_rpc()
+        pass
+        #self.rcg.close_rpc()
+        #self.pmt_hist.close_rpc()
