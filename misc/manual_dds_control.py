@@ -29,7 +29,6 @@ class change_cw(EnvExperiment):
             self.att_list.append(settings["att"])
             self.state_list.append(settings["state"])
             self.amp_list.append(settings["amplitude"])
-        self.core.reset()
 
     @kernel
     def run(self):
@@ -49,3 +48,4 @@ class change_cw(EnvExperiment):
                     self.dds_list[i].sw.on()
                 else:
                     self.dds_list[i].sw.off()
+        self.core.reset()
