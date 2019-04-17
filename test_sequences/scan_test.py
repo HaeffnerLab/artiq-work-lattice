@@ -60,6 +60,12 @@ class scanTest(EnvExperiment):
             D[collection] = d
         self.p = edict(D)
         cxn.disconnect()
+        
+        #--------------grab cw parameters ----------------------------------------
+        # Because parameters are grabbed in prepare stage, loaded dds cw parameters
+        # may not be the most current.
+        self.cw_dds_params = dict()
+        print(self.p["dds_cw_parameters"])
 
         #------------ try to make rcg/hist connection -----------------------------
         try:
@@ -186,7 +192,4 @@ class scanTest(EnvExperiment):
     @rpc(flags={"async"})
     def send_to_hist(self, data):
         self.pmt_hist.plot(data)
-    
-            
-    # def analyze(self):
 
