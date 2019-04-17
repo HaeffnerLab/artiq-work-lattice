@@ -220,6 +220,5 @@ class scanTest(EnvExperiment):
         self.pmt_hist.plot(data)
 
     def analyze(self):
-        pass
-        # self.rcg.close_rpc()
-        # self.pmt_hist.close_rpc()
+        self.rcg.close_rpc()
+        self.pmt_hist.close_rpc()
