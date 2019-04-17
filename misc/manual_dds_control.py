@@ -33,14 +33,19 @@ class change_cw(EnvExperiment):
             return
         self.core.reset()
         # self.core.break_realtime()
-        for dds in list(self.ddss.values())[0:1]:
-            # self.core.break_realtime()
-            self.init_dds(dds)
-        for dds in list(self.ddss.keys())[0:1]:
-            self.set_dds(self.ddss[dds], 
-                        self.specs[dds]["state"], 
-                        self.specs[dds]["frequency"], 
-                        float(self.specs[dds]["att"]))
+        # for dds in list(self.ddss.values())[0:1]:
+        #     # self.core.break_realtime()
+        #     self.init_dds(dds)
+        # for dds in list(self.ddss.keys())[0:1]:
+        #     self.set_dds(self.ddss[dds], 
+        #                 self.specs[dds]["state"], 
+        #                 self.specs[dds]["frequency"], 
+        #                 float(self.specs[dds]["att"]))
+
+        self.cpld.init()
+        self.dds.init()
+        self.set_dds(self.dds, True, 100*MHz, 10)
+
             # if self.specs[dds][self.state]:
             #     self.ddss[dds].sw.on()
             # else:
