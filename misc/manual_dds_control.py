@@ -29,6 +29,7 @@ class change_cw(EnvExperiment):
             self.att_list.append(settings["att"])
             self.state_list.append(settings["state"])
             self.amp_list.append(settings["amplitude"])
+        self.core.reset()
 
     @kernel
     def run(self):
