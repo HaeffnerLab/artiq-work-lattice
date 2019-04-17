@@ -24,6 +24,9 @@ class scanTest(EnvExperiment):
                 if val["class"][:2] == "AD":
                     setattr(self, "dds_" + key, self.get_device(key))
 
+        #-------------- set all dds's in config file --------------------------
+        print(self.get_device_db())
+
     def prepare(self):
         
         # ------------   Grab parametervault params -------------------------------
