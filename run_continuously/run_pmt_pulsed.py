@@ -28,7 +28,7 @@ class pmt_collect_pulsed(EnvExperiment):
                 #self.core.comm.close()
                 self.scheduler.pause()
                 self.core.comm.open()
-            except BrokenPipeError:
+            except (BrokenPipeError, ConnectionResetError):
                 self.comm.open()
             except TerminationRequested:
                 break
