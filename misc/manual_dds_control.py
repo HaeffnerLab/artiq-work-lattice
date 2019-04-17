@@ -32,7 +32,7 @@ class change_cw(EnvExperiment):
         # for dds in self.ddss.values():
             # dds.init()
         for dds in self.ddss.keys():
-            self.break_realtime()
+            self.core.break_realtime()
             self.set_dds(self.ddss[dds], 
                         self.specs[dds]["state"], self.specs[dds]["frequency"], self.specs[dds]["att"])
             # if self.specs[dds][self.state]:
