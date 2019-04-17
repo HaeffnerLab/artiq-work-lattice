@@ -32,6 +32,10 @@ class change_cw(EnvExperiment):
             self.freq_list.append(settings["frequency"])
             self.att_list.append(settings["att"])
             self.state_list.append(settings["state"])
+        print(self.dds_list)
+        print(self.freq_list)
+        print(self.att_list)
+        print(self.state_list)
 
     @kernel
     def run(self):
