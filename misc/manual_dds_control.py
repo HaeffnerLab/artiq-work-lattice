@@ -29,10 +29,10 @@ class change_cw(EnvExperiment):
         if self.scheduler.check_pause():
             return
         self.core.reset()
-        # self.dds_init()
+        self.core.break_realtime()
         for dds in self.ddss.values():
             dds.init()
-        self.core.break_realtime()
+        
         for dds in list(self.ddss.keys())[0:1]:
             self.set_dds(self.ddss[dds], 
                         self.specs[dds]["state"], 
