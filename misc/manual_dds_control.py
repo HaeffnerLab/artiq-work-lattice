@@ -83,8 +83,9 @@ class change_cw(EnvExperiment):
 
     @kernel
     def dds_init(self):
-        for cpld in self.cplds:
-            cpld.init()
-        for dds in self.ddss.values():
-            dds.init()
+        self.cplds[0].init()
+        # for cpld in self.cplds:
+        #     cpld.init()
+        # for dds in self.ddss.values():
+        #     dds.init()
 
