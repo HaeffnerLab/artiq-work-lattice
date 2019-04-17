@@ -19,7 +19,7 @@ class change_cw(EnvExperiment):
                 self.setattr_device(name)
                 self.ddss[name] = self.get_device(name)
             self.cplds = [self.get_device("urukul{}_cpld".format(i)) for i in range(2)]
-        except:
+        except TypeError:
             self.cplds = []
 
     def prepare(self):
@@ -28,11 +28,12 @@ class change_cw(EnvExperiment):
     def run(self):
         if self.scheduler.check_pause():
             return
-        self.core.reset()
+        # self.core.reset()
         self.core.break_realtime()
+        for cpld in self.cplds:
+            cpld.init()
         for dds in self.ddss.values():
             dds.init()
-        
         for dds in list(self.ddss.keys())[0:1]:
             self.set_dds(self.ddss[dds], 
                         self.specs[dds]["state"], 
