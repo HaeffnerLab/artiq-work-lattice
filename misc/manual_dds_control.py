@@ -19,7 +19,7 @@ class change_cw(EnvExperiment):
                 self.setattr_device(name)
                 self.ddss[name] = self.get_device(name)
             self.cplds = [self.get_device("urukul{}_cpld".format(i)) for i in range(2)]
-        except TypeError:
+        except AttributeError:
             self.cplds = []
 
     def prepare(self):
@@ -31,9 +31,9 @@ class change_cw(EnvExperiment):
         # self.core.reset()
         self.core.break_realtime()
         for cpld in self.cplds:
-            cpld.init()
+            self.init_cpld(cpld)
         for dds in self.ddss.values():
-            dds.init()
+            self.init_dds(dds)
         for dds in list(self.ddss.keys())[0:1]:
             self.set_dds(self.ddss[dds], 
                         self.specs[dds]["state"], 
@@ -88,10 +88,9 @@ class change_cw(EnvExperiment):
         dds.set_att(att)
 
     @kernel
-    def dds_init(self):
-        self.core.break_realtime()
-        for cpld in self.cplds:
-            cpld.init()
-        for dds in self.ddss.values():
-            dds.init()
+    def init_dds(self, dds):
+        dds.init()
 
+    @kernel
+    def init_cpld(self, cpld):
+        cpld.init()
