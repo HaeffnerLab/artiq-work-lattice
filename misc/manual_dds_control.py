@@ -8,7 +8,7 @@ class change_cw(EnvExperiment):
         self.setattr_device("scheduler")
         self.specs = self.get_argument("specs", PYONValue())
         for key in self.specs.keys():
-            print(type(self.specs[key]["state"]))
+            setattr()
         # self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz"))
         # self.amplitude = self.get_argument("amplitude", NumberValue(30, unit="dB"))
         # self.state = self.get_argument("state", BooleanValue())
@@ -20,6 +20,7 @@ class change_cw(EnvExperiment):
 
     def prepare(self):
         self.archive = False
+        self.state = "state"
 
     @kernel
     def run(self):
@@ -31,7 +32,7 @@ class change_cw(EnvExperiment):
         for dds in self.ddss.values():
             dds.init()
         for dds in self.ddss.keys():
-            if self.specs[dds]["state"]:
+            if self.specs[dds][self.state]:
                 self.ddss[dds].sw.on()
             else:
                 self.ddss[dds].sw.off()
