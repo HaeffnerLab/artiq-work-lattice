@@ -17,7 +17,7 @@ class change_cw(EnvExperiment):
         for name in self.specs.keys():
             self.setattr_device(name)
             self.ddss[name] = self.get_device(name)
-        self.cplds = [self.get_device("urukul{}_cpld".format(i)) for i in range(3)]
+        self.cplds = [self.get_device("urukul{}_cpld".format(i)) for i in range(2)]
 
 
     def prepare(self):
