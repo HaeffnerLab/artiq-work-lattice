@@ -64,8 +64,8 @@ class scanTest(EnvExperiment):
         #--------------grab cw parameters ----------------------------------------
         # Because parameters are grabbed in prepare stage, loaded dds cw parameters
         # may not be the most current.
-        self.cw_dds_params = dict()
-        print(self.p["dds_cw_parameters"])
+        # self.cw_dds_params = dict()
+        # print(self.p["dds_cw_parameters"])
 
         #------------ try to make rcg/hist connection -----------------------------
         try:
