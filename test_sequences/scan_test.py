@@ -21,7 +21,7 @@ class scanTest(EnvExperiment):
         #-------------- get initial states of all DDSs ---------------------
         for key, val in self.get_device_db().items():
             if isinstance(val, dict) and "class" in val:
-                if val["class"] == "AD9910" or val["class"] == "AD9912"):
+                if val["class"] == "AD9910" or val["class"] == "AD9912":
                     setattr(self, "dds_" + key, self.get_device(key))
 
     def prepare(self):
