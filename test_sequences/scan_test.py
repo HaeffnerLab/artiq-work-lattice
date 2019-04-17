@@ -20,12 +20,8 @@ class scanTest(EnvExperiment):
         self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 1, 100)))
         #-------------- get initial states of all DDSs ---------------------
         for key, val in self.get_device_db().items():
-            if "class" in val:
-                if val["class"][:2] == "AD":
-                    setattr(self, "dds_" + key, self.get_device(key))
-
-        #-------------- set all dds's in config file --------------------------
-        print(self.get_device_db())
+            if val["class"] == "AD9910" or val["class"] == "AD9912":
+                setattr(self, "dds_" + key, self.get_device(key))
 
     def prepare(self):
         
@@ -69,7 +65,8 @@ class scanTest(EnvExperiment):
         # may not be the most current.
         self.cw_dds_params = dict()
         for key, settings in self.p.dds_cw_parameters.items():
-            self.cw_dds_params[key] = [float(settings[1][1]) * 1e6, float(settings[1][1]), 
+            self.cw_dds_params[key] = [self.get_device("dds_" + key),
+                                       float(settings[1][1]) * 1e6, float(settings[1][1]), 
                                        bool(float(settings[1][1])), float(settings[1][1])]
 
         #------------ try to make rcg/hist connection -----------------------------
