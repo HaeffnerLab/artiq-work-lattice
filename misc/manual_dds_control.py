@@ -8,7 +8,7 @@ class change_cw(EnvExperiment):
         self.setattr_device("scheduler")
         self.specs = self.get_argument("specs", PYONValue())
         for key in self.specs.keys():
-            print(self.specs[key]["state"])
+            print(type(self.specs[key]["state"]))
         # self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz"))
         # self.amplitude = self.get_argument("amplitude", NumberValue(30, unit="dB"))
         # self.state = self.get_argument("state", BooleanValue())
