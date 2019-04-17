@@ -65,7 +65,9 @@ class scanTest(EnvExperiment):
         # Because parameters are grabbed in prepare stage, loaded dds cw parameters
         # may not be the most current.
         self.cw_dds_params = dict()
-        print(self.p.dds_cw_parameters)
+        for key, settings in self.p.dds_cw_parameters.items():
+            self.cw_dds_params[key] = [float(settings[1]) * 1e6, float(settings[1]), 
+                                       bool(int(settings[1])), float(settings[1])]
 
         #------------ try to make rcg/hist connection -----------------------------
         try:
