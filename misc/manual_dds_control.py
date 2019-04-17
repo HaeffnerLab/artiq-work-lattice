@@ -22,11 +22,13 @@ class change_cw(EnvExperiment):
         self.freq_list = []
         self.att_list = []
         self.state_list = []
+        self.amp_list = []
         for dds, settings in self.specs.items():
             self.dds_list.append(self.dds_dict[dds])
             self.freq_list.append(settings["frequency"])
             self.att_list.append(settings["att"])
             self.state_list.append(settings["state"])
+            self.amp_list.append(settings["amplitude"])
 
     @kernel
     def run(self):
@@ -39,7 +41,8 @@ class change_cw(EnvExperiment):
         with parallel:
             for i in range(len(self.dds_list)):
                 self.dds_list[i].init()
-                self.dds_list[i].set(self.freq_list[i])
+                self.dds_list[i].set(self.freq_list[i], 
+                                     amplitude=self.amp_list[i])
                 self.dds_list[i].set_att(self.att_list[i]*dB)
                 if self.state_list[i]:
                     self.dds_list[i].sw.on()
