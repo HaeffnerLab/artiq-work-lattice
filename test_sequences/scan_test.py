@@ -75,7 +75,7 @@ class scanTest(EnvExperiment):
             self.freq_list.append(float(settings[1][1]) * 1e6)
             self.amp_list.append(float(settings[1][1]))
             self.att_list.append(float(settings[1][1]))
-            self.state_list.append(bool(float(settings[1][1]))
+            self.state_list.append(bool(float(settings[1][1])))
 
         #------------ try to make rcg/hist connection -----------------------------
         try:
