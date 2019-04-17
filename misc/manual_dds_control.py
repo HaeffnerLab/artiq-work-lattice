@@ -30,12 +30,11 @@ class change_cw(EnvExperiment):
         # self.core.reset()
         # self.dds_init()
         self.core.break_realtime()
-        with parallel:
-            for dds in self.ddss.keys():
-                self.set_dds(self.ddss[dds], 
-                            self.specs[dds]["state"], 
-                            self.specs[dds]["frequency"], 
-                            float(self.specs[dds]["att"]))
+        for dds in self.ddss.keys()[0:1]:
+            self.set_dds(self.ddss[dds], 
+                        self.specs[dds]["state"], 
+                        self.specs[dds]["frequency"], 
+                        float(self.specs[dds]["att"]))
             # if self.specs[dds][self.state]:
             #     self.ddss[dds].sw.on()
             # else:
