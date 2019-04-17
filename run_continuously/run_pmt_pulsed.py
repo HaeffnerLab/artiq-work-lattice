@@ -28,8 +28,8 @@ class pmt_collect_pulsed(EnvExperiment):
                 self.run_pmt()
                 #self.core.comm.close()
                 self.scheduler.pause()
-                self.core.comm.open()
-                self.core.comm.reset_session()
+                #self.core.comm.open()
+                #self.core.comm.reset_session()
             except (BrokenPipeError, ConnectionResetError) as e:
                 print("exception\n\n", e)
 
