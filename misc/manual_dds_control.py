@@ -6,6 +6,7 @@ class change_cw(EnvExperiment):
     def build(self):
         self.setattr_device("core")
         self.setattr_device("scheduler")
+        self.specs = {}
         self.specs = self.get_argument("specs", PYONValue())
         print("\n\n", self.specs, "\n\n")
         # self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz"))
