@@ -186,9 +186,9 @@ class scanTest(EnvExperiment):
     
     @kernel
     def reset_cw_settings(self, dds_list, freq_list, amp_list, state_list, att_list):
-        for i in range(len(dds_list)):
-            self.core.break_realtime()
-            with parallel:
+        self.core.break_realtime()
+        with parallel:
+            for i in range(len(dds_list)):
                 dds_list[i].init()
                 dds_list[i].set(freq_list[i], amplitude=amp_list[i])
                 dds_list[i].set_att(att_list[i]*dB)
