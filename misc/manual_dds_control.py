@@ -1,11 +1,19 @@
 from artiq import *
 from artiq.language import *
+from artiq.protocols import pyon
 
 class change_cw(EnvExperiment):
 
     def build(self):
         self.setattr_device("core")
         self.setattr_device("scheduler")
+
+        self.specs = pyon.decode(self.get_argument("specs", PYONValue()))
+        for key, val in self.specs.items():
+            print(key, "\n")
+            for i,j in val.items():
+                print(i, " ", j)
+
         self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz"))
         self.amplitude = self.get_argument("amplitude", NumberValue(30, unit="dB"))
         self.state = self.get_argument("state", BooleanValue())
@@ -13,6 +21,7 @@ class change_cw(EnvExperiment):
         dds_name = self.get_argument("dds_name", StringValue("397"))
         self.dds = self.get_device(dds_name)
         self.cpld = self.get_device("urukul{}_cpld".format(urukul_number))
+
 
     def prepare(self):
         self.archive = False
@@ -22,8 +31,7 @@ class change_cw(EnvExperiment):
         if self.scheduler.check_pause():
             return
         self.core.reset()
-        # self.core.break_realtime()
-        self.cpld.init(blind=False)
+        self.cpld.init()
         self.dds.init()
         if self.state:
             self.dds.sw.on()
