@@ -6,9 +6,7 @@ class change_cw(EnvExperiment):
     def build(self):
         self.setattr_device("core")
         self.setattr_device("scheduler")
-        self.specs = {}
         self.specs = self.get_argument("specs", PYONValue())
-        print("\n\n", self.specs, "\n\n")
         # self.frequency = self.get_argument("frequency", NumberValue(80, unit="MHz"))
         # self.amplitude = self.get_argument("amplitude", NumberValue(30, unit="dB"))
         # self.state = self.get_argument("state", BooleanValue())
@@ -16,11 +14,13 @@ class change_cw(EnvExperiment):
         # dds_name = self.get_argument("dds_name", StringValue("397"))
         # self.ddss = {dds_name: self.get_device(dds_name) for dds_name in self.specs.keys()}
         self.ddss = dict()
-        for name in self.specs.keys():
-            self.setattr_device(name)
-            self.ddss[name] = self.get_device(name)
-        self.cplds = [self.get_device("urukul{}_cpld".format(i)) for i in range(2)]
-
+        try:
+            for name in self.specs.keys():
+                self.setattr_device(name)
+                self.ddss[name] = self.get_device(name)
+            self.cplds = [self.get_device("urukul{}_cpld".format(i)) for i in range(2)]
+        except:
+            self.cplds = []
 
     def prepare(self):
         self.archive = False
