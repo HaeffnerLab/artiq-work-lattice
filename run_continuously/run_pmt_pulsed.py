@@ -33,7 +33,7 @@ class pmt_collect_pulsed(EnvExperiment):
             except ConnectionResetError as e:
                 print("exception\n\n", e)
                 #self.core.reset()
-                #self.core.comm.open()
+                self.core.comm.open()
                 continue
                 #self.core.reset()
                 #self.core.comm.open()
