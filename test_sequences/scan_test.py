@@ -64,11 +64,18 @@ class scanTest(EnvExperiment):
         #--------------grab cw parameters ----------------------------------------
         # Because parameters are grabbed in prepare stage, loaded dds cw parameters
         # may not be the most current.
-        self.cw_dds_params = list()
+        self.dds_list = list()
+        self.freq_list = list()
+        self.amp_list = list()
+        self.att_list = list()
+        self.state_list = list()
+
         for key, settings in self.p.dds_cw_parameters.items():
-            self.cw_dds_params.append([getattr(self, "dds_" + key),
-                                       float(settings[1][1]) * 1e6, float(settings[1][1]), 
-                                       bool(float(settings[1][1])), float(settings[1][1])])
+            self.dds_list.append(getattr(self, "dds_" + key))
+            self.freq_list.append(float(settings[1][1]) * 1e6)
+            self.amp_list.append(float(settings[1][1]))
+            self.att_list.append(float(settings[1][1]))
+            self.state_list.append(bool(float(settings[1][1]))
 
         #------------ try to make rcg/hist connection -----------------------------
         try:
@@ -144,7 +151,8 @@ class scanTest(EnvExperiment):
             self.save_result("yfull2", self.yfull2[-rem:])
             time.sleep(0.5)
 
-        self.reset_cw_settings()
+        self.reset_cw_settings(self.dds_list, self.freq_list, 
+                               self.amp_list, self.state_list, self.att_list)
             
     @rpc(flags={"async"})
     def send_to_rcg(self, x, y, name):
@@ -177,17 +185,17 @@ class scanTest(EnvExperiment):
             return
     
     @kernel
-    def reset_cw_settings(self):
-        for item in self.cw_dds_params:
+    def reset_cw_settings(self, dds_list, freq_list, amp_list, state_list, att_list):
+        for i in range(len(dds_list)):
             self.core.break_realtime()
             with parallel:
-                item[0].init()
-                item[0].set(item[1], amplitude=item[2])
-                item[0].set_att(item[3]*dB)
-                if item[4]:
-                    item[0].sw.on()
+                dds_list[i].init()
+                dds_list[i].set(freq_list[i], amplitude=amp_list[i])
+                dds_list[i].set_att(att_list[i]*dB)
+                if state_list[i]:
+                    dds_list[i].sw.on()
                 else:
-                    item[0].sw.off()
+                    dds_list[i].sw.off()
     
     @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):
