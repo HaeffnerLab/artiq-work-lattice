@@ -48,4 +48,3 @@ class change_cw(EnvExperiment):
                     self.dds_list[i].sw.on()
                 else:
                     self.dds_list[i].sw.off()
-        self.core.reset()

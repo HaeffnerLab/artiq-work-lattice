@@ -38,7 +38,8 @@ class pmt_collect_pulsed(EnvExperiment):
 
     @kernel
     def run_pmt(self):
-        self.core.break_realtime()
+        #self.core.break_realtime()
+        self.core.reset()
         self.cpld.init()
         self.dds_866.init()
         self.dds_866.sw.on()
