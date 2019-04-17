@@ -86,6 +86,6 @@ class change_cw(EnvExperiment):
         self.core.break_realtime()
         for cpld in self.cplds:
             cpld.init()
-        # for dds in self.ddss.values():
-        #     dds.init()
+        for dds in self.ddss.values():
+            dds.init()
 
