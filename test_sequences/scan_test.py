@@ -64,11 +64,11 @@ class scanTest(EnvExperiment):
         #--------------grab cw parameters ----------------------------------------
         # Because parameters are grabbed in prepare stage, loaded dds cw parameters
         # may not be the most current.
-        self.cw_dds_params = dict()
+        self.cw_dds_params = list()
         for key, settings in self.p.dds_cw_parameters.items():
-            self.cw_dds_params[key] = [getattr(self, "dds_" + key),
+            self.cw_dds_params.append([getattr(self, "dds_" + key),
                                        float(settings[1][1]) * 1e6, float(settings[1][1]), 
-                                       bool(float(settings[1][1])), float(settings[1][1])]
+                                       bool(float(settings[1][1])), float(settings[1][1])])
 
         #------------ try to make rcg/hist connection -----------------------------
         try:
@@ -173,6 +173,19 @@ class scanTest(EnvExperiment):
                           file_=os.path.join(os.getcwd(), self.filename))
         except:
             return
+    
+    @kernel
+    def reset_cw_settings(self):
+        for item in self.cw_dds_params:
+            self.core.break_realtime()
+            with parallel:
+                item[0].init()
+                item[0].set(item[1], amplitude=item[2])
+                item[0].set_att(item[3]*dB)
+                if item[4]:
+                    item[0].sw.on()
+                else:
+                    item[0].sw.off()
     
     @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):
