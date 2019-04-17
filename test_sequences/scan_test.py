@@ -149,7 +149,6 @@ class scanTest(EnvExperiment):
             self.save_result("x", self.get_dataset("x")[-rem:], xdata=True)
             self.save_result("yfull1", self.yfull1[-rem:])
             self.save_result("yfull2", self.yfull2[-rem:])
-            time.sleep(0.5)
 
         # self.reset_cw_settings(self.dds_list, self.freq_list, 
         #                        self.amp_list, self.state_list, self.att_list)
