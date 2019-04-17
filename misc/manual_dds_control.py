@@ -32,7 +32,8 @@ class change_cw(EnvExperiment):
 
     @kernel
     def run(self):
-        self.core.reset()
+        #self.core.reset()
+        self.core.break_realtime()
         for cpld in self.cpld_list:
             cpld.init()
         if self.scheduler.check_pause():
@@ -41,7 +42,7 @@ class change_cw(EnvExperiment):
         with parallel:
             for i in range(len(self.dds_list)):
                 self.dds_list[i].init()
-                self.dds_list[i].set(self.freq_list[i], 
+                self.dds_list[i].set(self.freq_list[i],
                                      amplitude=self.amp_list[i])
                 self.dds_list[i].set_att(self.att_list[i]*dB)
                 if self.state_list[i]:
