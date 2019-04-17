@@ -21,6 +21,7 @@ class change_cw(EnvExperiment):
             self.cplds = [self.get_device("urukul{}_cpld".format(i)) for i in range(2)]
         except AttributeError:
             self.cplds = []
+        print(self.ddss)
 
     def prepare(self):
         self.archive = False
