@@ -27,8 +27,8 @@ class change_cw(EnvExperiment):
         if self.scheduler.check_pause():
             return
         self.core.reset()
-        for cpld in self.cplds:
-            cpld.init()
+        # for cpld in self.cplds:
+            # cpld.init()
         for dds in self.ddss.values():
             dds.init()
         for dds in self.ddss.keys():
