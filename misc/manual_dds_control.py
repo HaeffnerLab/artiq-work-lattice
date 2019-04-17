@@ -22,6 +22,8 @@ class change_cw(EnvExperiment):
         except AttributeError:
             self.cplds = []
         print(self.ddss)
+        self.cpld = self.get_device("urukul0_cpld")
+        self.dds = self.get_device("397")
 
     def prepare(self):
         self.archive = False
@@ -32,7 +34,7 @@ class change_cw(EnvExperiment):
         self.core.reset()
         # self.core.break_realtime()
         for dds in list(self.ddss.values())[0:1]:
-            self.core.break_realtime()
+            # self.core.break_realtime()
             self.init_dds(dds)
         for dds in list(self.ddss.keys())[0:1]:
             self.set_dds(self.ddss[dds], 
@@ -81,7 +83,7 @@ class change_cw(EnvExperiment):
     @kernel
     def set_dds(self, dds, state, frequency, att):
         dds.set(frequency)
-        dds.set_att(att)
+        dds.set_att(att*dB)
         if state:
             dds.sw.on()
         else:
