@@ -38,6 +38,7 @@ class change_cw(EnvExperiment):
         self.core.reset()
         if self.scheduler.check_pause():
             return
+        self.core.break_realtime()
         with parallel:
             for i in range(len(self.dds_list)):
                 self.dds_list[i].init()
