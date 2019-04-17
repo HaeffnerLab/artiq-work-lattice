@@ -28,10 +28,8 @@ class change_cw(EnvExperiment):
     def run(self):
         if self.scheduler.check_pause():
             return
-        # self.core.reset()
-        self.core.break_realtime()
-        for cpld in self.cplds:
-            self.init_cpld(cpld)
+        self.core.reset()
+        # self.core.break_realtime()
         for dds in self.ddss.values():
             self.init_dds(dds)
         for dds in list(self.ddss.keys())[0:1]:
