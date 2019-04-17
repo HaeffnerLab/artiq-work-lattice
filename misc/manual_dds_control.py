@@ -83,6 +83,7 @@ class change_cw(EnvExperiment):
 
     @kernel
     def dds_init(self):
+        self.core.break_realtime()
         self.cplds[0].init()
         # for cpld in self.cplds:
         #     cpld.init()
