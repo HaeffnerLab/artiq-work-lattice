@@ -24,6 +24,7 @@ class pmt_collect_pulsed(EnvExperiment):
         self.set_dataset("pulsed", [True], broadcast=True)
         while True:
             try:
+                print('here')
                 self.run_pmt()
                 #self.core.comm.close()
                 self.scheduler.pause()
