@@ -23,6 +23,7 @@ class scanTest(EnvExperiment):
             if isinstance(val, dict) and "class" in val:
                 if val["class"] == "AD9910" or val["class"] == "AD9912":
                     setattr(self, "dds_" + key, self.get_device(key))
+        self.cpld_list = [self.get_device("urukul{}_cpld".format(i) for i in range(3)]
 
     def prepare(self):
 
@@ -185,7 +186,9 @@ class scanTest(EnvExperiment):
 
     @kernel
     def reset_cw_settings(self, dds_list, freq_list, amp_list, state_list, att_list):
-        self.core.break_realtime()
+        self.core.reset()
+        for cpld in self.cpld_list:
+            cpld.init()
         with parallel:
             for i in range(len(dds_list)):
                 dds_list[i].init()
