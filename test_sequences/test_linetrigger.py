@@ -14,7 +14,7 @@ class test_line_trigger(EnvExperiment):
     def run(self):
         self.core.reset()
         while True:
-            self.core.break_realtime()
+            #self.core.break_realtime()
             try:
                 self.LTriggerIN.watch_stay_off()
             finally:
