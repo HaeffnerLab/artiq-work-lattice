@@ -24,21 +24,9 @@ class pmt_collect_pulsed(EnvExperiment):
         self.set_dataset("pulsed", [True], broadcast=True)
         while True:
             try:
-                print('here')
                 self.run_pmt()
-                #self.core.comm.close()
+                self.core.comm.close()
                 self.scheduler.pause()
-                #self.core.comm.open()
-                #self.core.comm.reset_session()
-            except ConnectionResetError as e:
-                print("exception\n\n", e)
-                #self.core.reset()
-                self.core.comm.reset_session()
-                self.core.comm.open()
-                continue
-                #self.core.reset()
-                #self.core.comm.open()
-
             except TerminationRequested:
                 break
 
