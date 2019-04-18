@@ -19,7 +19,7 @@ class test_line_trigger(EnvExperiment):
             try:
                 t_count = self.LTriggerIN.gate_rising(16*ms)
                 mu_time = self.LTriggerIN.timestamp_mu(t_count)
-                at_mu(mu_time + self.core.seconds_to_mu(100*us))
+                at_mu(mu_time + self.core.seconds_to_mu(1000*us))
                 time = self.core.mu_to_seconds(mu_time) - start
                 if time > 0:
                     self.record_result(time)
