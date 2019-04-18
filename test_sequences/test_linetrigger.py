@@ -25,5 +25,7 @@ class test_line_trigger(EnvExperiment):
             #self.LTriggerIN.watch_done()
 
     @rpc(flags={"async"})
-    def record_result(x):
+    def record_result(x, y):
+        print(x)
+        print(y)
         self.append_to_dataset("pmt_counts", x)
