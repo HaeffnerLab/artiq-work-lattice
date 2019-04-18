@@ -19,8 +19,9 @@ class test_line_trigger(EnvExperiment):
             try:
                 t_count = self.LTriggerIN.gate_rising(16*ms)
                 mu_time = self.LTriggerIN.timestamp_mu(t_count)
-                time = self.core.mu_to_seconds(mu_time)
-                self.record_result(time-start)
+                time = self.core.mu_to_seconds(mu_time) - start
+                if time > 0:
+                    self.record_result(time)
             except RTIOUnderflow:
                 self.core.break_realtime()
         #while True:
