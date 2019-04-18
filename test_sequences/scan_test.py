@@ -75,7 +75,7 @@ class scanTest(EnvExperiment):
             self.freq_list.append(float(settings[1][0]) * 1e6)
             self.amp_list.append(float(settings[1][1]))
             self.att_list.append(float(settings[1][3]))
-            self.state_list.append(False)#bool(float(settings[1][2])))
+            self.state_list.append(bool(float(settings[1][2])))
         print(self.dds_list)
         print(self.freq_list)
         print(self.amp_list)
