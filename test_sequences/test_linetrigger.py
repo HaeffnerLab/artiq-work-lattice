@@ -14,7 +14,7 @@ class test_line_trigger(EnvExperiment):
     @kernel
     def run(self):
         self.core.reset()
-        start = self.mu_to_seconds(self.core.get_rtio_counter_mu())
+        start = self.core.mu_to_seconds(self.core.get_rtio_counter_mu())
         while True:
             try:
                 t_count = self.LTriggerIN.gate_rising(16*ms)
