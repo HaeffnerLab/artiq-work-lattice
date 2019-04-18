@@ -17,6 +17,7 @@ class scanTest(EnvExperiment):
     def build(self):
         self.setattr_device("core")
         self.setattr_device("scheduler")
+        self.setattr_device("LTriggerIN")
         self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 1, 100)))
         #-------------- get initial states of all DDSs ---------------------
         for key, val in self.get_device_db().items():
