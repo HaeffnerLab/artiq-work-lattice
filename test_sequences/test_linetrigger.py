@@ -17,7 +17,7 @@ class test_line_trigger(EnvExperiment):
             self.core.break_realtime()
             try:
                 for _ in range(60):
-                    delay(100*us)
+                    delay(10*us)
                     self.LTriggerIN.watch_stay_on()
             finally:
                 self.core.break_realtime()
