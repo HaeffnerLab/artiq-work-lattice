@@ -14,12 +14,13 @@ class test_line_trigger(EnvExperiment):
     @kernel
     def run(self):
         self.core.reset()
+        start = self.mu_to_seconds(self.core.get_rtio_counter_mu())
         while True:
             try:
                 t_count = self.LTriggerIN.gate_rising(16*ms)
                 mu_time = self.LTriggerIN.timestamp_mu(t_count)
                 time = self.core.mu_to_seconds(mu_time)
-                self.record_result(time)
+                self.record_result(time-start)
             except RTIOUnderflow:
                 self.core.break_realtime()
         #while True:
