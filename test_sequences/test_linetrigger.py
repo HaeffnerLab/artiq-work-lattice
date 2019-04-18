@@ -17,7 +17,14 @@ class test_line_trigger(EnvExperiment):
             self.core.break_realtime()
             self.LTriggerIN.sample_input()
             result = self.LTriggerIN.sample_get()
-            self.record_result(result)
+            if result == 1:
+                break
+        while True:
+            self.core.break_realtime()
+            self.LTriggerIN.sample_input()
+            result = self.LTriggerIN.sample_get()
+            if result == 0:
+                break
 
     @rpc(flags={"async"})
     def record_result(self, x):
