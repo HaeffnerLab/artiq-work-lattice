@@ -22,7 +22,7 @@ class test_line_trigger(EnvExperiment):
                 time = self.core.mu_to_seconds(mu_time) - start
                 if time > 0:
                     self.record_result(time)
-                delay(1*ms)
+                delay(1*us)
             except RTIOUnderflow:
                 self.record_result(9999)
                 self.core.break_realtime()
