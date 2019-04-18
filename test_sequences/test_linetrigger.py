@@ -23,6 +23,7 @@ class test_line_trigger(EnvExperiment):
                 if time > 0:
                     self.record_result(time)
             except RTIOUnderflow:
+                self.record_result(9999)
                 self.core.break_realtime()
         #while True:
         #    while True:
