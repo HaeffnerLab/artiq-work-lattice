@@ -33,8 +33,8 @@ class change_cw(EnvExperiment):
     @kernel
     def run(self):
         #self.core.reset()
-        for cpld in self.cpld_list:
-            cpld.init()
+        #for cpld in self.cpld_list:
+        #    cpld.init()
         if self.scheduler.check_pause():
             return
         self.core.break_realtime()
