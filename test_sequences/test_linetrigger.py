@@ -15,10 +15,13 @@ class test_line_trigger(EnvExperiment):
     def run(self):
         self.core.reset()
         while True:
-            t_count = self.LTriggerIN.gate_rising(16*ms)
-            mu_time = self.LTriggerIN.timestamp_mu(t_count)
-            time = self.core.mu_to_seconds(mu_time)
-            self.record_result(time)
+            try:
+                t_count = self.LTriggerIN.gate_rising(16*ms)
+                mu_time = self.LTriggerIN.timestamp_mu(t_count)
+                time = self.core.mu_to_seconds(mu_time)
+                self.record_result(time)
+            except RTIOUnderflow:
+                self.core.break_realtime()
         #while True:
         #    while True:
         #        try:
