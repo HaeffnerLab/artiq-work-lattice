@@ -24,10 +24,8 @@ class scanTest(EnvExperiment):
                 if val["class"] == "AD9910" or val["class"] == "AD9912":
                     setattr(self, "dds_" + key, self.get_device(key))
         self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(3)]
-        print("butts\n\n\n")
 
     def prepare(self):
-
         # ------------   Grab parametervault params -------------------------------
         cxn = labrad.connect()
         p = cxn.parametervault
@@ -77,7 +75,7 @@ class scanTest(EnvExperiment):
             self.freq_list.append(float(settings[1][1]) * 1e6)
             self.amp_list.append(float(settings[1][1]))
             self.att_list.append(float(settings[1][1]))
-            self.state_list.append(False)#bool(float(settings[1][1])))
+            self.state_list.append(bool(float(settings[1][1])))
 
         #------------ try to make rcg/hist connection -----------------------------
         try:
