@@ -76,7 +76,11 @@ class scanTest(EnvExperiment):
             self.amp_list.append(float(settings[1][1]))
             self.att_list.append(float(settings[1][1]))
             self.state_list.append(bool(float(settings[1][1])))
-
+        print(self.dds_list)
+        print(self.freq_list)
+        print(self.amp_list)
+        print(self.att_list)
+        print(self.state_list)
         #------------ try to make rcg/hist connection -----------------------------
         try:
             self.rcg = Client("::1", 3286, "rcg")
