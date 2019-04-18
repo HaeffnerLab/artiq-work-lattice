@@ -124,6 +124,8 @@ class scanTest(EnvExperiment):
 
 
     def run(self):
+        if self.p.line_trigger_settings.enabled:
+            self.line_trigger(float(self.p.line_trigger_settings.offset_duration))
         for i, step in enumerate(self.scan):
             for j in range(self.N):
                 xval = step
@@ -199,10 +201,10 @@ class scanTest(EnvExperiment):
                     dds_list[i].sw.off()
     
     @kernel
-    def line_trigger(self, duration):
+    def line_trigger(self, offset):
         t_gate = self.LTriggerIN.get_rising(16*ms)
         trigger_time = self.LTriggerIN.timestamp_mu(t_gate)
-        
+        at_mu(trigger_time + self.core.seconds_to_mu((16 + offset)*ms))
 
     @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):
