@@ -1,6 +1,6 @@
 from artiq import *
 from artiq.language import *
-from artiq.coredevice.exceptions import RTIOUnderflow
+from artiq.experiment import *
 
 class test_line_trigger(EnvExperiment):
 
