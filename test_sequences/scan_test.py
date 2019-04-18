@@ -197,6 +197,12 @@ class scanTest(EnvExperiment):
                     dds_list[i].sw.on()
                 else:
                     dds_list[i].sw.off()
+    
+    @kernel
+    def line_trigger(self, duration):
+        t_gate = self.LTriggerIN.get_rising(16*ms)
+        trigger_time = self.LTriggerIN.timestamp_mu(t_gate)
+        
 
     @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):

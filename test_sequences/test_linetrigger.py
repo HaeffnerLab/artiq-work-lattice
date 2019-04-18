@@ -10,6 +10,7 @@ class test_line_trigger(EnvExperiment):
 
     def prepare(self):
         self.set_dataset("pmt_counts", [], broadcast=True)
+        self.delay = self.core.seconds_to_mu(200*us)
 
     @kernel
     def run(self):
@@ -22,7 +23,8 @@ class test_line_trigger(EnvExperiment):
                 time = self.core.mu_to_seconds(mu_time) - start - 100*us
                 if time > 0:
                     self.record_result(time)
-                delay(100*us)
+                #delay(100*us)
+                at_mu(mu_time + self.delay)
             except RTIOUnderflow:
                 self.record_result(9999)
                 self.core.break_realtime()
