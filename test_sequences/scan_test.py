@@ -206,6 +206,7 @@ class scanTest(EnvExperiment):
     
     @kernel
     def line_trigger(self, offset):
+        self.core.reset()
         t_gate = self.LTriggerIN.gate_rising(16*ms)
         trigger_time = self.LTriggerIN.timestamp_mu(t_gate)
         at_mu(trigger_time)
