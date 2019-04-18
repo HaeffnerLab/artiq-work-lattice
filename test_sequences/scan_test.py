@@ -23,7 +23,7 @@ class scanTest(EnvExperiment):
             if isinstance(val, dict) and "class" in val:
                 if val["class"] == "AD9910" or val["class"] == "AD9912":
                     setattr(self, "dds_" + key, self.get_device(key))
-        self.cpld_list = [self.get_device("urukul{}_cpld".format(i) for i in range(3)]
+        self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(3)]
 
     def prepare(self):
 
