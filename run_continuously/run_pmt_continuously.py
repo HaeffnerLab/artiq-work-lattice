@@ -32,6 +32,7 @@ class pmt_collect_continuously(EnvExperiment):
                 self.core.comm.open()
                 print("5")
             except TerminationRequested:
+                print("999")
                 break
 
     @kernel
