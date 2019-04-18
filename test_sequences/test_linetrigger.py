@@ -15,7 +15,7 @@ class test_line_trigger(EnvExperiment):
     def run(self):
         self.core.reset()
         start = self.core.mu_to_seconds(self.core.get_rtio_counter_mu())
-        while True:
+        for i in range(100):
             try:
                 t_count = self.LTriggerIN.gate_rising(16*ms)
                 mu_time = self.LTriggerIN.timestamp_mu(t_count)
