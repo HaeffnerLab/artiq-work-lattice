@@ -16,8 +16,7 @@ class test_line_trigger(EnvExperiment):
         while True:
             self.core.break_realtime()
             try:
-                while self.LTriggerIN.watch_stay_on():
-                    continue
+                self.LTriggerIN.watch_stay_on()
             finally:
                 self.core.break_realtime()
                 self.LTriggerIN.watch_done()
