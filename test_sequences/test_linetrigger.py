@@ -24,11 +24,14 @@ class test_line_trigger(EnvExperiment):
                 delay(1*us)
                 continue
         while True:
-            self.core.break_realtime()
-            self.LTriggerIN.sample_input()
-            result = self.LTriggerIN.sample_get()
-            if result == 0:
-                break
+            try:
+                self.LTriggerIN.sample_input()
+                result = self.LTriggerIN.sample_get()
+                if result == 0:
+                    break
+            except RTIOUnderflow:
+                delay(1*us)
+                continue
 
     @rpc(flags={"async"})
     def record_result(self, x):
