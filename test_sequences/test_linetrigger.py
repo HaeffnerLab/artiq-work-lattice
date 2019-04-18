@@ -15,23 +15,25 @@ class test_line_trigger(EnvExperiment):
     def run(self):
         self.core.reset()
         while True:
-            try:
-                self.LTriggerIN.sample_input()
-                result = self.LTriggerIN.sample_get()
-                if result == 1:
-                    break
-            except RTIOUnderflow:
-                self.core.break_realtime()
-                continue
-        while True:
-            try:
-                self.LTriggerIN.sample_input()
-                result = self.LTriggerIN.sample_get()
-                if result == 0:
-                    break
-            except RTIOUnderflow:
-                self.core.break_realtime()
-                continue
+            while True:
+                try:
+                    self.LTriggerIN.sample_input()
+                    result = self.LTriggerIN.sample_get()
+                    if result == 1:
+                        break
+                except RTIOUnderflow:
+                    self.core.break_realtime()
+                    continue
+            while True:
+                try:
+                    self.LTriggerIN.sample_input()
+                    result = self.LTriggerIN.sample_get()
+                    if result == 0:
+                        self.record_result(0)
+                        break
+                except RTIOUnderflow:
+                    self.core.break_realtime()
+                    continue
 
     @rpc(flags={"async"})
     def record_result(self, x):
