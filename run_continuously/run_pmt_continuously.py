@@ -22,10 +22,15 @@ class pmt_collect_continuously(EnvExperiment):
         self.set_dataset("pulsed", [False], broadcast=True)
         while True:
             try:
+                print("1")
                 self.run_pmt()
+                print("2")
                 self.core.comm.close()
+                print("3")
                 self.scheduler.pause()
+                print("4")
                 self.core.comm.open()
+                print("5")
             except TerminationRequested:
                 break
 
