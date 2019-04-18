@@ -208,7 +208,7 @@ class scanTest(EnvExperiment):
     def line_trigger(self, offset):
         t_gate = self.LTriggerIN.gate_rising(16*ms)
         trigger_time = self.LTriggerIN.timestamp_mu(t_gate)
-        at_mu(trigger_time)
+        core.at_mu(trigger_time)
 
     @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):
