@@ -1,4 +1,4 @@
-from artiq.language import core, scan
+from artiq.language import *
 from artiq.experiment import *
 from easydict import EasyDict as edict
 # from subsequences.state_readout
@@ -208,7 +208,7 @@ class scanTest(EnvExperiment):
     def line_trigger(self, offset):
         t_gate = self.LTriggerIN.gate_rising(16*ms)
         trigger_time = self.LTriggerIN.timestamp_mu(t_gate)
-        core.at_mu(trigger_time)
+        at_mu(trigger_time)
 
     @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):
