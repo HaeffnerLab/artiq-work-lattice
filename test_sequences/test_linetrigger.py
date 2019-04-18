@@ -13,13 +13,16 @@ class test_line_trigger(EnvExperiment):
     @kernel
     def run(self):
         self.core.reset()
-        self.LTriggerIN.watch_stay_on()
         while True:
             self.core.break_realtime()
             try:
-                if self.LTriggerIN.watch_stay_on():
-                    self.append_to_dataset("pmt_counts", 1)
+                self.LTriggerIN.sample_input()
+                self.record_result(self.LTriggerIN.sample_get())
             finally:
                 self.core.break_realtime()
                 self.LTriggerIN.watch_done()
             #self.LTriggerIN.watch_done()
+
+    @rpc(flags={"async"})
+    def record_result(x):
+        self.append_to_dataset("pmt_counts", x)
