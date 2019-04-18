@@ -13,7 +13,7 @@ class test_line_trigger(EnvExperiment):
     @kernel
     def run(self):
         self.core.reset()
-        while True:
+        while True:a
             self.core.break_realtime()
             try:
                 for _ in range(60):
