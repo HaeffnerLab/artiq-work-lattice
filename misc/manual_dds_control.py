@@ -5,7 +5,7 @@ class change_cw(EnvExperiment):
 
     def build(self):
         self.setattr_device("core")
-        self.setattr_device("scheduler")
+        #self.setattr_device("scheduler")
         self.specs = self.get_argument("specs", PYONValue())
         self.dds_dict = dict()
         try:
@@ -35,8 +35,6 @@ class change_cw(EnvExperiment):
         #self.core.reset()
         #for cpld in self.cpld_list:
         #    cpld.init()
-        if self.scheduler.check_pause():
-            return
         self.core.break_realtime()
         with parallel:
             for i in range(len(self.dds_list)):
