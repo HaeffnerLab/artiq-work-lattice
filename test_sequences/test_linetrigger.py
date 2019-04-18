@@ -16,7 +16,7 @@ class test_line_trigger(EnvExperiment):
         while True:
             self.core.break_realtime()
             try:
-                self.LTriggerIN.watch_stay_on():
+                self.LTriggerIN.watch_stay_on()
             finally:
                 self.LTriggerIN.watch_done()
             #self.append_to_dataset("pmt_counts", 1)
