@@ -130,7 +130,7 @@ class scanTest(EnvExperiment):
             offset = float(self.p.line_trigger_settings.offset_duration)
             print(offset)
             offset = self.core.seconds_to_mu((16 + offset)*ms)
-            self.line_trigger()
+            self.line_trigger(offset)
         for i, step in enumerate(self.scan):
             for j in range(self.N):
                 xval = step
