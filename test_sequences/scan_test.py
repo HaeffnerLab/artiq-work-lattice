@@ -1,4 +1,4 @@
-from artiq.language import *
+from artiq.language import scan
 from artiq.experiment import *
 from easydict import EasyDict as edict
 # from subsequences.state_readout
