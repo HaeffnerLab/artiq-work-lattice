@@ -20,15 +20,7 @@ class test_line_trigger(EnvExperiment):
             if result != 1:
                 continue
             else:
-                while True:
-                    delay(5*us)
-                    self.LTriggerIN.sample_input()
-                    result = self.LTriggerIN.sample_get()
-                    if result != 0:
-                        continue
-                    else:
-                        self.record_result(result)
-                        break
+                self.record_result(1)
 
     @rpc(flags={"async"})
     def record_result(self, x):
