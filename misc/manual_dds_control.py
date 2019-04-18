@@ -32,13 +32,13 @@ class change_cw(EnvExperiment):
 
     @kernel
     def run(self):
-        #self.core.reset()
-        #for cpld in self.cpld_list:
-        #    cpld.init()
+        self.core.reset()
+        for cpld in self.cpld_list:
+            cpld.init()
         self.core.break_realtime()
         with parallel:
             for i in range(len(self.dds_list)):
-                #self.dds_list[i].init()
+                self.dds_list[i].init()
                 self.dds_list[i].set(self.freq_list[i],
                                      amplitude=self.amp_list[i])
                 self.dds_list[i].set_att(self.att_list[i]*dB)
