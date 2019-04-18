@@ -124,6 +124,7 @@ class scanTest(EnvExperiment):
 
 
     def run(self):
+        self.core.reset()
         for i, step in enumerate(self.scan):
             for j in range(self.N):
                 xval = step
