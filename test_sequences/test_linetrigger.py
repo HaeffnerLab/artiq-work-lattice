@@ -21,6 +21,7 @@ class test_line_trigger(EnvExperiment):
                 if result == 1:
                     break
             except RTIOUnderflow:
+                delay(1*us)
                 continue
         while True:
             self.core.break_realtime()
