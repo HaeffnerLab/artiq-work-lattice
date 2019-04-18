@@ -14,7 +14,7 @@ class test_line_trigger(EnvExperiment):
     def run(self):
         self.core.reset()
         while True:
-            delay(5*us)
+            self.core.break_realtime()
             self.LTriggerIN.sample_input()
             result = self.LTriggerIN.sample_get()
             if result != 1:
