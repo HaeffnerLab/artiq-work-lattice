@@ -17,7 +17,8 @@ class test_line_trigger(EnvExperiment):
             self.core.break_realtime()
             try:
                 self.LTriggerIN.sample_input()
-                self.record_result(self.LTriggerIN.sample_get())
+                result = self.LTriggerIN.sample_get()
+                self.record_result(result)
             finally:
                 self.core.break_realtime()
                 self.LTriggerIN.watch_done()
