@@ -21,7 +21,7 @@ class test_line_trigger(EnvExperiment):
                 if result == 1:
                     break
             except RTIOUnderflow:
-                delay(1*us)
+                self.core.break_realtime()
                 continue
         while True:
             try:
@@ -30,7 +30,7 @@ class test_line_trigger(EnvExperiment):
                 if result == 0:
                     break
             except RTIOUnderflow:
-                delay(1*us)
+                self.core.break_realtime()
                 continue
 
     @rpc(flags={"async"})
