@@ -15,7 +15,7 @@ class test_line_trigger(EnvExperiment):
     def run(self):
         self.core.reset()
         while True:
-            result = self.LTriggerIN.timestamp_mu(self.seconds_to_mu(16*ms))
+            result = self.LTriggerIN.timestamp_mu(self.core.seconds_to_mu(16*ms))
             self.record_result(result)
         #while True:
         #    while True:
