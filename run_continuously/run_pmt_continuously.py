@@ -29,7 +29,7 @@ class pmt_collect_continuously(EnvExperiment):
                 print("3")
                 self.scheduler.pause()
                 print("4")
-                self.core.comm.open()
+                #self.core.comm.open()
                 print("5")
             except TerminationRequested:
                 print("999")
