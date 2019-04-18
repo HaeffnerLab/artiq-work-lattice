@@ -125,6 +125,7 @@ class scanTest(EnvExperiment):
 
 
     def run(self):
+        self.core.reset()
         if self.p.line_trigger_settings.enabled:
             self.line_trigger(float(self.p.line_trigger_settings.offset_duration))
         for i, step in enumerate(self.scan):
