@@ -13,5 +13,5 @@ class test_line_trigger(EnvExperiment):
     @kernel
     def run(self):
         while True:
-            self.append_to_dataset("pmt_counts", self.LTriggerIN.watch_stay_on())
+            self.append_to_dataset("pmt_counts", self.LTriggerIN.watch_stay_off())
             #self.LTriggerIN.watch_done()
