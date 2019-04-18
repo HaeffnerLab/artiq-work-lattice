@@ -10,7 +10,7 @@ class test_line_trigger(EnvExperiment):
 
     def prepare(self):
         self.set_dataset("pmt_counts", [], broadcast=True)
-        self.delay = self.core.seconds_to_mu(10*ms)
+        self.delay = self.core.seconds_to_mu(1*ms)
 
     @kernel
     def run(self):
