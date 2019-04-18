@@ -125,7 +125,6 @@ class scanTest(EnvExperiment):
 
 
     def run(self):
-        self.core.break_realtime()
         if self.p.line_trigger_settings.enabled:
             offset = float(self.p.line_trigger_settings.offset_duration)
             print(offset)
