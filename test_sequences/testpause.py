@@ -2,7 +2,7 @@ from artiq import *
 from artiq.experiment import *
 
 class testpause(EnvExperiment):
-    
+
     def build(self):
         self.setattr_device("core")
         self.setattr_device("scheduler")
@@ -20,5 +20,5 @@ class testpause(EnvExperiment):
         self.core.reset()
         self.core.break_realtime()
         self.led0.on()
-        delay(10*s)
+        delay(1*s)
         self.led0.off()
