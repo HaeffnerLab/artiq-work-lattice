@@ -14,13 +14,14 @@ class test_line_trigger(EnvExperiment):
     def run(self):
         self.core.reset()
         while True:
-            self.core.break_realtime()
+            delay(5*us)
             self.LTriggerIN.sample_input()
             result = self.LTriggerIN.sample_get()
             if result != 1:
                 continue
             else:
                 while True:
+                    delay(5*us)
                     self.LTriggerIN.sample_input()
                     result = self.LTriggerIN.sample_get()
                     if result != 0:
