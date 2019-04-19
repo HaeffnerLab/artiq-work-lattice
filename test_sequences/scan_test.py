@@ -19,7 +19,8 @@ class scanTest(EnvExperiment):
         self.setattr_device("scheduler")
         self.setattr_device("LTriggerIN")
         self.setattr_argument("scan", scan.Scannable(default=scan.RangeScan(0, 1, 100)))
-        #-------------- get initial states of all DDSs ---------------------
+        
+        # Load all AD9910 and AD9912 DDS channels specified in device_db:
         for key, val in self.get_device_db().items():
             if isinstance(val, dict) and "class" in val:
                 if val["class"] == "AD9910" or val["class"] == "AD9912":
@@ -27,7 +28,8 @@ class scanTest(EnvExperiment):
         self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(3)]
 
     def prepare(self):
-        # ------------   Grab parametervault params -------------------------------
+        
+        # Grab parametervault params:
         cxn = labrad.connect()
         p = cxn.parametervault
         collections = p.get_collections()
@@ -62,7 +64,7 @@ class scanTest(EnvExperiment):
         self.p = edict(D)
         cxn.disconnect()
 
-        #--------------grab cw parameters ----------------------------------------
+        # Grab cw parameters:
         # Because parameters are grabbed in prepare stage, loaded dds cw parameters
         # may not be the most current.
         self.dds_list = list()
@@ -78,7 +80,7 @@ class scanTest(EnvExperiment):
             self.att_list.append(float(settings[1][3]))
             self.state_list.append(bool(float(settings[1][2])))
        
-        #------------ try to make rcg/hist connection -----------------------------
+        # Try to make rcg/hist connection
         try:
             self.rcg = Client("::1", 3286, "rcg")
         except:
@@ -88,12 +90,11 @@ class scanTest(EnvExperiment):
         except:
             self.pmt_hist = None
 
-        #------------ make scan object ---------------------------------------
+        # Make scan object for repeating the experiment
         N = int(self.p.StateReadout.repeat_each_measurement)
         self.N = N
-        # self.repeat = scan.NoScan(0, N)
 
-        #------------- Create datasets ----------------------------------------
+        # Create datasets
         M = len(self.scan)
 
         self.set_dataset("x", np.full(M, np.nan), broadcast=True)
@@ -113,23 +114,24 @@ class scanTest(EnvExperiment):
             for col in range(N):
                 self.hist_counts[row][col] = np.random.normal(10, 5)
 
-        #-------------  tab for plotting -------------------------------
+        # Tab For Plotting
         self.RCG_TAB = "Rabi"
 
-        #------------------------------------------------------------------
+        # Setup for saving data
         self.timestamp = None
         self.dir = os.path.join(os.path.expanduser("~"), "data",
                                 datetime.now().strftime("%Y-%m-%d"), type(self).__name__)
         os.makedirs(self.dir, exist_ok=True)
         os.chdir(self.dir)
 
-
     def run(self):
-        offset = float(self.p.line_trigger_settings.offset_duration)
-        print(offset)
-        offset = self.core.seconds_to_mu((16 + offset)*ms)
         if self.p.line_trigger_settings.enabled:
+            offset = float(self.p.line_trigger_settings.offset_duration)
+            offset = self.core.seconds_to_mu((16 + offset)*ms)
             self.line_trigger(offset)
+        else:
+            self.core.reset()
+
         for i, step in enumerate(self.scan):
             for j in range(self.N):
                 xval = step
@@ -142,8 +144,8 @@ class scanTest(EnvExperiment):
             self.yfull1[i] = dp
             dp1 = sum(self.get_dataset("y2")[i] / self.N)
             self.yfull2[i] = dp1
-            self.send_to_rcg(self.get_dataset("x"), self.yfull1, "yfull1")
-            self.send_to_rcg(self.get_dataset("x"), self.yfull2, "yfull2")
+            self.save_and_send_to_rcg(self.get_dataset("x"), self.yfull1, "yfull1")
+            self.save_and_send_to_rcg(self.get_dataset("x"), self.yfull2, "yfull2")
             if (i + 1) % 5 == 0:
                 self.save_result("x", self.get_dataset("x")[i - 4:i + 1], xdata=True)
                 self.save_result("yfull1", self.yfull1[i - 4:i + 1])
@@ -160,7 +162,7 @@ class scanTest(EnvExperiment):
                                 self.amp_list, self.state_list, self.att_list)
 
     @rpc(flags={"async"})
-    def send_to_rcg(self, x, y, name):
+    def save_and_send_to_rcg(self, x, y, name):
         if self.timestamp is None:
             self.timestamp = datetime.now().strftime("%H%M_%S")
             self.filename = self.timestamp + ".h5"
@@ -190,7 +192,10 @@ class scanTest(EnvExperiment):
             return
 
     @kernel
-    def reset_cw_settings(self, dds_list, freq_list, amp_list, state_list, att_list):
+    def reset_cw_settings(self, dds_list, freq_list, amp_list, 
+                          state_list, att_list):
+        # Return the CW settings to what they were when prepare
+        # stage was run
         self.core.reset()
         for cpld in self.cpld_list:
             cpld.init()
@@ -206,10 +211,11 @@ class scanTest(EnvExperiment):
     
     @kernel
     def line_trigger(self, offset):
+        # Phase lock to mains
         self.core.reset()
         t_gate = self.LTriggerIN.gate_rising(16*ms)
         trigger_time = self.LTriggerIN.timestamp_mu(t_gate)
-        at_mu(trigger_time)
+        at_mu(trigger_time + offset)
 
     @rpc(flags={"async"})
     def record_result(self, dataset, idx, val):
@@ -234,6 +240,7 @@ class scanTest(EnvExperiment):
         self.pmt_hist.plot(data)
 
     def analyze(self):
+        # Is this necessary?
         try:
             self.rcg.close_rpc()
             self.pmt_hist.close_rpc()
