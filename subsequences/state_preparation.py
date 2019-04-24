@@ -1,4 +1,3 @@
-from artiq.subsequence import subsequence
 from artiq.experiment import *
 
 
