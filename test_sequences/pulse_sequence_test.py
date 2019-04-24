@@ -3,6 +3,7 @@ from artiq.pulse_sequence import PulseSequence
 from artiq.experiment import *
 
 class pstest(PulseSequence):
+    rcg_tab = "Rabi"
 
     @kernel
     def sequence(self):
