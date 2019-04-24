@@ -8,9 +8,13 @@ class pstest(PulseSequence):
     fixed_params = [("StateReadout", "pmt_readout_duration", 100*ms)]
     x_label = "frequency"
 
-    @kernel
+
     def sequence(self):
-        self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration", 1})
+        # self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration", 1})
+        self.foo()
+        
+    @kernel
+    def foo(self):    
         self.core.break_realtime()
         self.dds_729L1.sw.on()
         delay(1*ms)
