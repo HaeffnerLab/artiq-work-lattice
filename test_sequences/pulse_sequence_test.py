@@ -5,6 +5,7 @@ from artiq.experiment import *
 class pstest(PulseSequence):
     rcg_tab = "Rabi"
     show_params = ["StateReadout.pmt_readout_duration"]
+    fixed_params = ["StateReadout.pmt_readout_duration"]
     x_label = "frequency"
 
     @kernel
