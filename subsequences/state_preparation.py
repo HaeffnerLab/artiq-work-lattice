@@ -4,8 +4,9 @@ from artiq.experiment import *
 
 class StatePreparation(EnvExperiment):
 
-    #def build(self):
-    #    self.setattr_device("core")
+    def build(self):
+        self.setattr_device("core")
+        self.dds_729G = self.get_device("729G")
 
     #def setup(self):
     #    print("\n"*10, "something", "\n"*10)
