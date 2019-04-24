@@ -11,8 +11,7 @@ class pstest(PulseSequence):
 
     def sequence(self):
         StatePreparation(self).run()
-        # StatePreparation(self).sequence()
-        # self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration", 1})
+        self.add_sequence(StatePreparation)#, {"StateReadout.state_readout_duration", 1})
         self.foo()
         
     @kernel
