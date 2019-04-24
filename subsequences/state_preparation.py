@@ -13,7 +13,7 @@ class StatePreparation(EnvExperiment):
     #    #self.setattr_device("core")
 
     @kernel
-    def sequence(self):
+    def run(self):
         self.core.break_realtime()
         self.dds_729G.sw.on()
         #delay(self.p.StateReadout.state_readout_duration)

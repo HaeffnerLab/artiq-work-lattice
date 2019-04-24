@@ -10,7 +10,8 @@ class pstest(PulseSequence):
 
 
     def sequence(self):
-        StatePreparation(self).sequence()
+        StatePreparation
+        # StatePreparation(self).sequence()
         # self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration", 1})
         self.foo()
         
