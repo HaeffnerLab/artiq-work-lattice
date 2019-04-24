@@ -9,8 +9,8 @@ class StatePreparation(subsequence):
 
     @kernel
     def sequence(self):
-        self.core.break_realtime()
-        self.dds_729G.sw.on()
+        self.parent_sequence.core.break_realtime()
+        self.parent_sequence.dds_729G.sw.on()
         delay(self.p.StateReadout.state_readout_duration)
-        self.dds_729G.sw.off()
+        self.parent_sequence.dds_729G.sw.off()
 
