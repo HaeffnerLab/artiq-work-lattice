@@ -7,16 +7,17 @@ class pstest(PulseSequence):
     show_params = ["StateReadout.pmt_readout_duration"]
     fixed_params = [("StateReadout", "pmt_readout_duration", 100*ms)]
     x_label = "frequency"
+    scannable_params = [("Spectrum", "pulse_duration", 0, 1, 10),
+                        ("Spectrum", "order", 0, 2, 2)]
 
 
     def sequence(self):
-        # StatePreparation(self).run()
-        self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1})
+        self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
         self.foo()
         
     @kernel
     def foo(self):    
         self.core.break_realtime()
         self.dds_729L1.sw.on()
-        delay(1*ms)
+        delay(self.p.Spectrum.pulse_duration)
         self.dds_729L1.sw.off()
