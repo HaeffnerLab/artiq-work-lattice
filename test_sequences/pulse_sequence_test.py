@@ -1,5 +1,5 @@
 from artiq.pulse_sequence import PulseSequence
-
+from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
 class pstest(PulseSequence):
@@ -10,6 +10,7 @@ class pstest(PulseSequence):
 
     @kernel
     def sequence(self):
+        self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration", 1})
         self.core.break_realtime()
         self.dds_729L1.sw.on()
         delay(1*ms)
