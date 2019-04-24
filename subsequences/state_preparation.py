@@ -21,4 +21,4 @@ class StatePreparation(EnvExperiment):
     #    #pass
 
     def run(self):
-        print("Gotit")
+        print(self.p.StateReadout.state_readout_duration)
