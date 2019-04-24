@@ -4,8 +4,11 @@ from artiq.experiment import *
 
 class StatePreparation(subsequence):
 
+    def build(self):
+        self.setattr_device("core")
+
     def setup(self):
-        print("\n"*10, "soething", "\n"*10)
+        print("\n"*10, "something", "\n"*10)
         #self.setattr_device("core")
 
     #@kernel
