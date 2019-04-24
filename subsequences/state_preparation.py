@@ -7,6 +7,7 @@ class StatePreparation(subsequence):
     def setup(self):
         pass
 
+    @kernel
     def sequence(self):
         self.core.break_realtime()
         self.dds_729G.sw.on()
