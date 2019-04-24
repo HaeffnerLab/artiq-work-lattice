@@ -12,11 +12,13 @@ class StatePreparation(EnvExperiment):
     #    print("\n"*10, "something", "\n"*10)
     #    #self.setattr_device("core")
 
-    @kernel
-    def run(self):
-        self.core.break_realtime()
-        self.dds_729G.sw.on()
-        #delay(self.p.StateReadout.state_readout_duration)
-        self.dds_729G.sw.off()
-        #pass
+    #@kernel
+    #def run(self):
+    #    self.core.break_realtime()
+    #    self.dds_729G.sw.on()
+    #    #delay(self.p.StateReadout.state_readout_duration)
+    #    self.dds_729G.sw.off()
+    #    #pass
 
+    def run(self):
+        print("Gotit")
