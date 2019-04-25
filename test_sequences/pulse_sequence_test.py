@@ -7,7 +7,7 @@ class pstest(PulseSequence):
     show_params = ["StateReadout.pmt_readout_duration"]
     fixed_params = [("StateReadout", "pmt_readout_duration", 100*ms)]
     x_label = "frequency"
-    scannable_params = [("Spectrum", "pulse_duration", 0, 1, 10),
+    ndim_scan_params = [("Spectrum", "pulse_duration", 0, 1, 10),
                         ("Spectrum", "order", 0, 2, 2)]
 
 
