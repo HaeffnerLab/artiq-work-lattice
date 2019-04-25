@@ -8,8 +8,7 @@ class pstest(PulseSequence):
     fixed_params = [("StateReadout", "pmt_readout_duration", 100*ms)]
     x_label = "frequency"
     ndim_scan_params = [("Spectrum", "pulse_duration", 0, 1, 20),]
-                        # ("Spectrum", "order", 0, 2, 2),
-                        # ("Spectrum", "carrier_detuning", 0, 10, 10)]
+                        ("Spectrum", "order", 0, 2, 2)]
 
 
     def sequence(self):
