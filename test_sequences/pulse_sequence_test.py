@@ -23,5 +23,5 @@ class pstest(PulseSequence):
         for i in range(100):
             self.core.reset()
             self.dds_729L1.sw.on()
-            delay(100*ms)#delay_)
+            delay(1*s)#delay_)
             self.dds_729L1.sw.off()
