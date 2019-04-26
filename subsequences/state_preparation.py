@@ -7,5 +7,6 @@ class StatePreparation(EnvExperiment):
         self.setattr_device("core")
         self.dds_729G = self.get_device("729G")
 
+    @kernel
     def run(self):
         delay(self.p.StateReadout.state_readout_duration)
