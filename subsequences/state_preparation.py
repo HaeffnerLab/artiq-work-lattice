@@ -12,5 +12,5 @@ class StatePreparation(EnvExperiment):
         self.my_delay(self.p.StateReadout.state_readout_duration)
 
     @kernel
-    def my_delay(duration):
+    def my_delay(self, duration):
         delay(duration)
