@@ -11,16 +11,16 @@ class pstest(PulseSequence):
 
 
     def line1(self):
-        print("something")
-        # self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
-        # self.foo(self.p.Spectrum.pulse_duration)
+        # print("something")
+        self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
+        self.foo(self.p.Spectrum.pulse_duration)
     
     def line2(self):
         print("yo")
         
     @kernel
     def foo(self, delay_):    
-        self.core.break_realtime()
+        self.core.reset()
         self.dds_729L1.sw.on()
         delay(delay_)
         self.dds_729L1.sw.off()
