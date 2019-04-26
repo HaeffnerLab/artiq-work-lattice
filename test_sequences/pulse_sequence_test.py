@@ -5,10 +5,9 @@ from artiq.experiment import *
 class pstest(PulseSequence):
     rcg_tab = "Rabi"
     show_params = ["StateReadout.pmt_readout_duration"]
-    fixed_params = [("StateReadout", "pmt_readout_duration", 100*ms)]
-    x_label = "frequency"
-    ndim_scan_params = [("Spectrum.pulse_duration", 0, 1, 10),
-                        ("Spectrum.order", 0, 2, 2)]
+    fixed_params = [("StateReadout.pmt_readout_duration", 100*ms)]
+    scan_params = {"line1": [("Spectrum.pulse_duration", 0, 1, 10)],
+                   "line2": [("Spectrum.pulse_duration", 0, 1, 10)]}
 
 
     def sequence(self):
