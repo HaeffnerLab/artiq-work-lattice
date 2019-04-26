@@ -10,9 +10,12 @@ class pstest(PulseSequence):
                    "line2": [("Spectrum.pulse_duration", 0, 1, 10)]}
 
 
-    def sequence(self):
+    def line1(self):
         self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
         self.foo()
+    
+    def line2(self):
+        print("yo")
         
     @kernel
     def foo(self):    
