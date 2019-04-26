@@ -20,7 +20,8 @@ class pstest(PulseSequence):
         
     @kernel
     def foo(self, delay_):    
-        self.core.reset()
-        self.dds_729L1.sw.on()
-        delay(delay_)
-        self.dds_729L1.sw.off()
+        for i in range(100):
+            self.core.reset()
+            self.dds_729L1.sw.on()
+            delay(delay_)
+            self.dds_729L1.sw.off()
