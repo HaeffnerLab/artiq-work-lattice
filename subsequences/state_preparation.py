@@ -8,4 +8,4 @@ class StatePreparation(EnvExperiment):
         self.dds_729G = self.get_device("729G")
 
     def run(self):
-        print(self.p.StateReadout.state_readout_duration)
+        delay(self.p.StateReadout.state_readout_duration)
