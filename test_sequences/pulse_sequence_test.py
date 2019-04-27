@@ -19,9 +19,9 @@ class pstest(PulseSequence):
         print("yo")
         
     @kernel
-    def foo(self, delay_):    
+    def foo(self, delay_):
+        self.core.reset()    
         for i in range(100):
-            self.core.reset()
             self.dds_729L1.sw.on()
             delay(1*s)#delay_)
             self.dds_729L1.sw.off()
