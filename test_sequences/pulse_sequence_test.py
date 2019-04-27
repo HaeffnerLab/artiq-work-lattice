@@ -25,3 +25,4 @@ class pstest(PulseSequence):
             self.dds_729L1.sw.on()
             delay(1*s)#delay_)
             self.dds_729L1.sw.off()
+            delay(1*s)
