@@ -11,9 +11,9 @@ class pstest(PulseSequence):
 
 
     def line1(self):
-        print(self.p.Spectrum.pulse_duration)
+        # print(self.p.Spectrum.pulse_duration)
         # self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
-        self.foo(self.p.Spectrum.pulse_duration)
+        self.foo(self.p.Spectrum.wait_time_1)
     
     def line2(self):
         print("yo")
