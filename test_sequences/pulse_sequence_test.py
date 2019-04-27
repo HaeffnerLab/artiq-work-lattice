@@ -13,16 +13,20 @@ class pstest(PulseSequence):
     def line1(self):
         # print(self.p.Spectrum.pulse_duration)
         # self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
-        for i in range(100):
-            self.foo(self.p.Spectrum.wait_time_1)
+        self.foo(self.p.Spectrum.wait_time_1)
     
     def line2(self):
         print("yo")
         
     
-    def foo(self, delay_):
+    def foo_min(self, delay_):
         self.core.break_realtime()  
         self.dds_729L1.sw.on()
         delay(delay_)
         self.dds_729L1.sw.off()
         delay(delay_)
+
+    @kernel
+    def foo(self, delay_):
+        for i in range(100):
+            self.foo_min(delay_)
