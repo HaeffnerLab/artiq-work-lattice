@@ -23,6 +23,6 @@ class pstest(PulseSequence):
         # self.core.break_realtime()    
         for i in range(100):
             self.dds_729L1.sw.on()
-            delay(1*s)#delay_)
+            delay(.1*s)#delay_)
             self.dds_729L1.sw.off()
-            delay(1*s)
+            delay(.1*s)
