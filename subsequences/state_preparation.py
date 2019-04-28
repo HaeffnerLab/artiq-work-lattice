@@ -2,6 +2,7 @@ from artiq.experiment import *
 
 
 class StatePreparation(EnvExperiment):
+    accessed_params = {"StateReadout.state_readout_duration"}
 
     def build(self):
         self.setattr_device("core")
