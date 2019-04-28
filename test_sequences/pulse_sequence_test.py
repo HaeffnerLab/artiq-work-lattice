@@ -18,7 +18,7 @@ class pstest(PulseSequence):
     def line2(self):
         print("yo")
         
-    @portable
+    @kernel
     def foo(self, delay_):
         self.core.break_realtime()  
         self.dds_729L1.sw.on()
