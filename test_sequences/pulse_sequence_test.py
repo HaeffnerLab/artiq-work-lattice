@@ -6,7 +6,7 @@ class pstest(PulseSequence):
     rcg_tab = "Rabi"
     accessed_params = {"StateReadout.pmt_readout_duration"}
     accessed_params.update(StatePreparation.accessed_params)
-    fixed_params = [("StateReadout.pmt_readout_duration", 100*ms)]
+    # fixed_params = [("StateReadout.pmt_readout_duration", 100*ms)]
     scan_params = {"line1": [("Spectrum.pulse_duration", 0, 1, 10)]}
                 #    "line2": [("Spectrum.pulse_duration", 0, 1, 10)]}
 
