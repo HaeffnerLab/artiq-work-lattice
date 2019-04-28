@@ -10,7 +10,6 @@ class pstest(PulseSequence):
                 #    "line2": [("Spectrum.pulse_duration", 0, 1, 10)]}
 
 
-    @portable
     def line1(self):
         # print(self.p.Spectrum.pulse_duration)
         # self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
