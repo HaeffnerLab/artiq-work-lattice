@@ -10,10 +10,10 @@ class pstest(PulseSequence):
     scan_params = {"line1": [("Spectrum.pulse_duration", 0, 1, 10)]}
                 #    "line2": [("Spectrum.pulse_duration", 0, 1, 10)]}
 
-
+    @kernel
     def line1(self):
-        self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
-        self.foo(self.p.Spectrum.wait_time_1)
+        # self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
+        self.foo(self.Spectrum_wait_time_1)
     
     def line2(self):
         print("yo")
