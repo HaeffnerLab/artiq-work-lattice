@@ -27,6 +27,6 @@ class pstest(PulseSequence):
         delay(delay_)
         self.foo1()
 
-    @kernel
+    @portable
     def foo1(self):
-        delay(1*s)
+        delay(10*s)
