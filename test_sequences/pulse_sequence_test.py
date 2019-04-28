@@ -10,6 +10,7 @@ class pstest(PulseSequence):
                 #    "line2": [("Spectrum.pulse_duration", 0, 1, 10)]}
 
 
+    @portable
     def line1(self):
         # print(self.p.Spectrum.pulse_duration)
         # self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
@@ -18,7 +19,7 @@ class pstest(PulseSequence):
     def line2(self):
         print("yo")
         
-    @kernel
+    @portable
     def foo(self, delay_):
         self.core.break_realtime()  
         self.dds_729L1.sw.on()
