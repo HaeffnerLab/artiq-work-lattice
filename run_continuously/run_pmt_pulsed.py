@@ -14,6 +14,7 @@ class pmt_collect_pulsed(EnvExperiment):
         self.pmt = self.get_device("pmt")
         self.cpld = self.get_device("urukul0_cpld")
         self.dds_866 = self.get_device("866")
+        self.dataset_length = {}
 
     def run(self):
         self.core.reset()
@@ -42,13 +43,20 @@ class pmt_collect_pulsed(EnvExperiment):
             pmt_counts = self.pmt.count(t_count)
             self.core.break_realtime()
             self.dds_866.sw.off()
-            self.record_data("pmt_counts", pmt_counts)
+            self.append("pmt_counts", pmt_counts)
             t_count = self.pmt.gate_rising(self.duration*ms)
             self.dds_866.sw.on()
             pmt_counts_866_off = self.pmt.count(t_count)
-            self.record_data("pmt_counts_866_off", pmt_counts_866_off)
-            self.record_data("diff_counts", pmt_counts - pmt_counts_866_off)
+            self.append("pmt_counts_866_off", pmt_counts_866_off)
+            self.append("diff_counts", pmt_counts - pmt_counts_866_off)
 
     @rpc(flags={"async"})
-    def record_data(self, dataset, x):
-        self.append_to_dataset(dataset, x)
+    def append(self, dataset_name, data_to_append):
+        if not dataset_name in self.dataset_length.keys():
+            self.dataset_length[dataset_name] = 0
+
+        if self.dataset_length[dataset_name] % 1000 == 0:
+            self.set_dataset(dataset_name, [], broadcast=True)
+
+        self.append_to_dataset(dataset_name, data_to_append)
+        self.dataset_length[dataset_name] += 1
