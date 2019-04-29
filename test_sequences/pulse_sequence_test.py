@@ -29,7 +29,7 @@ class pstest(PulseSequence):
         delay(delay_)
         self.dds_729L1.sw.on()
         delay(delay_)
-        slf.dds_729L1.sw.off()
+        self.dds_729L1.sw.off()
         # self.foo1()
 
     @portable
