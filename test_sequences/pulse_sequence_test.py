@@ -35,3 +35,4 @@ class pstest(PulseSequence):
     @portable
     def foo1(self):
         delay(1*s)
+    #
