@@ -18,7 +18,7 @@ class pstest(PulseSequence):
         # self.foo(self.Spectrum_pulse_duration)
     
     def line2(self):
-        print("yo")
+        self.foo(self.Spectrum_pulse_duration)
         
     @kernel
     def foo(self, delay_):
