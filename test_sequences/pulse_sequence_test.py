@@ -17,8 +17,9 @@ class pstest(PulseSequence):
         self.foo(self.Spectrum_wait_time_1)
         # self.foo(self.Spectrum_pulse_duration)
     
+    @kernel
     def line2(self):
-        self.foo(self.Spectrum_wait_time_1)
+        self.foo(self.Spectrum_pulse_duration)
         
     @kernel
     def foo(self, delay_):
