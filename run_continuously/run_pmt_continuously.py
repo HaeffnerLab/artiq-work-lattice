@@ -37,6 +37,8 @@ class pmt_collect_continuously(EnvExperiment):
             t_count = self.pmt.gate_rising(self.duration*ms)
             pmt_count = self.pmt.count(t_count)
             self.append("pmt_counts", pmt_count)
+            self.append("pmt_counts_866_off", 0)
+            self.append("diff_counts", 0)
 
     @rpc(flags={"async"})
     def append(self, dataset_name, data_to_append):
