@@ -7,7 +7,7 @@ class pstest(PulseSequence):
                        "Spectrum.wait_time_1"}
     accessed_params.update(StatePreparation.accessed_params)
     # fixed_params = [("StateReadout.pmt_readout_duration", 100*ms)]
-    PulseSequence.scan_params.update(line1=([("Spectrum.pulse_duration", 0, 1, 10), "Rabi"),
+    PulseSequence.scan_params.update(line1=([("Spectrum.pulse_duration", 0, 1, 10)], "Rabi"),
                                      line2=([("Spectrum.pulse_duration", 0, 1, 10)], "Spectrum"))
 
     @kernel
