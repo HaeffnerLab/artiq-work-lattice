@@ -21,7 +21,6 @@ class pmt_collect_pulsed(EnvExperiment):
         self.set_dataset("pmt_counts", [], broadcast=True)
         self.set_dataset("collection_duration", [self.duration])
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
-        self.set_dataset("diff_counts", [], broadcast=True)
         self.set_dataset("pulsed", [True], broadcast=True)
         while True:
             try:
@@ -48,7 +47,6 @@ class pmt_collect_pulsed(EnvExperiment):
             self.dds_866.sw.on()
             pmt_counts_866_off = self.pmt.count(t_count)
             self.append("pmt_counts_866_off", pmt_counts_866_off)
-            self.append("diff_counts", pmt_counts - pmt_counts_866_off)
 
     @rpc(flags={"async"})
     def append(self, dataset_name, data_to_append):
