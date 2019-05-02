@@ -7,22 +7,22 @@ class pstest(PulseSequence):
                        "Spectrum.wait_time_1"}
     accessed_params.update(StatePreparation.accessed_params)
     # fixed_params = [("StateReadout.pmt_readout_duration", 100*ms)]
-    PulseSequence.scan_params.update(line1=([("Spectrum.pulse_duration", 0, 1, 10)], "Rabi"),
-                                     line2=([("Spectrum.pulse_duration", 0, 1, 10)], "Spectrum"))
+    PulseSequence.scan_params.update(line1=([("Spectrum.pulse_duration", 0, 1, 10)], "Rabi"),)
+                                     #line2=([("Spectrum.pulse_duration", 0, 1, 10)], "Spectrum"))
 
     @kernel
     def line1(self):
         # self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
         self.foo(self.Spectrum_wait_time_1)
         # self.foo(self.Spectrum_pulse_duration)
-    
+
     @kernel
     def line2(self):
         self.foo(self.Spectrum_pulse_duration)
-        
+
     @kernel
     def foo(self, delay_):
-        self.core.break_realtime()  
+        self.core.break_realtime()
         self.dds_729L1.sw.on()
         delay(delay_)
         self.dds_729L1.sw.off()
