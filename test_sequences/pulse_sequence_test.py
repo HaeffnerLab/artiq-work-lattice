@@ -8,7 +8,7 @@ class pstest(PulseSequence):
     accessed_params.update(StatePreparation.accessed_params)
     # fixed_params = [("StateReadout.pmt_readout_duration", 100*ms)]
     PulseSequence.scan_params.update(line1=([("Spectrum.pulse_duration", 0, 1, 10)], "Rabi"),)
-                                     #line2=([("Spectrum.pulse_duration", 0, 1, 10)], "Spectrum"))
+                                     line2=([("Spectrum.pulse_duration", 0, 1, 10)], "Spectrum"))
 
     @kernel
     def line1(self):
@@ -19,6 +19,7 @@ class pstest(PulseSequence):
     @kernel
     def line2(self):
         self.foo(self.Spectrum_pulse_duration)
+        #self.foo(self.Spectrum_pulse_duration)
 
     @kernel
     def foo(self, delay_):
