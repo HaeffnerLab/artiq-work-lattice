@@ -90,7 +90,7 @@ class ReferenceImage(EnvExperiment):
         # self.total_camera_confidences = []
         camera.abort_acquisition()
         self.initial_exposure = camera.get_exposure_time()
-        exposure = self.get_parameter("StateReadout","state_readout_duration")["s"]
+        exposure = self.p.get_parameter("StateReadout","state_readout_duration")["s"]
         p = self.p.IonsOnCamera
         camera.set_exposure_time(exposure)
         self.image_region = [int(p.horizontal_bin),
