@@ -18,6 +18,7 @@ class ReferenceImage(EnvExperiment):
         p = cxn.parametervault
         self.p = p
         self.camera = cxn.andor_server
+        self.initialize_camera()
         self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
         duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         repump_additional = p.get_parameter("DopplerCooling", "doppler_cooling_repump_additional")["s"]
@@ -51,28 +52,20 @@ class ReferenceImage(EnvExperiment):
     @kernel
     def run(self):
         self.core.reset()
+        self.dds_397.set(self.freq_397, amplitude=self.amp_397)
+        self.dds_397.set_att(self.att_397)
+        self.dds_866.set(self.freq_866, amplitude=self.amp_866)
+        self.dds_866.set_att(self.att_866)
+        self.core.break_realtime()
+        self.dds_854.sw.pulse(200*us)
+        self.core.break_realtime()
+        self.dds_866.sw.on()
+        self.dds_397.sw.on()
         i = 0
-        #self.dds_397.set(self.freq_397, amplitude=self.amp_397)
-        #self.dds_397.set_att(self.att_397)
-        #self.dds_866.set(self.freq_866, amplitude=self.amp_866)
-        #self.dds_866.set_att(self.att_866)
-        #self.core.break_realtime()
-        #self.dds_854.sw.pulse(200*us)
-        #self.core.break_realtime()
-        self.dds_866.sw.off()
-        self.dds_397.sw.off()
         for i in range(self.N):
             self.core.break_realtime()
             with parallel:
                 self.camera_ttl.pulse(self.cta)
-                self.dds_397.sw.on()#self.duration_397)
-                self.dds_866.sw.on()#self.duration_866)
-            delay(1*ms)
-            with parallel:
-                self.dds_397.sw.off()
-                self.dds_866.sw.off()
-            delay(1*ms)
-
         self.reset_cw_settings()
 
     @kernel
@@ -91,6 +84,32 @@ class ReferenceImage(EnvExperiment):
                 else:
                     self.dds_list[i].sw.off()
 
+    def initialize_camera(self):
+        cxn = self.cxn
+        camera = cxn.andor_server
+        # self.total_camera_confidences = []
+        camera.abort_acquisition()
+        self.initial_exposure = camera.get_exposure_time()
+        exposure = self.p.StateReadout.state_readout_duration
+        p = self.p.IonsOnCamera
+        camera.set_exposure_time(exposure)
+        self.image_region = [int(p.horizontal_bin),
+                             int(p.vertical_bin),
+                             int(p.horizontal_min),
+                             int(p.horizontal_max),
+                             int(p.vertical_min),
+                             int(p.vertical_max)]
+        camera.set_image_region(*self.image_region)
+        camera.set_acquisition_mode("Kinetics")
+        self.initial_trigger_mode = camera.get_trigger_mode()
+        camera.set_trigger_mode("External")
+        self.camera = camera
+
     def analyze(self):
+        self.camera.abort_acquisition()
+        self.camera.set_trigger_mode(self.initial_trigger_mode)
+        self.camera.set_exposure_time(self.initial_exposure)
+        self.camera.set_image_region(1, 1, 1, 658, 1, 496)
+        self.camera.start_live_display()
         self.cxn.disconnect()
 
