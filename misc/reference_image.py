@@ -91,7 +91,12 @@ class ReferenceImage(EnvExperiment):
         camera.abort_acquisition()
         self.initial_exposure = camera.get_exposure_time()
         exposure = self.p.get_parameter("StateReadout","state_readout_duration")["s"]
-        p = self.p.IonsOnCamera
+        horizontal_bin  = self.p.get_parameter("IonsOnCamera", "horizontal_bin")
+        vertical_bin = self.p.get_parameter("IonsOnCamera", "vertical_bin")
+        horizontal_min = self.p.get_parameter("IonsOnCamera", "horizontal_min")
+        horizontal_max = self.p.get_parameter("IonsOnCamera", "horizontal_max")
+        vertical_min = self.p.get_parameter("IonsOnCamera", "vertical_min")
+        vertical_max = self.p.get_parameter("IonsOnCamera", "vertical_max")
         camera.set_exposure_time(exposure)
         self.image_region = [int(p.horizontal_bin),
                              int(p.vertical_bin),
