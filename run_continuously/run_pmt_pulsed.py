@@ -15,7 +15,7 @@ class pmt_collect_pulsed(EnvExperiment):
         self.cpld = self.get_device("urukul0_cpld")
         self.dds_866 = self.get_device("866")
         self.dataset_length = {}
-        cxn.disconect()
+        cxn.disconnect()
 
     def run(self):
         self.core.reset()
