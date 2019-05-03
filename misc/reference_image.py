@@ -98,12 +98,12 @@ class ReferenceImage(EnvExperiment):
         vertical_min = self.p.get_parameter("IonsOnCamera", "vertical_min")
         vertical_max = self.p.get_parameter("IonsOnCamera", "vertical_max")
         camera.set_exposure_time(exposure)
-        self.image_region = [int(p.horizontal_bin),
-                             int(p.vertical_bin),
-                             int(p.horizontal_min),
-                             int(p.horizontal_max),
-                             int(p.vertical_min),
-                             int(p.vertical_max)]
+        self.image_region = [int(horizontal_bin),
+                             int(vertical_bin),
+                             int(horizontal_min),
+                             int(horizontal_max),
+                             int(vertical_min),
+                             int(vertical_max)]
         camera.set_image_region(*self.image_region)
         camera.set_acquisition_mode("Kinetics")
         self.initial_trigger_mode = camera.get_trigger_mode()
