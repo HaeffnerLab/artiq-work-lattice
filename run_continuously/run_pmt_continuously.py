@@ -13,6 +13,7 @@ class pmt_collect_continuously(EnvExperiment):
         self.setattr_device("scheduler")
         self.pmt = self.get_device("pmt")
         self.dataset_length = {}
+        cxn.disconnect()
 
     def run(self):
         self.core.reset()
