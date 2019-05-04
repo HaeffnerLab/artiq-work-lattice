@@ -19,6 +19,8 @@ class ReferenceImage(EnvExperiment):
         p = cxn.parametervault
         self.p = p
         self.camera = cxn.andor_server
+        N = p.get_parameter("StateReadout", "repeat_each_measurement")
+        self.N = int(N)
         self.initialize_camera()
         self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
         duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
@@ -29,8 +31,6 @@ class ReferenceImage(EnvExperiment):
         self.amp_866 = p.get_parameter("StateReadout", "amplitude_866")[""]
         self.att_397 = p.get_parameter("StateReadout", "att_397")["dBm"]
         self.att_866 = p.get_parameter("StateReadout", "att_866")["dBm"]
-        N = p.get_parameter("StateReadout", "repeat_each_measurement")
-        self.N = int(N)
         self.duration_397 = duration
         self.duration_866 = duration + repump_additional
 
