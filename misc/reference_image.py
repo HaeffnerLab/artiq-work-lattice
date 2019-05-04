@@ -46,10 +46,10 @@ class ReferenceImage(EnvExperiment):
             self.amp_list.append(float(settings[1]))
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
-        self.initialize_camera()
 
     @kernel
     def run(self):
+        self.initialize_camera()
         self.core.reset()
         # for cpld in self.cpld_list:
         #     cpld.init()
@@ -63,7 +63,7 @@ class ReferenceImage(EnvExperiment):
         self.prepare_camera()
         self.core.break_realtime()
         for i in range(self.N):
-            self.camera_ttl.pulse(100*us)#self.duration)#self.ctw)
+            self.camera_ttl.pulse(self.duration)#self.ctw)
             # delay(1000*ms)
             # delay(self.duration + self.cta)
         self.reset_cw_settings()
