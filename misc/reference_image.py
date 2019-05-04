@@ -84,7 +84,7 @@ class ReferenceImage(EnvExperiment):
                     self.dds_list[i].sw.off()
 
     def initialize_camera(self):
-        camera = self.cxn.andor_server
+        camera = self.camera
         # self.total_camera_confidences = []
         camera.abort_acquisition()
         self.initial_exposure = camera.get_exposure_time()
@@ -108,7 +108,6 @@ class ReferenceImage(EnvExperiment):
         camera.set_trigger_mode("External")
         camera.set_number_kinetics(self.N)
         camera.start_acquisition()
-        self.camera = camera
 
     def analyze(self):
         done = self.camera.wait_for_kinetic()
