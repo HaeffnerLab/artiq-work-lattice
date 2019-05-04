@@ -66,6 +66,7 @@ class ReferenceImage(EnvExperiment):
             self.camera_ttl.pulse(self.duration)#self.ctw)
             # delay(1000*ms)
             # delay(self.duration + self.cta)
+        delay(200*ms)
         self.reset_cw_settings()
 
     @kernel
@@ -89,7 +90,7 @@ class ReferenceImage(EnvExperiment):
         # self.total_camera_confidences = []
         camera.abort_acquisition()
         self.initial_exposure = camera.get_exposure_time()
-        exposure = self.p.get_parameter("StateReadout", "state_readout_duration")["s"]
+        exposure = self.duration
         horizontal_bin  = self.p.get_parameter("IonsOnCamera", "horizontal_bin")
         vertical_bin = self.p.get_parameter("IonsOnCamera", "vertical_bin")
         horizontal_min = self.p.get_parameter("IonsOnCamera", "horizontal_min")
