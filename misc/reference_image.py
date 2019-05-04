@@ -51,16 +51,17 @@ class ReferenceImage(EnvExperiment):
     @kernel
     def run(self):
         self.core.reset()
-        # for cpld in self.cpld_list:
-        #     cpld.init()
-        # self.dds_397.set(self.freq_397, amplitude=self.amp_397)
-        # self.dds_397.set_att(self.att_397)
-        # self.dds_866.set(self.freq_866, amplitude=self.amp_866)
-        # self.dds_866.set_att(self.att_866)
-        # self.dds_866.sw.on()
-        # self.dds_397.sw.on()
-        # self.dds_854.sw.pulse(200*us)
-        # self.core.break_realtime()
+        for cpld in self.cpld_list:
+            cpld.init()
+        self.dds_397.set(self.freq_397, amplitude=self.amp_397)
+        self.dds_397.set_att(self.att_397)
+        self.dds_866.set(self.freq_866, amplitude=self.amp_866)
+        self.dds_866.set_att(self.att_866)
+        self.dds_866.sw.on()
+        self.dds_397.sw.on()
+        self.dds_854.sw.pulse(200*us)
+        self.core.break_realtime()
+        self.prepare_camera()
         for i in range(self.N):
             self.camera_ttl.pulse(self.duration)#self.ctw)
             # delay(1000*ms)
@@ -106,8 +107,13 @@ class ReferenceImage(EnvExperiment):
         camera.set_acquisition_mode("Kinetics")
         self.initial_trigger_mode = camera.get_trigger_mode()
         camera.set_trigger_mode("External")
-        camera.set_number_kinetics(self.N)
-        camera.start_acquisition()
+        # camera.set_number_kinetics(self.N)
+        # camera.start_acquisition()
+
+    def prepare_camera(self):
+        self.camera.abort_acquisition()
+        self.camera.set_number_kinetics(self.N)
+        self.camera.start_acquisition()
 
     def analyze(self):
         done = self.camera.wait_for_kinetic()
