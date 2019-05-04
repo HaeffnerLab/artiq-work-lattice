@@ -111,10 +111,10 @@ class ReferenceImage(EnvExperiment):
 
     def analyze(self):
         done = self.camera.wait_for_kinetic()
-        if not done:
-            print("uhoh")
-            self.close_camera()
-            return
+        # if not done:
+        #     print("uhoh")
+        #     self.close_camera()
+        #     return
 
         images = self.camera.get_acquired_data(self.N)
         image_region = self.image_region
