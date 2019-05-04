@@ -23,7 +23,7 @@ class ReferenceImage(EnvExperiment):
         self.N = int(N)
         self.initialize_camera()
         self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
-        duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
+        self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         repump_additional = p.get_parameter("DopplerCooling", "doppler_cooling_repump_additional")["s"]
         self.freq_397 = p.get_parameter("StateReadout", "frequency_397")["Hz"]
         self.freq_866 = p.get_parameter("StateReadout", "frequency_866")["Hz"]
@@ -31,8 +31,6 @@ class ReferenceImage(EnvExperiment):
         self.amp_866 = p.get_parameter("StateReadout", "amplitude_866")[""]
         self.att_397 = p.get_parameter("StateReadout", "att_397")["dBm"]
         self.att_866 = p.get_parameter("StateReadout", "att_866")["dBm"]
-        self.duration_397 = duration
-        self.duration_866 = duration + repump_additional
 
         d = dict()
         d["dds_854"] = self.p.get_parameter("dds_cw_parameters", "854")[1]
@@ -67,6 +65,7 @@ class ReferenceImage(EnvExperiment):
             self.core.break_realtime()
             with parallel:
                 self.camera_ttl.pulse(self.cta)
+                delay(self.duration)
         self.reset_cw_settings()
 
     @kernel
@@ -92,7 +91,7 @@ class ReferenceImage(EnvExperiment):
         # self.total_camera_confidences = []
         camera.abort_acquisition()
         self.initial_exposure = camera.get_exposure_time()
-        exposure = self.p.get_parameter("StateReadout","state_readout_duration")["s"]
+        exposure = self.duration
         horizontal_bin  = self.p.get_parameter("IonsOnCamera", "horizontal_bin")
         vertical_bin = self.p.get_parameter("IonsOnCamera", "vertical_bin")
         horizontal_min = self.p.get_parameter("IonsOnCamera", "horizontal_min")
