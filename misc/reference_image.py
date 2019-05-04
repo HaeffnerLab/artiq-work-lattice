@@ -59,12 +59,11 @@ class ReferenceImage(EnvExperiment):
         self.dds_866.sw.on()
         self.dds_397.sw.on()
         self.dds_854.sw.pulse(200*us)
+        self.core.break_realtime()
         i = 0
         for i in range(self.N):
-            self.core.break_realtime()
-            with parallel:
-                self.camera_ttl.pulse(self.cta)
-                delay(self.duration)
+            self.camera_ttl.pulse(self.cta)
+            delay(self.duration)
         self.reset_cw_settings()
 
     @kernel
@@ -82,7 +81,6 @@ class ReferenceImage(EnvExperiment):
                     self.dds_list[i].sw.on()
                 else:
                     self.dds_list[i].sw.off()
-        delay(100*ms)
 
     def initialize_camera(self):
         cxn = self.cxn
