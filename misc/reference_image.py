@@ -67,7 +67,7 @@ class ReferenceImage(EnvExperiment):
             self.camera_ttl.pulse(self.ctw)
             delay(self.duration + 2*ms)
             self.camera_ttl.pulse(self.ctw)
-            delay(1*ms)
+            delay(2*ms)
             # delay(self.duration + self.ctw + self.cta)
         self.reset_cw_settings()
 
