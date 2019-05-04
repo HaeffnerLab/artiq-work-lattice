@@ -23,6 +23,7 @@ class ReferenceImage(EnvExperiment):
         self.N = int(N)
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.initialize_camera()
+        self.ctw = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
         self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
         self.freq_397 = p.get_parameter("StateReadout", "frequency_397")["Hz"]
         self.freq_866 = p.get_parameter("StateReadout", "frequency_866")["Hz"]
@@ -62,8 +63,8 @@ class ReferenceImage(EnvExperiment):
         self.core.break_realtime()
         i = 0
         for i in range(self.N):
-            self.camera_ttl.pulse(self.cta)
-            delay(self.duration)
+            self.camera_ttl.pulse(self.ctw)
+            delay(self.duration + self.cta)
         self.reset_cw_settings()
 
     @kernel
