@@ -20,7 +20,7 @@ class ReferenceImage(EnvExperiment):
         self.p = p
         self.camera = cxn.andor_server
         N = p.get_parameter("StateReadout", "repeat_each_measurement")
-        self.N = 10#int(N)
+        self.N = int(N)
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.ctw = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
         self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
@@ -89,7 +89,7 @@ class ReferenceImage(EnvExperiment):
         # self.total_camera_confidences = []
         camera.abort_acquisition()
         self.initial_exposure = camera.get_exposure_time()
-        exposure = self.duration
+        exposure = self.p.get_parameter("StateReadout", "state_readout_duration")["s"]
         horizontal_bin  = self.p.get_parameter("IonsOnCamera", "horizontal_bin")
         vertical_bin = self.p.get_parameter("IonsOnCamera", "vertical_bin")
         horizontal_min = self.p.get_parameter("IonsOnCamera", "horizontal_min")
