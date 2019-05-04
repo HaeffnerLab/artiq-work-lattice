@@ -21,10 +21,9 @@ class ReferenceImage(EnvExperiment):
         self.camera = cxn.andor_server
         N = p.get_parameter("StateReadout", "repeat_each_measurement")
         self.N = int(N)
+        self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.initialize_camera()
         self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
-        self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
-        repump_additional = p.get_parameter("DopplerCooling", "doppler_cooling_repump_additional")["s"]
         self.freq_397 = p.get_parameter("StateReadout", "frequency_397")["Hz"]
         self.freq_866 = p.get_parameter("StateReadout", "frequency_866")["Hz"]
         self.amp_397 = p.get_parameter("StateReadout", "amplitude_397")[""]
