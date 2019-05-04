@@ -108,8 +108,8 @@ class ReferenceImage(EnvExperiment):
         self.initial_trigger_mode = camera.get_trigger_mode()
         camera.set_trigger_mode("External")
         print(*self.image_region, self.N, self.duration)
-        # camera.set_number_kinetics(self.N)
-        # camera.start_acquisition()
+        camera.set_number_kinetics(self.N)
+        camera.start_acquisition()
 
     def prepare_camera(self):
         self.camera.abort_acquisition()
