@@ -47,9 +47,15 @@ class ReferenceImage(EnvExperiment):
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
 
-    @kernel
     def run(self):
         self.initialize_camera()
+        self.prepare_camera()
+        self.krun()
+        self.finish_camera()
+        self.reset_cw_settings()
+
+    @kernel
+    def krun(self):
         self.core.reset()
         # for cpld in self.cpld_list:
         #     cpld.init()
@@ -60,13 +66,11 @@ class ReferenceImage(EnvExperiment):
         # self.dds_866.sw.on()
         # self.dds_397.sw.on()
         # self.dds_854.sw.pulse(200*us)
-        self.prepare_camera()
         self.core.break_realtime()
         for i in range(self.N):
             self.camera_ttl.pulse(self.duration)#self.ctw)
             # delay(1000*ms)
             # delay(self.duration + self.cta)
-        self.reset_cw_settings()
 
     @kernel
     def reset_cw_settings(self):
@@ -116,7 +120,7 @@ class ReferenceImage(EnvExperiment):
         self.camera.set_number_kinetics(self.N)
         self.camera.start_acquisition()
 
-    def analyze(self):
+    def finish_camera(self):
         done = self.camera.wait_for_kinetic()
         if not done:
             print("uhohs")
