@@ -1,4 +1,5 @@
 import labrad
+import numpy as np
 from artiq.experiment import *
 
 
@@ -108,9 +109,23 @@ class ReferenceImage(EnvExperiment):
         camera.set_acquisition_mode("Kinetics")
         self.initial_trigger_mode = camera.get_trigger_mode()
         camera.set_trigger_mode("External")
+        self.camera.set_number_kinetics(self.N)
+        self.camera.start_acquisition()
         self.camera = camera
 
     def analyze(self):
+        done = self.camera.wait_for_kinetic()
+        if not done:
+            print("uhoh")
+            self.close_camera()
+
+        images = self.camera.get_acquired_data(self.N)
+        image_region = self.image_region
+        x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
+        y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
+        images = np.reshape(images, (self.N, y_pixels, x_pixels))
+
+    def close_camera(self):
         self.camera.abort_acquisition()
         self.camera.set_trigger_mode(self.initial_trigger_mode)
         self.camera.set_exposure_time(self.initial_exposure)
