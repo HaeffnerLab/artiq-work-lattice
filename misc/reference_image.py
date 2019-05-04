@@ -64,7 +64,7 @@ class ReferenceImage(EnvExperiment):
         self.core.break_realtime()
         for i in range(self.N * 2):
             # self.core.break_realtime()
-            self.camera_tt.pulse(self.ctw)
+            self.camera_ttl.pulse(self.ctw)
             delay(self.duration + 10*ms)
             # delay(self.duration + self.ctw + self.cta)
         self.reset_cw_settings()
