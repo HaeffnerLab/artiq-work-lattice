@@ -52,6 +52,8 @@ class ReferenceImage(EnvExperiment):
     @kernel
     def run(self):
         self.core.reset()
+        for cpld in self.cpld_list:
+            cpld.init()
         self.dds_397.set(self.freq_397, amplitude=self.amp_397)
         self.dds_397.set_att(self.att_397)
         self.dds_866.set(self.freq_866, amplitude=self.amp_866)
