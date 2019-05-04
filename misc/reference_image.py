@@ -130,7 +130,7 @@ class ReferenceImage(EnvExperiment):
         y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
         images = np.reshape(images, (self.N, y_pixels, x_pixels))
         self.close_camera()
-        print(images)
+        print(len(images))
 
     def close_camera(self):
         self.camera.abort_acquisition()
