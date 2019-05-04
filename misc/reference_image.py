@@ -112,12 +112,11 @@ class ReferenceImage(EnvExperiment):
 
     def prepare_camera(self):
         self.camera.abort_acquisition()
+        print(self.N, type(self.N))
         self.camera.set_number_kinetics(self.N)
         self.camera.start_acquisition()
 
     def analyze(self):
-        import time
-        time.sleep(1)
         done = self.camera.wait_for_kinetic()
         if not done:
             print("uhohs")
