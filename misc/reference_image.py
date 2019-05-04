@@ -61,11 +61,10 @@ class ReferenceImage(EnvExperiment):
         self.dds_397.sw.on()
         self.dds_854.sw.pulse(200*us)
         self.core.break_realtime()
-        for i in range(self.N):
+        for i in range(self.N + 10):
             self.camera_ttl.pulse(self.duration)#self.ctw)
             delay(1*ms)
             # delay(self.duration + self.cta)
-        self.finish_camera()
         self.reset_cw_settings()
 
     @kernel
@@ -110,7 +109,7 @@ class ReferenceImage(EnvExperiment):
         camera.set_number_kinetics(self.N)
         camera.start_acquisition()
 
-    def finish_camera(self):
+    def analyze(self):
         done = self.camera.wait_for_kinetic()
         if not done:
             print("uhoh")
