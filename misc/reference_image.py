@@ -62,7 +62,7 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N * 2):
+        for i in range(self.N):
             self.camera_ttl.pulse(self.duration)#self.ctw)
             delay(self.duration)
             # delay(self.duration + self.cta)
@@ -123,7 +123,7 @@ class ReferenceImage(EnvExperiment):
             self.close_camera()
             return
 
-        images = self.camera.get_acquired_data(self.N)
+        images = self.camera.get_acquired_data(int(self.N))
         image_region = self.image_region
         x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
         y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
