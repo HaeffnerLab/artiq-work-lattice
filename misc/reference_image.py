@@ -61,9 +61,9 @@ class ReferenceImage(EnvExperiment):
         self.dds_397.sw.on()
         self.dds_854.sw.pulse(200*us)
         self.core.break_realtime()
-        i = 0
         for i in range(self.N):
             self.camera_ttl.pulse(self.duration)#self.ctw)
+            delay(1*ms)
             # delay(self.duration + self.cta)
         self.reset_cw_settings()
 
@@ -95,7 +95,7 @@ class ReferenceImage(EnvExperiment):
         horizontal_max = self.p.get_parameter("IonsOnCamera", "horizontal_max")
         vertical_min = self.p.get_parameter("IonsOnCamera", "vertical_min")
         vertical_max = self.p.get_parameter("IonsOnCamera", "vertical_max")
-        camera.set_exposure_time(10*us)#exposure)
+        camera.set_exposure_time(exposure)
         self.image_region = [int(horizontal_bin),
                              int(vertical_bin),
                              int(horizontal_min),
