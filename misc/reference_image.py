@@ -51,15 +51,15 @@ class ReferenceImage(EnvExperiment):
     @kernel
     def run(self):
         self.core.reset()
-        for cpld in self.cpld_list:
-            cpld.init()
-        self.dds_397.set(self.freq_397, amplitude=self.amp_397)
-        self.dds_397.set_att(self.att_397)
-        self.dds_866.set(self.freq_866, amplitude=self.amp_866)
-        self.dds_866.set_att(self.att_866)
-        self.dds_866.sw.on()
-        self.dds_397.sw.on()
-        self.dds_854.sw.pulse(200*us)
+        # for cpld in self.cpld_list:
+        #     cpld.init()
+        # self.dds_397.set(self.freq_397, amplitude=self.amp_397)
+        # self.dds_397.set_att(self.att_397)
+        # self.dds_866.set(self.freq_866, amplitude=self.amp_866)
+        # self.dds_866.set_att(self.att_866)
+        # self.dds_866.sw.on()
+        # self.dds_397.sw.on()
+        # self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
         for i in range(self.N):
@@ -112,7 +112,6 @@ class ReferenceImage(EnvExperiment):
 
     def prepare_camera(self):
         self.camera.abort_acquisition()
-        print(self.N, type(self.N))
         self.camera.set_number_kinetics(self.N)
         self.camera.start_acquisition()
 
