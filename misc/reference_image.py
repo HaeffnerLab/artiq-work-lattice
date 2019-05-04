@@ -129,11 +129,11 @@ class ReferenceImage(EnvExperiment):
         y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
         images = np.reshape(images, (self.N, y_pixels, x_pixels))
         image = np.average(images)
-        fig, ax = plt.subplots()
-        plt.imshow(image)
-        plt.show()
+        # fig, ax = plt.subplots()
+        # plt.imshow(image)
+        # plt.show()
         self.close_camera()
-        print(len(images))
+        print(image)
 
     def close_camera(self):
         self.camera.abort_acquisition()
