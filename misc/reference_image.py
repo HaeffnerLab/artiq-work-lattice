@@ -64,6 +64,7 @@ class ReferenceImage(EnvExperiment):
         self.core.break_realtime()
         for i in range(self.N * 2):
             print(i)
+            self.core.break_realtime()
             self.camera_ttl.pulse(self.ctw)
             delay(self.duration)
             # delay(self.duration + self.cta)
