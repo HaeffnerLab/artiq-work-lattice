@@ -2,6 +2,7 @@ import labrad
 import numpy as np
 import matplotlib.pyplot as plt
 from artiq.experiment import *
+from artiq.protocols.pc_rpc import Client
 
 
 class ReferenceImage(EnvExperiment):
