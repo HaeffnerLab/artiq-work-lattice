@@ -95,7 +95,7 @@ class ReferenceImage(EnvExperiment):
         horizontal_max = self.p.get_parameter("IonsOnCamera", "horizontal_max")
         vertical_min = self.p.get_parameter("IonsOnCamera", "vertical_min")
         vertical_max = self.p.get_parameter("IonsOnCamera", "vertical_max")
-        camera.set_exposure_time(exposure)
+        camera.set_exposure_time(10*us)#exposure)
         self.image_region = [int(horizontal_bin),
                              int(vertical_bin),
                              int(horizontal_min),
