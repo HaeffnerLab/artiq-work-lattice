@@ -22,7 +22,6 @@ class ReferenceImage(EnvExperiment):
         N = p.get_parameter("StateReadout", "repeat_each_measurement")
         self.N = int(N)
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
-        self.initialize_camera()
         self.ctw = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
         self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
         self.freq_397 = p.get_parameter("StateReadout", "frequency_397")["Hz"]
@@ -47,6 +46,7 @@ class ReferenceImage(EnvExperiment):
             self.amp_list.append(float(settings[1]))
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
+        self.initialize_camera()
 
     @kernel
     def run(self):
