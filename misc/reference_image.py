@@ -84,6 +84,7 @@ class ReferenceImage(EnvExperiment):
                     self.dds_list[i].sw.on()
                 else:
                     self.dds_list[i].sw.off()
+        delay(100*ms)
 
     def initialize_camera(self):
         cxn = self.cxn
@@ -118,6 +119,7 @@ class ReferenceImage(EnvExperiment):
         if not done:
             print("uhoh")
             self.close_camera()
+            return
 
         images = self.camera.get_acquired_data(self.N)
         image_region = self.image_region
