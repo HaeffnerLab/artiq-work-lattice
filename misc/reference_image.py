@@ -65,6 +65,7 @@ class ReferenceImage(EnvExperiment):
             self.camera_ttl.pulse(self.duration)#self.ctw)
             delay(1*ms)
             # delay(self.duration + self.cta)
+        self.finish_camera()
         self.reset_cw_settings()
 
     @kernel
@@ -109,12 +110,12 @@ class ReferenceImage(EnvExperiment):
         camera.set_number_kinetics(self.N)
         camera.start_acquisition()
 
-    def analyze(self):
+    def finish_camera(self):
         done = self.camera.wait_for_kinetic()
-        # if not done:
-        #     print("uhoh")
-        #     self.close_camera()
-        #     return
+        if not done:
+            print("uhoh")
+            self.close_camera()
+            return
 
         images = self.camera.get_acquired_data(self.N)
         image_region = self.image_region
