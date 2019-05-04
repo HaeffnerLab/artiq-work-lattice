@@ -112,7 +112,7 @@ class ReferenceImage(EnvExperiment):
     def analyze(self):
         done = self.camera.wait_for_kinetic()
         if not done:
-            print("uhoh")
+            print("uhohs")
             self.close_camera()
             return
 
