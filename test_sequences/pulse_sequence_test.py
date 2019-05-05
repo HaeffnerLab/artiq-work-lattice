@@ -5,7 +5,8 @@ from artiq.experiment import *
 class pstest(PulseSequence):
     accessed_params = {"StateReadout.pmt_readout_duration",
                        "Spectrum.wait_time_1",
-                       "StateReadout.use_camera_for_readout"}
+                       "StateReadout.use_camera_for_readout",
+                       "StateReadout.readout_mode"}
     accessed_params.update(StatePreparation.accessed_params)
     # fixed_params = [("StateReadout.pmt_readout_duration", 100*ms)]
     PulseSequence.scan_params.update(line1=([("Spectrum.pulse_duration", 0, 1, 10)], "Rabi"),
