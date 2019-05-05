@@ -21,8 +21,7 @@ class ReferenceImage(EnvExperiment):
         p = cxn.parametervault
         self.p = p
         self.camera = cxn.andor_server
-        N = p.get_parameter("StateReadout", "repeat_each_measurement")
-        self.N = int(N)
+        self.N = 250
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.ctw = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
         self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
