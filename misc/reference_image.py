@@ -48,6 +48,8 @@ class ReferenceImage(EnvExperiment):
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
 
+        self.camera_dock = Client("::1", 3288, "camera_reference_image")
+
     @kernel
     def run(self):
         self.initialize_camera()
@@ -86,7 +88,6 @@ class ReferenceImage(EnvExperiment):
 
     def initialize_camera(self):
         camera = self.camera
-        # self.total_camera_confidences = []
         camera.abort_acquisition()
         self.initial_exposure = camera.get_exposure_time()
         exposure = self.duration
@@ -128,12 +129,8 @@ class ReferenceImage(EnvExperiment):
         y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
         images = np.reshape(images, (self.N, y_pixels, x_pixels))
         image = np.average(images, axis=0)
-        # fig, ax = plt.subplots()
-        # plt.imshow(image)
-        # plt.show()
         self.close_camera()
-        plt = Client("::1", 3288, "camera_reference_image")
-        plt.plot(image, image_region)
+        self.camera_dock.plot(image, image_region)
 
     def close_camera(self):
         self.camera.abort_acquisition()
@@ -142,4 +139,6 @@ class ReferenceImage(EnvExperiment):
         self.camera.set_image_region(1, 1, 1, 658, 1, 496)
         self.camera.start_live_display()
         self.cxn.disconnect()
+        self.camera_dock.close_rpc()
+
 
