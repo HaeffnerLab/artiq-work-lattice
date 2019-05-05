@@ -139,6 +139,7 @@ class ReferenceImage(EnvExperiment):
         self.camera.set_image_region(1, 1, 1, 658, 1, 496)
         self.camera.start_live_display()
         self.cxn.disconnect()
+        self.camera_dock.uncheck_button()
         self.camera_dock.close_rpc()
 
 
