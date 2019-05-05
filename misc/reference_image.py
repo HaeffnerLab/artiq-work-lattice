@@ -48,8 +48,6 @@ class ReferenceImage(EnvExperiment):
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
 
-        self.camera_dock = Client("::1", 3288, "camera_reference_image")
-
     @kernel
     def run(self):
         self.initialize_camera()
@@ -130,7 +128,9 @@ class ReferenceImage(EnvExperiment):
         images = np.reshape(images, (self.N, y_pixels, x_pixels))
         image = np.average(images, axis=0)
         self.close_camera()
-        self.camera_dock.plot(image, image_region)
+        plt = Client("::1", 3288, "camera_reference_image")
+        plt.plot(image, image_region)
+        plt.enable_button()
 
     def close_camera(self):
         self.camera.abort_acquisition()
@@ -139,7 +139,5 @@ class ReferenceImage(EnvExperiment):
         self.camera.set_image_region(1, 1, 1, 658, 1, 496)
         self.camera.start_live_display()
         self.cxn.disconnect()
-        self.camera_dock.uncheck_button()
-        self.camera_dock.close_rpc()
 
 
