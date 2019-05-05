@@ -135,7 +135,7 @@ class ReferenceImage(EnvExperiment):
         # plt.show()
         self.close_camera()
         plt = Client("::1", 3288, "camera_reference_image")
-        plt.plot(image)
+        plt.plot(image, image_region)
 
     def close_camera(self):
         self.camera.abort_acquisition()
