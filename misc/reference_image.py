@@ -115,9 +115,11 @@ class ReferenceImage(EnvExperiment):
         self.camera.start_acquisition()
 
     def analyze(self):
+        camera_dock = Client("::1", 3288, "camera_reference_image")
         done = self.camera.wait_for_kinetic()
         if not done:
-            print("uhohs")
+            camera_dock.enable_button()
+            camera_dock.close_rpc()
             self.close_camera()
             return
 
@@ -128,9 +130,9 @@ class ReferenceImage(EnvExperiment):
         images = np.reshape(images, (self.N, y_pixels, x_pixels))
         image = np.average(images, axis=0)
         self.close_camera()
-        plt = Client("::1", 3288, "camera_reference_image")
-        plt.plot(image, image_region)
-        plt.enable_button()
+        camera_dock.plot(image, image_region)
+        camera_dock.enable_button()
+        camera_dock.close_rpc()
 
     def close_camera(self):
         self.camera.abort_acquisition()
