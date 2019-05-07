@@ -2,13 +2,16 @@ from artiq.pulse_sequence import PulseSequence
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
+
+PulseSequence.initialize_parameters()
+
+
 class pstest(PulseSequence):
     accessed_params = {"StateReadout.pmt_readout_duration",
                        "Spectrum.wait_time_1",
                        "StateReadout.use_camera_for_readout",
                        "StateReadout.readout_mode"}
     # accessed_params.update(StatePreparation.accessed_params)
-    PulseSequence.initialize_parameters()
     # fixed_params = [("StateReadout.pmt_readout_duration", 100*ms)]
     PulseSequence.scan_params.update(line1=([("Spectrum.pulse_duration", 0, 1, 10)], "Rabi"),
                                      line2=([("Spectrum.dummy_detuning", 0, 1, 10)], "Spectrum"))
