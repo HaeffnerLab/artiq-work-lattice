@@ -2,7 +2,7 @@ from artiq.experiment import *
 
 
 class StatePreparation(EnvExperiment):
-    accessed_params = {"StateReadout.camera_readout_duration"}
+    accessed_params = {"StateReadout.line_1_amplitude"}
 
     def build(self):
         self.setattr_device("core")
