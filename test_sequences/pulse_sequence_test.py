@@ -7,7 +7,7 @@ PulseSequence.initialize_parameters()
 
 
 class pstest(PulseSequence):
-    accessed_params.update(
+    PulseSequence.accessed_params.update(
             {"StateReadout.pmt_readout_duration",
              "Spectrum.wait_time_1",
              "StateReadout.use_camera_for_readout",
