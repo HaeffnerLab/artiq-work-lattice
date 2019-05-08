@@ -10,4 +10,4 @@ class StatePreparation(EnvExperiment):
 
     @kernel
     def run(self, duration):
-        self.my_delay(duration)
+        delay(duration)
