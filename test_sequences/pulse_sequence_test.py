@@ -19,7 +19,7 @@ class pstest(PulseSequence):
 
     @kernel
     def line1(self):
-        StatePreparation.run(self, duration=1*ms)
+        StatePreparation().run(duration=1*ms)
         param = self.get_variable_parameter("Spectrum_pulse_duration")*ms
         # param = self.Spectrum_wait_time_1
         self.foo(param)
