@@ -17,7 +17,7 @@ class pstest(PulseSequence):
     PulseSequence.scan_params.update(line1=([("Spectrum.pulse_duration", 0, 1, 10)], "Rabi"),
                                      line2=([("Spectrum.dummy_detuning", 0, 1, 10)], "Spectrum"))
 
-    self.sp = StatePreparation()
+    self.sp = StatePreparation(self)
 
     @kernel
     def line1(self):
