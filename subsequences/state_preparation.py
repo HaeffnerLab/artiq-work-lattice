@@ -9,5 +9,5 @@ class StatePreparation(EnvExperiment):
         self.dds_729G = self.get_device("729G")
 
     @kernel
-    def run(self):
-        delay(1*ms)
+    def run(self, duration):
+        delay(duration)
