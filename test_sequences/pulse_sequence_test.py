@@ -19,7 +19,7 @@ class pstest(PulseSequence):
 
     @kernel
     def line1(self):
-        # self.add_sequence(StatePreparation, {"StateReadout.state_readout_duration": 1*ms})
+        self.add_sequence(StatePreparation, 1*ms)
         param = self.get_variable_parameter("Spectrum_pulse_duration")*ms
         # param = self.Spectrum_wait_time_1
         self.foo(param)
@@ -34,13 +34,13 @@ class pstest(PulseSequence):
 
     @kernel
     def foo(self, delay_):
-        # self.dds_729L1.sw.on()
+        self.dds_729L1.sw.on()
         delay(delay_)
-        # self.dds_729L1.sw.off()
+        self.dds_729L1.sw.off()
         delay(delay_)
-        # self.dds_729L1.sw.on()
+        self.dds_729L1.sw.on()
         delay(delay_)
-        # self.dds_729L1.sw.off()
+        self.dds_729L1.sw.off()
         # self.foo1()
 
     @portable

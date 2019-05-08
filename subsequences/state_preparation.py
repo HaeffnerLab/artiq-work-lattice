@@ -8,9 +8,6 @@ class StatePreparation(EnvExperiment):
         self.setattr_device("core")
         self.dds_729G = self.get_device("729G")
 
-    def run(self):
-        self.my_delay(self.p.StateReadout.camera_readout_duration)
-
     @kernel
-    def my_delay(self, duration):
-        delay(duration)
+    def run(self, duration):
+        self.my_delay(duration)
