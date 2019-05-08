@@ -19,10 +19,6 @@ class pstest(PulseSequence):
 
     @kernel
     def line1(self):
-        # self.StateReadout_pmt_readout_duration
-        self.Spectrum_wait_time_1
-        self.StateReadout_use_camera_for_readout
-        self.StateReadout_readout_mode
         # self.add_sequence(StatePreparation, 1*ms)
         param = self.get_variable_parameter("Spectrum_pulse_duration")*ms
         # param = self.Spectrum_wait_time_1
