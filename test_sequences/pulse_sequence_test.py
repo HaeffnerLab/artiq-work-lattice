@@ -21,7 +21,6 @@ class pstest(PulseSequence):
     
     @kernel
     def line1(self):
-        delay(1*s)
         self.sp.run(duration=self.Spectrum_wait_time_1)
         param = self.get_variable_parameter("Spectrum_pulse_duration")*ms
         # param = self.Spectrum_wait_time_1
