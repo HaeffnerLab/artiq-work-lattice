@@ -12,9 +12,9 @@ class pstest(PulseSequence):
             {"Spectrum.wait_time_1"}
         )
     # fixed_params = [("StateReadout.pmt_readout_duration", 100*ms)]
-    PulseSequence.scan_params.update(line1=([("Spectrum.pulse_duration", 0, 1, 10),
-                                             ("Spectrum.dummy_detuning", 0, 1, 10)], "Rabi"),
-                                     line2=([("Spectrum.dummy_detuning", 0, 1, 10)], "Spectrum"))
+    PulseSequence.scan_params.update(line1=("Rabi", [("Spectrum.pulse_duration", 0, 1, 10),
+                                                     ("Spectrum.dummy_detuning", 0, 1, 10)]),
+                                     line2=("Spectrum", [("Spectrum.dummy_detuning", 0, 1, 10)]))
 
     def run_initially(self):
         self.sp = StatePreparation(self)
