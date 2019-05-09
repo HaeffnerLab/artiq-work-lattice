@@ -7,6 +7,7 @@ PulseSequence.initialize_parameters()
 
 
 class pstest(PulseSequence):
+    is_ndim = False
     PulseSequence.accessed_params.update(
             {#"StateReadout.pmt_readout_duration",
              "Spectrum.wait_time_1",
@@ -19,7 +20,6 @@ class pstest(PulseSequence):
 
     def run_initially(self):
         self.sp = StatePreparation(self)
-    
     
     @kernel
     def line1(self):
