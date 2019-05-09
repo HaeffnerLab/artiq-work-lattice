@@ -9,10 +9,7 @@ PulseSequence.initialize_parameters()
 class pstest(PulseSequence):
     is_ndim = False
     PulseSequence.accessed_params.update(
-            {#"StateReadout.pmt_readout_duration",
-             "Spectrum.wait_time_1",
-            #  "StateReadout.use_camera_for_readout",
-             }#"StateReadout.readout_mode"}
+            {"Spectrum.wait_time_1"}
         )
     # fixed_params = [("StateReadout.pmt_readout_duration", 100*ms)]
     PulseSequence.scan_params.update(line1=([("Spectrum.pulse_duration", 0, 1, 10),
