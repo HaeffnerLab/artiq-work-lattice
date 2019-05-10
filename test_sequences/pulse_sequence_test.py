@@ -25,7 +25,7 @@ class pstest(PulseSequence):
     
     @kernel
     def line1(self):
-        self.calc_frequency("S+1/2D-3/2", 100*kHz, self.aux_axial, 1, "729L1", 
+        self.calc_frequency("S+1/2D-3/2", self.Spectrum_dummy_detuning, self.aux_axial, 1, "729L1", 
                             bound_param="Spectrum_dummy_detuning")
         self.sp.run(duration=self.Spectrum_wait_time_1)
         param = self.get_variable_parameter("Spectrum_pulse_duration")*ms
@@ -35,7 +35,7 @@ class pstest(PulseSequence):
 
     @kernel
     def line2(self):
-        self.calc_frequency("S+1/2D-3/2", 100*kHz, self.aux_axial, 1, "729L1", 
+        self.calc_frequency("S+1/2D-3/2", self.Spectrum_dummy_detuning, self.aux_axial, 1, "729L1", 
                             bound_param="Spectrum_dummy_detuning")
         param = self.get_variable_parameter("Spectrum_dummy_detuning")*ms
         # param = self.Spectrum_wait_time_1
