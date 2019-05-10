@@ -13,10 +13,10 @@ class pstest(PulseSequence):
         )
     # fixed_params = [("StateReadout.pmt_readout_duration", 100*ms)]
     PulseSequence.scan_params.update(
-            line1=("Rabi", 
+            line1=("Spectrum", 
                 [("Spectrum.pulse_duration", 0, 1, 10),
                  ("Spectrum.dummy_detuning", 0, 1, 10)]),
-            line2=("Spectrum", 
+            line2=("Rabi", 
                 [("Spectrum.dummy_detuning", 0, 1, 10)])
         )
 
