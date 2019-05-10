@@ -16,7 +16,7 @@ class pstest(PulseSequence):
             line1=("Spectrum", 
                 [("Spectrum.pulse_duration", 0, 1, 10),
                  ("Spectrum.dummy_detuning", 0, 1, 10)]),
-            line2=("Rabi", 
+            line2=("Spectrum", 
                 [("Spectrum.dummy_detuning", 0, 1, 10)])
         )
 
