@@ -39,7 +39,7 @@ class pstest(PulseSequence):
                             bound_param="Spectrum_dummy_detuning")
         param = self.get_variable_parameter("Spectrum_dummy_detuning")*ms
         # param = self.Spectrum_wait_time_1
-        delay(1*ms)
+        delay(100*us)
         self.foo(param)
         #self.foo(self.Spectrum_pulse_duration)
 
