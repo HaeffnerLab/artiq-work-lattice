@@ -23,7 +23,7 @@ class pstest(PulseSequence):
     def run_initially(self):
         self.sp = StatePreparation(self)
     
-    @kernel
+    @kernel#
     def line1(self):
         param = self.get_variable_parameter("Spectrum_dummy_detuning")
         self.calc_frequency("S+1/2D-3/2", param, self.aux_axial, 1, "729L1", 
