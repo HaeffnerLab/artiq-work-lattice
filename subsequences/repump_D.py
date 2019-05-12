@@ -23,7 +23,7 @@ class RepumpD(EnvExperiment):
         # with parallel:
         #     self.dds_854.sw.on()
         #     self.dds_866.sw.on()
-        delay(duration)
+        delay(1*ms)#duration)
         # with parallel:
         #     self.dds_854.sw.off()
         #     self.dds_866.sw.off()
