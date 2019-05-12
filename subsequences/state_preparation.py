@@ -1,8 +1,11 @@
 from artiq.experiment import *
+from artiq.pulse_sequence import PulseSequence
 
 
-class StatePreparation(EnvExperiment):
-    accessed_params = {}#{"StateReadout.line_1_amplitude"}
+PulseSequence.initialize_parameters()
+
+
+class StatePreparation(PulseSequence):
 
     def build(self):
         self.setattr_device("core")

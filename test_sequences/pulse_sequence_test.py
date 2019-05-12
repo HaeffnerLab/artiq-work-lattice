@@ -1,5 +1,5 @@
 from artiq.pulse_sequence import PulseSequence
-from subsequences.state_preparation import StatePreparation
+from subsequences.repump_D import RepumpD
 from artiq.experiment import *
 
 
@@ -21,14 +21,14 @@ class pstest(PulseSequence):
         )
 
     def run_initially(self):
-        self.sp = StatePreparation(self)
+        self.repump854 = self.add_subsequence(RepumpD)
     
-    @kernel#
+    @kernel
     def line1(self):
         param = self.get_variable_parameter("Spectrum_dummy_detuning")
         self.calc_frequency("S+1/2D-3/2", param, self.aux_axial, 0, "729L1", 
                             bound_param="Spectrum_dummy_detuning")
-        self.sp.run(duration=self.Spectrum_wait_time_1)
+        self.repump854.run()
         # param = self.get_variable_parameter("Spectrum_pulse_duration")*ms
         # param = self.Spectrum_wait_time_1
         self.foo(1*ms)
