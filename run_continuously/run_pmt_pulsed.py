@@ -3,6 +3,7 @@ from artiq import *
 from artiq.language import *
 from artiq.language.core import TerminationRequested
 
+
 class pmt_collect_pulsed(EnvExperiment):
 
     def build(self):

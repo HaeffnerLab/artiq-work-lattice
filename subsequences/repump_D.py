@@ -1,0 +1,42 @@
+from artiq.experiment import *
+
+
+class RepumpD(EnvExperiment):
+    accessed_params = {
+            "RepumpD_5_2.repump_d_duration",
+            "RepumpD_5_2.repump_d_frequency_854",
+            "RepumpD_5_2.repump_d_amplitude_854",
+            "RepumpD_5_2.repump_d_att_854",
+            "DopplerCooling.doppler_cooling_frequency_866",
+            "DopplerCooling.doppler_cooling_amplitude_866",
+            "DopplerCooling.doppler_cooling_att_866"
+        }
+
+    def build(self):
+        self.setattr_device("core")
+
+    @kernel
+    def run(self,
+            duration=self.RepumpD_5_2_repump_d_duration,
+            frequency_854=self.RepumpD_5_2_repump_d_frequency_854,
+            amplitude_854=self.RepumpD_5_2_repump_d_amplitude_854,
+            att_854=self.RepumpD_5_2_repump_d_att_854,
+            frequency_866=self.DopplerCooling_doppler_cooling_frequency_866,
+            amplitude_866=self.DopplerCooling_doppler_cooling_amplitude_866,
+            att_866=self.DopplerCooling_doppler_cooling_att_866):
+
+        self.dds_854.set(frequency_854, amplitude=amplitude_854)
+        self.dds_854.set_att(att_854)
+        self.dds_866.set(frequency_866, amplitude=amplitude_866)
+        self.dds_866.set_att(att_866)
+        with parallel:
+            self.dds_854.sw.on()
+            self.dds_866.sw.on()
+        delay(duration)
+        with parallel:
+            self.dds_854.sw.off()
+            self.dds_866.sw.off()
+
+
+
+
