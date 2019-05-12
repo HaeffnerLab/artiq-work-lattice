@@ -25,6 +25,7 @@ class pstest(PulseSequence):
     
     @kernel
     def line1(self):
+        self.core.break_realtime()
         param = self.get_variable_parameter("Spectrum_dummy_detuning")
         self.calc_frequency("S+1/2D-3/2", param, self.aux_axial, 0, "729L1", 
                             bound_param="Spectrum_dummy_detuning")
