@@ -16,17 +16,17 @@ class RepumpD(EnvExperiment):
             amplitude_866="DopplerCooling.doppler_cooling_amplitude_866",
             att_866="DopplerCooling.doppler_cooling_att_866"):
 
-        self.dds_854.set(frequency_854, amplitude=amplitude_854)
-        self.dds_854.set_att(att_854)
-        self.dds_866.set(frequency_866, amplitude=amplitude_866)
-        self.dds_866.set_att(att_866)
+        # self.dds_854.set(frequency_854, amplitude=amplitude_854)
+        # self.dds_854.set_att(att_854)
+        # self.dds_866.set(frequency_866, amplitude=amplitude_866)
+        # self.dds_866.set_att(att_866)
         # with parallel:
-        self.dds_854.sw.on()
-        self.dds_866.sw.on()
+        #     self.dds_854.sw.on()
+        #     self.dds_866.sw.on()
         delay(duration)
         # with parallel:
-        self.dds_854.sw.off()
-        self.dds_866.sw.off()
+        #     self.dds_854.sw.off()
+        #     self.dds_866.sw.off()
 
 
 
