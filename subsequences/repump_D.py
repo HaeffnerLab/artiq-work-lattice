@@ -16,6 +16,7 @@ class RepumpD(EnvExperiment):
             amplitude_866="DopplerCooling.doppler_cooling_amplitude_866",
             att_866="DopplerCooling.doppler_cooling_att_866"):
 
+        self.core.break_realtime()
         self.dds_854.set(80*MHz)#frequency_854, amplitude=amplitude_854)
         # self.dds_854.set_att(att_854)
         # self.dds_866.set(frequency_866, amplitude=amplitude_866)
