@@ -7,7 +7,7 @@ class RepumpD(EnvExperiment):
     def build(self):
         self.setattr_device("core")
 
-    @kernel
+    # @kernel
     def run(self,
             duration="RepumpD_5_2.repump_d_duration",
             frequency_854="RepumpD_5_2.repump_d_frequency_854",
