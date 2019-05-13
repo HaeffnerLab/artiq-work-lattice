@@ -1,5 +1,4 @@
 from artiq.experiment import *
-from artiq.pulse_sequence import PulseSequence
 
 class RepumpD(EnvExperiment):
     duration="RepumpD_5_2.repump_d_duration"
@@ -11,9 +10,6 @@ class RepumpD(EnvExperiment):
     att_866="DopplerCooling.doppler_cooling_att_866"
     
     def subsequence(self):
-        pass
-        # self.dds_854.init()
-        # self.dds_866.init()
         delay(500*us)
         self.dds_854.set(RepumpD.frequency_854, amplitude=RepumpD.amplitude_854)
         self.dds_854.set_att(RepumpD.att_854)

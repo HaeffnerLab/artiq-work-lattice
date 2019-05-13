@@ -1,5 +1,6 @@
 from artiq.pulse_sequence import PulseSequence
 from subsequences.repump_D import RepumpD
+from subsequences.doppler_cooling import DopplerCooling
 from artiq.experiment import *
 
 
@@ -22,6 +23,7 @@ class pstest(PulseSequence):
 
     def run_initially(self):
         self.repump854 = self.add_subsequence(RepumpD)
+        self.dopplerCooling = self.add_subsequence(DopplerCooling)
     
     @kernel
     def line1(self):
@@ -30,8 +32,7 @@ class pstest(PulseSequence):
                             bound_param="Spectrum_dummy_detuning")
         self.repump854.duration = param*ms
         self.repump854.run(self)
-        # param = self.get_variable_parameter("Spectrum_pulse_duration")*ms
-        # param = self.Spectrum_wait_time_1
+        self.dopplerCooling.run(self)
         self.foo(1*ms)
         # self.foo(self.Spectrum_pulse_duration)
 
