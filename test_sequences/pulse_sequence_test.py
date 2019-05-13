@@ -32,7 +32,7 @@ class pstest(PulseSequence):
                             bound_param="Spectrum_dummy_detuning")
         self.repump854.duration = param*ms
         self.repump854.run(self)
-        # self.dopplerCooling.run(self)
+        self.dopplerCooling.run(self)
         self.foo(1*ms)
         # self.foo(self.Spectrum_pulse_duration)
 
