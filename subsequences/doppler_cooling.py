@@ -16,9 +16,10 @@ class DopplerCooling():#EnvExperiment):
         with parallel:
             self.dds_397.set(DopplerCooling.frequency_397, amplitude=DopplerCooling.amplitude_397)
             self.dds_397.set_att(DopplerCooling.att_397)
+        with parallel:
             self.dds_866.set(DopplerCooling.frequency_866, amplitude=DopplerCooling.amplitude_866)
             self.dds_866.set_att(DopplerCooling.att_866)
-        # with parallel:
+        with parallel:
             self.dds_397.sw.on()
             self.dds_866.sw.on()
         delay(DopplerCooling.duration)
