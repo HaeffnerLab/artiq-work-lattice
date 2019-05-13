@@ -12,7 +12,7 @@ class DopplerCooling(EnvExperiment):
     att_866="DopplerCooling.doppler_cooling_att_866"
 
     def subsequence(self):
-        delay(100*us)
+        delay(500*us)
         self.dds_397.set(DopplerCooling.frequency_397, amplitude=DopplerCooling.amplitude_397)
         self.dds_397.set_att(DopplerCooling.att_397)
         self.dds_866.set(DopplerCooling.frequency_866, amplitude=DopplerCooling.amplitude_866)
