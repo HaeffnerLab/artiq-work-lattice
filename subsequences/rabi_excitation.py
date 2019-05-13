@@ -2,7 +2,7 @@ from artiq.experiment import *
 
 
 class RabiExcitation():
-    freq_729="Excitation_729.rabi_excitation_frequency"
+    freq_729=220*MHz
     amp_729="Excitation_729.rabi_excitation_amplitude"
     att_729="Excitation_729.rab_excitation_att"
     phase_729="Excitation_729.rabi_excitation_phase"
