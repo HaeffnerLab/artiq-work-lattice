@@ -3,6 +3,9 @@ from artiq.pulse_sequence import PulseSequence
 
 class RepumpD(EnvExperiment):
     
+    def build(self):
+        self.setattr_device("core")
+
     def subsequence(self,
             duration="RepumpD_5_2.repump_d_duration",
             frequency_854="RepumpD_5_2.repump_d_frequency_854",
