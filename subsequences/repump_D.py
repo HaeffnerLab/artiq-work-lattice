@@ -1,6 +1,15 @@
 from artiq.experiment import *
 
 class RepumpD(EnvExperiment):
+    kernel_invariants = {
+        "duration",
+        "frequency_854",
+        "amplitude_854",
+        "att_854",
+        "frequency_866",
+        "amplitude_866",
+        "att_866"
+    }
     duration="RepumpD_5_2.repump_d_duration"
     frequency_854="RepumpD_5_2.repump_d_frequency_854"
     amplitude_854="RepumpD_5_2.repump_d_amplitude_854"
