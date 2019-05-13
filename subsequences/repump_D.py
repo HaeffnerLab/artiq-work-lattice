@@ -13,7 +13,7 @@ class RepumpD(EnvExperiment):
     def subsequence(self):
 
         self.dds_854.set(RepumpD.frequency_854, amplitude=RepumpD.amplitude_854)
-        delay(1*ms)
+        delay(1*us)
         # self.dds_854.set_att(RepumpD.att_854)
         # self.dds_866.set(RepumpD.frequency_866, amplitude=RepumpD.amplitude_866)
         # self.dds_866.set_att(RepumpD.att_866)
