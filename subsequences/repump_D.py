@@ -2,6 +2,13 @@ from artiq.experiment import *
 from artiq.pulse_sequence import PulseSequence
 
 class RepumpD(EnvExperiment):
+    duration="RepumpD_5_2.repump_d_duration"
+    frequency_854="RepumpD_5_2.repump_d_frequency_854"
+    amplitude_854="RepumpD_5_2.repump_d_amplitude_854"
+    att_854="RepumpD_5_2.repump_d_att_854"
+    frequency_866="DopplerCooling.doppler_cooling_frequency_866"
+    amplitude_866="DopplerCooling.doppler_cooling_amplitude_866"
+    att_866="DopplerCooling.doppler_cooling_att_866"
     
     def subsequence(self,
             duration="RepumpD_5_2.repump_d_duration",
