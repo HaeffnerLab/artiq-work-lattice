@@ -3,7 +3,7 @@ from subsequences.repump_D import RepumpD
 from artiq.experiment import *
 
 
-PulseSequence.initialize_parameters()
+# PulseSequence.initialize_parameters()
 
 
 class pstest(PulseSequence):
