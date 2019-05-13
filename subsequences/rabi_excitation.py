@@ -12,17 +12,24 @@ class RabiExcitation():
     def subsequence(self):
         if RabiExcitation.channel_729 == "729L1":
             dds_729 = self.dds_729L1
+            dds_729_SP = self.dds_SP_729L1
         elif RabiExcitation.channel_729 == "729L2":
             dds_729 = self.dds_729L2
+            dds_729_SP = self.dds_SP_729L2
         elif RabiExcitation.channel_729 == "729G":
             dds_729 = self.dds_729G
+            dds_729_SP = self.dds_SP_729G
         else:
             dds_729 = self.dds_729G
+            dds_729_SP = self.dds_SP_729G
 
         dds_729.set(RabiExcitation.freq_729, amplitude=RabiExcitation.amp_729,
                     phase=RabiExcitation.phase_729)
         dds_729.set_att(RabiExcitation.att_729)
-        # dds_729.sw.on()
-        self.dds_729L1.sw.on()
+        with parallel:
+            dds_729.sw.on()
+            dds_729_SP.sw.on()
         delay(RabiExcitation.duration)
-        # dds_729.sw.off()
+        with parallel:
+            dds_729.sw.off()
+            dds_729_SP.sw.off()
