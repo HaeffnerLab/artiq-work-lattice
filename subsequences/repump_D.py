@@ -2,10 +2,6 @@ from artiq.experiment import *
 from artiq.pulse_sequence import PulseSequence
 
 class RepumpD(EnvExperiment):
-    accessed_params = {}
-
-    # def build(self):
-    #     self.setattr_device("core")
 
     def subsequence(self,
             duration="RepumpD_5_2.repump_d_duration",
@@ -24,7 +20,7 @@ class RepumpD(EnvExperiment):
         # with parallel:
         #     self.dds_854.sw.on()
         #     self.dds_866.sw.on()
-        delay(1*ms)#duration)
+        delay(duration)
         # with parallel:
         #     self.dds_854.sw.off()
         #     self.dds_866.sw.off()
