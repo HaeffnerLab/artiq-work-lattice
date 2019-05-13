@@ -39,11 +39,10 @@ class Spectrum(PulseSequence):
         self.opc.freq_729 = self.calc_frequency(opc_line, dds=opc_dds)
         self.rabi.freq_729 = self.calc_frequency(opc_line, delta, dds=rabi_dds,
                 bound_param="Spectrum_carrier_detuning")
-        print(self.rabi.freq_729)
         
         delay(1*s)
 
-        # self.repump854.run(self)
-        # self.dopplerCooling.run(self)
-        # self.opc.run(self)
-        # self.rabi.run(self)
+        self.repump854.run(self)
+        self.dopplerCooling.run(self)
+        self.opc.run(self)
+        self.rabi.run(self)
