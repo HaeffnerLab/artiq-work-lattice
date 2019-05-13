@@ -22,8 +22,8 @@ class pstest(PulseSequence):
         )
 
     def run_initially(self):
-        self.repump854 = self.add_subsequence(RepumpD)
-        self.dopplerCooling = self.add_subsequence(DopplerCooling).run
+        self.repump854 = self.add_subsequence(RepumpD).subsequence
+        self.dopplerCooling = self.add_subsequence(DopplerCooling).subsequence
     
     @kernel
     def line1(self):
@@ -31,7 +31,7 @@ class pstest(PulseSequence):
         self.calc_frequency("S+1/2D-3/2", param, self.aux_axial, 0, "729L1", 
                             bound_param="Spectrum_dummy_detuning")
         self.repump854.duration = param*ms
-        self.repump854.run(self)
+        self.repump854()
         self.dopplerCooling()
         self.foo(1*ms)
         # self.foo(self.Spectrum_pulse_duration)
