@@ -1,15 +1,15 @@
 from artiq.experiment import *
 
 class RepumpD(EnvExperiment):
-    kernel_invariants = {
-        "duration",
-        "frequency_854",
-        "amplitude_854",
-        "att_854",
-        "frequency_866",
-        "amplitude_866",
-        "att_866"
-    }
+    # kernel_invariants = {
+    #     "duration",
+    #     "frequency_854",
+    #     "amplitude_854",
+    #     "att_854",
+    #     "frequency_866",
+    #     "amplitude_866",
+    #     "att_866"
+    # }
     duration="RepumpD_5_2.repump_d_duration"
     frequency_854="RepumpD_5_2.repump_d_frequency_854"
     amplitude_854="RepumpD_5_2.repump_d_amplitude_854"
@@ -19,7 +19,7 @@ class RepumpD(EnvExperiment):
     att_866="DopplerCooling.doppler_cooling_att_866"
     
     def subsequence(self):
-        delay(500*us)
+        # delay(500*us)
         self.dds_854.set(RepumpD.frequency_854, amplitude=RepumpD.amplitude_854)
         self.dds_854.set_att(RepumpD.att_854)
         self.dds_866.set(RepumpD.frequency_866, amplitude=RepumpD.amplitude_866)
