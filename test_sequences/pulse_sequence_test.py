@@ -36,7 +36,7 @@ class pstest(PulseSequence):
         self.dopplerCooling.run(self)
         # self.foo(1*ms)
         # self.foo(self.Spectrum_pulse_duration)
-        dds = self.get_device("729L1")
+        # dds = self.get_device("729L1")
 
     @kernel
     def line2(self):
