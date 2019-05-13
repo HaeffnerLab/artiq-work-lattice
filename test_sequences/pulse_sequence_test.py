@@ -66,7 +66,7 @@ class pstest(PulseSequence):
     def subsequence(self, frequency_397, amplitude_397, att_397,
                           frequency_866, amplitude_866, att_866,
                           duration, additional_repump_duration):
-        delay(200*us)
+        delay(300*us)
         self.dds_397.set(frequency_397, amplitude=amplitude_397)
         self.dds_397.set_att(att_397)
         self.dds_866.set(frequency_866, amplitude=amplitude_866)
