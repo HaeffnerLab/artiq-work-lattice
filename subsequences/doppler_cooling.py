@@ -23,7 +23,7 @@ class DopplerCooling(EnvExperiment):
     att_866="DopplerCooling.doppler_cooling_att_866"
 
     def subsequence(self):
-        delay(300*us)
+        delay(200*us)
         self.dds_397.set(DopplerCooling.frequency_397, amplitude=DopplerCooling.amplitude_397)
         self.dds_397.set_att(DopplerCooling.att_397)
         self.dds_866.set(DopplerCooling.frequency_866, amplitude=DopplerCooling.amplitude_866)
@@ -35,15 +35,3 @@ class DopplerCooling(EnvExperiment):
         self.dds_397.sw.off()
         delay(DopplerCooling.additional_repump_duration)
         self.dds_866.sw.off()
-
-        # self.dds_397.set(80*MHz, amplitude=1.)
-        # self.dds_397.set_att(13*dB)
-        # self.dds_866.set(80*MHz, amplitude=1.)
-        # self.dds_866.set_att(13*dB)
-        # with parallel:
-        #     self.dds_397.sw.on()
-        #     self.dds_866.sw.on()
-        # delay(4*ms)
-        # self.dds_397.sw.off()
-        # delay(100*us)
-        # self.dds_866.sw.off()
