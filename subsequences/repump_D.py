@@ -13,17 +13,17 @@ class RepumpD(EnvExperiment):
     def subsequence(self):
 
         self.dds_854.set(RepumpD.frequency_854, amplitude=RepumpD.amplitude_854)
-        self.core.break_realtime()
-        self.dds_854.set_att(RepumpD.att_854)
-        self.dds_866.set(RepumpD.frequency_866, amplitude=RepumpD.amplitude_866)
-        self.dds_866.set_att(RepumpD.att_866)
-        with parallel:
-            self.dds_854.sw.on()
-            self.dds_866.sw.on()
-        delay(RepumpD.duration)
-        with parallel:
-            self.dds_854.sw.off()
-            self.dds_866.sw.off()
+        delay(1*ms)
+        # self.dds_854.set_att(RepumpD.att_854)
+        # self.dds_866.set(RepumpD.frequency_866, amplitude=RepumpD.amplitude_866)
+        # self.dds_866.set_att(RepumpD.att_866)
+        # with parallel:
+        #     self.dds_854.sw.on()
+        #     self.dds_866.sw.on()
+        # delay(RepumpD.duration)
+        # with parallel:
+        #     self.dds_854.sw.off()
+        #     self.dds_866.sw.off()
 
 
 
