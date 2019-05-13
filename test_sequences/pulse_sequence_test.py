@@ -32,8 +32,7 @@ class pstest(PulseSequence):
                             bound_param="Spectrum_dummy_detuning")
         self.repump854.duration = param*ms
         self.repump854.run(self)
-        # self.dopplerCooling.run(self)
-        self.subsequence(80*MHz, 1., 13*dB, 80*MHz, 1., 13*dB, 4*ms, 100*us)
+        self.dopplerCooling.run(self)
         self.foo(1*ms)
         # self.foo(self.Spectrum_pulse_duration)
 
@@ -62,20 +61,4 @@ class pstest(PulseSequence):
     def foo1(self):
         delay(1*s)
 
-    @kernel
-    def subsequence(self, frequency_397, amplitude_397, att_397,
-                          frequency_866, amplitude_866, att_866,
-                          duration, additional_repump_duration):
-        delay(300*us)
-        self.dds_397.set(frequency_397, amplitude=amplitude_397)
-        self.dds_397.set_att(att_397)
-        self.dds_866.set(frequency_866, amplitude=amplitude_866)
-        self.dds_866.set_att(att_866)
-        with parallel:
-            self.dds_397.sw.on()
-            self.dds_866.sw.on()
-        delay(duration)
-        self.dds_397.sw.off()
-        delay(additional_repump_duration)
-        self.dds_866.sw.off()
-
+        
