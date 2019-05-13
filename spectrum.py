@@ -9,7 +9,6 @@ from artiq.experiment import *
 class Spectrum(PulseSequence):
     PulseSequence.accessed_params.update(
         {"Excitation_729.channel_729",
-         "Excitation_729.bichro",
          "Spectrum.manual_amplitude_729",
          "Spectrum.manual_excitation_time",
          "Spectrum.line_selection",
