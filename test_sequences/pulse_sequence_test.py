@@ -41,8 +41,16 @@ class pstest(PulseSequence):
         self.dopplerCooling.run(self)
         # self.opc.freq_729 = opc_freq_729
         # self.opc.run(self)
-        # self.foo(1*ms)
-        # self.foo(self.Spectrum_pulse_duration)
+
+        param = self.get_variable_parameter("Spectrum_dummy_detuning")
+        opc_freq_729 =self.calc_frequency("S+1/2D-3/2", param, self.aux_axial, 0, "729L1", 
+                            bound_param="Spectrum_dummy_detuning")
+        delay(800*us)
+        self.repump854.duration = param*ms
+        self.repump854.run(self)
+        self.dopplerCooling.run(self)
+        self.opc.freq_729 = opc_freq_729
+        self.opc.run(self)
 
     @kernel
     def line2(self):
