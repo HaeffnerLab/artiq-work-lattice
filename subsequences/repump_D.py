@@ -14,9 +14,9 @@ class RepumpD(EnvExperiment):
 
         self.core.break_realtime()
         self.dds_854.set(80.*MHz, amplitude=1.)
-        self.dds_854.set_att(13.)
+        # self.dds_854.set_att(13.)
         self.dds_866.set(80.*MHz, amplitude=1.)
-        self.dds_866.set_att(13.)
+        # self.dds_866.set_att(13.)
         # self.dds_854.set(RepumpD.frequency_854, amplitude=RepumpD.amplitude_854)
         # self.dds_854.set_att(RepumpD.att_854)
         # self.dds_866.set(RepumpD.frequency_866, amplitude=RepumpD.amplitude_866)
