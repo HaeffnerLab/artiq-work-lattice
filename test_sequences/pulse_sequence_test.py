@@ -1,7 +1,7 @@
 from artiq.pulse_sequence import PulseSequence
 from subsequences.repump_D import RepumpD
 from subsequences.doppler_cooling import DopplerCooling
-from susbsequences.optical_pumping_pulsed import OpticalPumpingPulsed
+from susbsequence.optical_pumping_pulsed import OpticalPumpingPulsed
 from artiq.experiment import *
 
 
