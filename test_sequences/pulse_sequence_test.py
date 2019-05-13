@@ -32,7 +32,7 @@ class pstest(PulseSequence):
         param = self.get_variable_parameter("Spectrum_dummy_detuning")
         opc_line = self.opc.line_selection
         opc_dds = self.opc.channel_729
-        opc_freq_729 = self.calc_frequency(opc_line, 0., self.aux_axial, 0, opc_dds)
+        # opc_freq_729 = self.calc_frequency(opc_line, 0., self.aux_axial, 0, opc_dds)
         delay(800*us)
         self.repump854.duration = param*ms
         self.repump854.run(self)
