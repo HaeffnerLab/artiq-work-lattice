@@ -22,6 +22,7 @@ class pstest(PulseSequence):
 
     def run_initially(self):
         self.repump854 = self.add_subsequence(RepumpD)
+        print("HERESIES: ", self.repump854.__defaults__)
     
     @kernel
     def line1(self):
