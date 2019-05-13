@@ -4,7 +4,7 @@ from artiq.pulse_sequence import PulseSequence
 class RepumpD(EnvExperiment):
 
     def subsequence(self,
-            duration="RepumpD_5_2.repump_d_duration",
+            duration=1*ms,#"RepumpD_5_2.repump_d_duration",
             frequency_854="RepumpD_5_2.repump_d_frequency_854",
             amplitude_854="RepumpD_5_2.repump_d_amplitude_854",
             att_854="RepumpD_5_2.repump_d_att_854",
@@ -20,7 +20,7 @@ class RepumpD(EnvExperiment):
         # with parallel:
         #     self.dds_854.sw.on()
         #     self.dds_866.sw.on()
-        print("DURATIN: ", duration)
+        # print("DURATIN: ", duration)
         delay(duration)
         # with parallel:
         #     self.dds_854.sw.off()
