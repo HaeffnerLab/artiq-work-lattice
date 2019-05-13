@@ -39,7 +39,8 @@ class pstest(PulseSequence):
         self.repump854.duration = param*ms
         self.repump854.run(self)
         self.dopplerCooling.run(self)
-        self.opc.freq_729 = opc_freq_729
+        print(opc_freq_729)
+        # self.opc.freq_729 = opc_freq_729
         self.opc.run(self)
 
     @kernel
