@@ -8,16 +8,12 @@ from artiq.experiment import *
 
 class Spectrum(PulseSequence):
     PulseSequence.accessed_params.update(
-        {"Excitation_729.channel_729",
-         "Spectrum.manual_amplitude_729",
-         "Spectrum.manual_excitation_time",
-         "Spectrum.line_selection",
-         "Spectrum.selection_sideband",
-         "Spectrum.order",
-         "Display.relative_frequencies",
-         "StatePreparation.channel_729",
-         "StatePreparation.optical_pumping_enable",
-         "StatePreparation.sideband_cooling_enable"}
+        {"Excitation_729.rabi_excitation_frequency",
+         "Excitation_729.rabi_excitation_amplitude",
+         "Excitation_729.rabi_excitation_att",
+         "Excitation_729.rabi_excitation_phase",
+         "Excitation_729.channel_729",
+         "Excitation_729.rabi_excitation_duration"}
     )
     PulseSequence.scan_params.update(
         spectrum=("Spectrum",
