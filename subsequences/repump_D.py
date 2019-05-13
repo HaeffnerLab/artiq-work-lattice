@@ -21,7 +21,7 @@ class RepumpD(EnvExperiment):
         #     self.dds_854.sw.on()
         #     self.dds_866.sw.on()
         # print("DURATIN: ", duration)
-        delay(self.duration)
+        delay(RepumpD.duration)
         # with parallel:
         #     self.dds_854.sw.off()
         #     self.dds_866.sw.off()
