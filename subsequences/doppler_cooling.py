@@ -1,3 +1,6 @@
+from artiq.experiment import *
+
+
 class DopplerCooling():#EnvExperiment):
     duration="DopplerCooling.doppler_cooling_duration"
     additional_repump_duration="DopplerCooling.doppler_cooling_repump_additional"
