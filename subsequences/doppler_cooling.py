@@ -2,17 +2,6 @@ from artiq.experiment import *
 
 
 class DopplerCooling(EnvExperiment):
-    # kernel_invariants = {
-    #     "duration",
-    #     "additional_repump_duration",
-    #     "frequency_397",
-    #     "amplitude_397",
-    #     "att_397",
-    #     "frequency_866",
-    #     "amplitude_866",
-    #     "att_866"
-    # }
-    
     duration="DopplerCooling.doppler_cooling_duration"
     additional_repump_duration="DopplerCooling.doppler_cooling_repump_additional"
     frequency_397="DopplerCooling.doppler_cooling_frequency_397"
