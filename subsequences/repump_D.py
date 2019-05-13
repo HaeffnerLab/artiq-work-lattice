@@ -4,7 +4,7 @@ from artiq.pulse_sequence import PulseSequence
 class RepumpD(EnvExperiment):
 
     def subsequence(self,
-            duration=1*ms,#"RepumpD_5_2.repump_d_duration",
+            duration="RepumpD_5_2.repump_d_duration",
             frequency_854="RepumpD_5_2.repump_d_frequency_854",
             amplitude_854="RepumpD_5_2.repump_d_amplitude_854",
             att_854="RepumpD_5_2.repump_d_att_854",
