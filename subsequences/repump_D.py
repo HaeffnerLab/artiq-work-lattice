@@ -10,7 +10,7 @@ class RepumpD(EnvExperiment):
     att_866="DopplerCooling.doppler_cooling_att_866"
     
     def subsequence(self):
-        delay(400*us)
+        delay(500*us)
         self.dds_854.set(RepumpD.frequency_854, amplitude=RepumpD.amplitude_854)
         self.dds_854.set_att(RepumpD.att_854)
         self.dds_866.set(RepumpD.frequency_866, amplitude=RepumpD.amplitude_866)
