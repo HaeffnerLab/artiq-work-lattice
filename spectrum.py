@@ -41,9 +41,9 @@ class Spectrum(PulseSequence):
                 bound_param="Spectrum_carrier_detuning")
         print(self.rabi.freq_729)
         
-        delay(1*ms)
+        delay(1*s)
 
-        self.repump854.run(self)
-        self.dopplerCooling.run(self)
-        self.opc.run(self)
-        self.rabi.run(self)
+        # self.repump854.run(self)
+        # self.dopplerCooling.run(self)
+        # self.opc.run(self)
+        # self.rabi.run(self)
