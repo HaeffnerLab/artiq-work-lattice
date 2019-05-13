@@ -24,6 +24,8 @@ class OpticalPumpingPulsed():
             dds_729 = self.dds_729L2
         elif OpticalPumpingPulsed.channel_729 == "729G":
             dds_729 = self.dds_729G
+        else:
+            dds_729 = self.dds_729G
         
         self.dds_866.set(OpticalPumpingPulsed.frequency_866, amplitude=OpticalPumpingPulsed.amplitude_866)
         self.dds_866.set_att(OpticalPumpingPulsed.att_866)
