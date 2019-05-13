@@ -18,3 +18,10 @@ class RabiExcitation():
             dds_729 = self.dds_729G
         else:
             dds_729 = self.dds_729G
+
+        dds_729.set(RabiExcitation.freq_729, amplitude=RabiExcitation.amp_729,
+                    phase=RabiExcitation.phase_729)
+        dds_729.set_att(RabiExcitation.att_729)
+        dds_729.sw.on()
+        delay(RabiExcitation.duration)
+        dds_729.sw.off()
