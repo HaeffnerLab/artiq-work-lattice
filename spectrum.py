@@ -42,7 +42,6 @@ class Spectrum(PulseSequence):
         
         delay(1*ms)
 
-        self.repump854.duration = param*ms
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
