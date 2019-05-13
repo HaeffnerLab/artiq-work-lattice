@@ -42,7 +42,7 @@ class pstest(PulseSequence):
         # # self.opc.freq_729 = opc_freq_729
         # # self.opc.run(self)
 
-        opc_freq_729 =self.calc_frequency(opc_line, 0., self.aux_axial, 0, opc_dds, bound_param="")
+        # opc_freq_729 =self.calc_frequency(opc_line, 0., self.aux_axial, 0, opc_dds, bound_param="")
         delay(1*ms)
         self.repump854.duration = param*ms
         self.repump854.run(self)
