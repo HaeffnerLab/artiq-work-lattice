@@ -13,7 +13,8 @@ class Spectrum(PulseSequence):
          "Excitation_729.rabi_excitation_att",
          "Excitation_729.rabi_excitation_phase",
          "Excitation_729.channel_729",
-         "Excitation_729.rabi_excitation_duration"}
+         "Excitation_729.rabi_excitation_duration",
+         "Excitation_729.line_selection"}
     )
     PulseSequence.scan_params.update(
         spectrum=("Spectrum",
@@ -31,9 +32,10 @@ class Spectrum(PulseSequence):
         delta = self.get_variable_parameter("Spectrum_carrier_detuning")
         opc_line = self.opc.line_selection
         opc_dds = self.opc.channel_729
+        rabi_line = self.rabi.line_selection
         rabi_dds = self.rabi.channel_729
         self.opc.freq_729 = self.calc_frequency(opc_line, dds=opc_dds)
-        self.rabi.freq_729 = self.calc_frequency(opc_line, delta, dds=rabi_dds,
+        self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, dds=rabi_dds,
                 bound_param="Spectrum_carrier_detuning")
         
         delay(1*ms)

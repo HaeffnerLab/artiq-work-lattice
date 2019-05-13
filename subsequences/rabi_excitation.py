@@ -8,6 +8,7 @@ class RabiExcitation():
     phase_729="Excitation_729.rabi_excitation_phase"
     channel_729="Excitation_729.channel_729"
     duration="Excitation_729.rabi_excitation_duration"
+    line_selection="Excitation_729.line_selection"
 
     def subsequence(self):
         if RabiExcitation.channel_729 == "729L1":
