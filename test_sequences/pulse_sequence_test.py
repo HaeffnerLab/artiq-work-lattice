@@ -29,18 +29,18 @@ class pstest(PulseSequence):
     
     @kernel
     def line1(self):
-        param = self.get_variable_parameter("Spectrum_dummy_detuning")
-        opc_line = self.opc.line_selection
-        opc_dds = self.opc.channel_729
-        self.calc_frequency(opc_line, 0., self.aux_axial, 0, opc_dds,
-                bound_param="Spectrum_dummy_detuning")
-        opc_freq_729 = self.calc_frequency(opc_line, 0., self.aux_axial, 0, opc_dds)
-        delay(800*us)
-        self.repump854.duration = param*ms
-        self.repump854.run(self)
-        self.dopplerCooling.run(self)
-        # self.opc.freq_729 = opc_freq_729
-        # self.opc.run(self)
+        # param = self.get_variable_parameter("Spectrum_dummy_detuning")
+        # opc_line = self.opc.line_selection
+        # opc_dds = self.opc.channel_729
+        # self.calc_frequency(opc_line, 0., self.aux_axial, 0, opc_dds,
+        #         bound_param="Spectrum_dummy_detuning")
+        # opc_freq_729 = self.calc_frequency(opc_line, 0., self.aux_axial, 0, opc_dds)
+        # delay(800*us)
+        # self.repump854.duration = param*ms
+        # self.repump854.run(self)
+        # self.dopplerCooling.run(self)
+        # # self.opc.freq_729 = opc_freq_729
+        # # self.opc.run(self)
 
         param = self.get_variable_parameter("Spectrum_dummy_detuning")
         opc_freq_729 =self.calc_frequency("S+1/2D-3/2", param, self.aux_axial, 0, "729L1", 
