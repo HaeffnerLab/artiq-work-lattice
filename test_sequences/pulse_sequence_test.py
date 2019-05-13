@@ -28,7 +28,7 @@ class pstest(PulseSequence):
         param = self.get_variable_parameter("Spectrum_dummy_detuning")
         self.calc_frequency("S+1/2D-3/2", param, self.aux_axial, 0, "729L1", 
                             bound_param="Spectrum_dummy_detuning")
-        self.core.break_realtime()
+        # self.core.break_realtime()
         # self.repump854.duration = param*100*ms
         self.repump854.run(self)
         # param = self.get_variable_parameter("Spectrum_pulse_duration")*ms
