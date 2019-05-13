@@ -37,7 +37,7 @@ class Spectrum(PulseSequence):
         opc_dds = self.opc.channel_729
         rabi_dds = self.rabi.channel_729
         self.opc.freq_729 = self.calc_frequency(opc_line, dds=opc_dds)
-        self.rabi.freq_729 = self.calc_frequency(opc_line, delta, rabi_dds,
+        self.rabi.freq_729 = self.calc_frequency(opc_line, delta, dds=rabi_dds,
                 bound_param="Spectrum_carrier_detuning")
         
         delay(1*ms)
