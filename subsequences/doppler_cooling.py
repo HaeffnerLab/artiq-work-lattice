@@ -1,7 +1,7 @@
 from artiq.experiment import *
 
 
-class DopplerCooling(EnvExperiment):
+class DopplerCooling():#EnvExperiment):
     duration="DopplerCooling.doppler_cooling_duration"
     additional_repump_duration="DopplerCooling.doppler_cooling_repump_additional"
     frequency_397="DopplerCooling.doppler_cooling_frequency_397"
