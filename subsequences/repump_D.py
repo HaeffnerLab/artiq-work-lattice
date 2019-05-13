@@ -12,6 +12,8 @@ class RepumpD(EnvExperiment):
     
     def subsequence(self):
 
+        self.dds_854.init()
+        self.dds_866.init()
         self.core.break_realtime()
         self.dds_854.set(80.*MHz, amplitude=1.)
         # self.dds_854.set_att(13.)
