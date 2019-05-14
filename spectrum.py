@@ -38,7 +38,7 @@ class Spectrum(PulseSequence):
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, dds=rabi_dds,
                 bound_param="Spectrum_carrier_detuning")
         
-        delay(1*ms)
+        while self.core.get_rtio_counter_mu() < now_mu(): pass
 
         self.repump854.run(self)
         self.dopplerCooling.run(self)
