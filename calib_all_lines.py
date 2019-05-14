@@ -19,9 +19,9 @@ class CalibAllLines(PulseSequence):
     )
 
     PulseSequence.scan_params.update(
-        CalibLine1=("CalibLines",
+        CalibLine1=("Rabi",
                 [("Spectrum.carrier_detuning", -5*kHz, 5*kHz, 15)]),
-        CalibLine2=("CalibLine2",
+        CalibLine2=("Ramsey",
                 [("Spectrum.carrier_detuning", -5*kHz, 5*kHz, 15)])
     )
 
