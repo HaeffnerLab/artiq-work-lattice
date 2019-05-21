@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.optimize import curve_fit
-from artiq.pulse_sequence import PulseSequence
+from artiq.pulse_sequence import PulseSequence, FitError
 from subsequences.repump_D import RepumpD
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
@@ -59,8 +59,11 @@ class CalibAllLines(PulseSequence):
         x = self.data.CalibLine1.x
         y = self.data.CalibLine1.y
         global_max = x[np.argmax(y)]
-        popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
-        print(popt)
+        try:
+            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
+            print(popt)
+        except:
+            raise FitError
 
     @kernel
     def CalibLine2(self):
@@ -88,6 +91,7 @@ class CalibAllLines(PulseSequence):
 
     def run_finally(self):
         pass
+
 
 def gaussian(x, A, x0, sigma):
     return A * np.exp((-(x - x0)**2) / (2*sigma**2))
