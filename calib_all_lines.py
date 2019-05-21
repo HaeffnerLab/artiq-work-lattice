@@ -26,7 +26,7 @@ class CalibAllLines(PulseSequence):
     )
 
     run_after["CalibLine1"] = self.analyze_calibline1
-    run_after["CalibLine2"] = self.analyze_calibline2#
+    run_after["CalibLine2"] = self.analyze_calibline2
 
     def run_initially(self):
         self.repump854 = self.add_subsequence(RepumpD)
