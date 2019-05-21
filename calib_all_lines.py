@@ -1,3 +1,5 @@
+import numpy as np
+from scipy.optimize import curve_fit
 from artiq.pulse_sequence import PulseSequence
 from subsequences.repump_D import RepumpD
 from subsequences.doppler_cooling import DopplerCooling
@@ -54,8 +56,11 @@ class CalibAllLines(PulseSequence):
         self.rabi.run(self)
     
     def analyze_calibline1(self):
-        print("DATAX: ", self.data.CalibLine1.x)
-        print("DATAY: ", self.data.CalibLine1.y)
+        x = self.data.CalibLine1.x
+        y = self.data.CalibLine1.y
+        global_max = x[np.argmax(y)]
+        popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
+        print(popt)
 
     @kernel
     def CalibLine2(self):
@@ -83,3 +88,6 @@ class CalibAllLines(PulseSequence):
 
     def run_finally(self):
         pass
+
+def gaussian(x, A, x0, sigma):
+    return A * np.exp((-(x - x0)**2) / (2*sigma**2))
