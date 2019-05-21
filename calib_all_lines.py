@@ -70,3 +70,6 @@ class CalibAllLines(PulseSequence):
         self.dopplerCooling.run(self)
         self.opc.run(self)
         self.rabi.run(self)
+
+    def run_finally(self):
+        print("DATA: ", self.CalibLine1.x)
