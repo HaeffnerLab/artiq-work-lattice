@@ -36,7 +36,7 @@ class CalibAllLines(PulseSequence):
         self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
-        self.rabi = self.add_subsequence(RabiExcitation)
+        self.rabi = self.add_subsequence(RabiExcitation)#
         self.run_after["CalibLine1"] = self.analyze_calibline1
         self.run_after["CalibLine2"] = self.analyze_calibline2
 
