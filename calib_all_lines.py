@@ -72,4 +72,4 @@ class CalibAllLines(PulseSequence):
         self.rabi.run(self)
 
     def run_finally(self):
-        print("DATA: ", self.CalibLine1.x)
+        print("DATA: ", self.data.CalibLine1.x)
