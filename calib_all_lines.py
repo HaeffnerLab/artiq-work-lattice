@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.optimize import curve_fit
-from artiq.pulse_sequence import PulseSequence#, FitError
+from artiq.pulse_sequence import PulseSequence, FitError
 from subsequences.repump_D import RepumpD
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
