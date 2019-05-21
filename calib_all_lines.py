@@ -15,6 +15,8 @@ class CalibAllLines(PulseSequence):
         {"CalibrationScans.calibration_channel_729",
          "Spectrum.car1_amp",
          "Spectrum.car2_amp",
+         "Spectrum.car1_att",
+         "Spectrum.car2_att",
          "Spectrum.manual_excitation_time",
          "DriftTracker.line_selection_1",
          "DriftTracker.line_selection_2",
@@ -45,6 +47,7 @@ class CalibAllLines(PulseSequence):
         rabi_line = self.DriftTracker_line_selection_1
         rabi_dds = self.CalibrationScans_calibration_channel_729
         self.rabi.amp_729 = self.Spectrum_car1_amp
+        self.rabi.att_279 = self.Spectrum_car1_att
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.opc.freq_729 = self.calc_frequency(opc_line, dds=opc_dds)
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, dds=rabi_dds,
@@ -75,6 +78,7 @@ class CalibAllLines(PulseSequence):
         rabi_line = self.DriftTracker_line_selection_2
         rabi_dds = self.CalibrationScans_calibration_channel_729
         self.rabi.amp_729 = self.Spectrum_car2_amp
+        self.rabi.att_729 = self.Spectrum_car2_att
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.opc.freq_729 = self.calc_frequency(opc_line, dds=opc_dds)
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, dds=rabi_dds,
