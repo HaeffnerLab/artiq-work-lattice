@@ -1,6 +1,7 @@
 import numpy as np
 import labrad
-import artiq.dashboard.drift_tracker.client_config as cl 
+import artiq.dashboard.drift_tracker.client_config as cl
+from labrad.units import WithUnit as U 
 from scipy.optimize import curve_fit
 from artiq.pulse_sequence import PulseSequence, FitError
 from subsequences.repump_D import RepumpD
@@ -108,7 +109,7 @@ class CalibAllLines(PulseSequence):
         carr2 = self.line2_peak
         if self.p.Display.relative_frequencies:
             pass
-        submission = [(line1, carr1), (line2, carr2)]
+        submission = [(line1, U(carr1, "MHz")), (line2, U(carr2, "MHz"))]
         try:
             global_cxn = labrad.connect(cl.global_address, password=cl.global_password,
                                         tls_mode="off")
