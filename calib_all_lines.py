@@ -25,15 +25,13 @@ class CalibAllLines(PulseSequence):
                 [("Spectrum.carrier_detuning", -5*kHz, 5*kHz, 15)])
     )
 
-    def __init__(self, *args):#
-        self.run_after["CalibLine1"] = self.analyze_calibline1
-        self.run_after["CalibLine2"] = self.analyze_calibline2
-
     def run_initially(self):
         self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.run_after["CalibLine1"] = self.analyze_calibline1
+        self.run_after["CalibLine2"] = self.analyze_calibline2
 
     @kernel
     def CalibLine1(self):
