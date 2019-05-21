@@ -1,4 +1,6 @@
 import numpy as np
+import labrad
+from artiq.dashboard.drift_tracker.client_config as cl 
 from scipy.optimize import curve_fit
 from artiq.pulse_sequence import PulseSequence, FitError
 from subsequences.repump_D import RepumpD
@@ -61,7 +63,7 @@ class CalibAllLines(PulseSequence):
         global_max = x[np.argmax(y)]
         try:
             popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
-            print(popt)
+            self.line1_peak = popt[1]
         except:
             raise FitError
 
@@ -86,11 +88,31 @@ class CalibAllLines(PulseSequence):
         self.rabi.run(self)
 
     def analyze_calibline2(self):
-        print("DATA: ", self.data.CalibLine2.x)
-        print("DATAY: ", self.data.CalibLine2.y)
+        x = self.data.CalibLine2.x
+        y = self.data.CalibLine2.y
+        global_max = x[np.argmax(y)]
+        try:
+            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
+            self.line2_peak = popt[1]
+        except:
+            raise FitError
 
     def run_finally(self):
-        pass
+        line1 = self.p.DriftTracker.line_selection_1
+        line2 = self.p.DriftTracker.line_selection_2
+        carr1 = self.line1_peak
+        carr2 = self.line2_peak
+        if self.p.Display.relative_frequencies:
+            pass
+        submission = [(line1, carr1), (line2, carr2)]
+        try:
+            global_cxn = labrad.connect(cl.global_address, password=cl.global_password,
+                                        tls_mode="off")
+            global_cxn.sd_tracker_global.set_measurements(submission, cl.client_name)
+        except:
+            logger.error("Failed to connect to global drift tracker.", exc_info=True)
+            return
+        global_cxn.disconnect()
 
 
 def gaussian(x, A, x0, sigma):
