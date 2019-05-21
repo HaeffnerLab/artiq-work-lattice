@@ -1,6 +1,6 @@
 import numpy as np
 import labrad
-from artiq.dashboard.drift_tracker.client_config as cl 
+import artiq.dashboard.drift_tracker.client_config as cl 
 from scipy.optimize import curve_fit
 from artiq.pulse_sequence import PulseSequence, FitError
 from subsequences.repump_D import RepumpD
