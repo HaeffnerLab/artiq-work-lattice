@@ -54,7 +54,8 @@ class CalibAllLines(PulseSequence):
         self.rabi.run(self)
     
     def analyze_calibline1(self):
-        print("DATA: ", self.data.CalibLine1.x)
+        print("DATAX: ", self.data.CalibLine1.x)
+        print("DATAY: ", self.data.CalibLine1.y)
 
     @kernel
     def CalibLine2(self):
@@ -78,6 +79,7 @@ class CalibAllLines(PulseSequence):
 
     def analyze_calibline2(self):
         print("DATA: ", self.data.CalibLine2.x)
+        print("DATAY: ", self.data.CalibLine2.y)
 
-    # def run_finally(self):
-    #     print("DATA: ", self.data.CalibLine1.x)
+    def run_finally(self):
+        pass
