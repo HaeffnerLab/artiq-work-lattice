@@ -25,6 +25,9 @@ class CalibAllLines(PulseSequence):
                 [("Spectrum.carrier_detuning", -5*kHz, 5*kHz, 15)])
     )
 
+    run_after["CalibLine1"] = analyze_calibline1
+    run_after["CalibLine2"] = analyze_calibline2
+
     def run_initially(self):
         self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
@@ -50,6 +53,9 @@ class CalibAllLines(PulseSequence):
         self.dopplerCooling.run(self)
         self.opc.run(self)
         self.rabi.run(self)
+    
+    def analyze_calibline1(self):
+        print("DATA: ", self.data.CalibLine1.x)
 
     @kernel
     def CalibLine2(self):
@@ -71,5 +77,8 @@ class CalibAllLines(PulseSequence):
         self.opc.run(self)
         self.rabi.run(self)
 
-    def run_finally(self):
-        print("DATA: ", self.data.CalibLine1.x)
+    def analyze_calibline2(self):
+        print("DATA: ", self.data.CalibLine2.x)
+
+    # def run_finally(self):
+    #     print("DATA: ", self.data.CalibLine1.x)
