@@ -41,6 +41,7 @@ class pstest(PulseSequence):
         # self.repump854.run(self)
         # self.dopplerCooling.run(self)
         # self.opc.run(self)
+        delay(100*us)
         self.foo(100*us)
 
     @kernel
