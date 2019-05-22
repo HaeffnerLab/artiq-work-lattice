@@ -20,7 +20,7 @@ class RabiFlopping(PulseSequence):
          }
     )
     PulseSequence.scan_params.update(
-        RabiFlopping=("RabiFlopping",
+        RabiFlopping=("Rabi",
             [("RabiFlopping.duration", 0*us, 50*us, 2)])
     )
 
