@@ -22,10 +22,10 @@ class pstest(PulseSequence):
             #     [("Spectrum.dummy_detuning", 0, 1, 10)])
         )
 
-    def run_initially(self):
-        self.repump854 = self.add_subsequence(RepumpD)
-        self.dopplerCooling = self.add_subsequence(DopplerCooling)
-        self.opc = self.add_subsequence(OpticalPumpingPulsed)
+    # def run_initially(self):
+    #     self.repump854 = self.add_subsequence(RepumpD)
+    #     self.dopplerCooling = self.add_subsequence(DopplerCooling)
+    #     self.opc = self.add_subsequence(OpticalPumpingPulsed)
     
     @kernel
     def line1(self):
