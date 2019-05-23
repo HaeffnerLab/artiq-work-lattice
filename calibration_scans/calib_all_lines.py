@@ -15,7 +15,7 @@ class CalibAllLines(PulseSequence):
     PulseSequence.accessed_params.update(
         {"CalibrationScans.calibration_channel_729",
          "Spectrum.car1_amp",
-         "Spectrum.car2_amp",
+         "Spectrum.car2_amp",#
          "Spectrum.car1_att",
          "Spectrum.car2_att",
          "Spectrum.manual_excitation_time",
