@@ -31,11 +31,13 @@ class RabiFlopping(PulseSequence):
     @kernel
     def RabiFlopping(self):
         self.rabi.duration = self.get_variable_parameter("RabiFlopping_duration")
+        self.rabi.amp_729 = self.RabiFlopping_amplitude_729
+        self.rabi.att_729 = self.RabiFlopping_att_729
         opc_line = self.opc.line_selection
         opc_dds = self.opc.channel_729
         self.opc.freq_729 = self.calc_frequency(opc_line, dds=opc_dds)
         self.rabi.freq_729 = self.calc_frequency(self.RabiFlopping_line_selection, 0., 
-                dds=self.RabiFlopping_channel_729, bound_param="RabiFlopping_duration")
+                dds=self.RabiFlopping_channel_729)
 
         delay(1*ms)
 
