@@ -10,13 +10,11 @@ class RabiFlopping(PulseSequence):
     # We will add state readout mode, doppoler cooling, sideband cooling, aux op....
     # so it will be more like old ways or we can just go to parameters, not a big deal.
     PulseSequence.accessed_params.update(
-        {"RabiFlopping.rabi_excitation_frequency",
-         "RabiFlopping.rabi_excitation_amplitude",
-         "RabiFlopping.rabi_excitation_att",
-         "RabiFlopping.rabi_excitation_phase",
+        {"RabiFlopping.line_selection",
+         "RabiFlopping.amplitude_729",
+         "RabiFlopping.att_729",
          "RabiFlopping.channel_729",
-         "RabiFlopping.rabi_excitation_duration",
-         "RabiFlopping.line_selection",
+         "RabiFlopping.duration",
          }
     )
     PulseSequence.scan_params.update(
