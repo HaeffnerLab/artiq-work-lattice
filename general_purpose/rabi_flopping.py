@@ -19,7 +19,7 @@ class RabiFlopping(PulseSequence):
     )
     PulseSequence.scan_params.update(
         RabiFlopping=("Rabi",
-            [("RabiFlopping.duration", 0, 100, 20, "us")])#
+            [("RabiFlopping.duration", 0, 100, 20)])
     )
 
     def run_initially(self):
