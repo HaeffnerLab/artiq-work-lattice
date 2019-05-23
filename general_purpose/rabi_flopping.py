@@ -10,13 +10,13 @@ class RabiFlopping(PulseSequence):
     # We will add state readout mode, doppoler cooling, sideband cooling, aux op....
     # so it will be more like old ways or we can just go to parameters, not a big deal.
     PulseSequence.accessed_params.update(
-        {"Excitation_729.rabi_excitation_frequency",
-         "Excitation_729.rabi_excitation_amplitude",
-         "Excitation_729.rabi_excitation_att",
-         "Excitation_729.rabi_excitation_phase",
-         "Excitation_729.channel_729",
-         "Excitation_729.rabi_excitation_duration",
-         "Excitation_729.line_selection",
+        {"RabiFlopping.rabi_excitation_frequency",
+         "RabiFlopping.rabi_excitation_amplitude",
+         "RabiFlopping.rabi_excitation_att",
+         "RabiFlopping.rabi_excitation_phase",
+         "RabiFlopping.channel_729",
+         "RabiFlopping.rabi_excitation_duration",
+         "RabiFlopping.line_selection",
          }
     )
     PulseSequence.scan_params.update(
@@ -38,8 +38,7 @@ class RabiFlopping(PulseSequence):
         rabi_line = self.rabi.line_selection
         rabi_dds = self.rabi.channel_729
         self.opc.freq_729 = self.calc_frequency(opc_line, dds=opc_dds)
-        self.rabi.freq_729 = self.calc_frequency(rabi_line, 0., dds=rabi_dds,
-                bound_param="RabiFlopping_duration")
+        self.rabi.freq_729 = self.calc_frequency(rabi_line, 0., dds=rabi_dds)
 
         delay(1*ms)
 
