@@ -21,7 +21,7 @@ class RabiFlopping(PulseSequence):
     )
     PulseSequence.scan_params.update(
         RabiFlopping=("Rabi",
-            [("RabiFlopping.duration", 0*us, 100, 20)])
+            [("RabiFlopping.duration", 0, 100, 20, "us")])
     )
 
     def run_initially(self):
@@ -32,7 +32,7 @@ class RabiFlopping(PulseSequence):
 
     @kernel
     def RabiFlopping(self):
-        self.rabi.duration = self.get_variable_parameter("RabiFlopping_duration")*us
+        self.rabi.duration = self.get_variable_parameter("RabiFlopping_duration")
         opc_line = self.opc.line_selection
         opc_dds = self.opc.channel_729
         rabi_line = self.rabi.line_selection
