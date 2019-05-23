@@ -30,7 +30,7 @@ class Spectrum(PulseSequence):
     @kernel
     def spectrum(self):
         delta = self.get_variable_parameter("Spectrum_carrier_detuning")
-        opc_line = self.opc.line_selection
+        opc_line = self.opc.line_selection#
         opc_dds = self.opc.channel_729
         rabi_line = self.rabi.line_selection
         rabi_dds = self.rabi.channel_729
