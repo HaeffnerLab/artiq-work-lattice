@@ -11,7 +11,7 @@ from subsequences.rabi_excitation import RabiExcitation
 from artiq.experiment import *
 
 
-class CalibAllSidebands(PulseSequence):
+class CalibSideband(PulseSequence):
     PulseSequence.accessed_params.update(
         {"CalibrationScans.calibration_channel_729",
          "CalibrationScans.sideband_calibration_amp",
