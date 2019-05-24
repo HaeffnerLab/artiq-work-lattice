@@ -44,8 +44,8 @@ class CalibSideband(PulseSequence):
         opc_dds = self.opc.channel_729
         rabi_line = self.CalibrationScans_sideband_calibration_line
         rabi_dds = self.CalibrationScans_calibration_channel_729
-        self.rabi.amp_729 = self.Spectrum_sideband_calibration_amp
-        self.rabi.att_729 = self.Spectrum_sideband_calibration_att
+        self.rabi.amp_729 = self.CalibrationScans_sideband_calibration_amp
+        self.rabi.att_729 = self.CalibrationScans_sideband_calibration_att
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.opc.freq_729 = self.calc_frequency(opc_line, dds=opc_dds)
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, sideband=self.sideband, order=1, 
