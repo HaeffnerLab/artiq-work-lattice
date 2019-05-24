@@ -30,8 +30,10 @@ class CalibAllLines(PulseSequence):
     PulseSequence.scan_params["CalibLine1"] = ("CalibLine1",
                 [("Spectrum.carrier_detuning", -5e3, 5e3, 15, "kHz")])
 
-    def run_initially(self):
+    def build(self):
         self.p.Display.relative_frequencies = False
+    
+    def run_initially(self):
         self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
