@@ -25,9 +25,9 @@ class CalibAllLines(PulseSequence):
          "CalibrationScans.readout_mode"}
     )
 
-    PulseSequence.scan_params["CalibLine1"] = ("CalibLine1",
-                [("Spectrum.carrier_detuning", -5e3, 5e3, 15, "kHz")])
     PulseSequence.scan_params["CalibLine2"] = ("CalibLine2",
+                [("Spectrum.carrier_detuning", -5e3, 5e3, 15, "kHz")])
+    PulseSequence.scan_params["CalibLine1"] = ("CalibLine1",
                 [("Spectrum.carrier_detuning", -5e3, 5e3, 15, "kHz")])
 
     def run_initially(self):
