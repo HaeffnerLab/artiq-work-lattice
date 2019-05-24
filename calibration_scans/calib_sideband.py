@@ -58,11 +58,12 @@ class CalibSideband(PulseSequence):
         #     except RTIOUnderflow:
         #         delay(25*us)
 
-        try:
-            self.repump854.run(self)
-        except RTIOUnderflow:
-            print("UHOHOa;sdjf;asjdf;klajsd;lfjasl;dfj;lasjdfl;kajsd;lfja;lksdjf99999932048-234-0384")
-            return
+        while True:
+            try:
+                self.repump854.run(self)
+                break
+            except RTIOUnderflow:
+                delay(50*us)
         
         self.dopplerCooling.run(self)
         self.opc.run(self)
