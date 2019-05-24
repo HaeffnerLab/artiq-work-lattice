@@ -78,7 +78,7 @@ class CalibSideband(PulseSequence):
         cxn = labrad.connect()
         p = cxn.parametervault
         p.set_parameter(
-            "TrapFrequencies", self.p.CalibrationScans.selection_sideband, peak * 1e-6
+            "TrapFrequencies", self.p.CalibrationScans.selection_sideband, U(peak * 1e-6, "MHz")
         )
         cxn.disconnect() 
 
