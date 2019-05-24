@@ -52,7 +52,7 @@ class CalibAllLines(PulseSequence):
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, dds=rabi_dds,
                 bound_param="Spectrum_carrier_detuning")
 
-        delay(1*ms)
+        delay(1.1*ms)
 
         self.repump854.run(self)
         self.dopplerCooling.run(self)
