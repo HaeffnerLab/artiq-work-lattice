@@ -78,8 +78,8 @@ class CalibSideband(PulseSequence):
         cxn = labrad.connect()
         p = cxn.parametervault
         p.set_parameter(
-                ["TrapFrequencies", self.p.CalibrationScans.selection_sideband, peak]
-            )
+            "TrapFrequencies", self.p.CalibrationScans.selection_sideband, peak * 1e-6
+        )
         cxn.disconnect() 
 
 def gaussian(x, A, x0, sigma):
