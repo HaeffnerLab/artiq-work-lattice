@@ -68,10 +68,10 @@ class CalibSideband(PulseSequence):
         except:
             raise FitError
         if self.p.Display.relative_frequencies:
-            peak = popt[1]
+            peak = popt[1] + self.p["TrapFrequencies"][self.p.CalibrationScans.selection_sideband]
         else:
             line = self.carrier_values[self.carrier_dict[self.p.CalibrationScans.sideband_calibration_line]]
-            peak = popt[1] - line
+            peak = popt[1] - (line + self.p["TrapFrequencies"][self.p.CalibrationScans.selection_sideband])
 
         cxn = labrad.connect()
         p = cxn.parametervault
