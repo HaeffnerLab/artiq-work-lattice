@@ -51,22 +51,7 @@ class CalibSideband(PulseSequence):
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, sideband=self.sideband, order=1, 
             dds=rabi_dds, bound_param="Spectrum_sideband_detuning")
 
-        # while True:
-        #     try:
-        #         self.repump854.run(self)
-        #         break
-        #     except RTIOUnderflow:
-        #         delay(25*us)
-        
-        i = 0
-        while True:
-            try:
-                delay(50*i*us)
-                self.repump854.run(self)
-                break
-            except RTIOUnderflow:
-                i += 1
-        
+        self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
         self.rabi.run(self)
