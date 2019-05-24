@@ -42,7 +42,7 @@ class CalibSideband(PulseSequence):
         delta = self.get_variable_parameter("Spectrum_sideband_detuning")
         opc_line = self.opc.line_selection
         opc_dds = self.opc.channel_729
-        rabi_line = self.DriftTracker_line_selection_1
+        rabi_line = self.CalibrationScans_sideband_calibration_line
         rabi_dds = self.CalibrationScans_calibration_channel_729
         self.rabi.amp_729 = self.Spectrum_sideband_amp
         self.rabi.att_729 = self.Spectrum_sideband_att
