@@ -61,6 +61,7 @@ class CalibSideband(PulseSequence):
     def run_finally(self):
         x = self.data.CalibSideband.x
         y = self.data.CalibSideband.y
+        print("x: ", x)
         global_max = x[np.argmax(y)]
         try:
             popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
