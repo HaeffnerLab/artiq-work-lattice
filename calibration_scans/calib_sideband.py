@@ -73,6 +73,7 @@ class CalibSideband(PulseSequence):
             line = self.carrier_values[self.carrier_dict[self.p.CalibrationScans.sideband_calibration_line]]
             peak = popt[1] - (line + self.p["TrapFrequencies"][self.p.CalibrationScans.selection_sideband])
 
+        print("POPT1: ", poopt[1])
         print("PEAK: ", peak)
         cxn = labrad.connect()
         p = cxn.parametervault
