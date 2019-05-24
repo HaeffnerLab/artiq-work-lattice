@@ -34,7 +34,7 @@ class CalibSideband(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.kernel_invariants.update({"sideband"})
-        selection = self.p.CalibrationScans.sideband_calibration_line
+        selection = self.p.CalibrationScans.selection_sideband
         self.sideband = self.p["TrapFrequencies"][selection]
 
     @kernel
