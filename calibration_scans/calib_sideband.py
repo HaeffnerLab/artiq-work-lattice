@@ -54,6 +54,7 @@ class CalibSideband(PulseSequence):
         while True:
             try:
                 self.repump854.run(self)
+                break
             except RTIOUnderflow:
                 delay(25*us)
         
