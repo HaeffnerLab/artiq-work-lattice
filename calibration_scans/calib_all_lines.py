@@ -25,14 +25,14 @@ class CalibAllLines(PulseSequence):
          "CalibrationScans.readout_mode"}
     )
 
+    fixed_params = [("Display.relative_frequencies", False)]
+
     PulseSequence.scan_params["CalibLine2"] = ("CalibLine2",
                 [("Spectrum.carrier_detuning", -5e3, 5e3, 15, "kHz")])
     PulseSequence.scan_params["CalibLine1"] = ("CalibLine1",
                 [("Spectrum.carrier_detuning", -5e3, 5e3, 15, "kHz")])
 
-    def build(self):
-        self.p.Display.relative_frequencies = False
-    
+
     def run_initially(self):
         self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
