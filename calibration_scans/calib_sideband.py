@@ -65,7 +65,6 @@ class CalibSideband(PulseSequence):
         global_max = x[np.argmax(y)]
         try:
             popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
-            self.line2_peak = popt[1]
         except:
             raise FitError
         if self.p.Display.relative_frequencies:
@@ -74,6 +73,7 @@ class CalibSideband(PulseSequence):
             line = self.carrier_values[self.carrier_dict[self.p.CalibrationScans.sideband_calibration_line]]
             peak = popt[1] - (line + self.p["TrapFrequencies"][self.p.CalibrationScans.selection_sideband])
 
+        print("PEAK: ", peak)
         cxn = labrad.connect()
         p = cxn.parametervault
         p.set_parameter(
