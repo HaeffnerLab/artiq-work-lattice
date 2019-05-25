@@ -24,7 +24,7 @@ class CalibAllLines(PulseSequence):
          "DriftTracker.line_selection_2",
          "Display.relative_frequencies",
          "CalibrationScans.readout_mode",
-         "StatePreparation.sideband_cooling_enabled"}
+         "StatePreparation.sideband_cooling_enable"}
     )
 
     fixed_params = [("Display.relative_frequencies", False)]
@@ -63,7 +63,7 @@ class CalibAllLines(PulseSequence):
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enabled:
+        if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
         self.rabi.run(self)
     
