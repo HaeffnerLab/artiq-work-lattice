@@ -15,12 +15,16 @@ class SidebandCooling():
     freq_729=220*MHz
 
     sequential_enable="SequentialSBCooling.enable"
+    # sequential
+
     sequential1_enable="SequentialSBCooling1.enable"
+
+
     sequential2_enable="SequentialSBCooling2.enable"
 
 
     def subsequence(self):
-        get_729_dds(SidebandCooling.channel_729)
+        get_729_dds(self, SidebandCooling.channel_729)
 
         freq_729 = SidebandCooling.freq_729 + SidebandCooling.stark_shift
         self.dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
