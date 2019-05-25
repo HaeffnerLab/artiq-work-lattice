@@ -48,7 +48,7 @@ class SidebandCooling():
         
         delay(SidebandCooling.repump_additional)
         self.dds_854.sw.off()
-        delay(SidebandCooling.repump_additional)
+        delay(SidebandCooling.repump_additional)#
         self.dds_866.sw.off()
 
     @kernel
