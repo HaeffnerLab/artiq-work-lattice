@@ -18,7 +18,7 @@ class SidebandCooling():
     sequential_channel_729="SequentialSBCooling.channel_729"
 
     sequential1_enable="SequentialSBCooling1.enable"
-    sequentia1l_channel_729="SequentialSBCooling1.channel_729"
+    sequential1_channel_729="SequentialSBCooling1.channel_729"
 
     sequential2_enable="SequentialSBCooling2.enable"
     sequential2_channel_729="SequentialSBCooling2.channel_729"
