@@ -15,13 +15,13 @@ class SidebandCooling():
     freq_729=220*MHz
 
     sequential_enable="SequentialSBCooling.enable"
-    # sequential
+    sequential_channel_729="SequentialSBCooling.channel_729"
 
     sequential1_enable="SequentialSBCooling1.enable"
-
+    sequentia1l_channel_729="SequentialSBCooling1.channel_729"
 
     sequential2_enable="SequentialSBCooling2.enable"
-
+    sequential2_channel_729="SequentialSBCooling2.channel_729"
 
     def subsequence(self):
         get_729_dds(self, SidebandCooling.channel_729)
@@ -30,6 +30,29 @@ class SidebandCooling():
         self.dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
         self.dds_729.set_att(SidebandCooling.att_729)
         
+        self.krun()
+        
+        if SidebandCooling.sequential_enable:
+            get_729_dds(self, SidebandCooling.sequentia1_channel_729)
+            self.krun()
+
+        if SidebandCooling.sequential1_enable:
+            get_729_dds(self, SidebandCooling.sequentia1l_channel_729)
+            self.krun()
+
+        if SidebandCooling.sequential2_enable:
+            get_729_dds(self, SidebandCooling.sequentia12_channel_729)
+            self.krun()
+        
+        
+        
+        delay(SidebandCooling.repump_additional)
+        self.dds_854.sw.off()
+        delay(SidebandCooling.repump_additional)
+        self.dds_866.sw.off()
+
+    @kernel
+    def krun(self):
         with parallel:
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
@@ -39,20 +62,3 @@ class SidebandCooling():
         with parallel:
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
-        
-        if SidebandCooling.sequential_enable:
-            pass
-
-        if SidebandCooling.sequential1_enable:
-            pass
-
-        if SidebandCooling.sequential2_enable:
-            pass
-        
-        
-        
-        delay(SidebandCooling.repump_additional)
-        self.dds_854.sw.off()
-        delay(SidebandCooling.repump_additional)
-        self.dds_866.sw.off()
-
