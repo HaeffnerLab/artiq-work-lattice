@@ -14,22 +14,12 @@ class SidebandCooling():
     duration="SidebandCoolingContinuous.sideband_cooling_continuous_duration"
     freq_729=220*MHz
 
-    # sequential_
+    sequential_enable="SequentialSBCooling.enable"
+    sequential1_enable="SequentialSBCooling1.enable"
+    sequential2_enable="SequentialSBCooling2.enable"
 
 
     def subsequence(self):
-        # if SidebandCooling.channel_729 == "729L1":
-        #     dds_729 = self.dds_729L1
-        #     dds_729_SP = self.dds_SP_729L1
-        # elif SidebandCooling.channel_729 == "729L2":
-        #     dds_729 = self.dds_729L2
-        #     dds_729_SP = self.dds_SP_729L2
-        # elif SidebandCooling.channel_729 == "729G":
-        #     dds_729 = self.dds_729G
-        #     dds_729_SP = self.dds_SP_729G
-        # else:
-        #     dds_729 = self.dds_729G
-        #     dds_729_SP = self.dds_SP_729G
         get_729_dds(SidebandCooling.channel_729)
 
         freq_729 = SidebandCooling.freq_729 + SidebandCooling.stark_shift
@@ -37,7 +27,7 @@ class SidebandCooling():
         self.dds_729.set_att(SidebandCooling.att_729)
         
         with parallel:
-            self.dds_729.sw.on()##wo
+            self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
             self.dds_854.sw.on()
             self.dds_866.sw.on()
@@ -46,7 +36,14 @@ class SidebandCooling():
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
         
-        # if SidebandCooling.
+        if SidebandCooling.sequential_enable:
+            pass
+
+        if SidebandCooling.sequential1_enable:
+            pass
+
+        if SidebandCooling.sequential2_enable:
+            pass
         
         
         
