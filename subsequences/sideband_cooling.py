@@ -33,8 +33,8 @@ class SidebandCooling():
         get_729_dds(SidebandCooling.channel_729)
 
         freq_729 = SidebandCooling.freq_729 + SidebandCooling.stark_shift
-        dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
-        dds_729.set_att(SidebandCooling.att_729)
+        self.dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
+        self.dds_729.set_att(SidebandCooling.att_729)
         
         with parallel:
             self.dds_729.sw.on()##wo
