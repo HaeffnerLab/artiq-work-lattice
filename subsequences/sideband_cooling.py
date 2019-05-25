@@ -37,7 +37,7 @@ class SidebandCooling():
         dds_729.set_att(SidebandCooling.att_729)
         
         with parallel:
-            self.dds_729.sw.on()
+            self.dds_729.sw.on()#
             self.dds_729_SP.sw.on()
             self.dds_854.sw.on()
             self.dds_866.sw.on()
