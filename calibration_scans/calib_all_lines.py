@@ -8,13 +8,14 @@ from subsequences.repump_D import RepumpD
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
 from subsequences.rabi_excitation import RabiExcitation
+from subsequences.sideband_cooling import SidebandCooling
 from artiq.experiment import *
 
 
 class CalibAllLines(PulseSequence):
     PulseSequence.accessed_params.update(
         {"CalibrationScans.calibration_channel_729",
-         "Spectrum.car1_amp",#
+         "Spectrum.car1_amp",
          "Spectrum.car2_amp",
          "Spectrum.car1_att",
          "Spectrum.car2_att",
@@ -22,7 +23,8 @@ class CalibAllLines(PulseSequence):
          "DriftTracker.line_selection_1",
          "DriftTracker.line_selection_2",
          "Display.relative_frequencies",
-         "CalibrationScans.readout_mode"}
+         "CalibrationScans.readout_mode",
+         "StatePreparation.sideband_cooling_enabled"}
     )
 
     fixed_params = [("Display.relative_frequencies", False)]
@@ -37,6 +39,7 @@ class CalibAllLines(PulseSequence):
         self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
+        self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.run_after["CalibLine1"] = self.analyze_calibline1
         self.run_after["CalibLine2"] = self.analyze_calibline2
@@ -60,6 +63,8 @@ class CalibAllLines(PulseSequence):
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
+        if self.StatePreparation_sideband_cooling_enabled:
+            self.sbc.run(self)
         self.rabi.run(self)
     
     def analyze_calibline1(self):
