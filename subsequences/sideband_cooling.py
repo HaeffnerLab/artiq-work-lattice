@@ -41,7 +41,7 @@ class SidebandCooling():
             self.krun()
 
         if SidebandCooling.sequential2_enable:
-            get_729_dds(self, SidebandCooling.sequentia12_channel_729)
+            get_729_dds(self, SidebandCooling.sequential2_channel_729)
             self.krun()
         
         
