@@ -23,7 +23,7 @@ class SidebandCooling():
     sequential2_enable="SequentialSBCooling2.enable"
     sequential2_channel_729="SequentialSBCooling2.channel_729"
 
-    @classmethod
+    # @classmethod
     def subsequence(self, parent):
         self.get_729_dds(SidebandCooling.channel_729)
 
