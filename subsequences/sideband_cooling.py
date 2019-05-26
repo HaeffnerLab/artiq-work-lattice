@@ -39,15 +39,15 @@ class SidebandCooling(Subsequence):
         self.krun()
         
         if SidebandCooling.sequential_enable:
-            get_729_dds(self, SidebandCooling.sequential_channel_729)
+            self.get_729_dds(self, SidebandCooling.sequential_channel_729)
             self.krun()
 
         if SidebandCooling.sequential1_enable:
-            get_729_dds(self, SidebandCooling.sequential1_channel_729)
+            self.get_729_dds(self, SidebandCooling.sequential1_channel_729)
             self.krun()
 
         if SidebandCooling.sequential2_enable:
-            get_729_dds(self, SidebandCooling.sequential2_channel_729)
+            self.get_729_dds(self, SidebandCooling.sequential2_channel_729)
             self.krun()
         
         
