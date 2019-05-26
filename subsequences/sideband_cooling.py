@@ -24,7 +24,7 @@ class SidebandCooling():
     sequential2_channel_729="SequentialSBCooling2.channel_729"
 
     def subsequence(self):
-        self.get_729_dds(self, SidebandCooling.channel_729)
+        self.get_729_dds(SidebandCooling.channel_729)
 
         freq_729 = self.calc_frequency( 
                     SidebandCooling.line_selection,
@@ -39,15 +39,15 @@ class SidebandCooling():
         self.krun()
         
         if SidebandCooling.sequential_enable:
-            self.get_729_dds(self, SidebandCooling.sequential_channel_729)
+            self.get_729_dds(SidebandCooling.sequential_channel_729)
             self.krun()
 
         if SidebandCooling.sequential1_enable:
-            self.get_729_dds(self, SidebandCooling.sequential1_channel_729)
+            self.get_729_dds(SidebandCooling.sequential1_channel_729)
             self.krun()
 
         if SidebandCooling.sequential2_enable:
-            self.get_729_dds(self, SidebandCooling.sequential2_channel_729)
+            self.get_729_dds(SidebandCooling.sequential2_channel_729)
             self.krun()
         
         
