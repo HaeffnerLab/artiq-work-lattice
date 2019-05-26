@@ -32,7 +32,7 @@ class SidebandCooling:
                     sideband=SidebandCooling.selection_sideband,
                     order=SidebandCooling.order,
                     dds=SidebandCooling.channel_729)
-        print("FREQUENCY 729: ", freq_729)
+        # print("FREQUENCY 729: ", freq_729)
         self.dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
         self.dds_729.set_att(SidebandCooling.att_729)
         
