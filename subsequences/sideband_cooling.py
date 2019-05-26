@@ -1,5 +1,5 @@
 from artiq.experiment import *
-from pulse_sequence import get_729_dds, calc_frequency
+# from pulse_sequence import get_729_dds, calc_frequency
 
 
 class SidebandCooling():
@@ -23,9 +23,9 @@ class SidebandCooling():
     sequential2_channel_729="SequentialSBCooling2.channel_729"
 
     def subsequence(self):
-        get_729_dds(self, SidebandCooling.channel_729)
+        self.get_729_dds(self, SidebandCooling.channel_729)
 
-        freq_729 = calc_frequency(self, 
+        freq_729 = self.calc_frequency( 
             SidebandCooling.line_selection,
             detuning=SidebandCooling.stark_shift,
             sideband=SidebandCooling.selection_sideband,
