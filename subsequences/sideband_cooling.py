@@ -3,7 +3,7 @@ from artiq.experiment import *
 # from subsequence import Subsequence
 
 
-class SidebandCooling():
+class SidebandCooling(EnvExperiment):
     line_selection="SidebandCooling.line_selection"
     selection_sideband="SidebandCooling.selection_sideband"
     order="SidebandCooling.order"
@@ -23,7 +23,7 @@ class SidebandCooling():
     sequential2_enable="SequentialSBCooling2.enable"
     sequential2_channel_729="SequentialSBCooling2.channel_729"
 
-    def subsequence(self, parent):
+    def subsequence(self, parent):#
         self.get_729_dds(SidebandCooling.channel_729)
 
         freq_729 = self.calc_frequency( 
