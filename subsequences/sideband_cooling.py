@@ -33,7 +33,6 @@ class SidebandCooling(Subsequence):
                     order=SidebandCooling.order,
                     dds=SidebandCooling.channel_729)
         print("FREQUENCY 729: ", freq_729)
-        freq_729 = SidebandCooling.freq_729 + SidebandCooling.stark_shift
         self.dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
         self.dds_729.set_att(SidebandCooling.att_729)
         
