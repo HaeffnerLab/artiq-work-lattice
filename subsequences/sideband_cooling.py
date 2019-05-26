@@ -1,5 +1,5 @@
 from artiq.experiment import *
-from pulse_sequence import get_729_dds
+from pulse_sequence import get_729_dds, calc_frequency
 
 
 class SidebandCooling():
@@ -12,7 +12,6 @@ class SidebandCooling():
     amplitude_729="SidebandCooling.amplitude_729"
     att_729="SidebandCooling.att_729"
     duration="SidebandCoolingContinuous.sideband_cooling_continuous_duration"
-    freq_729=220*MHz
 
     sequential_enable="SequentialSBCooling.enable"
     sequential_channel_729="SequentialSBCooling.channel_729"
@@ -26,6 +25,11 @@ class SidebandCooling():
     def subsequence(self):
         get_729_dds(self, SidebandCooling.channel_729)
 
+        freq_729 = calc_frequency(SidebandCooling.line_selection,
+                                  detuning=SidebandCooling.stark_shift,
+                                  sideband=SidebandCooling.selection_sideband,
+                                  order=SidebandCooling.order,
+                                  dds=SidebandCooling.channel_729)
         freq_729 = SidebandCooling.freq_729 + SidebandCooling.stark_shift
         self.dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
         self.dds_729.set_att(SidebandCooling.att_729)
@@ -33,7 +37,7 @@ class SidebandCooling():
         self.krun()
         
         if SidebandCooling.sequential_enable:
-            get_729_dds(self, SidebandCooling.sequential1_channel_729)
+            get_729_dds(self, SidebandCooling.sequential_channel_729)
             self.krun()
 
         if SidebandCooling.sequential1_enable:
@@ -48,7 +52,7 @@ class SidebandCooling():
         
         delay(SidebandCooling.repump_additional)
         self.dds_854.sw.off()
-        delay(SidebandCooling.repump_additional)#
+        delay(SidebandCooling.repump_additional)
         self.dds_866.sw.off()
 
     @kernel
