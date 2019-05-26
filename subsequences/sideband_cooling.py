@@ -3,7 +3,7 @@ from artiq.experiment import *
 # from subsequence import Subsequence
 
 
-class SidebandCooling():
+class SidebandCooling:
     line_selection="SidebandCooling.line_selection"
     selection_sideband="SidebandCooling.selection_sideband"
     order="SidebandCooling.order"
