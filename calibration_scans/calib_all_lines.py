@@ -60,12 +60,12 @@ class CalibAllLines(PulseSequence):
 
         delay(1.1*ms)
 
-        self.repump854.run(self)
-        self.dopplerCooling.run(self)
-        self.opc.run(self)
+        self.repump854.run()
+        self.dopplerCooling.run()
+        self.opc.run()
         if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-        self.rabi.run(self)
+            self.sbc.run()
+        self.rabi.run()
     
     def analyze_calibline1(self):
         x = self.data.CalibLine1.x
@@ -93,10 +93,12 @@ class CalibAllLines(PulseSequence):
 
         delay(1*ms)
 
-        self.repump854.run(self)
-        self.dopplerCooling.run(self)
-        self.opc.run(self)
-        self.rabi.run(self)
+        self.repump854.run()
+        self.dopplerCooling.run()
+        self.opc.run()
+        if self.StatePreparation_sideband_cooling_enable:
+            self.sbc.run()
+        self.rabi.run()
 
     def analyze_calibline2(self):
         x = self.data.CalibLine2.x
