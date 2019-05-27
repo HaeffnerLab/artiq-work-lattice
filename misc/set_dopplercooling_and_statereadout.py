@@ -155,6 +155,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
 
     @kernel
     def recrystallize(self):
+        self.core.break_realtime()
         self.dds_397.set(70*MHz, amplitude=1.0)
         delay(1*s)
 
