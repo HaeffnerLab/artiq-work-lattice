@@ -75,7 +75,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
             self.freq_data.append(self.get_dataset("pmt_counts")[-1])
         self.set_dc_freq()
 
-        self.recrystallize()
+        # self.recrystallize()
 
         amp_list = np.linspace(.15, .99, self.scan_length)
         self.amp_list = amp_list
