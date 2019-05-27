@@ -24,13 +24,12 @@ class OptimizeSidebandCooling(PulseSequence):
         "RabiFlopping.selection_sideband",
         "RabiFlopping.order",
         "RabiFlopping.channel_729"
-
     )
 
     PulseSequence.scan_params["krun"] = ("Current",
-        [("SidebandCooling.amplitude_854", 0., 1., 10),
-         ("SidebandCooling.att_854", 5., 32.5, 15, "dB"),
-         ("SidebandCooling.start_shift", -60., 60., 20, "kHz")]    
+        [("SidebandCooling.amplitude_854", 0., 1., 10),]
+        #  ("SidebandCooling.att_854", 5., 32.5, 15, "dB"),
+        #  ("SidebandCooling.start_shift", -60., 60., 20, "kHz")]    
     )
 
     def run_initially(self):
