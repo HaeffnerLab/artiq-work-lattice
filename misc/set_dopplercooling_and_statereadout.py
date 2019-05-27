@@ -167,7 +167,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         max_counts = max(self.freq_data)
         max_counts_index = np.abs(self.freq_data - max_counts).argmin()
         self.peak_freq_397 = self.scan_freq_list[max_counts_index]
-        half_max_counts = max_counts / 2 + self.background_level
+        half_max_counts = (max_counts + self.background_level) / 2
         half_max_counts_index = np.abs(self.freq_data - half_max_counts).argmin()
         dc_freq = self.scan_freq_list[half_max_counts_index] * 1e-6
         self.dc_freq = dc_freq * 1e6
@@ -177,7 +177,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         max_counts = max(self.amp_data)
         max_counts_index = np.abs(self.amp_data - max_counts).argmin()
         self.peak_amp_397 = self.scan_amp_list[max_counts_index]
-        third_max_counts = max_counts / 3 + self.background_level
+        third_max_counts = (max_counts - 2 * self.background_level) / 3
         third_max_counts_index = np.abs(self.amp_data - third_max_counts).argmin()
         dc_amp = self.scan_amp_list[third_max_counts_index]
         self.p.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", dc_amp)
