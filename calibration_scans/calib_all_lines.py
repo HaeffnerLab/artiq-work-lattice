@@ -29,8 +29,8 @@ class CalibAllLines(PulseSequence):
 
     fixed_params = [("Display.relative_frequencies", False)]
 
-    PulseSequence.scan_params["CalibLine2"] = ("CalibLine2",
-                [("Spectrum.carrier_detuning", -5e3, 5e3, 15, "kHz")])
+    # PulseSequence.scan_params["CalibLine2"] = ("CalibLine2",
+    #             [("Spectrum.carrier_detuning", -5e3, 5e3, 15, "kHz")])
     PulseSequence.scan_params["CalibLine1"] = ("CalibLine1",
                 [("Spectrum.carrier_detuning", -5e3, 5e3, 15, "kHz")])
 
@@ -56,7 +56,7 @@ class CalibAllLines(PulseSequence):
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, dds=rabi_dds,
                 bound_param="Spectrum_carrier_detuning")
-    #
+    
     @kernel
     def CalibLine1(self):
         # delay(1*ms)
