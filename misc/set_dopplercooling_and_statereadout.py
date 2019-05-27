@@ -15,8 +15,8 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.pmt = self.get_device("pmt")
 
     def prepare(self):
-        self.readout_duration = 10*ms
-        self.scan_length = 50
+        self.readout_duration = 15*ms
+        self.scan_length = 40
         self.set_dataset("pmt_counts", [], broadcast=True)
         self.set_dataset("collection_duration", [self.readout_duration])
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
@@ -77,8 +77,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.scan_amp_list = amp_list
         self.amp_data = []
         for i, amp in enumerate(amp_list):
-            print("freq: ", self.dc_freq)
-            print("amp: ", amp)
             self.krun_amp(self.dc_freq, amp)
             self.amp_data.append(self.get_dataset("pmt_counts")[-1])
         self.set_dc_amp()
@@ -89,8 +87,9 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     @kernel
     def initialize(self):
         self.turn_off_all()
-        # t_count = self.pmt.gate_rising(self.readout_duration)
-        # self.background_level = self.pmt.count(t_count)
+        self.core.break_realtime()
+        t_count = self.pmt.gate_rising(self.readout_duration)
+        self.background_level = self.pmt.count(t_count)
         self.dds_866.set(self.freq_866*MHz, amplitude=self.amp_866)
         self.dds_866.set_att(self.att_866*dB)
         self.dds_866.sw.on()
