@@ -25,8 +25,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.background_level = 0.
         self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(3)]
         self.dds_names = list()
-        self.dds_offsets = list()
-        self.dds_dp_flags = list()
         self.dds_device_list = list()
         for key, val in self.get_device_db().items():
             if isinstance(val, dict) and "class" in val:
@@ -34,8 +32,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
                     setattr(self, "dds_" + key, self.get_device(key))
                     self.dds_device_list.append(getattr(self, "dds_" + key))
                     try:
-                        self.dds_offsets.append(float(dds_config[key].offset))
-                        self.dds_dp_flags.append(float(dds_config[key].double_pass))
                         self.dds_names.append(key)
                     except KeyError:
                         continue
