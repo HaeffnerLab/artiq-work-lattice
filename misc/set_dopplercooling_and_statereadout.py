@@ -188,4 +188,5 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
             self.p.set_parameter("StateReadout", "amplitude_397", self.peak_amp_397)
             freq = (self.peak_freq_397 - 5*MHz) * 1e-6
             self.p.set_parameter("StateReadout", "frequency_397", U(freq, "MHz"))
+            self.p.set_parameter("StateReadout", "att_397", U(self.att_397, "dBm"))
         self.cxn.disconnect()
