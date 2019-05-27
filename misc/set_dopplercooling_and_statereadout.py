@@ -57,6 +57,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.peak_freq_397 = -1
         self.peak_amp_397 = -1
         self.completed = False
+        self.dataset_length = dict()
 
     def run(self):
         self.initialize()
