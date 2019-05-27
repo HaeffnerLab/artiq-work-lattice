@@ -16,7 +16,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
 
     def prepare(self):
         self.set_dataset("pmt_counts", [], broadcast=True)
-        self.set_dataset("collection_duration", [self.duration])
+        self.set_dataset("collection_duration", [1*ms])
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
         self.set_dataset("pulsed", [False], broadcast=True)
         self.freq_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_frequency_866")["MHz"]
