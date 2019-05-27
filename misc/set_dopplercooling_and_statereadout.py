@@ -61,7 +61,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dataset_length = dict()
 
     def run(self):
-        self.initialize(self.freq_866, self.amp_866, self.att_866, self.amp_397, self.att_397)
+        self.initialize(self.freq_866, self.amp_866, self.att_866, self.att_397)
         
         freq_list = np.linspace(65*MHz, 85*MHz, self.scan_length)
         self.scan_freq_list = freq_list
@@ -85,7 +85,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.reset_cw_settings()
 
     @kernel
-    def initialize(self, freq_866, amp_866, att_866, amp_397, att_397):
+    def initialize(self, freq_866, amp_866, att_866, att_397):
         self.turn_off_all()
         self.core.reset()
         t_count = self.pmt.gate_rising(self.readout_duration)
