@@ -17,7 +17,8 @@ class RabiFlopping(PulseSequence):
          "RabiFlopping.channel_729",
          "RabiFlopping.duration",
          "RabiFlopping.selection_sideband",
-         "RabiFlopping.order"
+         "RabiFlopping.order",
+         "StatePreparation.sideband_cooling_enable"
          }
     )
     PulseSequence.scan_params.update(
