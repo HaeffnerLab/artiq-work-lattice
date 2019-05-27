@@ -23,7 +23,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.amp_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_amplitude_866")[""]
         self.att_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_att_866")["dBm"]
         self.background_level = 0.
-        self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(4)]
+        self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(3)]
         self.dds_names = list()
         self.dds_offsets = list()
         self.dds_dp_flags = list()
