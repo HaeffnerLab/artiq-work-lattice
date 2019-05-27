@@ -59,7 +59,7 @@ class CalibAllLines(PulseSequence):
     
     @kernel
     def CalibLine1(self):
-        while self.core.get_rtio_counter() < now_mu(): pass
+        delay(1*ms)
         # self.repump854.run(self)
         # self.dopplerCooling.run(self)
         # self.opc.run(self)
