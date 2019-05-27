@@ -107,7 +107,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dds_866.set(self.freq_866, amplitude=self.amp_866)
         self.dds_866.set(self.att_866)
         self.dds_866.sw.on()
-        self.dds_397.set(65*MHz, amplitude=0.2)
+        self.dds_397.set(65*MHz, amplitude=0.3)
         self.dds_397.sw.on()
 
     @kernel
@@ -171,16 +171,16 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def set_dc_freq(self):
         peak_freq_index = np.abs(self.freq_list - self.peak_freq_397).argmin()
         dc_freq = self.freq_list[peak_freq_index // 2] * 1e-6
-        self.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", U(dc_freq, "MHz"))
+        self.p.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", U(dc_freq, "MHz"))
 
     def set_dc_amp(self):
         peak_amp_index = np.abs(self.amp_list - self.peak_amp_397).argmin()
         dc_amp = self.freq_list[peak_amp_index // 3]
-        self.set_parameter("DopplerCooling", "doppler_cooling_frequency_397", U(dc_amp, ""))
+        self.p.set_parameter("DopplerCooling", "doppler_cooling_frequency_397", U(dc_amp, ""))
 
     def analyze(self):
         if self.completed:
-            self.set_parameter("StateReadout", "amplitude_397", U(self.peak_amp_397, ""))
+            self.p.set_parameter("StateReadout", "amplitude_397", U(self.peak_amp_397, ""))
             freq = (self.peak_freq_397 - 3*MHz) * 1e-6
-            self.set_parameter("StateReaodut", "frequency_397", U(freq, "MHz"))
+            self.p.set_parameter("StateReaodut", "frequency_397", U(freq, "MHz"))
         self.cxn.disconnect()
