@@ -26,20 +26,19 @@ class Spectrum(PulseSequence):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.set_subsequence["spectrum"] = self.set_subsequence
 
     @kernel
-    def spectrum(self):
+    def set_subsequence(self):
         delta = self.get_variable_parameter("Spectrum_carrier_detuning")
-        opc_line = self.opc.line_selection#
-        opc_dds = self.opc.channel_729
         rabi_line = self.rabi.line_selection
         rabi_dds = self.rabi.channel_729
-        self.opc.freq_729 = self.calc_frequency(opc_line, dds=opc_dds)
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, dds=rabi_dds,
                 bound_param="Spectrum_carrier_detuning")
-        
+  
+    @kernel
+    def spectrum(self):
         delay(1*ms)
-
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
