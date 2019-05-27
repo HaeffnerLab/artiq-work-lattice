@@ -46,7 +46,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         dds_cw_parameters = dict()
         names = self.p.get_parameter_names("dds_cw_parameters")
         for name in names:
-            param = self.p.get_parameter("dds_cw_parameters", name)[""]
+            param = self.p.get_parameter("dds_cw_parameters", name)
             dds_cw_parameters[name] = param
         for key, settings in dds_cw_parameters.items():
             self.dds_list.append(getattr(self, "dds_" + key))
