@@ -15,8 +15,8 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.pmt = self.get_device("pmt")
 
     def prepare(self):
-        self.readout_duration = 100*ms
-        self.scan_length = 25
+        self.readout_duration = 10*ms
+        self.scan_length = 50
         self.set_dataset("pmt_counts", [], broadcast=True)
         self.set_dataset("collection_duration", [self.readout_duration])
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
@@ -142,7 +142,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.core.break_realtime()
         self.dds_397.set(freq, amplitude=amp)
         self.core.break_realtime()
-        delay(1*ms)
+        delay(3*ms) # time for amplitude to be increased
         t_count = self.pmt.gate_rising(self.readout_duration)
         pmt_count = self.pmt.count(t_count)
         self.append("pmt_counts", pmt_count)
@@ -186,6 +186,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def analyze(self):
         if self.completed:
             self.p.set_parameter("StateReadout", "amplitude_397", self.peak_amp_397)
-            freq = (self.peak_freq_397 - 3*MHz) * 1e-6
+            freq = (self.peak_freq_397 - 5*MHz) * 1e-6
             self.p.set_parameter("StateReadout", "frequency_397", U(freq, "MHz"))
         self.cxn.disconnect()
