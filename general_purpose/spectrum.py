@@ -26,10 +26,10 @@ class Spectrum(PulseSequence):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
         self.rabi = self.add_subsequence(RabiExcitation)
-        self.set_subsequence["spectrum"] = self.set_subsequence
+        self.set_subsequence["spectrum"] = self.set_subsequence_spectrum
 
     @kernel
-    def set_subsequence(self):
+    def set_subsequence_spectrum(self):
         delta = self.get_variable_parameter("Spectrum_carrier_detuning")
         rabi_line = self.rabi.line_selection
         rabi_dds = self.rabi.channel_729
