@@ -34,7 +34,7 @@ class OptimizeSidebandCooling(PulseSequence):
          ("SidebandCooling.stark_shift", -60*kHz, 60*kHz, 20, "kHz")]    
     )
 
-    def run_initially(self):#
+    def run_initially(self):
         self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
@@ -57,11 +57,11 @@ class OptimizeSidebandCooling(PulseSequence):
         self.sbc.amp_854 = self.get_variable_parameter("SidebandCooling_amplitude_854")
         self.sbc.att_854 = self.get_variable_parameter("SidebandCooling_att_854")
         self.sbc.stark_shift = self.get_variable_parameter("SidebandCooling_stark_shift")
-        print()
-        print("amp854: ", self.sbc.amp_854)
-        print("att854: ", self.sbc.att_854)
-        print("starkshift: ", self.sbc.stark_shift)
-        print()
+        # print()
+        # print("amp854: ", self.sbc.amp_854)
+        # print("att854: ", self.sbc.att_854)
+        # print("starkshift: ", self.sbc.stark_shift)
+        # print()
     
     @kernel
     def krun(self):
