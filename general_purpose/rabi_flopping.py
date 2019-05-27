@@ -15,6 +15,8 @@ class RabiFlopping(PulseSequence):
          "RabiFlopping.att_729",
          "RabiFlopping.channel_729",
          "RabiFlopping.duration",
+         "RabiFlopping.selection_sideband",
+         "RabiFlopping.order"
          }
     )
     PulseSequence.scan_params.update(
@@ -34,8 +36,13 @@ class RabiFlopping(PulseSequence):
         self.rabi.duration = self.get_variable_parameter("RabiFlopping_duration")
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
         self.rabi.att_729 = self.RabiFlopping_att_729
-        self.rabi.freq_729 = self.calc_frequency(self.RabiFlopping_line_selection, 0., 
-                dds=self.RabiFlopping_channel_729)
+        self.rabi.freq_729 = self.calc_frequency(
+            self.RabiFlopping_line_selection, 
+            detuning=0.,
+            sideband=self.RabiFlopping_selection_sideband,
+            order=self.RabiFlopping_order, 
+            dds=self.RabiFlopping_channel_729
+        )
 
     @kernel
     def RabiFlopping(self):
