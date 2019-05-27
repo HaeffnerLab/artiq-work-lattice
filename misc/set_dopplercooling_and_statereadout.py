@@ -77,7 +77,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
 
         # self.recrystallize()
 
-        amp_list = np.linspace(.15, .99, self.scan_length)
+        amp_list = np.linspace(.25, .99, self.scan_length)
         self.amp_list = amp_list
         self.amp_data = []
         for i, amp in enumerate(amp_list):
