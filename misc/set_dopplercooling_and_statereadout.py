@@ -179,7 +179,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def set_dc_amp(self):
         max_counts = max(self.amp_data)
         max_counts_index = np.abs(self.amp_data - max_counts).argmin()
-        amp_data_copy = amp_data.copy()
+        amp_data_copy = self.amp_data.copy()
         amp_data_copy.sort()
         max_counts = sum(amp_data_copy[-5:]) / 5
         self.peak_amp_397 = self.scan_amp_list[max_counts_index]
