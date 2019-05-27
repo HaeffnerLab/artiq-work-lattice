@@ -61,7 +61,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dataset_length = dict()
 
     def run(self):
-        self.initialize()
+        self.background_level = self.initialize()
         
         freq_list = np.linspace(65*MHz, 85*MHz, self.scan_length)
         self.scan_freq_list = freq_list
@@ -85,12 +85,11 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.reset_cw_settings()
 
     @kernel
-    def initialize(self):
+    def initialize(self) -> TInt:
         self.turn_off_all()
         self.core.reset()
         t_count = self.pmt.gate_rising(self.readout_duration)
-        self.background_level = self.pmt.count(t_count)
-        self.core.break_realtime()
+        background_level = self.pmt.count(t_count)
         self.dds_866.set(self.freq_866*MHz, amplitude=self.amp_866)
         self.core.break_realtime()
         self.dds_866.set_att(self.att_866*dB)
@@ -98,6 +97,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dds_397.set(65*MHz, amplitude=0.2)
         self.dds_397.set_att(self.att_397*dB)
         self.dds_397.sw.on()
+        return background_level
 
     @kernel
     def turn_off_all(self):
