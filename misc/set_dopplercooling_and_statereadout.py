@@ -85,7 +85,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.reset_cw_settings()
 
     @kernel
-    def initialize(self) -> TInt:
+    def initialize(self) -> TInt32:
         self.turn_off_all()
         self.core.reset()
         t_count = self.pmt.gate_rising(self.readout_duration)
