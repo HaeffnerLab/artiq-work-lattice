@@ -58,8 +58,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
             self.amp_list.append(float(settings[1][1]))
             self.att_list.append(float(settings[1][3]))
             self.state_list.append(bool(float(settings[1][2])))
-        self.peak_freq_397 = -1
-        self.peak_amp_397 = -1
         self.completed = False
         self.dataset_length = dict()
 
@@ -68,36 +66,28 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         
         freq_list = np.linspace(65*MHz, 85*MHz, self.scan_length)
         self.freq_list = freq_list
+        data = []
         for i, freq in enumerate(freq_list):
             try:
                 self.krun_freq(freq)
                 self.scheduler.pause()
             except TerminationRequested:
                 return
-            data = self.get_dataset("pmt_counts")
-            if i > 100:
-                if data[-1] <= data[-2] and data[-2] <= data[-3] and data[-3] <= data[-4]:
-                    self.peak_freq_397 = freq
-                    break
-        if self.peak_freq_397 == -1:
-            self.peak_freq_397 = freq_list[-1]
+            data.append(self.get_dataset("pmt_counts")[-1])
+        self.peak_freq_397 = max(data)
         self.set_dc_freq()
 
-        amp_list = np.linspace(0, 1, self.scan_length)
+        amp_list = np.linspace(0.15, .99, self.scan_length)
         self.amp_list = amp_list
+        data = []
         for i, amp in enumerate(amp_list):
             try:
                 self.krun_amp(self.peak_freq_397, amp)
                 self.scheduler.pause()
             except TerminationRequested:
                 return
-            data = self.get_dataset("pmt_counts")
-            if i > 100:
-                if data[-1] <= data[-2] and data[-2] <= data[-3] and data[-3] <= data[-4]:
-                    self.peak_amp_397 = freq
-                    break
-        if self.peak_amp_397 == -1:
-            self.peak_amp_397 = freq_list[-1]
+            data.append(self.get_dataset("pmt_counts")[-1])
+        self.peak_amp_397 = max(data)
         self.set_dc_amp()
 
         self.completed = True
@@ -179,7 +169,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
 
     def set_dc_amp(self):
         peak_amp_index = np.abs(self.amp_list - self.peak_amp_397).argmin()
-        dc_amp = self.freq_list[peak_amp_index // 3]
+        dc_amp = self.amp_list[peak_amp_index // 3]
         self.p.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", U(dc_amp, ""))
 
     def analyze(self):
