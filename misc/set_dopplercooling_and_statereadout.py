@@ -15,6 +15,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.pmt = self.get_device("pmt")
 
     def prepare(self):
+        self.readout_duration = 100*ms
         self.set_dataset("pmt_counts", [], broadcast=True)
         self.set_dataset("collection_duration", [self.readout_duration])
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
@@ -58,7 +59,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.peak_amp_397 = -1
         self.completed = False
         self.dataset_length = dict()
-        self.readout_duration = 100*ms
 
     def run(self):
         self.initialize()
