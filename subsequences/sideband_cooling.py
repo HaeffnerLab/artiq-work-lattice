@@ -37,9 +37,9 @@ class SidebandCooling:
                     order=SidebandCooling.order,
                     dds=SidebandCooling.channel_729)
         self.dds_729.set(freq_729, amplitude=1.)#SidebandCooling.amplitude_729)
-        self.dds_729.set_att(10*dB)#SidebandCooling.att_729)#
+        self.dds_729.set_att(10*dB)#SidebandCooling.att_729)
         
-        # krun(self)#
+        # krun(self)
         
         # if SidebandCooling.sequential_enable:
         #     self.get_729_dds(SidebandCooling.sequential_channel_729)
