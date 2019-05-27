@@ -66,12 +66,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.freq_list = freq_list
         self.freq_data = []
         for i, freq in enumerate(freq_list):
-            try:
-                self.krun_freq(freq)
-                self.scheduler.pause()
-            except TerminationRequested:
-                self.reset_cw_settings()
-                return
+            self.krun_freq(freq)
             self.freq_data.append(self.get_dataset("pmt_counts")[-1])
         self.set_dc_freq()
 
@@ -81,12 +76,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.amp_list = amp_list
         self.amp_data = []
         for i, amp in enumerate(amp_list):
-            try:
-                self.krun_amp(self.dc_freq, amp)
-                self.scheduler.pause()
-            except TerminationRequested:
-                self.reset_cw_settings()
-                return
+            self.krun_amp(self.dc_freq, amp)
             self.amp_data.append(self.get_dataset("pmt_counts")[-1])
         self.set_dc_amp()
 
