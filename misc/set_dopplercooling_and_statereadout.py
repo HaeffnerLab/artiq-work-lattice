@@ -1,6 +1,6 @@
 import labrad
 import numpy as np
-from artiq import *
+from artiq.experiment import *
 from artiq.language.core import TerminationRequested
 from labrad.units import WithUnit as U
 
