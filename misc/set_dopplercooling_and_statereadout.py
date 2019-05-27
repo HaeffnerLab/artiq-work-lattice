@@ -82,7 +82,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.amp_data = []
         for i, amp in enumerate(amp_list):
             try:
-                self.krun_amp(self.peak_freq_397, amp)
+                self.krun_amp(self.dc_freq, amp)
                 self.scheduler.pause()
             except TerminationRequested:
                 self.reset_cw_settings()
@@ -171,6 +171,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         half_max_counts = max(self.freq_data) / 2
         half_max_counts_index = np.abs(self.freq_data - half_max_counts).argmin()
         dc_freq = self.freq_list[half_max_counts_index] * 1e-6
+        self.dc_freq = dc_freq
         self.p.set_parameter("DopplerCooling", "doppler_cooling_frequency_397", U(dc_freq, "MHz"))
 
     def set_dc_amp(self):
