@@ -24,6 +24,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.freq_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_frequency_866")["MHz"]
         self.amp_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_amplitude_866")[""]
         self.att_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_att_866")["dBm"]
+        self.att_397 = self.p.get_parameter("DopplerCooling", "doppler_cooling_att_397")["dBm"]
         self.background_level = 0.
         self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(3)]
         self.dds_names = list()
@@ -94,6 +95,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dds_866.set_att(self.att_866*dB)
         self.dds_866.sw.on()
         self.dds_397.set(65*MHz, amplitude=0.3)
+        self.dds_397.set_att(self.att_397*dB)
         self.dds_397.sw.on()
 
     @kernel
@@ -140,6 +142,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.core.break_realtime()
         self.dds_397.set(freq, amplitude=amp)
         self.core.break_realtime()
+        delay(1*ms)
         t_count = self.pmt.gate_rising(self.readout_duration)
         pmt_count = self.pmt.count(t_count)
         self.append("pmt_counts", pmt_count)
