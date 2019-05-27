@@ -2,7 +2,6 @@ from artiq.experiment import *
 
 
 class OpticalPumpingPulsed():
-    freq_729=220*MHz
     number_of_cycles="StatePreparation.number_of_cycles"
     duration_854="StatePreparation.pulsed_854_duration"
     pi_time="StatePreparation.pi_time"
@@ -18,18 +17,14 @@ class OpticalPumpingPulsed():
     line_selection="OpticalPumping.line_selection"
 
     def subsequence(self):
-        if OpticalPumpingPulsed.channel_729 == "729L1":
-            dds_729 = self.dds_729L1
-        elif OpticalPumpingPulsed.channel_729 == "729L2":
-            dds_729 = self.dds_729L2
-        elif OpticalPumpingPulsed.channel_729 == "729G":
-            dds_729 = self.dds_729G
-        else:
-            dds_729 = self.dds_729G
-        
+        self.get_729_dds(OpticalPumpingPulsed.channel_729)
         self.dds_866.set(OpticalPumpingPulsed.frequency_866, amplitude=OpticalPumpingPulsed.amplitude_866)
         self.dds_866.set_att(OpticalPumpingPulsed.att_866)
-        dds_729.set(OpticalPumpingPulsed.freq_729, amplitude=OpticalPumpingPulsed.amplitude_729)
+        freq_729 = self.calc_frequency(
+            OpticalPumpingPulsed.line_selection,
+            dds=OpticalPumpingPulsed.channel_729
+        )
+        dds_729.set(freq_729, amplitude=OpticalPumpingPulsed.amplitude_729)
         dds_729.set_att(OpticalPumpingPulsed.att_729)
         self.dds_854.set(OpticalPumpingPulsed.frequency_854, amplitude=OpticalPumpingPulsed.amplitude_854)
         self.dds_854.set_att(OpticalPumpingPulsed.att_854)

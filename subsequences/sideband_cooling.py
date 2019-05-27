@@ -1,6 +1,4 @@
 from artiq.experiment import *
-# from pulse_sequence import get_729_dds, calc_frequency
-# from subsequence import Subsequence
 
 
 class SidebandCooling:
