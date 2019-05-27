@@ -64,7 +64,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         
         freq_list = np.linspace(65*MHz, 85*MHz, self.scan_length)
         self.freq_list = freq_list
-        data = []
+        self.freq_data = []
         for i, freq in enumerate(freq_list):
             try:
                 self.krun_freq(freq)
@@ -72,15 +72,14 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
             except TerminationRequested:
                 self.reset_cw_settings()
                 return
-            data.append(self.get_dataset("pmt_counts")[-1])
-        self.peak_freq_397 = freq_list[np.argmax(data)]
+            self.freq_data.append(self.get_dataset("pmt_counts")[-1])
         self.set_dc_freq()
 
         self.recrystallize()
 
         amp_list = np.linspace(.15, .99, self.scan_length)
         self.amp_list = amp_list
-        data = []
+        self.amp_data = []
         for i, amp in enumerate(amp_list):
             try:
                 self.krun_amp(self.peak_freq_397, amp)
@@ -88,8 +87,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
             except TerminationRequested:
                 self.reset_cw_settings()
                 return
-            data.append(self.get_dataset("pmt_counts")[-1])
-        self.peak_amp_397 = amp_list[np.argmax(data)]
+            self.amp_data.append(self.get_dataset("pmt_counts")[-1])
         self.set_dc_amp()
 
         self.completed = True
@@ -159,7 +157,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dds_397.set(70*MHz, amplitude=1.0)
         delay(1*s)
 
-    # @rpc(flags={"async"})
     def append(self, dataset_name, data_to_append):
         if not dataset_name in self.dataset_length.keys():
             self.dataset_length[dataset_name] = 0
@@ -171,18 +168,20 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dataset_length[dataset_name] += 1
 
     def set_dc_freq(self):
-        peak_freq_index = np.abs(self.freq_list - self.peak_freq_397 / 2).argmin()
-        dc_freq = self.freq_list[peak_freq_index] * 1e-6
+        half_max_counts = max(self.freq_data) / 2
+        half_max_counts_index = np.abs(self.freq_data - half_max_counts).argmin()
+        dc_freq = self.freq_list[half_max_counts_index] * 1e-6
         self.p.set_parameter("DopplerCooling", "doppler_cooling_frequency_397", U(dc_freq, "MHz"))
 
     def set_dc_amp(self):
-        peak_amp_index = np.abs(self.amp_list - self.peak_amp_397 / 3).argmin()
-        dc_amp = self.amp_list[peak_amp_index]
+        third_max_counts = max(self.amp_data) / 3
+        third_max_counts_index = np.abs(self.amp_data - third_max_counts).argmin()
+        dc_amp = self.amp_list[third_max_counts_index]
         self.p.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", dc_amp)
 
     def analyze(self):
         if self.completed:
             self.p.set_parameter("StateReadout", "amplitude_397", self.peak_amp_397)
             freq = (self.peak_freq_397 - 3*MHz) * 1e-6
-            self.p.set_parameter("StateReaodut", "frequency_397", U(freq, "MHz"))
+            self.p.set_parameter("StateReadout", "frequency_397", U(freq, "MHz"))
         self.cxn.disconnect()
