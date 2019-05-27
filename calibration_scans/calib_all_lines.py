@@ -60,12 +60,12 @@ class CalibAllLines(PulseSequence):
     @kernel
     def CalibLine1(self):
         delay(1*ms)
-        # self.repump854.run(self)
-        # self.dopplerCooling.run(self)
-        # self.opc.run(self)
+        self.repump854.run(self)
+        self.dopplerCooling.run(self)
+        self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
-        # self.rabi.run(self)
+        self.rabi.run(self)
     
     def analyze_calibline1(self):
         x = self.data.CalibLine1.x
