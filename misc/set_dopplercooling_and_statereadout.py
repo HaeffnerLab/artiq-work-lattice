@@ -61,7 +61,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dataset_length = dict()
 
     def run(self):
-        self.background_level = self.initialize()
+        self.initialize()
         
         freq_list = np.linspace(65*MHz, 85*MHz, self.scan_length)
         self.scan_freq_list = freq_list
@@ -85,7 +85,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.reset_cw_settings()
 
     @kernel
-    def initialize(self) -> TInt32:
+    def initialize(self):
         self.turn_off_all()
         self.core.reset()
         t_count = self.pmt.gate_rising(self.readout_duration)
