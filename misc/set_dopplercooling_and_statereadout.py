@@ -73,10 +73,10 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         # self.recrystallize()
 
         amp_list = np.linspace(.25, .99, self.scan_length)
-        print("amp_list: ", amp_list)
         self.scan_amp_list = amp_list
         self.amp_data = []
         for i, amp in enumerate(amp_list):
+            print("amp: ", amp)
             self.krun_amp(self.dc_freq, amp)
             self.amp_data.append(self.get_dataset("pmt_counts")[-1])
         self.set_dc_amp()
