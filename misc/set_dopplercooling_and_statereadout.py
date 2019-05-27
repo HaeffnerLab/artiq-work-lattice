@@ -89,7 +89,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.turn_off_all()
         delay(2*ms)
         t_count = self.pmt.gate_rising(self.readout_duration*10)
-        self.background_level = self.pmt.count(t_count) / 10
+        self.background_level = round(self.pmt.count(t_count) / 10)
         delay(2*ms)
         self.dds_866.set(self.freq_866*MHz, amplitude=self.amp_866)
         self.dds_866.set_att(self.att_866*dB)
