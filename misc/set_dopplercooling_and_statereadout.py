@@ -63,7 +63,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.initialize()
         
         freq_list = np.linspace(65*MHz, 85*MHz, self.scan_length)
-        self.freq_list = freq_list
+        self.scan_freq_list = freq_list
         self.freq_data = []
         for i, freq in enumerate(freq_list):
             self.krun_freq(freq)
@@ -73,7 +73,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         # self.recrystallize()
 
         amp_list = np.linspace(.25, .99, self.scan_length)
-        self.amp_list = amp_list
+        self.scan_amp_list = amp_list
         self.amp_data = []
         for i, amp in enumerate(amp_list):
             self.krun_amp(self.dc_freq, amp)
@@ -162,20 +162,20 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def set_dc_freq(self):
         max_counts = max(self.freq_data)
         max_counts_index = np.abs(self.freq_data - max_counts).argmin()
-        self.peak_freq_397 = self.freq_list[max_counts_index]
+        self.peak_freq_397 = self.scan_freq_list[max_counts_index]
         half_max_counts = max_counts / 2
         half_max_counts_index = np.abs(self.freq_data - half_max_counts).argmin()
-        dc_freq = self.freq_list[half_max_counts_index] * 1e-6
+        dc_freq = self.scan_freq_list[half_max_counts_index] * 1e-6
         self.dc_freq = dc_freq * 1e6
         self.p.set_parameter("DopplerCooling", "doppler_cooling_frequency_397", U(dc_freq, "MHz"))
 
     def set_dc_amp(self):
         max_counts = max(self.amp_data)
         max_counts_index = np.abs(self.amp_data - max_counts).argmin()
-        self.peak_amp_397 = self.amp_list[max_counts_index]
+        self.peak_amp_397 = self.scan_amp_list[max_counts_index]
         third_max_counts = max_counts / 3
         third_max_counts_index = np.abs(self.amp_data - third_max_counts).argmin()
-        dc_amp = self.amp_list[third_max_counts_index]
+        dc_amp = self.scan_amp_list[third_max_counts_index]
         self.p.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", dc_amp)
 
     def analyze(self):
