@@ -57,11 +57,11 @@ class OptimizeSidebandCooling(PulseSequence):
         self.sbc.amp_854 = self.get_variable_parameter("SidebandCooling_amplitude_854")
         self.sbc.att_854 = self.get_variable_parameter("SidebandCooling_att_854")
         self.sbc.stark_shift = self.get_variable_parameter("SidebandCooling_stark_shift")
-        # print()
-        # print("amp854: ", self.sbc.amp_854)#
-        # print("att854: ", self.sbc.att_854)
-        # print("starkshift: ", self.sbc.stark_shift)
-        # print()
+        print()
+        print("amp854: ", self.sbc.amp_854)#
+        print("att854: ", self.sbc.att_854)
+        print("starkshift: ", self.sbc.stark_shift)
+        print()
     
     @kernel
     def krun(self):
