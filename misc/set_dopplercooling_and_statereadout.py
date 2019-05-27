@@ -135,6 +135,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     
     @kernel
     def krun_freq(self, freq):
+        self.core.break_realtime()
         self.dds_397.set(freq)
         self.core.break_realtime()
         t_count = self.pmt.gate_rising(self.readout_duration)
@@ -144,6 +145,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
 
     @kernel
     def krun_amp(self, freq, amp):
+        self.core.break_realtime()
         self.dds_397.set(freq, amplitude=amp)
         self.core.break_realtime()
         t_count = self.pmt.gate_rising(self.readout_duration)
