@@ -15,7 +15,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.pmt = self.get_device("pmt")
 
     def prepare(self):
-        self.readout_duration = 50*ms
+        self.readout_duration = 100*ms
         self.scan_length = 25
         self.set_dataset("pmt_counts", [], broadcast=True)
         self.set_dataset("collection_duration", [self.readout_duration])
@@ -72,6 +72,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
                 self.krun_freq(freq)
                 self.scheduler.pause()
             except TerminationRequested:
+                self.reset_cw_settings()
                 return
             data.append(self.get_dataset("pmt_counts")[-1])
         self.peak_freq_397 = max(data)
@@ -87,6 +88,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
                 self.krun_amp(self.peak_freq_397, amp)
                 self.scheduler.pause()
             except TerminationRequested:
+                self.reset_cw_settings()
                 return
             data.append(self.get_dataset("pmt_counts")[-1])
         self.peak_amp_397 = max(data)
@@ -182,7 +184,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
 
     def analyze(self):
         if self.completed:
-            self.p.set_parameter("StateReadout", "amplitude_397", U(self.peak_amp_397, ""))
+            self.p.set_parameter("StateReadout", "amplitude_397", self.peak_amp_397)
             freq = (self.peak_freq_397 - 3*MHz) * 1e-6
             self.p.set_parameter("StateReaodut", "frequency_397", U(freq, "MHz"))
         self.cxn.disconnect()
