@@ -34,19 +34,20 @@ class SidebandCooling:
     sequential2_order="SequentialSBCooling2.order"
 
     def subsequence(self):
-        self.get_729_dds(SidebandCooling.channel_729)
-        freq_729 = self.calc_frequency(
-                    SidebandCooling.line_selection,
-                    detuning=SidebandCooling.stark_shift,
-                    sideband=SidebandCooling.selection_sideband,
-                    order=SidebandCooling.order,
-                    dds=SidebandCooling.channel_729)
-        self.dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
-        self.dds_729.set_att(SidebandCooling.att_729)
-        self.dds_854.set(SidebandCooling.freq_854, amplitude=SidebandCooling.amp_854)
-        self.dds_854.set(SidebandCooling.att_854)
-        self.dds_866.set(SidebandCooling.freq_866, amplitude=SidebandCooling.amp_866)
-        self.dds_866.set(SidebandCooling.att_866)
+        with parallel:
+            self.get_729_dds(SidebandCooling.channel_729)
+            freq_729 = self.calc_frequency(
+                        SidebandCooling.line_selection,
+                        detuning=SidebandCooling.stark_shift,
+                        sideband=SidebandCooling.selection_sideband,
+                        order=SidebandCooling.order,
+                        dds=SidebandCooling.channel_729)
+            self.dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
+            self.dds_729.set_att(SidebandCooling.att_729)
+            self.dds_854.set(SidebandCooling.freq_854, amplitude=SidebandCooling.amp_854)
+            self.dds_854.set(SidebandCooling.att_854)
+            self.dds_866.set(SidebandCooling.freq_866, amplitude=SidebandCooling.amp_866)
+            self.dds_866.set(SidebandCooling.att_866)
         krun(self)
         
         if SidebandCooling.sequential_enable:
