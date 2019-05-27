@@ -1,5 +1,4 @@
 from pulse_sequence import pulse_sequence
-from puls
 from subsequences.repump_D import RepumpD
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
