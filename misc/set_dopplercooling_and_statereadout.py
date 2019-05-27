@@ -175,12 +175,12 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def set_dc_freq(self):
         peak_freq_index = np.abs(self.freq_list - self.peak_freq_397).argmin()
         dc_freq = self.freq_list[peak_freq_index // 2] * 1e-6
-        self.p.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", U(dc_freq, "MHz"))
+        self.p.set_parameter("DopplerCooling", "doppler_cooling_frequency_397", U(dc_freq, "MHz"))
 
     def set_dc_amp(self):
         peak_amp_index = np.abs(self.amp_list - self.peak_amp_397).argmin()
         dc_amp = self.freq_list[peak_amp_index // 3]
-        self.p.set_parameter("DopplerCooling", "doppler_cooling_frequency_397", U(dc_amp, ""))
+        self.p.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", U(dc_amp, ""))
 
     def analyze(self):
         if self.completed:
