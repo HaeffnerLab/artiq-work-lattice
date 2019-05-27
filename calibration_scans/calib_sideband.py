@@ -8,6 +8,7 @@ from subsequences.repump_D import RepumpD
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
 from subsequences.rabi_excitation import RabiExcitation
+from subsequences.sideband_cooling import SidebandCooling
 from artiq.experiment import *
 
 
@@ -32,6 +33,7 @@ class CalibSideband(PulseSequence):
         self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
+        self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.kernel_invariants.update({"sideband"})
         self.sideband = self.p.CalibrationScans.selection_sideband
@@ -54,6 +56,8 @@ class CalibSideband(PulseSequence):
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
+         if self.StatePreparation_sideband_cooling_enable:
+            self.sbc.run(self)
         self.rabi.run(self)
 
     def run_finally(self):
