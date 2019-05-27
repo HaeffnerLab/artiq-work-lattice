@@ -28,7 +28,7 @@ class OptimizeSidebandCooling(PulseSequence):
     )
 
     PulseSequence.scan_params["krun"] = ("Current",
-        [("SidebandCooling.amplitude_854", 0., 1., .1),
+        [("SidebandCooling.amplitude_854", 0., 1., .1),]
         #  ("SidebandCooling.att_854", 5., 32.5, 1., "dB"),
         #  ("SidebandCooling.start_shift", -60., 60., 1., "kHz")]    
     )
