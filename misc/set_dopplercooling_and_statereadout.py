@@ -136,6 +136,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def krun_amp(self, freq, amp_list):
         for amp in amp_list:
             self.core.break_realtime()
+            delay(1*ms)
             self.dds_397.set(freq, amplitude=amp)
             self.core.break_realtime()
             delay(3*ms) # time for amplitude to be increased
