@@ -36,10 +36,11 @@ class CalibSideband(PulseSequence):
         self.kernel_invariants.update({"sideband"})
         selection = self.p.CalibrationScans.selection_sideband
         self.sideband = self.p["TrapFrequencies"][selection]
+        self.set_subsequence["CalibSideband"] = set_subsequence_calibsideband
 
     @kernel
-    def CalibSideband(self):
-        delta = self.get_variable_parameter("Spectrum_sideband_detuning")
+    def set_subsequence_calibsideband(self):
+         delta = self.get_variable_parameter("Spectrum_sideband_detuning")
         opc_line = self.opc.line_selection
         opc_dds = self.opc.channel_729
         rabi_line = self.CalibrationScans_sideband_calibration_line
@@ -50,9 +51,10 @@ class CalibSideband(PulseSequence):
         self.opc.freq_729 = self.calc_frequency(opc_line, dds=opc_dds)
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, sideband=self.sideband, order=1, 
             dds=rabi_dds, bound_param="Spectrum_sideband_detuning")
-
+   
+    @kernel
+    def CalibSideband(self):
         delay(1*ms)
-        
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
