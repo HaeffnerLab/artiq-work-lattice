@@ -24,8 +24,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.freq_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_frequency_866")["MHz"]
         self.amp_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_amplitude_866")[""]
         self.att_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_att_866")["dBm"]
-        print(self.freq_866, self.amp_866, self.att_866)
-        print("\n"*10)
         self.background_level = 0.
         self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(3)]
         self.dds_names = list()
@@ -75,12 +73,12 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
                 self.reset_cw_settings()
                 return
             data.append(self.get_dataset("pmt_counts")[-1])
-        self.peak_freq_397 = max(data)
+        self.peak_freq_397 = freq_list[np.argmax(data)]
         self.set_dc_freq()
 
         self.recrystallize()
 
-        amp_list = np.linspace(0.15, .99, self.scan_length)
+        amp_list = np.linspace(.15, .99, self.scan_length)
         self.amp_list = amp_list
         data = []
         for i, amp in enumerate(amp_list):
@@ -91,7 +89,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
                 self.reset_cw_settings()
                 return
             data.append(self.get_dataset("pmt_counts")[-1])
-        self.peak_amp_397 = max(data)
+        self.peak_amp_397 = amp_list[np.argmax(data)]
         self.set_dc_amp()
 
         self.completed = True
@@ -180,7 +178,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def set_dc_amp(self):
         peak_amp_index = np.abs(self.amp_list - self.peak_amp_397 / 3).argmin()
         dc_amp = self.amp_list[peak_amp_index]
-        self.p.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", U(dc_amp, ""))
+        self.p.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", dc_amp)
 
     def analyze(self):
         if self.completed:
