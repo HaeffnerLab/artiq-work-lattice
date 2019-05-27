@@ -29,7 +29,7 @@ class SidebandCooling:
 
     def subsequence(self):
         # self.get_729_dds(SidebandCooling.channel_729)#
-        pass#
+        pass
         # freq_729 = self.calc_frequency(
         #             SidebandCooling.line_selection,
         #             detuning=SidebandCooling.stark_shift,
