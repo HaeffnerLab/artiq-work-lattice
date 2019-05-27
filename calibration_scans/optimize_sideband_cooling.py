@@ -34,7 +34,7 @@ class OptimizeSidebandCooling(PulseSequence):
          ("SidebandCooling.stark_shift", -60*kHz, 60*kHz, 20, "kHz")]    
     )
 
-    def run_initially(self):
+    def run_initially(self):#
         self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
