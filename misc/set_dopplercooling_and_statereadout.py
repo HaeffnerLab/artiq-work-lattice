@@ -87,7 +87,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     @kernel
     def initialize(self):
         self.turn_off_all()
-        self.core.reset()
         t_count = self.pmt.gate_rising(self.readout_duration)
         self.background_level = self.pmt.count(t_count)
         delay(2*ms)
