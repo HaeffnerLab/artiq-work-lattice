@@ -168,7 +168,10 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dataset_length[dataset_name] += 1
 
     def set_dc_freq(self):
-        half_max_counts = max(self.freq_data) / 2
+        max_counts = max(self.freq_data)
+        max_counts_index = np.abs(self.freq_data - max_counts).argmin()
+        self.peak_freq_397 = self.freq_list[max_counts_index]
+        half_max_counts = max_counts / 2
         half_max_counts_index = np.abs(self.freq_data - half_max_counts).argmin()
         dc_freq = self.freq_list[half_max_counts_index] * 1e-6
         self.dc_freq = dc_freq
