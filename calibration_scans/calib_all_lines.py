@@ -55,10 +55,10 @@ class CalibAllLines(PulseSequence):
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, dds=rabi_dds,
                 bound_param="Spectrum_carrier_detuning")
-    
+    #
     @kernel
     def CalibLine1(self):
-        delay(.5*ms)
+        delay(1*ms)
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
