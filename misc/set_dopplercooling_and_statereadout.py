@@ -89,7 +89,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.turn_off_all()
         self.core.reset()
         t_count = self.pmt.gate_rising(self.readout_duration)
-        background_level = self.pmt.count(t_count)
+        self.background_level = self.pmt.count(t_count)
         self.dds_866.set(self.freq_866*MHz, amplitude=self.amp_866)
         self.core.break_realtime()
         self.dds_866.set_att(self.att_866*dB)
@@ -97,7 +97,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dds_397.set(65*MHz, amplitude=0.2)
         self.dds_397.set_att(self.att_397*dB)
         self.dds_397.sw.on()
-        return background_level
 
     @kernel
     def turn_off_all(self):
