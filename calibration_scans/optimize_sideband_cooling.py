@@ -10,26 +10,26 @@ from artiq.experiment import *
 
 class OptimizeSidebandCooling(PulseSequence):
     PulseSequence.accessed_params.update(
-        "SidebandCooling.amplitude_854",
-        "SidebandCooling.att_854",
-        "SidebandCooling.stark_shift",
-        "SidebandCooling.line_selection",
-        "SidebandCooling.amplitude_866",
-        "SidebandCooling.att_866",
-        "SidebandCooling.amplitude_729",
-        "SidebandCooling.att_729",
-        "RabiFlopping.rabi_amplitude_729",
-        "RabiFlopping.duration",
-        "RabiFlopping.line_selection",
-        "RabiFlopping.selection_sideband",
-        "RabiFlopping.order",
-        "RabiFlopping.channel_729"
+        {"SidebandCooling.amplitude_854",
+         "SidebandCooling.att_854",
+         "SidebandCooling.stark_shift",
+         "SidebandCooling.line_selection",
+         "SidebandCooling.amplitude_866",
+         "SidebandCooling.att_866",
+         "SidebandCooling.amplitude_729",
+         "SidebandCooling.att_729",
+         "RabiFlopping.rabi_amplitude_729",
+         "RabiFlopping.duration",
+         "RabiFlopping.line_selection",
+         "RabiFlopping.selection_sideband",
+         "RabiFlopping.order",
+         "RabiFlopping.channel_729"}
     )
 
     PulseSequence.scan_params["krun"] = ("Current",
-        [("SidebandCooling.amplitude_854", 0., 1., 10),]
-        #  ("SidebandCooling.att_854", 5., 32.5, 15, "dB"),
-        #  ("SidebandCooling.start_shift", -60., 60., 20, "kHz")]    
+        [("SidebandCooling.amplitude_854", 0., 1., 10),
+         ("SidebandCooling.att_854", 5., 32.5, 15, "dB"),
+         ("SidebandCooling.start_shift", -60., 60., 20, "kHz")]    
     )
 
     def run_initially(self):
