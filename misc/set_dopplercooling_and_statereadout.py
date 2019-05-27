@@ -62,10 +62,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         
         freq_list = np.linspace(65*MHz, 85*MHz, self.scan_length)
         self.scan_freq_list = freq_list
-        # self.freq_data = []
-        # for i, freq in enumerate(freq_list):
-        #     self.krun_freq(freq)
-        #     self.freq_data.append(self.get_dataset("pmt_counts")[-1])
         self.set_dataset("freq_data", [], broadcast=True)
         self.krun_freq(freq_list)
         self.set_dc_freq()
@@ -74,10 +70,8 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
 
         amp_list = np.linspace(.25, .99, self.scan_length)
         self.scan_amp_list = amp_list
-        self.amp_data = []
-        for i, amp in enumerate(amp_list):
-            self.krun_amp(self.dc_freq, amp)
-            self.amp_data.append(self.get_dataset("pmt_counts")[-1])
+        self.set_dataset("amp_data", [], broadcast=True)
+        self.krun_amp(self.dc_freq, amp_list)
         self.set_dc_amp()
 
         self.completed = True
@@ -139,15 +133,17 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
             self.append("freq_data", pmt_count)
 
     @kernel
-    def krun_amp(self, freq, amp):
-        self.core.break_realtime()
-        self.dds_397.set(freq, amplitude=amp)
-        self.core.break_realtime()
-        delay(3*ms) # time for amplitude to be increased
-        t_count = self.pmt.gate_rising(self.readout_duration)
-        pmt_count = self.pmt.count(t_count)
-        self.append("pmt_counts", pmt_count)
-        self.append("pmt_counts_866_off", -1)
+    def krun_amp(self, freq, amp_list):
+        for amp in amp_list:
+            self.core.break_realtime()
+            self.dds_397.set(freq, amplitude=amp)
+            self.core.break_realtime()
+            delay(3*ms) # time for amplitude to be increased
+            t_count = self.pmt.gate_rising(self.readout_duration)
+            pmt_count = self.pmt.count(t_count)
+            self.append("pmt_counts", pmt_count)
+            self.append("pmt_counts_866_off", -1)
+            self.append("amp_data", pmt_count)
 
     @kernel
     def recrystallize(self):
@@ -180,14 +176,15 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.p.set_parameter("DopplerCooling", "doppler_cooling_frequency_397", U(dc_freq, "MHz"))
 
     def set_dc_amp(self):
-        max_counts = max(self.amp_data)
-        max_counts_index = np.abs(self.amp_data - max_counts).argmin()
-        amp_data_copy = self.amp_data.copy()
+        amp_data = self.get_dataset("amp_data")
+        max_counts = max(amp_data)
+        max_counts_index = np.abs(amp_data - max_counts).argmin()
+        amp_data_copy = amp_data.copy()
         amp_data_copy.sort()
         max_counts = sum(amp_data_copy[-5:]) / 5
         self.peak_amp_397 = self.scan_amp_list[max_counts_index]
         third_max_counts = (max_counts - 2 * self.background_level) / 3
-        third_max_counts_index = np.abs(self.amp_data - third_max_counts).argmin()
+        third_max_counts_index = np.abs(amp_data - third_max_counts).argmin()
         dc_amp = self.scan_amp_list[third_max_counts_index]
         self.p.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", dc_amp)
 
