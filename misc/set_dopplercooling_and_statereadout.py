@@ -43,7 +43,12 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.amp_list = list()
         self.att_list = list()
         self.state_list = list()
-        for key, settings in self.p.dds_cw_parameters.items():
+        dds_cw_parameters = dict()
+        names = p.get_parameter_names("dds_cw_parameters")
+        for name in names:
+            param = p.get_parameter("dds_cw_parameters", name)[""]
+            dds_cw_parameters[name] = param
+        for key, settings in dds_cw_parameters.items():
             self.dds_list.append(getattr(self, "dds_" + key))
             self.freq_list.append(float(settings[1][0]) * 1e6)
             self.amp_list.append(float(settings[1][1]))
