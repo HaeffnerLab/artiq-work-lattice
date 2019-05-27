@@ -94,7 +94,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dds_866.set(self.freq_866*MHz, amplitude=self.amp_866)
         self.dds_866.set_att(self.att_866*dB)
         self.dds_866.sw.on()
-        self.dds_397.set(65*MHz, amplitude=0.3)
+        self.dds_397.set(65*MHz, amplitude=0.2)
         self.dds_397.set_att(self.att_397*dB)
         self.dds_397.sw.on()
 
