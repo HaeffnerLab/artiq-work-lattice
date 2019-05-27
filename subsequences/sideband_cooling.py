@@ -11,6 +11,12 @@ class SidebandCooling:
     amplitude_729="SidebandCooling.amplitude_729"
     att_729="SidebandCooling.att_729"
     duration="SidebandCoolingContinuous.sideband_cooling_continuous_duration"
+    freq_866="SidebandCooling.frequency_866"
+    amp_866="SidebandCooling.amplitude_866"
+    att_866="SidebandCooling.att_866"
+    freq_854="SidebandCooling.frequency_854"
+    amp_854="SidebandCooling.amplitude_854"
+    att_854="SidebandCooling.att_854"
 
     sequential_enable="SequentialSBCooling.enable"
     sequential_channel_729="SequentialSBCooling.channel_729"
@@ -37,6 +43,10 @@ class SidebandCooling:
                     dds=SidebandCooling.channel_729)
         self.dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
         self.dds_729.set_att(SidebandCooling.att_729)
+        self.dds_854.set(SidebandCooling.freq_854, amplitude=SidebandCooling.amp_854)
+        self.dds_854.set(SidebandCooling.att_854)
+        self.dds_866.set(SidebandCooling.freq_866, amplitude=SidebandCooling.amp_866)
+        self.dds_866.set(SidebandCooling.att_866)
         krun(self)
         
         if SidebandCooling.sequential_enable:
