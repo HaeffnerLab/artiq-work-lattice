@@ -28,7 +28,7 @@ class SidebandCooling:
     sequential2_order="SequentialSBCooling2.order"
 
     def subsequence(self):
-        self.get_729_dds(SidebandCooling.channel_729)#
+        # self.get_729_dds(SidebandCooling.channel_729)#
 
         freq_729 = self.calc_frequency(
                     SidebandCooling.line_selection,
@@ -36,46 +36,46 @@ class SidebandCooling:
                     sideband=SidebandCooling.selection_sideband,
                     order=SidebandCooling.order,
                     dds=SidebandCooling.channel_729)
-        self.dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
-        self.dds_729.set_att(SidebandCooling.att_729)
+        # self.dds_729.set(freq_729, amplitude=SidebandCooling.amplitude_729)
+        # self.dds_729.set_att(SidebandCooling.att_729)
         
-        krun(self)
+        # krun(self)
         
-        if SidebandCooling.sequential_enable:
-            self.get_729_dds(SidebandCooling.sequential_channel_729)
-            freq_729 = self.calc_frequency( 
-                    SidebandCooling.line_selection,
-                    detuning=SidebandCooling.stark_shift,
-                    sideband=SidebandCooling.sequential_selection_sideband,
-                    order=SidebandCooling.sequential_order,
-                    dds=SidebandCooling.channel_729)
-            krun(self)
+        # if SidebandCooling.sequential_enable:
+        #     self.get_729_dds(SidebandCooling.sequential_channel_729)
+        #     freq_729 = self.calc_frequency( 
+        #             SidebandCooling.line_selection,
+        #             detuning=SidebandCooling.stark_shift,
+        #             sideband=SidebandCooling.sequential_selection_sideband,
+        #             order=SidebandCooling.sequential_order,
+        #             dds=SidebandCooling.channel_729)
+        #     krun(self)
 
-        if SidebandCooling.sequential1_enable:
-            self.get_729_dds(SidebandCooling.sequential1_channel_729)
-            freq_729 = self.calc_frequency( 
-                    SidebandCooling.line_selection,
-                    detuning=SidebandCooling.stark_shift,
-                    sideband=SidebandCooling.sequential1_selection_sideband,
-                    order=SidebandCooling.sequential1_order,
-                    dds=SidebandCooling.channel_729)
-            krun(self)
+        # if SidebandCooling.sequential1_enable:
+        #     self.get_729_dds(SidebandCooling.sequential1_channel_729)
+        #     freq_729 = self.calc_frequency( 
+        #             SidebandCooling.line_selection,
+        #             detuning=SidebandCooling.stark_shift,
+        #             sideband=SidebandCooling.sequential1_selection_sideband,
+        #             order=SidebandCooling.sequential1_order,
+        #             dds=SidebandCooling.channel_729)
+        #     krun(self)
 
-        if SidebandCooling.sequential2_enable:
-            self.get_729_dds(SidebandCooling.sequential2_channel_729)
-            freq_729 = self.calc_frequency( 
-                    SidebandCooling.line_selection,
-                    detuning=SidebandCooling.stark_shift,
-                    sideband=SidebandCooling.sequential2_selection_sideband,
-                    order=SidebandCooling.sequential2_order,
-                    dds=SidebandCooling.channel_729)
-            krun(self)
+        # if SidebandCooling.sequential2_enable:
+        #     self.get_729_dds(SidebandCooling.sequential2_channel_729)
+        #     freq_729 = self.calc_frequency( 
+        #             SidebandCooling.line_selection,
+        #             detuning=SidebandCooling.stark_shift,
+        #             sideband=SidebandCooling.sequential2_selection_sideband,
+        #             order=SidebandCooling.sequential2_order,
+        #             dds=SidebandCooling.channel_729)
+        #     krun(self)
         
         
-        delay(SidebandCooling.repump_additional)
-        self.dds_854.sw.off()
-        delay(SidebandCooling.repump_additional)
-        self.dds_866.sw.off()
+        # delay(SidebandCooling.repump_additional)
+        # self.dds_854.sw.off()
+        # delay(SidebandCooling.repump_additional)
+        # self.dds_866.sw.off()
 
 @kernel
 def krun(self):
