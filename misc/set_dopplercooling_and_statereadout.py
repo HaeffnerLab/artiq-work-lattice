@@ -143,7 +143,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.core.break_realtime()
         self.dds_397.set(freq)
         t_count = self.pmt.gate_rising(1*ms)
-        pmt_count = self.pmt_count(t_count)
+        pmt_count = self.pmt.count(t_count)
         self.append("pmt_counts", pmt_count)
         self.append("pmt_counts_866_off", -1)
 
@@ -152,7 +152,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.core.break_realtime()
         self.dds_397.set(freq, amplitude=amp)
         t_count = self.pmt.gate_rising(1*ms)
-        pmt_count = self.pmt_count(t_count)
+        pmt_count = self.pmt.count(t_count)
         self.append("pmt_counts", pmt_count)
         self.append("pmt_counts_866_off", -1)
 
