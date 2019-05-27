@@ -36,7 +36,7 @@ class CalibSideband(PulseSequence):
         self.kernel_invariants.update({"sideband"})
         selection = self.p.CalibrationScans.selection_sideband
         self.sideband = self.p["TrapFrequencies"][selection]
-        self.set_subsequence["CalibSideband"] = set_subsequence_calibsideband
+        self.set_subsequence["CalibSideband"] = self.set_subsequence_calibsideband
 
     @kernel
     def set_subsequence_calibsideband(self):
