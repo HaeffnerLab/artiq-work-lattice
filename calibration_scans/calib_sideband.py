@@ -21,7 +21,8 @@ class CalibSideband(PulseSequence):
          "Spectrum.manual_excitation_time",
          "CalibrationScans.sideband_calibration_line",
          "Display.relative_frequencies",
-         "CalibrationScans.readout_mode"}
+         "CalibrationScans.readout_mode",
+         "StatePreparation.sideband_cooling_enable"}
     )
 
     PulseSequence.scan_params.update(
@@ -56,7 +57,7 @@ class CalibSideband(PulseSequence):
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
-         if self.StatePreparation_sideband_cooling_enable:
+        if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
         self.rabi.run(self)
 
