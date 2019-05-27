@@ -25,7 +25,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.amp_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_amplitude_866")[""]
         self.att_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_att_866")["dBm"]
         self.att_397 = self.p.get_parameter("DopplerCooling", "doppler_cooling_att_397")["dBm"]
-        self.background_level = 0.
+        self.background_level = 0
         self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(3)]
         self.dds_names = list()
         self.dds_device_list = list()
@@ -87,7 +87,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     @kernel
     def initialize(self):
         self.turn_off_all()
-        self.core.break_realtime()
         t_count = self.pmt.gate_rising(self.readout_duration)
         self.background_level = self.pmt.count(t_count)
         self.dds_866.set(self.freq_866*MHz, amplitude=self.amp_866)
@@ -167,7 +166,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         max_counts = max(self.freq_data)
         max_counts_index = np.abs(self.freq_data - max_counts).argmin()
         self.peak_freq_397 = self.scan_freq_list[max_counts_index]
-        half_max_counts = max_counts / 2
+        half_max_counts = max_counts / 2 + self.background_level
         half_max_counts_index = np.abs(self.freq_data - half_max_counts).argmin()
         dc_freq = self.scan_freq_list[half_max_counts_index] * 1e-6
         self.dc_freq = dc_freq * 1e6
@@ -177,7 +176,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         max_counts = max(self.amp_data)
         max_counts_index = np.abs(self.amp_data - max_counts).argmin()
         self.peak_amp_397 = self.scan_amp_list[max_counts_index]
-        third_max_counts = max_counts / 3
+        third_max_counts = max_counts / 3 + self.background_level
         third_max_counts_index = np.abs(self.amp_data - third_max_counts).argmin()
         dc_amp = self.scan_amp_list[third_max_counts_index]
         self.p.set_parameter("DopplerCooling", "doppler_cooling_amplitude_397", dc_amp)
