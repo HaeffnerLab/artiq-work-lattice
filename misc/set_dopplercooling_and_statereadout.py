@@ -16,6 +16,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
 
     def prepare(self):
         self.readout_duration = 100*ms
+        self.scan_length = 100
         self.set_dataset("pmt_counts", [], broadcast=True)
         self.set_dataset("collection_duration", [self.readout_duration])
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
@@ -65,7 +66,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def run(self):
         self.initialize()
         
-        freq_list = np.linspace(65*MHz, 85*MHz, 1000)
+        freq_list = np.linspace(65*MHz, 85*MHz, self.scan_length)
         self.freq_list = freq_list
         for i, freq in enumerate(freq_list):
             try:
@@ -82,7 +83,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
             self.peak_freq_397 = freq_list[-1]
         self.set_dc_freq()
 
-        amp_list = np.linspace(0, 1, 1000)
+        amp_list = np.linspace(0, 1, self.scan_length)
         self.amp_list = amp_list
         for i, amp in enumerate(amp_list):
             try:
