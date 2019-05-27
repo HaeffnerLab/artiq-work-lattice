@@ -24,17 +24,17 @@ class OpticalPumpingPulsed():
             OpticalPumpingPulsed.line_selection,
             dds=OpticalPumpingPulsed.channel_729
         )
-        dds_729.set(freq_729, amplitude=OpticalPumpingPulsed.amplitude_729)
-        dds_729.set_att(OpticalPumpingPulsed.att_729)
+        self.dds_729.set(freq_729, amplitude=OpticalPumpingPulsed.amplitude_729)
+        self.dds_729.set_att(OpticalPumpingPulsed.att_729)
         self.dds_854.set(OpticalPumpingPulsed.frequency_854, amplitude=OpticalPumpingPulsed.amplitude_854)
         self.dds_854.set_att(OpticalPumpingPulsed.att_854)
         self.dds_866.sw.on()
         for _ in range(int(OpticalPumpingPulsed.number_of_cycles)):
             with parallel:
-                dds_729.sw.on()
+                self.dds_729.sw.on()
             delay(OpticalPumpingPulsed.pi_time)
             with parallel:
-                dds_729.sw.off()
+                self.dds_729.sw.off()
                 self.dds_854.sw.on()
             delay(OpticalPumpingPulsed.duration_854)
             self.dds_854.sw.off()
