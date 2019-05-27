@@ -41,11 +41,12 @@ class CalibAllLines(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.set_subsequence["CalibLine1"] = self.set_subsequence_calibline1
         self.run_after["CalibLine1"] = self.analyze_calibline1
         self.run_after["CalibLine2"] = self.analyze_calibline2
 
     @kernel
-    def CalibLine1(self):
+    def set_subsequence_calibline1(self):
         delta = self.get_variable_parameter("Spectrum_carrier_detuning")
         rabi_line = self.DriftTracker_line_selection_1
         rabi_dds = self.CalibrationScans_calibration_channel_729
@@ -54,9 +55,9 @@ class CalibAllLines(PulseSequence):
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, dds=rabi_dds,
                 bound_param="Spectrum_carrier_detuning")
-
-        delay(1.1*ms)
-
+    
+    @kernel
+    def CalibLine1(self):
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
