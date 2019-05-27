@@ -16,7 +16,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
 
     def prepare(self):
         self.set_dataset("pmt_counts", [], broadcast=True)
-        self.set_dataset("collection_duration", [1*ms])
+        self.set_dataset("collection_duration", [1.*ms])
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
         self.set_dataset("pulsed", [False], broadcast=True)
         self.freq_866 = self.p.get_parameter("DopplerCooling", "doppler_cooling_frequency_866")["MHz"]
@@ -101,7 +101,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     @kernel
     def initialize(self):
         self.turn_off_all()
-        t_count = self.pmt.gate_rising(1*ms)
+        t_count = self.pmt.gate_rising(1.*ms)
         self.background_level = self.pmt.count(t_count)
         self.dds_866.set(self.freq_866, amplitude=self.amp_866)
         self.dds_866.set(self.att_866)
@@ -142,7 +142,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def krun_freq(self, freq):
         self.core.break_realtime()
         self.dds_397.set(freq)
-        t_count = self.pmt.gate_rising(1*ms)
+        t_count = self.pmt.gate_rising(1.*ms)
         pmt_count = self.pmt.count(t_count)
         self.append("pmt_counts", pmt_count)
         self.append("pmt_counts_866_off", -1)
@@ -151,7 +151,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def krun_amp(self, freq, amp):
         self.core.break_realtime()
         self.dds_397.set(freq, amplitude=amp)
-        t_count = self.pmt.gate_rising(1*ms)
+        t_count = self.pmt.gate_rising(1.*ms)
         pmt_count = self.pmt.count(t_count)
         self.append("pmt_counts", pmt_count)
         self.append("pmt_counts_866_off", -1)
