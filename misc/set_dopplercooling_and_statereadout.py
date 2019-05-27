@@ -77,6 +77,8 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.peak_freq_397 = max(data)
         self.set_dc_freq()
 
+        self.recrystallize()
+
         amp_list = np.linspace(0.15, .99, self.scan_length)
         self.amp_list = amp_list
         data = []
@@ -150,6 +152,11 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         pmt_count = self.pmt.count(t_count)
         self.append("pmt_counts", pmt_count)
         self.append("pmt_counts_866_off", -1)
+
+    @kernel
+    def recrystallize(self):
+        self.dds_397.set(70*MHz, amplitude=1)
+        delay(1*s)
 
     # @rpc(flags={"async"})
     def append(self, dataset_name, data_to_append):
