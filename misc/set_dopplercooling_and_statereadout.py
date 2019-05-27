@@ -16,7 +16,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
 
     def prepare(self):
         self.readout_duration = 50*ms
-        self.scan_length = 40
+        self.scan_length = 50
         self.set_dataset("pmt_counts", [], broadcast=True)
         self.set_dataset("collection_duration", [self.readout_duration])
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
@@ -166,6 +166,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def set_dc_freq(self):
         max_counts = max(self.freq_data)
         max_counts_index = np.abs(self.freq_data - max_counts).argmin()
+        max_counts = self.freq_data[np.argsort(self.freq_data)[-5:]] / 5
         self.peak_freq_397 = self.scan_freq_list[max_counts_index]
         half_max_counts = (max_counts + self.background_level) / 2
         half_max_counts_index = np.abs(self.freq_data - half_max_counts).argmin()
@@ -176,6 +177,7 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
     def set_dc_amp(self):
         max_counts = max(self.amp_data)
         max_counts_index = np.abs(self.amp_data - max_counts).argmin()
+        max_counts = self.amp_data[np.argsort(self.amp_data)[-5:]] / 5
         self.peak_amp_397 = self.scan_amp_list[max_counts_index]
         third_max_counts = (max_counts - 2 * self.background_level) / 3
         third_max_counts_index = np.abs(self.amp_data - third_max_counts).argmin()
