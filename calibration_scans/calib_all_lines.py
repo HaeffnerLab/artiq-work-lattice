@@ -77,14 +77,11 @@ class CalibAllLines(PulseSequence):
     @kernel
     def CalibLine2(self):
         delta = self.get_variable_parameter("Spectrum_carrier_detuning")
-        opc_line = self.opc.line_selection
-        opc_dds = self.opc.channel_729
         rabi_line = self.DriftTracker_line_selection_2
         rabi_dds = self.CalibrationScans_calibration_channel_729
         self.rabi.amp_729 = self.Spectrum_car2_amp
         self.rabi.att_729 = self.Spectrum_car2_att
         self.rabi.duration = self.Spectrum_manual_excitation_time
-        self.opc.freq_729 = self.calc_frequency(opc_line, dds=opc_dds)
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, dds=rabi_dds,
                 bound_param="Spectrum_carrier_detuning")
 
