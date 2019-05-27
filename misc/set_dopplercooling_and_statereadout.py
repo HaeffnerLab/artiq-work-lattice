@@ -38,9 +38,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
                         self.dds_names.append(key)
                     except KeyError:
                         continue
-        # Grab cw parameters:
-        # NOTE: Because parameters are grabbed in prepare stage,
-        # loaded dds cw parameters may not be the most current.
         self.dds_list = list()
         self.freq_list = list()
         self.amp_list = list()
@@ -65,10 +62,12 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         
         freq_list = np.linspace(65*MHz, 85*MHz, self.scan_length)
         self.scan_freq_list = freq_list
-        self.freq_data = []
-        for i, freq in enumerate(freq_list):
-            self.krun_freq(freq)
-            self.freq_data.append(self.get_dataset("pmt_counts")[-1])
+        # self.freq_data = []
+        # for i, freq in enumerate(freq_list):
+        #     self.krun_freq(freq)
+        #     self.freq_data.append(self.get_dataset("pmt_counts")[-1])
+        self.set_dataset("freq_data", [], broadcast=True)
+        self.krun_freq(freq_list)
         self.set_dc_freq()
 
         # self.recrystallize()
@@ -128,14 +127,16 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
                 self.dds_list[i].sw.off()
     
     @kernel
-    def krun_freq(self, freq):
+    def krun_freq(self, freq_list):
         self.core.break_realtime()
-        self.dds_397.set(freq)
-        self.core.break_realtime()
-        t_count = self.pmt.gate_rising(self.readout_duration)
-        pmt_count = self.pmt.count(t_count)
-        self.append("pmt_counts", pmt_count)
-        self.append("pmt_counts_866_off", -1)
+        for freq in freq_list:
+            self.dds_397.set(freq)
+            self.core.break_realtime()
+            t_count = self.pmt.gate_rising(self.readout_duration)
+            pmt_count = self.pmt.count(t_count)
+            self.append("pmt_counts", pmt_count)
+            self.append("pmt_counts_866_off", -1)
+            self.append("freq_data", pmt_count)
 
     @kernel
     def krun_amp(self, freq, amp):
@@ -165,14 +166,15 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.dataset_length[dataset_name] += 1
 
     def set_dc_freq(self):
-        max_counts = max(self.freq_data)
-        max_counts_index = np.abs(self.freq_data - max_counts).argmin()
-        freq_data_copy = self.freq_data.copy()
+        freq_data = self.get_dataset("freq_data")
+        max_counts = max(freq_data)
+        max_counts_index = np.abs(freq_data - max_counts).argmin()
+        freq_data_copy = freq_data.copy()
         freq_data_copy.sort()
         max_counts = sum(freq_data_copy[-5:]) / 5
         self.peak_freq_397 = self.scan_freq_list[max_counts_index]
         half_max_counts = (max_counts + self.background_level) / 2
-        half_max_counts_index = np.abs(self.freq_data - half_max_counts).argmin()
+        half_max_counts_index = np.abs(freq_data - half_max_counts).argmin()
         dc_freq = self.scan_freq_list[half_max_counts_index] * 1e-6
         self.dc_freq = dc_freq * 1e6
         self.p.set_parameter("DopplerCooling", "doppler_cooling_frequency_397", U(dc_freq, "MHz"))
