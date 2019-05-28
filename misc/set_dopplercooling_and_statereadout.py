@@ -66,8 +66,6 @@ class set_dopplercooling_and_statereadout(EnvExperiment):
         self.krun_freq(freq_list)
         self.set_dc_freq()
 
-        # self.recrystallize()
-
         amp_list = np.linspace(.15, .99, self.scan_length)
         self.scan_amp_list = amp_list
         self.set_dataset("amp_data", [], broadcast=True)
