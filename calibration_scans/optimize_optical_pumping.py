@@ -29,9 +29,9 @@ class OptimizeOpticalPumping(PulseSequence):
 
     PulseSequence.scan_params["krun"] = ("Current",
         [("OpticalPumping.optical_pumping_frequency_854", -2*MHz, 2*MHz, 20, "MHz"),
-         ("OpticalPumping.optical_pumping_amplitude_854", 0., 1., 20, ""),
-         ("StatePreparation.number_of_cycles", 0, 20, 20, "cycles"),
-         ("StatePreparation.pulsed_amplitude", 0., 1., 20, ""),
+         ("OpticalPumping.optical_pumping_amplitude_854", 0., 1., 20),
+         ("StatePreparation.number_of_cycles", 0, 20, 20),
+         ("StatePreparation.pulsed_amplitude", 0., 1., 20),
          ("StatePreparation.pulsed_854_duration", 1*us, 100*us, 20, "us")        
         ]
     )
