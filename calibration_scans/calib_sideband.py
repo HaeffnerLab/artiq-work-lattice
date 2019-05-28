@@ -18,6 +18,7 @@ class CalibSideband(PulseSequence):
          "CalibrationScans.sideband_calibration_amp",
          "CalibrationScans.sideband_calibration_att",
          "CalibrationScans.selection_sideband",
+         "CalibrationScans.order",
          "Spectrum.manual_excitation_time",
          "CalibrationScans.sideband_calibration_line",
          "Display.relative_frequencies",
@@ -48,8 +49,10 @@ class CalibSideband(PulseSequence):
         self.rabi.amp_729 = self.CalibrationScans_sideband_calibration_amp
         self.rabi.att_729 = self.CalibrationScans_sideband_calibration_att
         self.rabi.duration = self.Spectrum_manual_excitation_time
-        self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, sideband=self.sideband, order=1., 
-            dds=rabi_dds, bound_param="Spectrum_sideband_detuning")
+        self.rabi.freq_729 = self.calc_frequency(
+                rabi_line, delta, sideband=self.sideband, order=self.CalibrationScans_order, 
+                dds=rabi_dds, bound_param="Spectrum_sideband_detuning"
+            )
    
     @kernel
     def CalibSideband(self):
