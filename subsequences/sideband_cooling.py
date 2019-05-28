@@ -55,7 +55,12 @@ class SidebandCooling:
         with parallel:
             self.dds_854.sw.on()
             self.dds_866.sw.on()
-        krun(self)
+            self.dds_729.sw.on()
+            self.dds_729_SP.sw.on()
+        delay(SidebandCooling.duration)
+        with parallel:
+            self.dds_729.sw.off()
+            self.dds_729_SP.sw.off()
         
         if SidebandCooling.sequential_enable:
             self.get_729_dds(SidebandCooling.sequential_channel_729)
@@ -65,7 +70,13 @@ class SidebandCooling:
                     sideband=SidebandCooling.sequential_selection_sideband,
                     order=SidebandCooling.sequential_order,
                     dds=SidebandCooling.channel_729)
-            krun(self)
+            with parallel:
+                self.dds_729.sw.on()
+                self.dds_729_SP.sw.on()
+            delay(SidebandCooling.duration)
+            with parallel:
+                self.dds_729.sw.off()
+                self.dds_729_SP.sw.off()
 
         if SidebandCooling.sequential1_enable:
             self.get_729_dds(SidebandCooling.sequential1_channel_729)
@@ -75,7 +86,13 @@ class SidebandCooling:
                     sideband=SidebandCooling.sequential1_selection_sideband,
                     order=SidebandCooling.sequential1_order,
                     dds=SidebandCooling.channel_729)
-            krun(self)
+            with parallel:
+                self.dds_729.sw.on()
+                self.dds_729_SP.sw.on()
+            delay(SidebandCooling.duration)
+            with parallel:
+                self.dds_729.sw.off()
+                self.dds_729_SP.sw.off()
 
         if SidebandCooling.sequential2_enable:
             self.get_729_dds(SidebandCooling.sequential2_channel_729)
@@ -85,19 +102,15 @@ class SidebandCooling:
                     sideband=SidebandCooling.sequential2_selection_sideband,
                     order=SidebandCooling.sequential2_order,
                     dds=SidebandCooling.channel_729)
-            krun(self)
+            with parallel:
+                self.dds_729.sw.on()
+                self.dds_729_SP.sw.on()
+            delay(SidebandCooling.duration)
+            with parallel:
+                self.dds_729.sw.off()
+                self.dds_729_SP.sw.off()
         
         delay(SidebandCooling.repump_additional)
         self.dds_854.sw.off()
         delay(SidebandCooling.repump_additional)
         self.dds_866.sw.off()
-
-@kernel
-def krun(self):
-    with parallel:
-        self.dds_729.sw.on()
-        self.dds_729_SP.sw.on()
-    delay(SidebandCooling.duration)
-    with parallel:
-        self.dds_729.sw.off()
-        self.dds_729_SP.sw.off()
