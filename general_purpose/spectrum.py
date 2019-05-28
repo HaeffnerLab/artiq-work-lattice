@@ -20,7 +20,7 @@ class Spectrum(PulseSequence):
     )
     PulseSequence.scan_params.update(
         spectrum=("Spectrum",
-            [("Spectrum.carrier_detuning", -150*kHz, 150*kHz, 100)])
+            [("Spectrum.carrier_detuning", -150*kHz, 150*kHz, 100, "kHz")])
     )
 
     def run_initially(self):
