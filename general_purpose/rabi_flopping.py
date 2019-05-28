@@ -46,7 +46,6 @@ class RabiFlopping(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        print("729frequency: ", self.rabi.freq_729)
 
     @kernel
     def RabiFlopping(self):

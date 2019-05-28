@@ -58,7 +58,7 @@ class OptimizeSidebandCooling(PulseSequence):
         self.sbc.stark_shift = self.get_variable_parameter("SidebandCooling_stark_shift")
     
     @kernel
-    def krun(self):
+    def krun(self):#
         delay(1*ms)
         self.repump854.run(self)
         self.dopplerCooling.run(self)
