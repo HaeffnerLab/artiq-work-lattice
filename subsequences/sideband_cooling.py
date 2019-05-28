@@ -52,9 +52,8 @@ class SidebandCooling:
         self.dds_866.set(SidebandCooling.freq_866, 
                          amplitude=SidebandCooling.amp_866)
         self.dds_866.set(SidebandCooling.att_866)
-        with parallel:
-            self.dds_854.sw.on()
-            self.dds_866.sw.on()
+        self.dds_854.sw.on()
+        self.dds_866.sw.on()
         krun(self)
         
         if SidebandCooling.sequential_enable:
@@ -94,10 +93,8 @@ class SidebandCooling:
 
 @kernel
 def krun(self):
-    with parallel:
-        self.dds_729.sw.on()
-        self.dds_729_SP.sw.on()
+    self.dds_729.sw.on()
+    self.dds_729_SP.sw.on()
     delay(SidebandCooling.duration)
-    with parallel:
-        self.dds_729.sw.off()
-        self.dds_729_SP.sw.off()
+    self.dds_729.sw.off()
+    self.dds_729_SP.sw.off()
