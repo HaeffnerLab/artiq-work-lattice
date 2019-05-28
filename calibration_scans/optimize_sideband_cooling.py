@@ -26,7 +26,8 @@ class OptimizeSidebandCooling(PulseSequence):
          "RabiFlopping.selection_sideband",
          "RabiFlopping.order",
          "RabiFlopping.channel_729",
-         "StatePreparation.sideband_cooling_enable"}
+         "StatePreparation.sideband_cooling_enable",
+         "StatePreparation.channel_729"}
     )
 
     PulseSequence.scan_params["krun"] = ("Current",
