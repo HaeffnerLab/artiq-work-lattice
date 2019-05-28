@@ -18,6 +18,7 @@ class OptimizeSidebandCooling(PulseSequence):
          "SidebandCooling.att_866",
          "SidebandCooling.amplitude_729",
          "SidebandCooling.att_729",
+         "SidebandCooling.selection_sideband",
          "RabiFlopping.amplitude_729",
          "RabiFlopping.att_729",
          "RabiFlopping.duration",
