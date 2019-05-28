@@ -48,10 +48,10 @@ class SidebandCooling:
         self.dds_729.set_att(SidebandCooling.att_729)
         self.dds_854.set(SidebandCooling.freq_854, 
                          amplitude=SidebandCooling.amp_854)
-        self.dds_854.set(SidebandCooling.att_854)
+        self.dds_854.set_att(SidebandCooling.att_854)
         self.dds_866.set(SidebandCooling.freq_866, 
                          amplitude=SidebandCooling.amp_866)
-        self.dds_866.set(SidebandCooling.att_866)
+        self.dds_866.set_att(SidebandCooling.att_866)
         with parallel:
             self.dds_854.sw.on()
             self.dds_866.sw.on()
