@@ -32,9 +32,11 @@ class OpticalPumpingPulsed:
         for _ in range(int(OpticalPumpingPulsed.number_of_cycles)):
             with parallel:
                 self.dds_729.sw.on()
+                self.dds_729_SP.sw.on()
             delay(OpticalPumpingPulsed.pi_time)
             with parallel:
                 self.dds_729.sw.off()
+                self.dds_729_SP.sw.off()
                 self.dds_854.sw.on()
             delay(OpticalPumpingPulsed.duration_854)
             self.dds_854.sw.off()
