@@ -50,7 +50,7 @@ class CalibSideband(PulseSequence):
         self.rabi.att_729 = self.CalibrationScans_sideband_calibration_att
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.rabi.freq_729 = self.calc_frequency(
-                rabi_line, delta, sideband=self.sideband, order=-self.CalibrationScans_order, 
+                rabi_line, delta, sideband=self.sideband, order=self.CalibrationScans_order, 
                 dds=rabi_dds, bound_param="Spectrum_sideband_detuning"
             )
    
