@@ -32,7 +32,7 @@ class OptimizeOpticalPumping(PulseSequence):
          ("OpticalPumping.optical_pumping_amplitude_854", 0., 1., 20),
          ("StatePreparation.number_of_cycles", 0, 20, 20),
          ("StatePreparation.pulsed_amplitude", 0., 1., 20),
-         ("StatePreparation.pulsed_854_duration")        
+         ("StatePreparation.pulsed_854_duration", 1*us, 100*us, 20, "us")        
         ]
     )
 
