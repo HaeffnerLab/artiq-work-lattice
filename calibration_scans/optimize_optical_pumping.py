@@ -62,7 +62,7 @@ class OptimizeOpticalPumping(PulseSequence):
 
         print(self.opc.number_of_cycles)
         print(self.opc.frequency_854)
-        print(self.opc.amplitude_854)
+        print(self.opc.amplitude_854)#
         print(self.opc.amplitude_729)
         print(self.oopc.duration_854)
 
