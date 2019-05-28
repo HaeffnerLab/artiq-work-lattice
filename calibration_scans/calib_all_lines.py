@@ -58,7 +58,7 @@ class CalibAllLines(PulseSequence):
                 bound_param="Spectrum_carrier_detuning")
     
     @kernel
-    def CalibLine1(self):#
+    def CalibLine1(self):
         delay(1*ms)
         self.repump854.run(self)
         self.dopplerCooling.run(self)
