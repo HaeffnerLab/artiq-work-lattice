@@ -25,4 +25,4 @@ class DopplerCooling:
         delay(DopplerCooling.duration)
         self.dds_397.sw.off()
         delay(DopplerCooling.additional_repump_duration)
-        self.dds_866.sw.off()
+        self.dds_866.sw.off()#
