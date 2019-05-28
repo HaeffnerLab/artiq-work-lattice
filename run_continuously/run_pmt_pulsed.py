@@ -24,6 +24,7 @@ class pmt_collect_pulsed(EnvExperiment):
         self.set_dataset("collection_duration", [self.duration])
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
         self.set_dataset("pulsed", [True], broadcast=True)
+        self.set_dataset("clear_pmt_plot", [False], broadcast=True)
         while True:
             try:
                 self.run_pmt()
