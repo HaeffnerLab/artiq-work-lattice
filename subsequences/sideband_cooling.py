@@ -44,14 +44,17 @@ class SidebandCooling:
                     order=SidebandCooling.order,
                     dds=SidebandCooling.channel_729)
         self.dds_729.set(freq_729, 
-                            amplitude=SidebandCooling.amplitude_729)
+                         amplitude=SidebandCooling.amplitude_729)
         self.dds_729.set_att(SidebandCooling.att_729)
         self.dds_854.set(SidebandCooling.freq_854, 
-                            amplitude=SidebandCooling.amp_854)
+                         amplitude=SidebandCooling.amp_854)
         self.dds_854.set(SidebandCooling.att_854)
         self.dds_866.set(SidebandCooling.freq_866, 
-                            amplitude=SidebandCooling.amp_866)
+                         amplitude=SidebandCooling.amp_866)
         self.dds_866.set(SidebandCooling.att_866)
+        with parallel:
+            self.dds_854.sw.on()
+            self.dds_866.sw.on()
         krun(self)
         
         if SidebandCooling.sequential_enable:
@@ -94,8 +97,6 @@ def krun(self):
     with parallel:
         self.dds_729.sw.on()
         self.dds_729_SP.sw.on()
-        self.dds_854.sw.on()
-        self.dds_866.sw.on()
     delay(SidebandCooling.duration)
     with parallel:
         self.dds_729.sw.off()
