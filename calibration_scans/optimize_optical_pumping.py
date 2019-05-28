@@ -64,7 +64,7 @@ class OptimizeOpticalPumping(PulseSequence):
         print(self.opc.frequency_854)
         print(self.opc.amplitude_854)
         print(self.opc.amplitude_729)
-        print(self.oopc.duration_854)
+        print(self.opc.duration_854)
 
     @kernel
     def krun(self):
