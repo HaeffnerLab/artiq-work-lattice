@@ -60,6 +60,12 @@ class OptimizeOpticalPumping(PulseSequence):
         self.opc.amplitude_729 = self.get_variable_parameter("StatePreparation_pulsed_amplitude")
         self.opc.duration_854 = self.get_variable_parameter("StatePreparation_pulsed_854_duration")
 
+        print(self.opc.number_of_cycles)
+        print(self.opc.frequency_854)
+        print(self.opc.amplitude_854)
+        print(self.opc.amplitude_729)
+        print(self.oopc.duration_854)
+
     @kernel
     def krun(self):
         delay(1*ms)
