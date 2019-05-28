@@ -24,7 +24,8 @@ class OptimizeSidebandCooling(PulseSequence):
          "RabiFlopping.line_selection",
          "RabiFlopping.selection_sideband",
          "RabiFlopping.order",
-         "RabiFlopping.channel_729"}
+         "RabiFlopping.channel_729",
+         "StatePreparation.sideband_cooling_enable"}
     )
 
     PulseSequence.scan_params["krun"] = ("Current",
@@ -63,5 +64,6 @@ class OptimizeSidebandCooling(PulseSequence):
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
-        self.sbc.run(self)
+        if self.StatePreparation_sideband_cooling_enable:
+            self.sbc.run(self)
         self.rabi.run(self)
