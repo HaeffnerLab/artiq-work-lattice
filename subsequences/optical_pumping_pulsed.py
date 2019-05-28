@@ -1,7 +1,7 @@
 from artiq.experiment import *
 
 
-class OpticalPumpingPulsed():
+class OpticalPumpingPulsed:
     number_of_cycles="StatePreparation.number_of_cycles"
     duration_854="StatePreparation.pulsed_854_duration"
     pi_time="StatePreparation.pi_time"
