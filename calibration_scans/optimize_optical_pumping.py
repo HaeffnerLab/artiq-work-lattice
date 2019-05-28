@@ -52,8 +52,6 @@ class OptimizeOpticalPumping(PulseSequence):
         self.rabi.freq_729 = self.calc_frequency(
             self.RabiFlopping_line_selection, 
             detuning=0.,
-            sideband=self.RabiFlopping_selection_sideband,
-            order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
         self.opc.number_of_cycles = self.get_variable_parameter("StatePreparation_number_of_cycles")
