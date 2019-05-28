@@ -28,7 +28,7 @@ class CalibAllLines(PulseSequence):
     )
 
     fixed_params = [("Display.relative_frequencies", False),
-                    ("StatReadout.readout_mode", "PMT")]
+                    ("StateReadout.readout_mode", "PMT")]
 
     PulseSequence.scan_params["CalibLine2"] = ("CalibLine2",
             [("Spectrum.carrier_detuning", -5e3, 5e3, 15, "kHz")])
