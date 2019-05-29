@@ -110,6 +110,6 @@ class SidebandCooling:
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
         
-        delay(3 * SidebandCooling.repump_additional)
+        delay(3. * SidebandCooling.repump_additional)
         self.dds_854.sw.off()
         self.dds_866.sw.off()
