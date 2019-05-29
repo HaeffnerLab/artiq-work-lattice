@@ -62,7 +62,7 @@ class OptimizeSidebandCooling(PulseSequence):
     
     @kernel
     def krun(self):
-        delay(1*ms)
+        delay(1*ms)#
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
