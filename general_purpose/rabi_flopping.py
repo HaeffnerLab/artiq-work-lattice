@@ -6,6 +6,7 @@ from subsequences.rabi_excitation import RabiExcitation
 from subsequences.sideband_cooling import SidebandCooling
 from artiq.experiment import *
 
+
 class RabiFlopping(PulseSequence):
     # accessed_params.update : put the parameters you want to show here.
     # We will add state readout mode, doppoler cooling, sideband cooling, aux op....
@@ -24,7 +25,7 @@ class RabiFlopping(PulseSequence):
     )
     PulseSequence.scan_params.update(
         RabiFlopping=("Rabi",
-            [("RabiFlopping.duration", 0, 100e-6, 20, "us")])
+            [("RabiFlopping.duration", 0., 100e-6, 20, "us")])
     )
 
     def run_initially(self):
