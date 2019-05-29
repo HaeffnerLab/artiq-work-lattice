@@ -50,8 +50,8 @@ class RabiFlopping(PulseSequence):
     def RabiFlopping(self):
         delay(1*ms)
         self.repump854.run(self)
-        self.camera_ttl.on()
         self.dopplerCooling.run(self)
+        self.camera_ttl.on()
         self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
