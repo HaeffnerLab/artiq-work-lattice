@@ -72,13 +72,14 @@ class Ramsey(PulseSequence):
         )
 
     @kernel
-    delay(1*ms)
-    self.repump854.run(self)
-    self.dopplerCooling.run(self)
-    self.opc.run(self)
-    if self.StatePreparation_sideband_cooling_enable:
-        self.sbc.run(self)
-    self.rabi.run(self)
-    delay(self.Ramsey_wait_time)
-    self.rabi.phase_729 = self.Ramsey_phase * 0.01745329251
-    self.rabi.run(self)
+    def Ramsey(self):
+        delay(1*ms)
+        self.repump854.run(self)
+        self.dopplerCooling.run(self)
+        self.opc.run(self)
+        if self.StatePreparation_sideband_cooling_enable:
+            self.sbc.run(self)
+        self.rabi.run(self)
+        delay(self.Ramsey_wait_time)
+        self.rabi.phase_729 = self.Ramsey_phase * 0.01745329251
+        self.rabi.run(self)
