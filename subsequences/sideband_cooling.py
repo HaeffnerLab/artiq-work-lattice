@@ -37,14 +37,14 @@ class SidebandCooling:
 
     def subsequence(self):
         delay(1*ms)
-        # self.get_729_dds(SidebandCooling.channel_729)
-        # freq_729 = self.calc_frequency(
-        #                 SidebandCooling.line_selection,
-        #                 detuning=SidebandCooling.stark_shift,
-        #                 sideband=SidebandCooling.selection_sideband,
-        #                 order=SidebandCooling.order,
-        #                 dds=SidebandCooling.channel_729
-        #             )
+        self.get_729_dds(SidebandCooling.channel_729)
+        freq_729 = self.calc_frequency(
+                        SidebandCooling.line_selection,
+                        detuning=SidebandCooling.stark_shift,
+                        sideband=SidebandCooling.selection_sideband,
+                        order=SidebandCooling.order,
+                        dds=SidebandCooling.channel_729
+                    )
         # self.dds_729.set(freq_729, 
         #                  amplitude=SidebandCooling.amplitude_729)
         # self.dds_729.set_att(SidebandCooling.att_729)
