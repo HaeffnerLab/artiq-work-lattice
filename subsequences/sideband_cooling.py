@@ -45,7 +45,7 @@ class SidebandCooling:
                     dds=SidebandCooling.channel_729)
         self.dds_729.set(freq_729, 
                          amplitude=SidebandCooling.amplitude_729)
-        self.dds_729.set_att(SidebandCooling.att_729)
+        self.dds_729.set_att(SidebandCooling.att_729)#
         self.dds_854.set(SidebandCooling.freq_854, 
                          amplitude=SidebandCooling.amp_854)
         self.dds_854.set_att(SidebandCooling.att_854)
