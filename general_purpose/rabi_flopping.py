@@ -29,7 +29,7 @@ class RabiFlopping(PulseSequence):
         self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
-        self.sbc = self.add_subsequence(SidebandCooling)
+        self.SBC = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.set_subsequence["RabiFlopping"] = self.set_subsequence_rabiflopping
 
@@ -52,8 +52,8 @@ class RabiFlopping(PulseSequence):
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
-        # if self.StatePreparation_sideband_cooling_enable:
-        #     self.sbc.run(self)
-        self.rabi.run(self)
+        if self.StatePreparation_sideband_cooling_enable:
+            self.SBC.run(self)
         self.camera_ttl.on()
+        self.rabi.run(self)
         
