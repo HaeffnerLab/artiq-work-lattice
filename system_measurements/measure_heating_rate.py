@@ -9,20 +9,23 @@ from artiq.experiment import *
 
 class HeatingRate1(PulseSequence):
     PulseSequence.accessed_params.update(
-        {"RabiFlopping.line_selection",
-         "RabiFlopping.amplitude_729",
-         "RabiFlopping.att_729",
-         "RabiFlopping.channel_729",
-         "RabiFlopping.duration",
-         "RabiFlopping.selection_sideband",
-         "RabiFlopping.order",
-         "RabiFlopping.detuning",
-         "StatePreparation.sideband_cooling_enable"
-         }
+        {"CalibrationScans.calibration_channel_729",
+         "CalibrationScans.sideband_calibration_amp",
+         "CalibrationScans.sideband_calibration_att",
+         "CalibrationScans.selection_sideband",
+         "CalibrationScans.order",
+         "Spectrum.manual_excitation_time",
+         "CalibrationScans.sideband_calibration_line",
+         "Display.relative_frequencies",
+         "CalibrationScans.readout_mode",
+         "StatePreparation.sideband_cooling_enable",
+         "Heating.background_heating_time",
+         "Heating.scan_range"}
     )
+
     PulseSequence.scan_params.update(
-        RabiFlopping=("Rabi",
-            [("RabiFlopping.duration", 0., 100e-6, 20, "us")])
+        Heating=("Spectrum",
+            [("Heating.background_heating_time", 0., 100e-3, 20, "ms")])
     )
 
     def run_initially(self):
@@ -31,77 +34,25 @@ class HeatingRate1(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
-        self.set_subsequence["RabiFlopping"] = self.set_subsequence_rabiflopping
+        self.kernel_invariants.update({"sideband"})
+        self.sideband = self.p.CalibrationScans.selection_sideband
+        self.set_subsequence["CalibSideband"] = self.set_subsequence_heatingrate
 
     @kernel
-    def set_subsequence_rabiflopping(self):
-        self.rabi.duration = self.get_variable_parameter("RabiFlopping_duration")
-        self.rabi.amp_729 = self.RabiFlopping_amplitude_729
-        self.rabi.att_729 = self.RabiFlopping_att_729
+    def set_subsequence_heatingrate(self):
+        self.wait_time = self.get_variable_parameter("Heating_background_heating_time")
+        rabi_line = self.CalibrationScans_sideband_calibration_line
+        rabi_dds = self.CalibrationScans_calibration_channel_729
+        self.rabi.amp_729 = self.CalibrationScans_sideband_calibration_amp
+        self.rabi.att_729 = self.CalibrationScans_sideband_calibration_att
+        self.rabi.duration = self.Spectrum_manual_excitation_time
         self.rabi.freq_729 = self.calc_frequency(
-            self.RabiFlopping_line_selection, 
-            detuning=self.RabiFlopping_detuning,
-            sideband=self.RabiFlopping_selection_sideband,
-            order=self.RabiFlopping_order, 
-            dds=self.RabiFlopping_channel_729
-        )
+                rabi_line, 0., sideband=self.sideband, 
+                order=self.CalibrationScans_order, dds=rabi_dds
+            )
 
     @kernel
-    def RabiFlopping(self):
+    def Heating(self):
         delay(1*ms)
-        self.repump854.run(self)
-        self.dopplerCooling.run(self)
-        self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-        self.rabi.run(self)
 
-
-class HeatingRate2(PulseSequence):
-    PulseSequence.accessed_params.update(
-        {"RabiFlopping.line_selection",
-         "RabiFlopping.amplitude_729",
-         "RabiFlopping.att_729",
-         "RabiFlopping.channel_729",
-         "RabiFlopping.duration",
-         "RabiFlopping.selection_sideband",
-         "RabiFlopping.order",
-         "RabiFlopping.detuning",
-         "StatePreparation.sideband_cooling_enable"
-         }
-    )
-    PulseSequence.scan_params.update(
-        RabiFlopping=("Rabi",
-            [("RabiFlopping.duration", 0., 100e-6, 20, "us")])
-    )
-
-    def run_initially(self):
-        self.repump854 = self.add_subsequence(RepumpD)
-        self.dopplerCooling = self.add_subsequence(DopplerCooling)
-        self.opc = self.add_subsequence(OpticalPumpingPulsed)
-        self.sbc = self.add_subsequence(SidebandCooling)
-        self.rabi = self.add_subsequence(RabiExcitation)
-        self.set_subsequence["RabiFlopping"] = self.set_subsequence_rabiflopping
-
-    @kernel
-    def set_subsequence_rabiflopping(self):
-        self.rabi.duration = self.get_variable_parameter("RabiFlopping_duration")
-        self.rabi.amp_729 = 0.1
-        self.rabi.att_729 = self.RabiFlopping_att_729
-        self.rabi.freq_729 = self.calc_frequency(
-            self.RabiFlopping_line_selection, 
-            detuning=self.RabiFlopping_detuning,
-            sideband=self.RabiFlopping_selection_sideband,
-            order=self.RabiFlopping_order, 
-            dds=self.RabiFlopping_channel_729
-        )
-
-    @kernel
-    def RabiFlopping(self):
-        delay(1*ms)
-        self.repump854.run(self)
-        self.dopplerCooling.run(self)
-        self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-        self.rabi.run(self)
+       
