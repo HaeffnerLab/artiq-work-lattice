@@ -53,7 +53,7 @@ class RabiFlopping(PulseSequence):
         self.dopplerCooling.run(self)
         self.opc.run(self)
         # if self.StatePreparation_sideband_cooling_enable:
-        self.sbc.run(self)
+        #     self.sbc.run(self)
         self.camera_ttl.on()
         self.rabi.run(self)
         
