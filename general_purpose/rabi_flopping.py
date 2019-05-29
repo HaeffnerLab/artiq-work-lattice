@@ -47,6 +47,7 @@ class RabiFlopping(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
+        print("detuning: ", self.RabiFlopping_detuning)
 
     @kernel
     def RabiFlopping(self):
