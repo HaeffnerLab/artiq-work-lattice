@@ -32,7 +32,7 @@ class Ramsey(PulseSequence):
 
     PulseSequence.scan_params["Ramsey"] = ("Ramsey",
         [("Ramsey.wait_time", 0*ms, 5*ms, 100, "ms"),
-         ("Ramsey.phase", 0, 360, 20, "deg")]
+         ("Ramsey.phase", 0., 360., 20, "deg")]
     )
 
     def run_initially(self):
