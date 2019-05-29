@@ -8,9 +8,6 @@ from artiq.experiment import *
 
 
 class RabiFlopping(PulseSequence):
-    # accessed_params.update : put the parameters you want to show here.
-    # We will add state readout mode, doppoler cooling, sideband cooling, aux op....
-    # so it will be more like old ways or we can just go to parameters, not a big deal.
     PulseSequence.accessed_params.update(
         {"RabiFlopping.line_selection",
          "RabiFlopping.amplitude_729",
