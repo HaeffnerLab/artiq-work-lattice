@@ -60,7 +60,7 @@ class Ramsey(PulseSequence):
 
     @kernel
     def set_subsequence_ramsey(self):
-        self.rabi.duration = self.pi_time
+        self.rabi.duration = self.pi_time / 2
         self.rabi.amp_729 = self.amplitude
         self.rabi.att_729 = self.att
         self.rabi.freq_729 = self.calc_frequency(
