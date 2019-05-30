@@ -58,7 +58,9 @@ class Ramsey(PulseSequence):
             self.line_selection = self.p.Rotation729G.line_selection
             self.amplitude = self.p.Rotation729G.amplitude
             self.att = self.p.Rotation729G.att
-
+        self.wait_time = 0.
+        self.phase = 0.
+    
     @kernel
     def set_subsequence_ramsey(self):
         self.rabi.duration = self.pi_time / 2
