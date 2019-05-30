@@ -43,20 +43,20 @@ class Ramsey(PulseSequence):
         self.rabi = self.add_subsequence(RabiExcitation)
         self.set_subsequence["Ramsey"] = self.set_subsequence_ramsey
         if self.p.Ramsey.channel_729 == "729L1":
-            self.pi_time = self.Rotation729L1_pi_time
-            self.line_selection = self.Rotation729L1_line_selection
-            self.amplitude = self.Rotation729L1_amplitude
-            self.att = self.Rotation729L1_att
+            self.pi_time = self.p.Rotation729L1.pi_time
+            self.line_selection = self.p.Rotation729L1.line_selection
+            self.amplitude = self.p.Rotation729L1.amplitude
+            self.att = self.p.Rotation729L1.att
         elif self.p.Ramsey.channel_729 == "729L2":
-            self.pi_time = self.Rotation729L2_pi_time
-            self.line_selection = self.Rotation729L2_line_selection
-            self.amplitude = self.Rotation729L2_amplitude
-            self.att = self.Rotation729L2_att
+            self.pi_time = self.p.Rotation729L2.pi_time
+            self.line_selection = self.p.Rotation729L2.line_selection
+            self.amplitude = self.p.Rotation729L2.amplitude
+            self.att = self.p.Rotation729L2.att
         elif self.p.Ramsey.channel_729 == "729G":
-            self.pi_time = self.Rotation729G_pi_time
-            self.line_selection = self.Rotation729G_line_selection
-            self.amplitude = self.Rotation729G_amplitude
-            self.att = self.Rotation729G_att
+            self.pi_time = self.p.Rotation729G.pi_time
+            self.line_selection = self.p.Rotation729G.line_selection
+            self.amplitude = self.p.Rotation729G.amplitude
+            self.att = self.p.Rotation729G.att
 
     @kernel
     def set_subsequence_ramsey(self):
