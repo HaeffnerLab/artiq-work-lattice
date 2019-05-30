@@ -117,4 +117,3 @@ class SidebandCooling:
         delay(delay_time)
         self.dds_854.sw.off()
         self.dds_866.sw.off()
-        self.core.wait_until_mu(now_mu())
