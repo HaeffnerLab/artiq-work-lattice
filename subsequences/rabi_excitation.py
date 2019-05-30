@@ -34,4 +34,3 @@ class RabiExcitation():
         with parallel:
             dds_729.sw.off()
             dds_729_SP.sw.off()
-        self.core.wait_until_mu(now_mu())
