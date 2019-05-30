@@ -11,7 +11,6 @@ class RabiExcitation():
     line_selection="Excitation_729.line_selection"
 
     def subsequence(self):
-        self.core.wait_until_mu(now_mu())
         if RabiExcitation.channel_729 == "729L1":
             dds_729 = self.dds_729L1
             dds_729_SP = self.dds_SP_729L1
@@ -25,6 +24,7 @@ class RabiExcitation():
             dds_729 = self.dds_729G
             dds_729_SP = self.dds_SP_729G
 
+        self.core.wait_until_mu(now_mu())
         dds_729.set(RabiExcitation.freq_729, amplitude=RabiExcitation.amp_729,
                     phase=RabiExcitation.phase_729)
         dds_729.set_att(RabiExcitation.att_729)
