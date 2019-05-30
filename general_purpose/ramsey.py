@@ -73,6 +73,7 @@ class Ramsey(PulseSequence):
         )
         self.wait_time = self.get_variable_parameter("Ramsey_wait_time")
         self.phase = self.get_variable_parameter("Ramsey_phase")
+        print("wait_time: ", self.wait_time)
 
     @kernel
     def Ramsey(self):
