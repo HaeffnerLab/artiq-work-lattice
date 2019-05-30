@@ -23,6 +23,7 @@ class HeatingRate1(PulseSequence):
          "Heating.scan_range"}
     )
 
+    
     PulseSequence.scan_params.update(
         Heating=("Spectrum",
             [("Heating.background_heating_time", 0., 100e-3, 20, "ms")])
@@ -37,6 +38,7 @@ class HeatingRate1(PulseSequence):
         self.kernel_invariants.update({"sideband"})
         self.sideband = self.p.CalibrationScans.selection_sideband
         self.set_subsequence["CalibSideband"] = self.set_subsequence_heatingrate
+        print("multiscannables: ", self.multi_scannables)
 
     @kernel
     def set_subsequence_heatingrate(self):
