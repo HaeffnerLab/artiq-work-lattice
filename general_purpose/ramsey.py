@@ -75,9 +75,6 @@ class Ramsey(PulseSequence):
         )
         self.wait_time = self.get_variable_parameter("Ramsey_wait_time")
         self.phase = self.get_variable_parameter("Ramsey_phase")
-        print("\n\n\n\n\n")
-        print("wait_time: ", self.wait_time)
-        print("\n\n\n\n\n\n")
 
     @kernel
     def Ramsey(self):
