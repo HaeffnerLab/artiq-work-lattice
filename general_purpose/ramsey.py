@@ -74,7 +74,6 @@ class Ramsey(PulseSequence):
             dds=self.Ramsey_channel_729
         )
         self.wait_time = self.get_variable_parameter("Ramsey_wait_time")
-        self.phase = self.get_variable_parameter("Ramsey_phase")
 
     @kernel
     def Ramsey(self):
@@ -84,7 +83,8 @@ class Ramsey(PulseSequence):
         self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
+        self.rabi.phase_729 = 0.
         self.rabi.run(self)
         delay(self.wait_time)
-        self.rabi.phase_729 = self.phase * 0.01745329251
+        self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase") * 0.01745329251
         self.rabi.run(self)
