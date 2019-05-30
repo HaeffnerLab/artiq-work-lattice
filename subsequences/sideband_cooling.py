@@ -113,7 +113,7 @@ class SidebandCooling:
                 self.dds_729_SP.sw.off()
         
         # delay_time = 3 * SidebandCooling.repump_additional
-        delay_time = 200*us
+        delay_time = 100*us
         delay(delay_time)
         self.dds_854.sw.off()
         self.dds_866.sw.off()
