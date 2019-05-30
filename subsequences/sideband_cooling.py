@@ -36,7 +36,6 @@ class SidebandCooling:
     sequential2_order="SequentialSBCooling2.order"
 
     def subsequence(self):
-        delay(1*ms)
         self.get_729_dds(SidebandCooling.channel_729)
         freq_729 = self.calc_frequency(
                         SidebandCooling.line_selection,
@@ -112,8 +111,6 @@ class SidebandCooling:
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
         
-        # delay_time = 3 * SidebandCooling.repump_additional
-        delay_time = 100*us
-        delay(delay_time)
+        delay(3 * SidebandCooling.repump_additional)
         self.dds_854.sw.off()
         self.dds_866.sw.off()
