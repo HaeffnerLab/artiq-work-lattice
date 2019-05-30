@@ -27,6 +27,7 @@ class Ramsey(PulseSequence):
          "Rotation729G.line_selection",
          "Rotation729G.amplitude",
          "Rotation729G.att",
+         "StatePreparation.sideband_cooling_enable"
          }
     )
 
