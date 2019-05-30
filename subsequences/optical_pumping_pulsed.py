@@ -18,15 +18,18 @@ class OpticalPumpingPulsed:
 
     def subsequence(self):
         self.get_729_dds(OpticalPumpingPulsed.channel_729)
-        self.dds_866.set(OpticalPumpingPulsed.frequency_866, amplitude=OpticalPumpingPulsed.amplitude_866)
+        self.dds_866.set(OpticalPumpingPulsed.frequency_866, 
+                         amplitude=OpticalPumpingPulsed.amplitude_866)
         self.dds_866.set_att(OpticalPumpingPulsed.att_866)
         freq_729 = self.calc_frequency(
             OpticalPumpingPulsed.line_selection,
             dds=OpticalPumpingPulsed.channel_729
         )
-        self.dds_729.set(freq_729, amplitude=OpticalPumpingPulsed.amplitude_729)
+        self.dds_729.set(freq_729, 
+                         amplitude=OpticalPumpingPulsed.amplitude_729)
         self.dds_729.set_att(OpticalPumpingPulsed.att_729)
-        self.dds_854.set(OpticalPumpingPulsed.frequency_854, amplitude=OpticalPumpingPulsed.amplitude_854)
+        self.dds_854.set(OpticalPumpingPulsed.frequency_854, 
+                         amplitude=OpticalPumpingPulsed.amplitude_854)
         self.dds_854.set_att(OpticalPumpingPulsed.att_854)
         for _ in range(int(OpticalPumpingPulsed.number_of_cycles)):
             with parallel:
