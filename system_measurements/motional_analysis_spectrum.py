@@ -92,7 +92,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
 
     @kernel
     def record(self, n, duration):
-        with self.core_dma.record("pulses":)
+        with self.core_dma.record("pulses"):
             for i in range(self.n):
                 self.dds_397.sw.pulse(self.duration)
                 delay(self.duration)
