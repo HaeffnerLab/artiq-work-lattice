@@ -115,7 +115,7 @@ class HeatingRate(PulseSequence):
                 pass
 
     @kernel
-    def CalibBlue(self):
+    def CalibBlue(self):#
         delay(1*ms)
         self.repump854.run(self)
         self.dopplerCooling.run(self)
