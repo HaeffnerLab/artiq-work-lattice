@@ -4,7 +4,6 @@ from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.sideband_cooling import SidebandCooling
-from subsequences.motional_analysis import MotionalAnalysis
 from artiq.experiment import *
 
 
@@ -13,6 +12,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         {"MotionAnalysis.pulse_width_397",
          "MotionAnalysis.amplitude_397",
          "MotionAnalysis.sideband_selection",
+         "MotionAnalysis.att_397",
          "RabiFlopping.duration",
          "RabiFlopping.amplitude_729",
          "RabiFlopping.line_selection",
@@ -20,7 +20,11 @@ class MotionalAnalysisSpectrum(PulseSequence):
          "RabiFlopping.att_729",
          "RabiFlopping.order",
          "RabiFlopping.channel_729",
-         "StatePreparation.sideband_cooling_enable"}
+         "StatePreparation.sideband_cooling_enable",
+         "DopplerCooling.doppler_cooling_frequency_397",
+         "DopplerCooling.doppler_cooling_frequency_866",
+         "DopplerCooling.doppler_cooling_amplitude_866",
+         "DopplerCooling.doppler_cooling_att_866"}
     )
 
     PulseSequence.scan_params.update(
@@ -50,12 +54,11 @@ class MotionalAnalysisSpectrum(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        self.motional_analysis.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
         detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
         n = int(detuning * self.MotionAnalysis_pulse_width_397)
         duration = 1 / detuning
         self.record(n, duration)
-
+        self.pulses_handle = self.core_dma.get_handle("pulses")
 
     @kernel
     def MotionalSpectrum(self):
@@ -66,8 +69,15 @@ class MotionalAnalysisSpectrum(PulseSequence):
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
             self.opc.run(self)
-        self.motional_analysis.run(self)
-        delay(10*ms)
+        self.dds_397.set(self.DopplerCooling_doppler_cooling_frequency_397,
+                         amplitude=self.get_variable_parameter("MotionAnalysis_amplitude_397"))
+        self.dds_397.set_att(MotionalAnalysis_att_397)
+        self.dds_866.set(self.DopplerCooling_doppler_cooling_frequency_866,
+                         amplitude=self.DopplerCooling_doppler_cooling_amplitude_866)
+        self.dds_866.set_att(self.DopplerCooling_doppler_cooling_att_866)
+        self.dds_866.sw.on()
+        self.core_dma.playback_handle(self.pulses_handle)
+        self.dds_866.sw.off
         self.opc.run(self)
         self.rabi.run(self)
 
