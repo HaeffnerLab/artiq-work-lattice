@@ -85,9 +85,10 @@ class MotionalAnalysisSpectrum(PulseSequence):
         pulses_handle = self.core_dma.get_handle("pulses") 
         self.core.break_realtime()
         self.core_dma.playback_handle(pulses_handle)
-        # self.opc.run(self)
+        delay(10*ms)
+        self.opc.run(self)
 
-        # self.rabi.run(self)
+        self.rabi.run(self)
 
     @kernel
     def record(self, n, duration):
