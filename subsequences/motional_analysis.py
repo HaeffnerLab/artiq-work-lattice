@@ -22,14 +22,6 @@ class MotionalAnalysis:
                          amplitude=MotionalAnalysis.amp_866)
         self.dds_866.set_att(MotionalAnalysis.att_866)
         self.dds_866.sw.on()
-        n = int(MotionalAnalysis.detuning * MotionalAnalysis.pulse_width)
-        print("N:", n)
-        duration = 1 / MotionalAnalysis.detuning
-        with self.core_dma.record("pulses"):
-            for i in range(n):
-                self.dds_397.sw.pulse(100*ns)
-                delay(duration)
-        delay(1*ms)
         pulses_handle = self.core_dma.get_handle("pulses")
         self.core_dma.playback_handle(pulses_handle)
         
