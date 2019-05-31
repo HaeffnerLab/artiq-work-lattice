@@ -35,7 +35,7 @@ class MotionalAnalysis:
 
     @kenrel
     def record(self, n, duration):
-        with self.core_dma.record("pulses")
-        for i in range(n):
-            self.dds_397.pulse(duration)
-            delay(duration)
+        with self.core_dma.record("pulses"):
+            for i in range(n):
+                self.dds_397.pulse(duration)
+                delay(duration)
