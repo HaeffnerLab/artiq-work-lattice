@@ -61,7 +61,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.n = int(self.detuning * self.MotionAnalysis_pulse_width_397)
         self.n = 100
         self.duration = .5 / self.detuning
-        self.duration = 10*us
+        self.duration = 100*ns
         self.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
 
     @kernel
