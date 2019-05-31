@@ -44,7 +44,6 @@ class HeatingRate(PulseSequence):
 
     @kernel
     def set_subsequence_calibred(self):
-        self.wait_time = self.get_variable_parameter("Heating_background_heating_time")
         rabi_line = self.CalibrationScans_sideband_calibration_line
         rabi_dds = self.CalibrationScans_calibration_channel_729
         self.rabi.amp_729 = self.CalibrationScans_sideband_calibration_amp
@@ -57,7 +56,6 @@ class HeatingRate(PulseSequence):
     
     @kernel
     def set_subsequence_calibblue(self):
-        self.wait_time = self.get_variable_parameter("Heating_background_heating_time")
         rabi_line = self.CalibrationScans_sideband_calibration_line
         rabi_dds = self.CalibrationScans_calibration_channel_729
         self.rabi.amp_729 = self.CalibrationScans_sideband_calibration_amp
@@ -77,7 +75,7 @@ class HeatingRate(PulseSequence):
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
             self.opc.run(self)
-        delay(self.wait_time)
+        delay(self.Heating_background_heating_time)
         self.rabi.run(self)
 
     @kernel
@@ -89,7 +87,7 @@ class HeatingRate(PulseSequence):
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
             self.opc.run(self)
-        delay(self.wait_time)
+        delay(self.Heating_background_heating_time)
         self.rabi.run(self)
 
        
