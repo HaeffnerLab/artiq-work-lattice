@@ -88,7 +88,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
                 delay(self.duration)
             delay(self.duration)
         self.dds_866.sw.off
-        delay(100*us)
+        delay(10*ms)
         self.opc.run(self)
 
         self.rabi.run(self)
