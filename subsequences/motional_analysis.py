@@ -23,6 +23,7 @@ class MotionalAnalysis:
         self.dds_866.set_att(MotionalAnalysis.att_866)
         self.dds_866.sw.on()
         n = int(MotionalAnalysis.detuning * MotionalAnalysis.pulse_width)
+        print("N:", n)
         duration = 1 / MotionalAnalysis.detuning
         with self.core_dma.record("pulses"):
             for i in range(n):
