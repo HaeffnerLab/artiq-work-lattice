@@ -14,7 +14,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
          "MotionAnalysis.amplitude_397",
          "MotionAnalysis.sideband_selection",
          "RabiFlopping.duration",
-         "RabiFlopping.rabi_amplitude_729",
+         "RabiFlopping.amplitude_729",
          "RabiFlopping.line_selection",
          "RabiFlopping.selection_sideband",
          "RabiFlopping.att_729",
