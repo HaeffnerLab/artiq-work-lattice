@@ -59,6 +59,8 @@ class MotionalAnalysisSpectrum(PulseSequence):
         )
         self.detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
         self.n = int(self.detuning * self.MotionAnalysis_pulse_width_397)
+        print("N: ", self.n)
+        self.n = 20
         self.duration = .5 / self.detuning
         self.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
 
@@ -79,9 +81,8 @@ class MotionalAnalysisSpectrum(PulseSequence):
                          amplitude=self.DopplerCooling_doppler_cooling_amplitude_866)
         self.dds_866.set_att(self.DopplerCooling_doppler_cooling_att_866)
         self.dds_866.sw.on()
-        i = 0
-        while i < self.n:
-            i += 1
+        delay(1*ms)
+        for i in range(self.n):
             self.dds_397.sw.pulse(self.duration)
             delay(self.duration)
         self.dds_866.sw.off
