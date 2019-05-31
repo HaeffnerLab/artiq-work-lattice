@@ -50,7 +50,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        self.motional_analysis.amplitude_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
+        self.motional_analysis.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
         self.motional_analysis.detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
 
     @kernel
