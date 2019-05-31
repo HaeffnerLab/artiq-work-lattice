@@ -24,6 +24,8 @@ class HeatingRate(PulseSequence):
     }
 
     
+    master_scans = [()]
+
     PulseSequence.scan_params.update(
         Heating=("Spectrum",
             [("Heating.background_heating_time", 0., 100e-3, 20, "ms")])
