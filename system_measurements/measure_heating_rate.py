@@ -41,8 +41,8 @@ class HeatingRate(PulseSequence):
         self.dynamically_generate_scans(
                 PulseSequence.scan_params["Heating"],
                 dict(
-                    CalibRed="Spectrum", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")],
-                    CalibBlue="Spectrum", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")]
+                    CalibRed=("Spectrum", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")]),
+                    CalibBlue=("Spectrum", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")])
                 )
             )
 
