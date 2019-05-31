@@ -82,7 +82,10 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.dds_866.set_att(self.DopplerCooling_doppler_cooling_att_866)
         self.dds_866.sw.on()
         for i in range(self.n):
-            self.dds_397.sw.pulse(self.duration)
+            try:
+                self.dds_397.sw.pulse(self.duration)
+            except RTIOUnderflow:
+                delay(self.duration)
             delay(self.duration )
         self.dds_866.sw.off
         self.opc.run(self)
