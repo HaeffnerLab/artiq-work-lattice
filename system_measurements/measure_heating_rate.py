@@ -51,7 +51,8 @@ class HeatingRate(PulseSequence):
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.rabi.freq_729 = self.calc_frequency(
                 rabi_line, 0., sideband=self.sideband, 
-                order=-abs(self.CalibrationScans_order), dds=rabi_dds
+                order=-abs(self.CalibrationScans_order), dds=rabi_dds,
+                bound_param="Spectrum_sideband_detuning"
             )
     
     @kernel
@@ -63,7 +64,8 @@ class HeatingRate(PulseSequence):
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.rabi.freq_729 = self.calc_frequency(
                 rabi_line, 0., sideband=self.sideband, 
-                order=abs(self.CalibrationScans_order), dds=rabi_dds
+                order=abs(self.CalibrationScans_order), dds=rabi_dds,
+                bound_param="Spectrum_sideband_detuning"
             )
 
     @kernel
