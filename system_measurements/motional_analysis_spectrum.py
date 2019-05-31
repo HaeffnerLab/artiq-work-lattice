@@ -45,7 +45,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.detuning = 0.
         self.amp_397 = 0.
         self.n = 1
-        self.pulses_handle = None
+        self.pulses_handle = 0
 
     @kernel
     def set_subsequence_motionalspectrum(self):
