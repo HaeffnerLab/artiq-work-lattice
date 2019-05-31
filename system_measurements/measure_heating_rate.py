@@ -30,7 +30,7 @@ class HeatingRate(PulseSequence):
             CalibBlue=("Spectrum", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")])
     )
 
-    def run_initially(self):
+    def run_initially(self):#
         self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
