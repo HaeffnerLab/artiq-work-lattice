@@ -26,8 +26,8 @@ class HeatingRate(PulseSequence):
     master_scans = [("Heating.background_heating_time", 0., 100e-3, 20, "ms")]
 
     PulseSequence.scan_params.update(
-            CalibRed=("Spectrum", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")]),
-            CalibBlue=("Spectrum", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")])
+            CalibRed=("CalibRed", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")]),
+            CalibBlue=("CalibBlue", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")])
     )
 
     def run_initially(self):
