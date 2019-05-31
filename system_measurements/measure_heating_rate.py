@@ -94,7 +94,7 @@ class HeatingRate(PulseSequence):
 
     def analyze_calibred(self):
         y = self.data.CalibRed.y
-        x = self.data.CalibRed.x
+        x = self.data.CalibRed.x[-len(y):]  # Need to fix this
         global_max = x[np.argmax(y)]
         try:
             popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
@@ -128,7 +128,7 @@ class HeatingRate(PulseSequence):
 
     def analyze_calibblue(self):
         y = self.data.CalibBlue.y
-        x = self.data.CalibBlue.x
+        x = self.data.CalibBlue.x[-len(y):]  # need to fix this
         global_max = x[np.argmax(y)]
         if np.max(y) < 0.1:
             raise FitError
