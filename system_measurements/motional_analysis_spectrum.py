@@ -87,6 +87,9 @@ class MotionalAnalysisSpectrum(PulseSequence):
             except RTIOUnderflow:
                 delay(self.duration)
             delay(self.duration)
-        self.opc.run(self)
+        try:
+            self.opc.run(self)
+        except RTIOUnderflow:
+            pass
 
         self.rabi.run(self)
