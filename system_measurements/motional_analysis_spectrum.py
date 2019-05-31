@@ -45,7 +45,6 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.detuning = 0.
         self.amp_397 = 0.
         self.n = 1
-        self.pulses_handle = 0
 
     @kernel
     def set_subsequence_motionalspectrum(self):
@@ -60,12 +59,11 @@ class MotionalAnalysisSpectrum(PulseSequence):
         )
         self.detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
         self.n = int(self.detuning * self.MotionAnalysis_pulse_width_397)
-        self.n = 20
+        # self.n = 20
         self.duration = .5 / self.detuning
-        self.duration = 1*ms
+        # self.duration = 1*ms
         self.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
         self.record(self.duration)
-        self.pulses_handle = self.core_dma.get_handle("pulses") 
 
     @kernel
     def MotionalSpectrum(self):
@@ -88,9 +86,10 @@ class MotionalAnalysisSpectrum(PulseSequence):
         #     self.dds_397.sw.pulse(self.duration)
         #     delay(10*us)#self.duration)
 
+        pulses_handle = self.core_dma.get_handle("pulses") 
         self.core.break_realtime()
         for i in range(self.n):
-            self.core_dma.playback_handle(self.pulses_handle)
+            self.core_dma.playback_handle(pulses_handle)
         self.opc.run(self)
 
         self.rabi.run(self)
