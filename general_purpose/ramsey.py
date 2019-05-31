@@ -83,6 +83,7 @@ class Ramsey(PulseSequence):
         self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
+            self.opc.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
         delay(self.wait_time)
