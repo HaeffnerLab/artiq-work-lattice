@@ -49,6 +49,7 @@ class HeatingRate(PulseSequence):
         self.nbars = list()
         self.run_after["CalibRed"] = self.analyze_calibred
         self.run_after["CalibBlue"] = self.analyze_calibblue
+        self.plotname = str(datetime.now().strftime("%Y-%m-%d")) + " - HeatingRates"
 
     @kernel
     def set_subsequence_calibred(self):
@@ -131,15 +132,7 @@ class HeatingRate(PulseSequence):
             self.nbars.append(nbar)
             self.wait_times.append(self.p.Heating.background_heating_time)
             self.rcg.plot(self.wait_times, self.nbars, tab_name="Current",
-                    plot_title=str(datetime.now().strftime("%Y-%m-%d")) + " - HeatingRates")
-
-    def run_finally(self):
-        nbars = list()
-        for i, wait_time in enumerate(self.wait_times):
-            R = self.red_amps[i] / self.blue_amps[i]
-            nbar = R / (1 - R)
-            nbars.append(nbar)
-        self.rcg.plot(self.wait_times, nbars)
+                    plot_title=self.plotname)
 
 
 def gaussian(x, A, x0, sigma):
