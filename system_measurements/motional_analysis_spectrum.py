@@ -59,7 +59,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         )
         self.detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
         self.n = int(self.detuning * self.MotionAnalysis_pulse_width_397)
-        self.n = 50
+        self.n = 30
         self.duration = .5 / self.detuning
         self.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
 
