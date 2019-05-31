@@ -63,6 +63,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.duration = .5 / self.detuning
         # self.duration = 10*ns
         self.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
+        self.record(self.n, self.duration)
 
     @kernel
     def MotionalSpectrum(self):
@@ -81,9 +82,17 @@ class MotionalAnalysisSpectrum(PulseSequence):
                          amplitude=self.DopplerCooling_doppler_cooling_amplitude_866)
         self.dds_866.set_att(self.DopplerCooling_doppler_cooling_att_866)
         self.dds_866.sw.on()
-        for i in range(self.n):
-            self.dds_397.sw.pulse(self.duration)
-            delay(10*us)#self.duration)
+        # for i in range(self.n):
+        #     self.dds_397.sw.pulse(self.duration)
+        #     delay(10*us)#self.duration)
+        self.core_dma.playback("pulses")
         self.opc.run(self)
 
         self.rabi.run(self)
+
+    @kernel
+    def record(self, n, duration):
+        with self.core_dma.record("pulses":)
+            for i in range(self.n):
+                self.dds_397.sw.pulse(self.duration)
+                delay(self.duration)
