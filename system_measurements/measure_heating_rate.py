@@ -68,7 +68,7 @@ class HeatingRate(PulseSequence):
 
     @kernel
     def CalibRed(self):
-        delay(1*ms)
+        delay(1*ms)#
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
