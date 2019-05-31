@@ -38,10 +38,12 @@ class HeatingRate(PulseSequence):
         self.rabi = self.add_subsequence(RabiExcitation)
         self.kernel_invariants.update({"sideband"})
         self.sideband = self.p.CalibrationScans.selection_sideband
-        self.set_subsequence["CalibSideband"] = self.set_subsequence_heatingrate
+        self.set_subsequence["CalibRed"] = self.set_subsequence_calibred
+        self.set_subsequence["CalibBlue"] = self.set_subsequence_calibblue
+        self.wait_time = 0.
 
     @kernel
-    def set_subsequence_heatingrate(self):#
+    def set_subsequence_calibred(self):
         self.wait_time = self.get_variable_parameter("Heating_background_heating_time")
         rabi_line = self.CalibrationScans_sideband_calibration_line
         rabi_dds = self.CalibrationScans_calibration_channel_729
@@ -50,15 +52,44 @@ class HeatingRate(PulseSequence):
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.rabi.freq_729 = self.calc_frequency(
                 rabi_line, 0., sideband=self.sideband, 
-                order=self.CalibrationScans_order, dds=rabi_dds
+                order=-abs(self.CalibrationScans_order), dds=rabi_dds
+            )
+    
+    @kernel
+    def set_subsequence_calibblue(self):
+        self.wait_time = self.get_variable_parameter("Heating_background_heating_time")
+        rabi_line = self.CalibrationScans_sideband_calibration_line
+        rabi_dds = self.CalibrationScans_calibration_channel_729
+        self.rabi.amp_729 = self.CalibrationScans_sideband_calibration_amp
+        self.rabi.att_729 = self.CalibrationScans_sideband_calibration_att
+        self.rabi.duration = self.Spectrum_manual_excitation_time
+        self.rabi.freq_729 = self.calc_frequency(
+                rabi_line, 0., sideband=self.sideband, 
+                order=abs(self.CalibrationScans_order), dds=rabi_dds
             )
 
     @kernel
     def CalibRed(self):
         delay(1*ms)
+        self.repump854.run(self)
+        self.dopplerCooling.run(self)
+        self.opc.run(self)
+        if self.StatePreparation_sideband_cooling_enable:
+            self.sbc.run(self)
+            self.opc.run(self)
+        delay(self.wait_time)
+        self.rabi.run(self)
 
     @kernel
     def CalibBlue(self):
         delay(1*ms)
+        self.repump854.run(self)
+        self.dopplerCooling.run(self)
+        self.opc.run(self)
+        if self.StatePreparation_sideband_cooling_enable:
+            self.sbc.run(self)
+            self.opc.run(self)
+        delay(self.wait_time)
+        self.rabi.run(self)
 
        
