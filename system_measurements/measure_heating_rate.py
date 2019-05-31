@@ -1,4 +1,6 @@
-from pulse_sequence import PulseSequence
+import numpy as np
+from datetime import datetime
+from pulse_sequence import PulseSequence, FitError
 from subsequences.repump_D import RepumpD
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
@@ -41,6 +43,12 @@ class HeatingRate(PulseSequence):
         self.set_subsequence["CalibRed"] = self.set_subsequence_calibred
         self.set_subsequence["CalibBlue"] = self.set_subsequence_calibblue
         self.wait_time = 0.
+        self.red_amps = list()
+        self.blue_amps = list()
+        self.wait_times = list()
+        self.nbars = list()
+        self.run_after["CalibRed"] = self.analyze_calibred
+        self.run_after["CalibBlue"] = self.analyze_calibblue
 
     @kernel
     def set_subsequence_calibred(self):
@@ -82,6 +90,17 @@ class HeatingRate(PulseSequence):
         delay(self.Heating_background_heating_time)
         self.rabi.run(self)
 
+    def analyze_calibred(self):
+        x = self.data.CalibRed.x
+        y = self.data.CalibRed.y
+        global_max = x[np.argmax(y)]
+        try:
+            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
+            self.red_amps.append(popt[1])
+        except:
+            self.red_amps.append(np.nan)
+            raise FitError
+
     @kernel
     def CalibBlue(self):
         delay(1*ms)
@@ -93,5 +112,37 @@ class HeatingRate(PulseSequence):
             self.opc.run(self)
         delay(self.Heating_background_heating_time)
         self.rabi.run(self)
+
+    def analyze_calibblue(self):
+        x = self.data.CalibBlue.x
+        y = self.data.CalibBlue.y
+        global_max = x[np.argmax(y)]
+        if np.max(y) < 0.1:
+            raise FitError
+        try:
+            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
+            self.blue_amps.append(popt[1])
+        except:
+            self.blue_amps.append(np.nan)
+            raise FitError
+        try:
+            R = self.red_amps[-1] / self.blue_amps[-1]
+            nbar = R / (1 - R)
+            self.nbars.append(nbar)
+            self.wait_times.append(self.p.Heating.background_heating_time)
+            self.rcg.plot(self.wait_times, self.nbars, tab_name="Current",
+                    plot_title=str(datetime.now().strftime("%Y-%m-%d")) + " - HeatingRates")
+
+    def run_finally(self):
+        nbars = list()
+        for i, wait_time in enumerate(self.wait_times):
+            R = self.red_amps[i] / self.blue_amps[i]
+            nbar = R / (1 - R)
+            nbars.append(nbar)
+        self.rcg.plot(self.wait_times, nbars)
+
+
+def gaussian(x, A, x0, sigma):
+    return A * np.exp((-(x - x0)**2) / (2*sigma**2))
 
        
