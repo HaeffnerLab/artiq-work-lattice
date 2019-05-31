@@ -41,7 +41,7 @@ class HeatingRate(PulseSequence):
         self.set_subsequence["CalibSideband"] = self.set_subsequence_heatingrate
 
     @kernel
-    def set_subsequence_heatingrate(self):
+    def set_subsequence_heatingrate(self):#
         self.wait_time = self.get_variable_parameter("Heating_background_heating_time")
         rabi_line = self.CalibrationScans_sideband_calibration_line
         rabi_dds = self.CalibrationScans_calibration_channel_729
