@@ -133,6 +133,8 @@ class HeatingRate(PulseSequence):
             self.wait_times.append(self.p.Heating.background_heating_time)
             self.rcg.plot(self.wait_times, self.nbars, tab_name="Current",
                     plot_title=self.plotname)
+        except:
+            pass
 
 
 def gaussian(x, A, x0, sigma):
