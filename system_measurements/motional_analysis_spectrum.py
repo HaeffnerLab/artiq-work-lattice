@@ -39,7 +39,6 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
-        self.motional_analysis = self.add_subsequence(MotionalAnalysis)
         self.set_subsequence["MotionalSpectrum"] = self.set_subsequence_motionalspectrum
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
 
