@@ -30,10 +30,11 @@ class Ramsey(PulseSequence):
         "StatePreparation.sideband_cooling_enable"
     }
 
-    PulseSequence.scan_params["Ramsey"] = ("Ramsey",
-        [("Ramsey.wait_time", 0*ms, 5*ms, 100, "ms"),
-         ("Ramsey.phase", 0., 360., 20, "deg")]
-    )
+    PulseSequence.scan_params = dict(
+        Ramsey=("Ramsey",
+            [("Ramsey.wait_time", 0*ms, 5*ms, 100, "ms"),
+             ("Ramsey.phase", 0., 360., 20, "deg")]
+        )
 
     def run_initially(self):
         self.repump854 = self.add_subsequence(RepumpD)

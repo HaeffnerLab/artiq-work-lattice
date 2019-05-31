@@ -13,19 +13,19 @@ from artiq.experiment import *
 
 
 class CalibAllLines(PulseSequence):
-    PulseSequence.accessed_params.update(
-        {"CalibrationScans.calibration_channel_729",
-         "Spectrum.car1_amp",
-         "Spectrum.car2_amp",
-         "Spectrum.car1_att",
-         "Spectrum.car2_att",
-         "Spectrum.manual_excitation_time",
-         "DriftTracker.line_selection_1",
-         "DriftTracker.line_selection_2",
-         "Display.relative_frequencies",
-         "CalibrationScans.readout_mode",
-         "StatePreparation.sideband_cooling_enable"}
-    )
+    PulseSequence.accessed_params = {
+        "CalibrationScans.calibration_channel_729",
+        "Spectrum.car1_amp",
+        "Spectrum.car2_amp",
+        "Spectrum.car1_att",
+        "Spectrum.car2_att",
+        "Spectrum.manual_excitation_time",
+        "DriftTracker.line_selection_1",
+        "DriftTracker.line_selection_2",
+        "Display.relative_frequencies",
+        "CalibrationScans.readout_mode",
+        "StatePreparation.sideband_cooling_enable"
+    }
 
     fixed_params = [("Display.relative_frequencies", False),
                     ("StateReadout.readout_mode", "pmt")]

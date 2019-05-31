@@ -8,24 +8,24 @@ from artiq.experiment import *
 
 
 class OptimizeOpticalPumping(PulseSequence):
-    PulseSequence.accessed_params.update(
-        {"RabiFlopping.amplitude_729",
-         "RabiFlopping.att_729",
-         "RabiFlopping.channel_729",
-         "RabiFlopping.line_selection",
-         "RabiFlopping.duration",
-         "StatePreparation.sideband_cooling_enable",
-         "StatePreparation.number_of_cycles",
-         "StatePreparation.pulsed_854_duration",
-         "StatePreparation.pi_time",
-         "StatePreparation.channel_729",
-         "StatePreparation.pulsed_amplitude",
-         "StatePreparation.pulsed_att",
-         "OpticalPumping.optical_pumping_frequency_854",
-         "OpticalPumping.optical_pumping_amplitude_854",
-         "OpticalPumping.optical_pumping_att_854",
-         "OpticalPumping.line_selection"}
-    )
+    PulseSequence.accessed_params = {
+        "RabiFlopping.amplitude_729",
+        "RabiFlopping.att_729",
+        "RabiFlopping.channel_729",
+        "RabiFlopping.line_selection",
+        "RabiFlopping.duration",
+        "StatePreparation.sideband_cooling_enable",
+        "StatePreparation.number_of_cycles",
+        "StatePreparation.pulsed_854_duration",
+        "StatePreparation.pi_time",
+        "StatePreparation.channel_729",
+        "StatePreparation.pulsed_amplitude",
+        "StatePreparation.pulsed_att",
+        "OpticalPumping.optical_pumping_frequency_854",
+        "OpticalPumping.optical_pumping_amplitude_854",
+        "OpticalPumping.optical_pumping_att_854",
+        "OpticalPumping.line_selection"
+    }
 
     PulseSequence.scan_params["krun"] = ("Current",
         [("OpticalPumping.optical_pumping_frequency_854", -2*MHz, 2*MHz, 20, "MHz"),

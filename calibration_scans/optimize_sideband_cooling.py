@@ -9,26 +9,26 @@ from artiq.experiment import *
 
 
 class OptimizeSidebandCooling(PulseSequence):
-    PulseSequence.accessed_params.update(
-        {"SidebandCooling.amplitude_854",
-         "SidebandCooling.att_854",
-         "SidebandCooling.stark_shift",
-         "SidebandCooling.line_selection",
-         "SidebandCooling.amplitude_866",
-         "SidebandCooling.att_866",
-         "SidebandCooling.amplitude_729",
-         "SidebandCooling.att_729",
-         "SidebandCooling.selection_sideband",
-         "RabiFlopping.amplitude_729",
-         "RabiFlopping.att_729",
-         "RabiFlopping.duration",
-         "RabiFlopping.line_selection",
-         "RabiFlopping.selection_sideband",
-         "RabiFlopping.order",
-         "RabiFlopping.channel_729",
-         "StatePreparation.sideband_cooling_enable",
-         "StatePreparation.channel_729"}
-    )
+    PulseSequence.accessed_params = {
+        "SidebandCooling.amplitude_854",
+        "SidebandCooling.att_854",
+        "SidebandCooling.stark_shift",
+        "SidebandCooling.line_selection",
+        "SidebandCooling.amplitude_866",
+        "SidebandCooling.att_866",
+        "SidebandCooling.amplitude_729",
+        "SidebandCooling.att_729",
+        "SidebandCooling.selection_sideband",
+        "RabiFlopping.amplitude_729",
+        "RabiFlopping.att_729",
+        "RabiFlopping.duration",
+        "RabiFlopping.line_selection",
+        "RabiFlopping.selection_sideband",
+        "RabiFlopping.order",
+        "RabiFlopping.channel_729",
+        "StatePreparation.sideband_cooling_enable",
+        "StatePreparation.channel_729"
+    }
 
     PulseSequence.scan_params["krun"] = ("Current",
         [("SidebandCooling.amplitude_854", 0., 1., 25),

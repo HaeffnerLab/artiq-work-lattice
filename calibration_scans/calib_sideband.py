@@ -13,18 +13,18 @@ from artiq.experiment import *
 
 
 class CalibSideband(PulseSequence):
-    PulseSequence.accessed_params.update(
-        {"CalibrationScans.calibration_channel_729",
-         "CalibrationScans.sideband_calibration_amp",
-         "CalibrationScans.sideband_calibration_att",
-         "CalibrationScans.selection_sideband",
-         "CalibrationScans.order",
-         "Spectrum.manual_excitation_time",
-         "CalibrationScans.sideband_calibration_line",
-         "Display.relative_frequencies",
-         "CalibrationScans.readout_mode",
-         "StatePreparation.sideband_cooling_enable"}
-    )
+    PulseSequence.accessed_params = {
+        "CalibrationScans.calibration_channel_729",
+        "CalibrationScans.sideband_calibration_amp",
+        "CalibrationScans.sideband_calibration_att",
+        "CalibrationScans.selection_sideband",
+        "CalibrationScans.order",
+        "Spectrum.manual_excitation_time",
+        "CalibrationScans.sideband_calibration_line",
+        "Display.relative_frequencies",
+        "CalibrationScans.readout_mode",
+        "StatePreparation.sideband_cooling_enable"
+    }
 
     PulseSequence.scan_params.update(
         CalibSideband=("Spectrum",

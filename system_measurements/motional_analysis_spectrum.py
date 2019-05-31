@@ -8,24 +8,24 @@ from artiq.experiment import *
 
 
 class MotionalAnalysisSpectrum(PulseSequence):
-    PulseSequence.accessed_params.update(
-        {"MotionAnalysis.pulse_width_397",
-         "MotionAnalysis.amplitude_397",
-         "MotionAnalysis.sideband_selection",
-         "MotionAnalysis.att_397",
-         "RabiFlopping.duration",
-         "RabiFlopping.amplitude_729",
-         "RabiFlopping.line_selection",
-         "RabiFlopping.selection_sideband",
-         "RabiFlopping.att_729",
-         "RabiFlopping.order",
-         "RabiFlopping.channel_729",
-         "StatePreparation.sideband_cooling_enable",
-         "DopplerCooling.doppler_cooling_frequency_397",
-         "DopplerCooling.doppler_cooling_frequency_866",
-         "DopplerCooling.doppler_cooling_amplitude_866",
-         "DopplerCooling.doppler_cooling_att_866"}
-    )
+    PulseSequence.accessed_params = {
+        "MotionAnalysis.pulse_width_397",
+        "MotionAnalysis.amplitude_397",
+        "MotionAnalysis.sideband_selection",
+        "MotionAnalysis.att_397",
+        "RabiFlopping.duration",
+        "RabiFlopping.amplitude_729",
+        "RabiFlopping.line_selection",
+        "RabiFlopping.selection_sideband",
+        "RabiFlopping.att_729",
+        "RabiFlopping.order",
+        "RabiFlopping.channel_729",
+        "StatePreparation.sideband_cooling_enable",
+        "DopplerCooling.doppler_cooling_frequency_397",
+        "DopplerCooling.doppler_cooling_frequency_866",
+        "DopplerCooling.doppler_cooling_amplitude_866",
+        "DopplerCooling.doppler_cooling_att_866"
+    }
 
     PulseSequence.scan_params.update(
         MotionalSpectrum=("Spectrum",

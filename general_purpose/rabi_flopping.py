@@ -8,19 +8,19 @@ from artiq.experiment import *
 
 
 class RabiFlopping(PulseSequence):
-    PulseSequence.accessed_params.update(
-        {"RabiFlopping.line_selection",
-         "RabiFlopping.amplitude_729",
-         "RabiFlopping.att_729",
-         "RabiFlopping.channel_729",
-         "RabiFlopping.duration",
-         "RabiFlopping.selection_sideband",
-         "RabiFlopping.order",
-         "RabiFlopping.detuning",
-         "StatePreparation.sideband_cooling_enable"
-         }
-    )
-    PulseSequence.scan_params.update(
+    PulseSequence.accessed_params = {
+        "RabiFlopping.line_selection",
+        "RabiFlopping.amplitude_729",
+        "RabiFlopping.att_729",
+        "RabiFlopping.channel_729",
+        "RabiFlopping.duration",
+        "RabiFlopping.selection_sideband",
+        "RabiFlopping.order",
+        "RabiFlopping.detuning",
+        "StatePreparation.sideband_cooling_enable"
+    }
+
+    PulseSequence.scan_params = dict(
         RabiFlopping=("Rabi",
             [("RabiFlopping.duration", 0., 100e-6, 20, "us")])
     )
