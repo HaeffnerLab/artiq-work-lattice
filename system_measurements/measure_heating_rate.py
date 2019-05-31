@@ -7,7 +7,7 @@ from subsequences.sideband_cooling import SidebandCooling
 from artiq.experiment import *
 
 
-class HeatingRate1(PulseSequence):
+class HeatingRate(PulseSequence):
     PulseSequence.accessed_params.update(
         {"CalibrationScans.calibration_channel_729",
          "CalibrationScans.sideband_calibration_amp",
