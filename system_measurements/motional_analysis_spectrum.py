@@ -83,7 +83,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         for i in range(self.n):
             self.dds_397.sw.pulse(self.duration)
             delay(self.duration)
-        delay(duration * self.n)
+        delay(self.duration * self.n)
         self.dds_866.sw.off
         self.opc.run(self)
 
