@@ -22,13 +22,12 @@ class HeatingRate(PulseSequence):
         "Heating.background_heating_time",
         "Heating.scan_range"
     }
-
     
-    master_scans = [()]
+    master_scans = [("Heating.background_heating_time", 0., 100e-3, 20, "ms")]
 
     PulseSequence.scan_params.update(
-        Heating=("Spectrum",
-            [("Heating.background_heating_time", 0., 100e-3, 20, "ms")])
+            CalibRed=("Spectrum", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")]),
+            CalibBlue=("Spectrum", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")])
     )
 
     def run_initially(self):
@@ -40,13 +39,6 @@ class HeatingRate(PulseSequence):
         self.kernel_invariants.update({"sideband"})
         self.sideband = self.p.CalibrationScans.selection_sideband
         self.set_subsequence["CalibSideband"] = self.set_subsequence_heatingrate
-        self.dynamically_generate_scans(
-                PulseSequence.scan_params["Heating"],
-                dict(
-                    CalibRed=("Spectrum", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")]),
-                    CalibBlue=("Spectrum", [("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz")])
-                )
-            )
 
     @kernel
     def set_subsequence_heatingrate(self):
