@@ -44,26 +44,28 @@ class HeatingRate(PulseSequence):
 
     @kernel
     def set_subsequence_calibred(self):
+        delta = self.get_variable_parameter("Spectrum_sideband_detuning")
         rabi_line = self.CalibrationScans_sideband_calibration_line
         rabi_dds = self.CalibrationScans_calibration_channel_729
         self.rabi.amp_729 = self.CalibrationScans_sideband_calibration_amp
         self.rabi.att_729 = self.CalibrationScans_sideband_calibration_att
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.rabi.freq_729 = self.calc_frequency(
-                rabi_line, 0., sideband=self.sideband, 
+                rabi_line, delta, sideband=self.sideband, 
                 order=-abs(self.CalibrationScans_order), dds=rabi_dds,
                 bound_param="Spectrum_sideband_detuning"
             )
     
     @kernel
     def set_subsequence_calibblue(self):
+        delta = self.get_variable_parameter("Spectrum_sideband_detuning")
         rabi_line = self.CalibrationScans_sideband_calibration_line
         rabi_dds = self.CalibrationScans_calibration_channel_729
         self.rabi.amp_729 = self.CalibrationScans_sideband_calibration_amp
         self.rabi.att_729 = self.CalibrationScans_sideband_calibration_att
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.rabi.freq_729 = self.calc_frequency(
-                rabi_line, 0., sideband=self.sideband, 
+                rabi_line, delta, sideband=self.sideband, 
                 order=abs(self.CalibrationScans_order), dds=rabi_dds,
                 bound_param="Spectrum_sideband_detuning"
             )
