@@ -29,7 +29,7 @@ class MotionalAnalysis:
             for i in range(n):
                 self.dds_397.sw.pulse(1*us)
                 delay(duration)
-        delay(500*us)
+        delay(100*ms)
         pulses_handle = self.core_dma.get_handle("pulses")
         self.core_dma.playback_handle(pulses_handle)
         
