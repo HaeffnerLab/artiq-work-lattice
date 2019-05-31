@@ -26,7 +26,7 @@ class MotionalAnalysis:
         duration = 1 / MotionalAnalysis.detuning
         with self.core_dma.record("pulses"):
             for i in range(n):
-                self.dds_397.pulse(duration)
+                self.dds_397.sw.pulse(duration)
                 delay(duration)
         pulses_handle = self.core_dma.get_handle("pulses")
         self.core_dma.playback_handle(pulses_handle)
