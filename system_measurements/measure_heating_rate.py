@@ -108,7 +108,8 @@ class HeatingRate(PulseSequence):
                 nbar = R / (1 - R)
                 self.nbars.append(nbar)
                 self.wait_times.append(self.p.Heating.background_heating_time)
-                self.rcg.plot(self.wait_times, self.nbars, tab_name="Current",
+                self.rcg.plot(self.wait_times, self.nbars, tab_name="CalibSidebands",
+                        plot_name="nbar", append=True,
                         plot_title=self.plotname)
             except:
                 pass
@@ -144,7 +145,7 @@ class HeatingRate(PulseSequence):
                 self.nbars.append(nbar)
                 self.wait_times.append(self.p.Heating.background_heating_time)
                 self.rcg.plot(self.wait_times, self.nbars, tab_name="CalibSidebands",
-                        plot_name="nbar",
+                        plot_name="nbar", append=True,
                         plot_title=self.plotname)
             except:
                 pass
