@@ -29,11 +29,11 @@ class MotionalAnalysis:
         self.core_dma.playback_handle(pulses_handle)
 
 
-    @kenrnel(flags={"fast-math"})
+    @kernel(flags={"fast-math"})
     def calculate_number_of_pulses(self, trap_frequency, pulse_width):
         return pulse_width * trap_frequency
 
-    @kenrel
+    @kernel
     def record(self, n, duration):
         with self.core_dma.record("pulses"):
             for i in range(n):
