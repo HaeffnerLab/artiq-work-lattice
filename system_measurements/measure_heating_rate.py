@@ -93,8 +93,8 @@ class HeatingRate(PulseSequence):
         self.rabi.run(self)
 
     def analyze_calibred(self):
-        x = self.data.CalibRed.x
         y = self.data.CalibRed.y
+        x = self.data.CalibRed.x[-len(y):]  # need to fix this
         global_max = x[np.argmax(y)]
         try:
             popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
@@ -126,8 +126,8 @@ class HeatingRate(PulseSequence):
         self.rabi.run(self)
 
     def analyze_calibblue(self):
-        x = self.data.CalibBlue.x
         y = self.data.CalibBlue.y
+        x = self.data.CalibBlue.x[-len(y):]  # need to fix this
         global_max = x[np.argmax(y)]
         if np.max(y) < 0.1:
             raise FitError
@@ -143,7 +143,7 @@ class HeatingRate(PulseSequence):
                 nbar = R / (1 - R)
                 self.nbars.append(nbar)
                 self.wait_times.append(self.p.Heating.background_heating_time)
-                self.rcg.plot(self.wait_times, self.nbars, tab_name="Current",
+                self.rcg.plot(self.wait_times, self.nbars, tab_name="nbar",
                         plot_title=self.plotname)
             except:
                 pass
