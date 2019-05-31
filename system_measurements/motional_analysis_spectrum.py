@@ -67,7 +67,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
             self.sbc.run(self)
             self.opc.run(self)
         self.motional_analysis.run(self)
-        self.core.break_realtime()
+        delay_mu(77580736149080)
         self.opc.run(self)
         self.rabi.run(self)
 
