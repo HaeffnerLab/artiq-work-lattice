@@ -8,28 +8,27 @@ from artiq.experiment import *
 
 
 class Ramsey(PulseSequence):
-    PulseSequence.accessed_params.update(
-        {"Ramsey.wait_time",
-         "Ramsey.phase",
-         "Ramsey.selection_sideband",
-         "Ramsey.order",
-         "Ramsey.channel_729",
-         "Ramsey.detuning",
-         "Rotation729L1.pi_time",
-         "Rotation729L1.line_selection",
-         "Rotation729L1.amplitude",
-         "Rotation729L1.att",
-         "Rotation729L2.pi_time",
-         "Rotation729L2.line_selection",
-         "Rotation729L2.amplitude",
-         "Rotation729L2.att",
-         "Rotation729G.pi_time",
-         "Rotation729G.line_selection",
-         "Rotation729G.amplitude",
-         "Rotation729G.att",
-         "StatePreparation.sideband_cooling_enable"
-         }
-    )
+    PulseSequence.accessed_params = {
+        "Ramsey.wait_time",
+        "Ramsey.phase",
+        "Ramsey.selection_sideband",
+        "Ramsey.order",
+        "Ramsey.channel_729",
+        "Ramsey.detuning",
+        "Rotation729L1.pi_time",
+        "Rotation729L1.line_selection",
+        "Rotation729L1.amplitude",
+        "Rotation729L1.att",
+        "Rotation729L2.pi_time",
+        "Rotation729L2.line_selection",
+        "Rotation729L2.amplitude",
+        "Rotation729L2.att",
+        "Rotation729G.pi_time",
+        "Rotation729G.line_selection",
+        "Rotation729G.amplitude",
+        "Rotation729G.att",
+        "StatePreparation.sideband_cooling_enable"
+    }
 
     PulseSequence.scan_params["Ramsey"] = ("Ramsey",
         [("Ramsey.wait_time", 0*ms, 5*ms, 100, "ms"),
