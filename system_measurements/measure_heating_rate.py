@@ -151,7 +151,7 @@ class HeatingRate(PulseSequence):
                 pass
 
 
-def gaussian(x, A, x0, sigma):
+def gaussian(x, A, x0, sigma):#
     return A * np.exp((-(x - x0)**2) / (2*sigma**2))
 
        
