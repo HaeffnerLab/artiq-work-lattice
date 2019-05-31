@@ -81,7 +81,7 @@ class HeatingRate(PulseSequence):
 
     @kernel
     def CalibRed(self):
-        delay(1*ms)##
+        delay(1*ms)
         self.repump854.run(self)
         self.dopplerCooling.run(self)
         self.opc.run(self)
@@ -101,6 +101,16 @@ class HeatingRate(PulseSequence):
         except:
             self.red_amps.append(np.nan)
             raise FitError
+        if len(self.red_amps) == len(self.blue_amps):
+            try:
+                R = self.red_amps[-1] / self.blue_amps[-1]
+                nbar = R / (1 - R)
+                self.nbars.append(nbar)
+                self.wait_times.append(self.p.Heating.background_heating_time)
+                self.rcg.plot(self.wait_times, self.nbars, tab_name="Current",
+                        plot_title=self.plotname)
+            except:
+                pass
 
     @kernel
     def CalibBlue(self):
@@ -126,15 +136,16 @@ class HeatingRate(PulseSequence):
         except:
             self.blue_amps.append(np.nan)
             raise FitError
-        try:
-            R = self.red_amps[-1] / self.blue_amps[-1]
-            nbar = R / (1 - R)
-            self.nbars.append(nbar)
-            self.wait_times.append(self.p.Heating.background_heating_time)
-            self.rcg.plot(self.wait_times, self.nbars, tab_name="Current",
-                    plot_title=self.plotname)
-        except:
-            pass
+        if len(self.red_amps) == len(self.blue_amps):
+            try:
+                R = self.red_amps[-1] / self.blue_amps[-1]
+                nbar = R / (1 - R)
+                self.nbars.append(nbar)
+                self.wait_times.append(self.p.Heating.background_heating_time)
+                self.rcg.plot(self.wait_times, self.nbars, tab_name="Current",
+                        plot_title=self.plotname)
+            except:
+                pass
 
 
 def gaussian(x, A, x0, sigma):
