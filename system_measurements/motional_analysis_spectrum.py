@@ -58,7 +58,9 @@ class MotionalAnalysisSpectrum(PulseSequence):
             dds=self.RabiFlopping_channel_729
         )
         self.detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
-        # self.n = int(self.detuning * self.MotionAnalysis_pulse_width_397)
+        self.n = int(self.detuning * self.MotionAnalysis_pulse_width_397)
+        print("N: ", self.n)
+        self.n = 1
         self.duration = .5 / self.detuning
         self.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
 
