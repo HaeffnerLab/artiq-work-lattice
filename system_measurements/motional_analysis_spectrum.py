@@ -18,7 +18,8 @@ class MotionalAnalysisSpectrum(PulseSequence):
          "RabiFlopping.line_selection",
          "RabiFlopping.selection_sideband",
          "RabiFlopping.att_729",
-         "RabiFlopping.order"}
+         "RabiFlopping.order",
+         "StatePreparation.sideband_cooling_enable"}
     )
 
     PulseSequence.scan_params.update(
