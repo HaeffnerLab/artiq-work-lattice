@@ -19,7 +19,7 @@ class MotionalAnalysis:
                          amplitude=MotionalAnalysis.amp_866)
         self.dds_866.set_att(MotionalAnalysis.att_866)
         self.dds_866.sw.on()
+        delay(10*ms)
         pulses_handle = self.core_dma.get_handle("pulses")
-        self.core.break_realtime()
         self.core_dma.playback_handle(pulses_handle)
         
