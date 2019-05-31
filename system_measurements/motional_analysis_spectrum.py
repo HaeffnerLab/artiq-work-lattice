@@ -76,7 +76,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
                          amplitude=self.DopplerCooling_doppler_cooling_amplitude_866)
         self.dds_866.set_att(self.DopplerCooling_doppler_cooling_att_866)
         self.dds_866.sw.on()
-        self.core_dma.playback_handle(self.core_dma.get_handle("pulses"))
+        self.core_dma.playback("pulses")
         self.dds_866.sw.off
         self.opc.run(self)
         self.rabi.run(self)
