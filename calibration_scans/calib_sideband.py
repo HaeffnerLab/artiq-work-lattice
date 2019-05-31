@@ -40,6 +40,10 @@ class CalibSideband(PulseSequence):
         self.kernel_invariants.update({"sideband"})
         self.sideband = self.p.CalibrationScans.selection_sideband
         self.set_subsequence["CalibSideband"] = self.set_subsequence_calibsideband
+        if self.p.CalibrationScans.order < 0:
+            self.PulseSequence["CalibSideband"] = ("CalibRed", self.PulseSequence["CalibSideband"][1])
+        else:
+            self.PulseSequence["CalibSideband"] = ("CalibBlue", self.PulseSequence["CalibSideband"][1])
 
     @kernel
     def set_subsequence_calibsideband(self):
