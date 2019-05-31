@@ -1,6 +1,7 @@
 import numpy as np
 from datetime import datetime
 from pulse_sequence import PulseSequence, FitError
+from scipy.optimize import curve_fit
 from subsequences.repump_D import RepumpD
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
