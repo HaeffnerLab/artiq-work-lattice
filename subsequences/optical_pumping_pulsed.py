@@ -41,6 +41,6 @@ class OpticalPumpingPulsed:
                 self.dds_729_SP.sw.off()
                 self.dds_854.sw.on()
                 self.dds_866.sw.on()
-            delay(OpticalPumpingPulsed.duration_854 + 1*ms)
+            delay(OpticalPumpingPulsed.duration_854)
             self.dds_854.sw.off()
             self.dds_866.sw.off()
