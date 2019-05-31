@@ -70,7 +70,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
             self.opc.run(self)
         self.dds_397.set(self.DopplerCooling_doppler_cooling_frequency_397,
                          amplitude=self.get_variable_parameter("MotionAnalysis_amplitude_397"))
-        self.dds_397.set_att(MotionalAnalysis_att_397)
+        self.dds_397.set_att(self.MotionalAnalysis_att_397)
         self.dds_866.set(self.DopplerCooling_doppler_cooling_frequency_866,
                          amplitude=self.DopplerCooling_doppler_cooling_amplitude_866)
         self.dds_866.set_att(self.DopplerCooling_doppler_cooling_att_866)
