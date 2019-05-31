@@ -41,6 +41,8 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.rabi = self.add_subsequence(RabiExcitation)
         self.set_subsequence["MotionalSpectrum"] = self.set_subsequence_motionalspectrum
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
+        self.duration = 0.
+        self.detuning = 0.
 
     @kernel
     def set_subsequence_motionalspectrum(self):
@@ -53,12 +55,10 @@ class MotionalAnalysisSpectrum(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
-        n = int(detuning * self.MotionAnalysis_pulse_width_397)
-        duration = 1 / detuning
-        print("duration: ", duration)
-        self.record(n, duration)
-        # self.pulses_handle = self.core_dma.get_handle("pulses")
+        self.detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
+        self.n = int(self.detuning * self.MotionAnalysis_pulse_width_397)
+        self.duration = .5 / self.detuning
+        self.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
 
     @kernel
     def MotionalSpectrum(self):
@@ -69,22 +69,18 @@ class MotionalAnalysisSpectrum(PulseSequence):
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
             self.opc.run(self)
+
         self.dds_397.set(self.DopplerCooling_doppler_cooling_frequency_397,
-                         amplitude=self.get_variable_parameter("MotionAnalysis_amplitude_397"))
+                         amplitude=self.amp_397)
         self.dds_397.set_att(self.MotionAnalysis_att_397)
         self.dds_866.set(self.DopplerCooling_doppler_cooling_frequency_866,
                          amplitude=self.DopplerCooling_doppler_cooling_amplitude_866)
         self.dds_866.set_att(self.DopplerCooling_doppler_cooling_att_866)
         self.dds_866.sw.on()
-        self.dds_397.sw.pulse(100*ns)
-        # self.core_dma.playback("pulses")
+        for i in range(self.n):
+            self.dds_397.sw.pulse(self.duration)
+            delay(self.duration)
         self.dds_866.sw.off
         self.opc.run(self)
-        self.rabi.run(self)
 
-    @kernel
-    def record(self, n, duration):
-        with self.core_dma.record("pulses"):
-            for i in range(n):
-                self.dds_397.sw.pulse(duration)
-                delay(duration)
+        self.rabi.run(self)
