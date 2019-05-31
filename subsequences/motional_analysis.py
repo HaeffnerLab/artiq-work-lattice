@@ -10,9 +10,6 @@ class MotionalAnalysis:
     amp_866="DopplerCooling.doppler_cooling_amplitude_866"
     att_866="DopplerCooling.doppler_cooling_att_866"
 
-    pulse_width="MotionAnalysis.pulse_width_397"
-    detuning=1*MHz
-
 
     def subsequence(self):
         self.dds_397.set(MotionalAnalysis.freq_397,
