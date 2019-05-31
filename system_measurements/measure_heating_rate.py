@@ -65,6 +65,6 @@ class HeatingRate1(PulseSequence):
 
     @kernel
     def CalibBlue(self):
-        delay(1*ms)#
+        delay(1*ms)
 
        
