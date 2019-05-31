@@ -43,6 +43,8 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
         self.duration = 0.
         self.detuning = 0.
+        self.amp_397 = 0.
+        self.n = 1
 
     @kernel
     def set_subsequence_motionalspectrum(self):
