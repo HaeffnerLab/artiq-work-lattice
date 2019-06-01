@@ -1,6 +1,7 @@
 import numpy as np
 import labrad
 import artiq.dashboard.drift_tracker.client_config as cl
+import logging
 from labrad.units import WithUnit as U 
 from scipy.optimize import curve_fit
 from pulse_sequence import PulseSequence, FitError
@@ -10,6 +11,9 @@ from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.sideband_cooling import SidebandCooling
 from artiq.experiment import *
+
+
+logger = logging.getLogger(__name__)
 
 
 class CalibAllLines(PulseSequence):
