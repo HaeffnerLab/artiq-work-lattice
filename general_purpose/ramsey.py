@@ -103,9 +103,9 @@ class Ramsey(PulseSequence):
         self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase") * 0.01745329251
         self.rabi.run(self)
         self.schedule()
-        self.scheduler.pause()
         
     # @rpc(flags={"async"})
     def schedule(self):
-        self.scheduler.submit("main", self.expid, priority=100)
         self.scheduler.pause()
+        self.scheduler.submit("main", self.expid, priority=100)
+        
