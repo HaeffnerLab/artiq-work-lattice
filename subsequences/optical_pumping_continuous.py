@@ -1,4 +1,4 @@
-from artiq.experiment *
+from artiq.experiment import *
 
 
 class OpticalPumpingContinuous:
