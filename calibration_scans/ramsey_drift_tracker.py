@@ -28,7 +28,6 @@ class RamseyDriftTracker(PulseSequence):
         "DriftTracker.line_selection_2",
         "DriftTrackerRamsey.gap_time_1",
         "DriftTrackerRamsey.gap_time_2",
-        "DriftTrackerRamsey.submit",
         "DriftTrackerRamsey.ion_number",
         "DriftTrackerRamsey.first_run",
         "DriftTrackerRamsey.channel_729",
@@ -64,6 +63,11 @@ class RamseyDriftTracker(PulseSequence):
             "log_level": 30,
             "repo_rev": None
         }
+        if self.p.DriftTrackerRamsey.first_run:
+            cxn = labrad.connect()
+            cxn.parametervault.set_parameter("DriftTrackerRamsey", "first_run", False)
+            cxn.disconnect()
+            self.scheduler.submit("main", self.expid, priority=100)
 
     @kernel
     def set_subsequence_trackline1(self):
