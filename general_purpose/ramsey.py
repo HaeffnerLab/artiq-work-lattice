@@ -61,6 +61,12 @@ class Ramsey(PulseSequence):
             self.att = self.p.Rotation729G.att
         self.wait_time = 0.
         self.phase = 0.
+        self.expid = {
+                    "class_name": "CalibAllLines",
+                    "file": "calibration_scans/calib_all_lines.py",
+                    "priority": 100
+                }
+
     
     @kernel
     def set_subsequence_ramsey(self):
@@ -90,3 +96,4 @@ class Ramsey(PulseSequence):
         delay(self.wait_time)
         self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase") * 0.01745329251
         self.rabi.run(self)
+        self.scheduler.submit("main", self.expid, priority=100)
