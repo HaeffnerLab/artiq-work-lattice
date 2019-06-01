@@ -201,6 +201,9 @@ class RamseyDriftTracker(PulseSequence):
 
         detuning = np.arcsin(pstar / (2 * np.pi * ramsey_time + 4 * duration)) / 1000
         self.detuning_2_global = detuning
+        cxn.disconnect()
+
+    def run_finally(self):
 
         line1 = self.p.DriftTracker.line_selection_1
         line2 = self.p.DriftTracker.line_selection_2
@@ -221,7 +224,6 @@ class RamseyDriftTracker(PulseSequence):
             logger.error("Failed to connect to global drift tracker.", exc_info=True)
             return
         global_cxn.disconnect()
-        cxn.disconnect()
 
 
 
