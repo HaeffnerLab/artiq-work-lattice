@@ -62,7 +62,7 @@ class Ramsey(PulseSequence):
         self.wait_time = 0.
         self.phase = 0.
         self.expid = {
-                "arguments": {#
+                "arguments": {
                     "CalibLine1-Scan_Selection": "Spectrum.carrier_detuning",
                     "CalibLine2-Scan_Selection": "Spectrum.carrier_detuning"
                 },
