@@ -6,6 +6,7 @@ from scipy.optimize import curve_fit
 from pulse_sequence import PulseSequence, FitError
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
+from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.sideband_cooling import SidebandCooling
 from artiq.experiment import *
@@ -32,7 +33,8 @@ class CalibSideband(PulseSequence):
 
     def run_initially(self):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
-        self.opc = self.add_subsequence(OpticalPumpingPulsed)
+        self.opp = self.add_subsequence(OpticalPumpingPulsed)
+        self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.kernel_invariants.update({"sideband"})
@@ -61,9 +63,13 @@ class CalibSideband(PulseSequence):
     def CalibSideband(self):
         delay(1*ms)
         self.dopplerCooling.run(self)
-        self.opc.run(self)
+        if self.StatePreparation_pulsed_optical_pumping:
+            self.opp.run(self)
+        else:
+            self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
+            self.opc.duration = 100*us
             self.opc.run(self)
         self.rabi.run(self)
 
