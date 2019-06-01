@@ -82,7 +82,7 @@ class RamseyDriftTracker(PulseSequence):
         delay(1*ms)
         self.dopplerCooling.run(self)
         self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:#
+        if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
             self.opc.run(self)
         self.rabi.phase_729 = 0.
