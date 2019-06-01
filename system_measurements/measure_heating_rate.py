@@ -155,15 +155,10 @@ class HeatingRate(PulseSequence):
                 self.rcg.plot(self.wait_times, self.nbars, tab_name="CalibSidebands",
                         plot_name="nbar", append=True,
                         plot_title=self.plotname)
-                self.manual_save(self.wait_times, self.nbars, timestamp=self.timestamp,
+                self.manual_save(self.wait_times, self.nbars, name="HeatingRate-" + self.timestamp,
                         plot_window="nbar", xlabel="heating_time", ylabel="nbar")
             except:
                 pass
-
-    
-    def run_finally(self):       
-        # Let's save the data too
-        self.save_result("He")
 
 
 def gaussian(x, A, x0, sigma):#
