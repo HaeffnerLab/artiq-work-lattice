@@ -136,7 +136,7 @@ class HeatingRate(PulseSequence):
 
     def analyze_calibblue(self):
         y = self.data.CalibBlue.y[-1]
-        x = self.data.CalibBlue.x#[-len(y):]  # need to fix this#
+        x = self.data.CalibBlue.x#[-len(y):]  # need to fix this
         global_max = x[np.argmax(y)]
         if np.max(y) < 0.1:
             raise FitError
