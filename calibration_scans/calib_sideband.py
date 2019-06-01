@@ -72,7 +72,7 @@ class CalibSideband(PulseSequence):
 
     def run_finally(self):
         x = self.data.CalibSideband.x
-        y = self.data.CalibSideband.y
+        y = self.data.CalibSideband.y[-1]
         print("x: ", x)
         global_max = x[np.argmax(y)]
         try:

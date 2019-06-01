@@ -71,7 +71,7 @@ class CalibAllLines(PulseSequence):
     
     def analyze_calibline1(self):
         x = self.data.CalibLine1.x
-        y = self.data.CalibLine1.y
+        y = self.data.CalibLine1.y[-1]
         global_max = x[np.argmax(y)]
         try:
             popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
@@ -103,7 +103,7 @@ class CalibAllLines(PulseSequence):
 
     def analyze_calibline2(self):
         x = self.data.CalibLine2.x
-        y = self.data.CalibLine2.y
+        y = self.data.CalibLine2.y[-1]
         global_max = x[np.argmax(y)]
         if np.max(y) < 0.1:
             raise FitError

@@ -93,7 +93,7 @@ class HeatingRate(PulseSequence):
         self.rabi.run(self)
 
     def analyze_calibred(self):
-        y = self.data.CalibRed.y
+        y = self.data.CalibRed.y[-1]
         x = self.data.CalibRed.x[-len(y):]  # Need to fix this
         global_max = x[np.argmax(y)]
         try:
@@ -129,7 +129,7 @@ class HeatingRate(PulseSequence):
         self.rabi.run(self)
 
     def analyze_calibblue(self):
-        y = self.data.CalibBlue.y
+        y = self.data.CalibBlue.y[-1]
         x = self.data.CalibBlue.x[-len(y):]  # need to fix this
         global_max = x[np.argmax(y)]
         if np.max(y) < 0.1:
