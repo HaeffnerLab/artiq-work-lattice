@@ -49,7 +49,7 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi = self.add_subsequence(RabiExcitation)
         self.set_subsequence["TrackLine1"] = self.set_subsequence_trackline1
         self.set_subsequence["TrackLine2"] = self.set_subsequence_trackline2
-        # self.run_after["TrackLine1"] = self.analyze_trackline1
+        self.run_after["TrackLine1"] = self.analyze_trackline1
         self.run_after["TrackLine2"] = self.analyze_trackline2
         self.max_gap = 500*us
         self.min_gap = 25*us
@@ -74,6 +74,7 @@ class RamseyDriftTracker(PulseSequence):
                     self.DriftTracker_line_selection_1, 
                     dds=self.DriftTrackerRamsey_channel_729
                 )
+        print(self.rabi.freq_729)
 
     @kernel
     def TrackLine1(self):
