@@ -1,6 +1,7 @@
 from pulse_sequence import PulseSequence
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
+from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.sideband_cooling import SidebandCooling
 from artiq.experiment import *
@@ -23,7 +24,8 @@ class OptimizeOpticalPumping(PulseSequence):
         "OpticalPumping.optical_pumping_frequency_854",
         "OpticalPumping.optical_pumping_amplitude_854",
         "OpticalPumping.optical_pumping_att_854",
-        "OpticalPumping.line_selection"
+        "OpticalPumping.line_selection",
+        "OpticalPumping.amplitude_729"
     }
 
     PulseSequence.scan_params["krun"] = ("Current",
@@ -31,13 +33,15 @@ class OptimizeOpticalPumping(PulseSequence):
          ("OpticalPumping.optical_pumping_amplitude_854", 0., 1., 20),
          ("StatePreparation.number_of_cycles", 0, 20, 20),
          ("StatePreparation.pulsed_amplitude", 0., 1., 20),
-         ("StatePreparation.pulsed_854_duration", 1*us, 100*us, 20, "us")        
+         ("StatePreparation.pulsed_854_duration", 1*us, 100*us, 20, "us"),
+         ("OpticalPumping.amplitude_729", 0., 1., 20)        
         ]
     )
 
     def run_initially(self):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
-        self.opc = self.add_subsequence(OpticalPumpingPulsed)
+        self.opp = self.add_subsequence(OpticalPumpingPulsed)
+        self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.set_subsequence["krun"] = self.set_subsequence_krun
@@ -52,19 +56,24 @@ class OptimizeOpticalPumping(PulseSequence):
             detuning=0.,
             dds=self.RabiFlopping_channel_729
         )
-        self.opc.number_of_cycles = self.get_variable_parameter("StatePreparation_number_of_cycles")
-        self.opc.frequency_854 = self.get_variable_parameter("OpticalPumping_optical_pumping_frequency_854")
-        self.opc.amplitude_854 = self.get_variable_parameter("OpticalPumping_optical_pumping_amplitude_854")
-        self.opc.amplitude_729 = self.get_variable_parameter("StatePreparation_pulsed_amplitude")
-        self.opc.duration_854 = self.get_variable_parameter("StatePreparation_pulsed_854_duration")
+        self.opp.number_of_cycles = self.get_variable_parameter("StatePreparation_number_of_cycles")
+        self.opp.frequency_854 = self.get_variable_parameter("OpticalPumping_optical_pumping_frequency_854")
+        self.opp.amplitude_854 = self.get_variable_parameter("OpticalPumping_optical_pumping_amplitude_854")
+        self.opp.amplitude_729 = self.get_variable_parameter("StatePreparation_pulsed_amplitude")
+        self.opp.duration_854 = self.get_variable_parameter("StatePreparation_pulsed_854_duration")
+        self.opc.amplitude_729 = self.get_variable_parameter("OpticalPumping_amplitude_729")
 
     @kernel
     def krun(self):
         delay(1*ms)
         self.dopplerCooling.run(self)
-        self.opc.run(self)
+        if self.StatePreparation_pulsed_optical_pumping:
+            self.opp.run(self)
+        else:
+            self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
+            self.opc.duration = 100*us
             self.opc.run(self)
         self.rabi.run(self)
     
