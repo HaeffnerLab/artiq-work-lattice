@@ -66,7 +66,7 @@ class RamseyDriftTracker(PulseSequence):
         }
 
     @kernel
-    def set_subsequence_trackline1(self):
+    def set_subsequence_trackline2(self):
         self.rabi.duration = self.DriftTrackerRamsey_line_1_pi_time / 2
         self.rabi.amp_729 = self.DriftTrackerRamsey_line_1_amplitude
         self.rabi.att_729 = self.DriftTrackerRamsey_line_1_att
@@ -76,7 +76,7 @@ class RamseyDriftTracker(PulseSequence):
                 )
 
     @kernel
-    def TrackLine1(self):
+    def TrackLine2(self):
         delay(1*ms)
         self.repump854.run(self)
         self.dopplerCooling.run(self)
@@ -87,11 +87,10 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
         delay(self.DriftTrackerRamsey_gap_time_1)
-        print(self.DriftTrackerRamsey_gap_time_1)
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_1") * 0.01745329251
         self.rabi.run(self)
 
-    def analyze_trackline1(self):
+    def analyze_trackline2(self):
         cxn = labrad.connect()
         pv = cxn.parametervault
         ramsey_time = self.p.DriftTrackerRamsey.gap_time_1
@@ -136,7 +135,7 @@ class RamseyDriftTracker(PulseSequence):
         cxn.disconnect()
     
     @kernel
-    def set_subsequence_trackline2(self):
+    def set_subsequence_trackline1(self):
         self.rabi.duration = self.DriftTrackerRamsey_line_2_pi_time / 2
         self.rabi.amp_729 = self.DriftTrackerRamsey_line_2_amplitude
         self.rabi.att_729 = self.DriftTrackerRamsey_line_2_att
@@ -146,7 +145,7 @@ class RamseyDriftTracker(PulseSequence):
                 )
 
     @kernel
-    def TrackLine2(self):
+    def TrackLine1(self):
         delay(1*ms)
         self.repump854.run(self)
         self.dopplerCooling.run(self)
@@ -160,7 +159,7 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_2") * 0.01745329251
         self.rabi.run(self)
 
-    def analyze_trackline2(self):
+    def analyze_trackline1(self):
         cxn = labrad.connect()
         pv = cxn.parametervault
         ramsey_time = self.p.DriftTrackerRamsey.gap_time_2
