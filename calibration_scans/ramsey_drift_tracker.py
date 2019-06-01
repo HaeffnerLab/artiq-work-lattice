@@ -215,16 +215,15 @@ class RamseyDriftTracker(PulseSequence):
         carr2 = self.detuning_2_global * 1e-6 + old_carr2
 
         submission = [(line1, U(carr1, "MHz")), (line2, U(carr2, "MHz"))]
-        print("SUBMISSION: ", submission)
 
-        # try:
-        #     global_cxn = labrad.connect(cl.global_address, password=cl.global_password,
-        #                                 tls_mode="off")
-        #     global_cxn.sd_tracker_global.set_measurements(submission, cl.client_name)
-        # except:
-        #     logger.error("Failed to connect to global drift tracker.", exc_info=True)
-        #     return
-        # global_cxn.disconnect()
+        try:
+            global_cxn = labrad.connect(cl.global_address, password=cl.global_password,
+                                        tls_mode="off")
+            global_cxn.sd_tracker_global.set_measurements(submission, cl.client_name)
+        except:
+            logger.error("Failed to connect to global drift tracker.", exc_info=True)
+            return
+        global_cxn.disconnect()
 
 
 
