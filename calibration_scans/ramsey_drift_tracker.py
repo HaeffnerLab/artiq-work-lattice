@@ -64,6 +64,7 @@ class RamseyDriftTracker(PulseSequence):
             "log_level": 30,
             "repo_rev": None
         }
+        print("SET")
 
     @kernel
     def set_subsequence_trackline1(self):
