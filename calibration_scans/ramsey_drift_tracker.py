@@ -70,7 +70,6 @@ class RamseyDriftTracker(PulseSequence):
                     self.DriftTrackerRamsey_line_selection_1, 
                     dds=self.DriftTrackerRamsey_Ramsey_channel_729
                 )
-        self.wait_time = self.DriftTrackerRamsey_gap_time_1
 
     @kernel
     def TrackLine1(self):
@@ -83,7 +82,7 @@ class RamseyDriftTracker(PulseSequence):
             self.opc.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
-        delay(self.wait_time)
+        delay(self.self.DriftTrackerRamsey_gap_time_1)
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_1") * 0.01745329251
         self.rabi.run(self)
 
@@ -140,7 +139,6 @@ class RamseyDriftTracker(PulseSequence):
                     self.DriftTrackerRamsey_line_selection_2, 
                     dds=self.DriftTrackerRamsey_Ramsey_channel_729
                 )
-        self.wait_time = self.DriftTrackerRamsey_gap_time_2
         self.line_2_phase = self.get_variable_parameter("DriftTrackerRamsey_phase_2")
 
     @kernel
@@ -154,7 +152,7 @@ class RamseyDriftTracker(PulseSequence):
             self.opc.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
-        delay(self.wait_time)
+        delay(self.self.DriftTrackerRamsey_gap_time_2)
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_2") * 0.01745329251
         self.rabi.run(self)
 
