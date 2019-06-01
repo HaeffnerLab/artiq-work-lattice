@@ -102,4 +102,8 @@ class Ramsey(PulseSequence):
         delay(self.wait_time)
         self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase") * 0.01745329251
         self.rabi.run(self)
+        self.schedule()
+        
+    @rpc(flags={"async"})
+    def schedule(self):
         self.scheduler.submit("main", self.expid, priority=100)
