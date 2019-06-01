@@ -88,6 +88,7 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.run(self)
         delay(self.DriftTrackerRamsey_gap_time_1)
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_1") * 0.01745329251
+        print(self.rabi.phase_729)
         self.rabi.run(self)
 
     def analyze_trackline1(self):
