@@ -139,7 +139,6 @@ class RamseyDriftTracker(PulseSequence):
                     self.DriftTracker_line_selection_2, 
                     dds=self.DriftTrackerRamsey_channel_729
                 )
-        self.line_2_phase = self.get_variable_parameter("DriftTrackerRamsey_phase_2")
 
     @kernel
     def TrackLine2(self):
