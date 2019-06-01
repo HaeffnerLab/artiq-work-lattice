@@ -74,24 +74,23 @@ class RamseyDriftTracker(PulseSequence):
                     self.DriftTracker_line_selection_1, 
                     dds=self.DriftTrackerRamsey_channel_729
                 )
-        print(self.rabi.freq_729)
 
     @kernel
     def TrackLine1(self):
         delay(1*ms)
-        self.repump854.run(self)
-        self.dopplerCooling.run(self)
-        self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            self.opc.run(self)
+        # self.repump854.run(self)
+        # self.dopplerCooling.run(self)
+        # self.opc.run(self)
+        # if self.StatePreparation_sideband_cooling_enable:
+        #     self.sbc.run(self)
+        #     self.opc.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
         delay(self.DriftTrackerRamsey_gap_time_1)
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_1") * 0.01745329251
         self.rabi.run(self)
 
-    def analyze_trackline1(self):#
+    def analyze_trackline1(self):
         cxn = labrad.connect()
         pv = cxn.parametervault
         ramsey_time = self.p.DriftTrackerRamsey.gap_time_1
