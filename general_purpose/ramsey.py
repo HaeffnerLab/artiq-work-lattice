@@ -107,5 +107,5 @@ class Ramsey(PulseSequence):
     # @rpc(flags={"async"})
     def test_scheduler(self):
         self.scheduler.submit("main", self.expid, priority=100)
-        raise TerminationRequested
+        raise arbitrary#TerminationRequested
         
