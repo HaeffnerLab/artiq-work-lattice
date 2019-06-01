@@ -85,7 +85,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.dds_866.set_att(self.DopplerCooling_doppler_cooling_att_866)
         self.dds_866.sw.on()
         pulses_handle = self.core_dma.get_handle("pulses") 
-        delay(2*ms)
+        delay(3*ms)
         self.core_dma.playback_handle(pulses_handle)
         self.opp.run(self)
 
