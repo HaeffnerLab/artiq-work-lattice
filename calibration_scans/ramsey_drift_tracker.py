@@ -64,7 +64,6 @@ class RamseyDriftTracker(PulseSequence):
             "log_level": 30,
             "repo_rev": None
         }
-        print("SET")
 
     @kernel
     def set_subsequence_trackline1(self):
@@ -79,12 +78,12 @@ class RamseyDriftTracker(PulseSequence):
     @kernel
     def TrackLine1(self):
         delay(1*ms)
-        # self.repump854.run(self)
-        # self.dopplerCooling.run(self)
-        # self.opc.run(self)
-        # if self.StatePreparation_sideband_cooling_enable:
-        #     self.sbc.run(self)
-        #     self.opc.run(self)
+        self.repump854.run(self)
+        self.dopplerCooling.run(self)
+        self.opc.run(self)
+        if self.StatePreparation_sideband_cooling_enable:
+            self.sbc.run(self)
+            self.opc.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
         delay(self.DriftTrackerRamsey_gap_time_1)
@@ -173,7 +172,7 @@ class RamseyDriftTracker(PulseSequence):
             logger.error("Abnormal populations, something isn't right.")
             raise TerminationRequested
 
-        pstar =  abs((p1 - p2) / (p1 + p2))  
+        pstar =  abs((p1 - p2) / (p1 + p2))  #
         if pstar > .8:
             new_ramsey_time = ramsey_time / 2
             if new_ramsey_time >= self.min_gap:
