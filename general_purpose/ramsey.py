@@ -64,7 +64,7 @@ class Ramsey(PulseSequence):
         self.expid = {
                 "arguments": {
                     "CalibLine1-Scan_Selection": "Spectrum.carrier_detuning",
-                    "CalibLine2-Scan_Selection": "Spectrum.carrier_detuning"
+                    # "CalibLine2-Scan_Selection": "Spectrum.carrier_detuning"
                 },
                 "class_name": "CalibAllLines",
                 "file": "calibration_scans/calib_all_lines.py",
