@@ -28,7 +28,7 @@ class RamseyDriftTracker(PulseSequence):
         "DriftTrackerRamsey.ion_number",
         "DriftTrackerRamsey.first_run",
         "DriftTrackerRamsey.channel_729",
-        "DriftTrackerRamsey.auto_schedule"
+        "DriftTrackerRamsey.auto_schedule"#
 
     }
 
