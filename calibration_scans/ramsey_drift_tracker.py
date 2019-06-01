@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 class RamseyDriftTracker(PulseSequence):
     PulseSequence.accessed_params = {
-        "DriftTrackerRamsey.line_1_amplitude",
+        "DriftTrackerRamsey.line1_amplitude",
         "DriftTrackerRamsey.line_1_pi_time",
         "DriftTrackerRamsey.line_1_att",
         "DriftTrackerRamsey.line_2_amplitude",
@@ -68,7 +68,7 @@ class RamseyDriftTracker(PulseSequence):
     @kernel
     def set_subsequence_trackline1(self):
         self.rabi.duration = self.DriftTrackerRamsey_line_1_pi_time / 2
-        self.rabi.amp_729 = self.DriftTrackerRamsey_line_1_amplitude
+        self.rabi.amp_729 = self.DriftTrackerRamsey_line1_amplitude
         self.rabi.att_729 = self.DriftTrackerRamsey_line_1_att
         self.rabi.freq_729 = self.calc_frequency(
                     self.DriftTracker_line_selection_1, 
