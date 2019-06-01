@@ -1,9 +1,11 @@
+import labrad
 from pulse_sequence import PulseSequence
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
 from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.sideband_cooling import SidebandCooling
+from subsequences.motional_analysis import MotionalAnalysis
 from artiq.experiment import *
 
 
@@ -39,12 +41,11 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.ma = self.add_subsequence(MotionalAnalysis)
         self.set_subsequence["MotionalSpectrum"] = self.set_subsequence_motionalspectrum
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
-        self.duration = 0.
-        self.detuning = 0.
-        self.amp_397 = 0.
-        self.n = 1
+        self.cxn = labrad.connect()
+        self.agi = self.cxn.agilent
 
     @kernel
     def set_subsequence_motionalspectrum(self):
@@ -57,12 +58,10 @@ class MotionalAnalysisSpectrum(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        self.detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
-        self.n = int(self.detuning * self.MotionAnalysis_pulse_width_397)
-        self.n = 20
-        self.duration = .5 / self.detuning
-        self.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
-        self.record(self.n, self.duration)
+        self.ma.pulse_width = self.MotionAnalysis_pulse_width_397
+        detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
+        self.set_frequency(detuning)
+        delay(10*ms)
 
     @kernel
     def MotionalSpectrum(self):
@@ -76,24 +75,12 @@ class MotionalAnalysisSpectrum(PulseSequence):
             self.sbc.run(self)
             self.opc.duration = 100*us
             self.opc.run(self)
-
-        self.dds_397.set(self.DopplerCooling_doppler_cooling_frequency_397,
-                         amplitude=self.amp_397)
-        self.dds_397.set_att(self.MotionAnalysis_att_397)
-        self.dds_866.set(self.DopplerCooling_doppler_cooling_frequency_866,
-                         amplitude=self.DopplerCooling_doppler_cooling_amplitude_866)
-        self.dds_866.set_att(self.DopplerCooling_doppler_cooling_att_866)
-        self.dds_866.sw.on()
-        pulses_handle = self.core_dma.get_handle("pulses") 
-        delay(3*ms)
-        self.core_dma.playback_handle(pulses_handle)
-        self.opp.run(self)
-
+        self.ma.run(self)
+        self.opc.run(self)
         self.rabi.run(self)
 
-    @kernel
-    def record(self, n, duration):
-        for i in range(n):
-            with self.core_dma.record("pulses"):
-                self.dds_397.sw.pulse(self.duration)
-                delay(self.duration)
+    def run_finally(self):
+        self.cxn.disconnect()
+    
+    def set_frequency(self, detuning):
+        self.agi.set_frequency(detuning)
