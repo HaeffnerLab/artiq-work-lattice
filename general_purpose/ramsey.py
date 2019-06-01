@@ -85,6 +85,6 @@ class Ramsey(PulseSequence):
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
         delay(self.wait_time)
-        self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase")# * 0.01745329251
+        self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase") * (1/360)# * 0.01745329251
         self.rabi.run(self)
         
