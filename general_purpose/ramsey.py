@@ -62,13 +62,16 @@ class Ramsey(PulseSequence):
         self.wait_time = 0.
         self.phase = 0.
         self.expid = {
-                    "arguments": {},
-                    "class_name": "CalibAllLines",
-                    "file": "calibration_scans/calib_all_lines.py",
-                    "priority": 100,
-                    "log_level": 30,
-                    "repo_rev": None
-                }
+                "arguments": {
+                    "CalibLine1-Scan_Selection": "Spectrum.carrier_detuning",
+                    "CalibLine2-Scan_Selection": "Spectrum.carrier_detuning"
+                },
+                "class_name": "CalibAllLines",
+                "file": "calibration_scans/calib_all_lines.py",
+                "priority": 100,
+                "log_level": 30,
+                "repo_rev": None
+            }
 
     
     @kernel
