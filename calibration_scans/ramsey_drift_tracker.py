@@ -36,10 +36,10 @@ class RamseyDriftTracker(PulseSequence):
 
     }
 
-    PulseSequence.scan_params["TrackLine2"] = ("DriftTrackerRamsey2",
-            [("DriftTrackerRamsey.phase_2", 90., 270., 2, "deg")])
     PulseSequence.scan_params["TrackLine1"] = ("DriftTrackerRamsey1",
             [("DriftTrackerRamsey.phase_1", 90., 270., 2, "deg")])
+    PulseSequence.scan_params["TrackLine2"] = ("DriftTrackerRamsey2",
+            [("DriftTrackerRamsey.phase_2", 90., 270., 2, "deg")])
 
     def run_initially(self):
         self.repump854 = self.add_subsequence(RepumpD)
@@ -47,10 +47,10 @@ class RamseyDriftTracker(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
-        self.set_subsequence["TrackLine2"] = self.set_subsequence_trackline1
-        self.set_subsequence["TrackLine1"] = self.set_subsequence_trackline2
-        self.run_after["TrackLine2"] = self.analyze_trackline1
-        self.run_after["TrackLine1"] = self.analyze_trackline2
+        self.set_subsequence["TrackLine1"] = self.set_subsequence_trackline1
+        self.set_subsequence["TrackLine2"] = self.set_subsequence_trackline2
+        self.run_after["TrackLine1"] = self.analyze_trackline1
+        self.run_after["TrackLine2"] = self.analyze_trackline2
         self.max_gap = 500*us
         self.min_gap = 25*us
         self.expid = {
@@ -66,7 +66,7 @@ class RamseyDriftTracker(PulseSequence):
         }
 
     @kernel
-    def set_subsequence_trackline2(self):
+    def set_subsequence_trackline1(self):
         self.rabi.duration = self.DriftTrackerRamsey_line_1_pi_time / 2
         self.rabi.amp_729 = self.DriftTrackerRamsey_line_1_amplitude
         self.rabi.att_729 = self.DriftTrackerRamsey_line_1_att
@@ -76,7 +76,7 @@ class RamseyDriftTracker(PulseSequence):
                 )
 
     @kernel
-    def TrackLine2(self):
+    def TrackLine1(self):
         delay(1*ms)
         self.repump854.run(self)
         self.dopplerCooling.run(self)
@@ -90,7 +90,7 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_1") * 0.01745329251
         self.rabi.run(self)
 
-    def analyze_trackline2(self):
+    def analyze_trackline1(self):
         cxn = labrad.connect()
         pv = cxn.parametervault
         ramsey_time = self.p.DriftTrackerRamsey.gap_time_1
@@ -135,7 +135,7 @@ class RamseyDriftTracker(PulseSequence):
         cxn.disconnect()
     
     @kernel
-    def set_subsequence_trackline1(self):
+    def set_subsequence_trackline2(self):
         self.rabi.duration = self.DriftTrackerRamsey_line_2_pi_time / 2
         self.rabi.amp_729 = self.DriftTrackerRamsey_line_2_amplitude
         self.rabi.att_729 = self.DriftTrackerRamsey_line_2_att
@@ -145,7 +145,7 @@ class RamseyDriftTracker(PulseSequence):
                 )
 
     @kernel
-    def TrackLine1(self):
+    def TrackLine2(self):
         delay(1*ms)
         self.repump854.run(self)
         self.dopplerCooling.run(self)
@@ -159,7 +159,7 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_2") * 0.01745329251
         self.rabi.run(self)
 
-    def analyze_trackline1(self):
+    def analyze_trackline2(self):
         cxn = labrad.connect()
         pv = cxn.parametervault
         ramsey_time = self.p.DriftTrackerRamsey.gap_time_2
