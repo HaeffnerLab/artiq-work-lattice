@@ -87,6 +87,7 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
         delay(self.DriftTrackerRamsey_gap_time_1)
+        print(self.DriftTrackerRamsey_gap_time_1)
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_1") * 0.01745329251
         self.rabi.run(self)
 
@@ -172,7 +173,7 @@ class RamseyDriftTracker(PulseSequence):
             logger.error("Abnormal populations, something isn't right.")
             raise TerminationRequested
 
-        pstar =  abs((p1 - p2) / (p1 + p2))  #
+        pstar = abs((p1 - p2) / (p1 + p2))  #
         if pstar > .8:
             new_ramsey_time = ramsey_time / 2
             if new_ramsey_time >= self.min_gap:
