@@ -8,6 +8,7 @@ from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.sideband_cooling import SidebandCooling
 from artiq.experiment import *
+import traceback
 
 
 class HeatingRate(PulseSequence):
@@ -117,8 +118,8 @@ class HeatingRate(PulseSequence):
                 self.manual_save(self.wait_times, self.nbars, name="HeatingRate-" + self.timestamp,
                         plot_window="nbar", xlabel="heating_time", ylabel="nbar")
             except Exception as e:
-                print("\n"*10, e, "\n"*10)
-                pass
+                print("\n"*10)
+                traceback.print_exc()
 
     @kernel
     def CalibBlue(self):
@@ -159,7 +160,8 @@ class HeatingRate(PulseSequence):
                 self.manual_save(self.wait_times, self.nbars, name="HeatingRate-" + self.timestamp,
                         plot_window="nbar", xlabel="heating_time", ylabel="nbar")
             except Exception as e:
-                print("\n"*10, e, "\n"*10)
+                print("\n"*10)
+                traceback.print_exc()
 
 
 def gaussian(x, A, x0, sigma):
