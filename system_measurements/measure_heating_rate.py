@@ -157,7 +157,7 @@ class HeatingRate(PulseSequence):
                 self.rcg.plot(self.wait_times, self.nbars, tab_name="CalibSidebands",
                         plot_name="nbar", append=True,
                         plot_title=self.plotname)
-                self.manual_save(self.wait_times, self.nbars, name="HeatingRate-" + self.plotname,
+                self.manual_save(self.wait_times, self.nbars, name=self.plotname,
                         plot_window="nbar", xlabel="heating_time", ylabel="nbar")
             except Exception as e:
                 print("\n"*10)
