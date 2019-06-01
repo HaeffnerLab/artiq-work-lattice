@@ -107,3 +107,4 @@ class Ramsey(PulseSequence):
     @rpc(flags={"async"})
     def schedule(self):
         self.scheduler.submit("main", self.expid, priority=100)
+        self.scheduler.pause()
