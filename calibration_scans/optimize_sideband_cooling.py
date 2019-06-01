@@ -1,5 +1,4 @@
 from pulse_sequence import PulseSequence
-from subsequences.repump_D import RepumpD
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
 from subsequences.rabi_excitation import RabiExcitation
@@ -37,7 +36,6 @@ class OptimizeSidebandCooling(PulseSequence):
     )
 
     def run_initially(self):
-        self.repump854 = self.add_subsequence(RepumpD)
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opc = self.add_subsequence(OpticalPumpingPulsed)
         self.sbc = self.add_subsequence(SidebandCooling)
@@ -62,8 +60,7 @@ class OptimizeSidebandCooling(PulseSequence):
     
     @kernel
     def krun(self):
-        delay(1*ms)#
-        self.repump854.run(self)
+        delay(1*ms)
         self.dopplerCooling.run(self)
         self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
