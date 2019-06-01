@@ -86,7 +86,6 @@ class RamseyDriftTracker(PulseSequence):
             self.opc.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
-        print(self.DriftTrackerRamsey_gap_time_1)
         delay(self.DriftTrackerRamsey_gap_time_1)
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_1") * 0.01745329251
         self.rabi.run(self)
@@ -99,7 +98,7 @@ class RamseyDriftTracker(PulseSequence):
         if self.StateReadout_readout_mode == "pmt":
             p1, p2 = self.data.TrackLine1.y[-1]
         else:
-            p1, p2 = self.data.TrackLine.y[self.p.DriftTrackerRamsey.ion_number]
+            p1, p2 = self.data.TrackLine1.y[self.p.DriftTrackerRamsey.ion_number]
         if p1 == p2 == 0 or p1 == p2 == 1:
             logger.error("Abnormal populations, something isn't right.")
             raise TerminationRequested
