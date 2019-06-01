@@ -130,6 +130,7 @@ class RamseyDriftTracker(PulseSequence):
                 pv.set_parameter("DriftTrackerRamsey", "gap_time_1", U(self.max_gap, "s"))
                 logger.info("Increasing gap_time_1 to maximum, as specified.")
 
+        print("hereyougo: ", pstar / (2 * np.pi * ramsey_time + 4 * duration))
         detuning = np.arcsin(pstar / (2 * np.pi * ramsey_time + 4 * duration)) / 1000
         self.detuning_1_global = detuning
         cxn.disconnect()
