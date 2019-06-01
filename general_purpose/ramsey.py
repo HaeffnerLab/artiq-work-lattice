@@ -61,20 +61,7 @@ class Ramsey(PulseSequence):
             self.att = self.p.Rotation729G.att
         self.wait_time = 0.
         self.phase = 0.
-        self.expid = {
-                "arguments": {
-                    "CalibLine1-Scan_Selection": "Spectrum.carrier_detuning",
-                    "CalibLine2-Scan_Selection": "Spectrum.carrier_detuning"
-                },
-                "class_name": "CalibAllLines",
-                "file": "calibration_scans/calib_all_lines.py",
-                "priority": 100,
-                "log_level": 30,
-                "repo_rev": None
-            }
-        self.run_after["Ramsey"] = self.test_scheduler
-
-    
+        
     @kernel
     def set_subsequence_ramsey(self):
         self.rabi.duration = self.pi_time / 2
@@ -103,9 +90,4 @@ class Ramsey(PulseSequence):
         delay(self.wait_time)
         self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase") * 0.01745329251
         self.rabi.run(self)
-        
-    # @rpc(flags={"async"})
-    def test_scheduler(self):
-        self.scheduler.submit("main", self.expid, priority=100)
-        raise TerminationRequested
         

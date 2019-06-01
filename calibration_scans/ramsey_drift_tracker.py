@@ -20,14 +20,15 @@ class RamseyDriftTracker(PulseSequence):
         "DriftTrackerRamsey.line_2_amplitude",
         "DriftTrackerRamsey.line_2_pi_time",
         "DriftTrackerRamsey.line_2_att",
-        "DriftTrackerRamsey.line_selection_1",
-        "DriftTrackerRamsey.line_selection_2",
+        "DriftTracker.line_selection_1",
+        "DriftTracker.line_selection_2",
         "DriftTrackerRamsey.gap_time_1",
         "DriftTrackerRamsey.gap_time_2",
         "DriftTrackerRamsey.submit",
         "DriftTrackerRamsey.ion_number",
         "DriftTrackerRamsey.first_run",
         "DriftTrackerRamsey.channel_729",
+        "DriftTrackerRamsey.auto_schedule"
 
     }
 
@@ -46,6 +47,19 @@ class RamseyDriftTracker(PulseSequence):
         self.set_subsequence["TrackLine2"] = self.set_subsequence_trackline2
         self.run_after["TrackLine1"] = self.analyze_trackline1
         self.run_after["TrackLine2"] = self.analyze_trackline2
+        self.max_gap = 500*us
+        self.min_gap = 25*us
+        self.expid = {
+            "arguments": {
+                    "CalibLine1-Scan_Selection": "Spectrum.carrier_detuning",
+                    "CalibLine2-Scan_Selection": "Spectrum.carrier_detuning"
+                },
+            "class_name": "CalibAllLines",
+            "file": "calibration_scans/calib_all_lines.py",
+            "priority": 100,
+            "log_level": 30,
+            "repo_rev": None
+        }
 
     @kernel
     def set_subsequence_trackline1(self):
@@ -72,6 +86,50 @@ class RamseyDriftTracker(PulseSequence):
         delay(self.wait_time)
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_1") * 0.01745329251
         self.rabi.run(self)
+
+    def analyze_trackline1(self):
+        cxn = labrad.connect()
+        pv = cxn.parametervault
+        ramsey_time = self.p.DriftTrackerRamsey.gap_time_1
+        duration = self.p.DriftTrackerRamsey.line_1_pi_time
+        if self.StateReadout_readout_mode == "pmt":
+            p1, p2 = self.data.TrackLine1.y[-1]
+        else:
+            p1, p2 = self.data.TrackLine.y[self.p.DriftTrackerRamsey.ion_number]
+        if p1 == p2 == 0 or p1 == p2 == 1:
+            logger.error("Abnormal populations, something isn't right.")
+            raise TerminationRequested
+
+        pstar =  abs((p1 - p2) / (p1 + p2))  
+        if pstar > .8:
+            new_ramsey_time = ramsey_time / 2
+            if new_ramsey_time >= self.min_gap:
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", new_ramsey_time)
+                logger.info("Halving gap_time_1.")
+            if self.p.DriftTrackerRamsey.auto_schedule:
+                pv.set_parameter("DriftTrackerRamsey", "auto_schedule", False)
+                self.scheduler.submit("main", self.expid, priority=100)
+                raise TerminationRequested
+        elif pstar > .55:
+            new_ramsey_time = ramsey_time * 2/3
+            if new_ramsey_time >= self.min_gap:
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", new_ramsey_time)
+                logger.info("Reducing gap_time_1 by 1/3.")
+            else:
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", self.min_gap)
+                logger.info("Reducing gap_time_1 to minimum, as specified.")
+        elif pstar < .15:
+            new_ramsey_time = ramsey_time * 3/2
+            if new_ramsey_time < self.max_gap:
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", new_ramsey_time)
+                logger.info("Increasing gap_time_1 by 3/2.")
+            else:
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", self.max_gap)
+                logger.info("Increasing gap_time_1 to maximum, as specified.")
+
+        detuning = np.arcsin(pstar / (2 * np.pi * ramsey_time + 4 * duration)) / 1000
+        self.detuning_1_global = detuning
+        cxn.disconnect()
     
     @kernel
     def set_subsequence_trackline2(self):
@@ -86,7 +144,7 @@ class RamseyDriftTracker(PulseSequence):
         self.line_2_phase = self.get_variable_parameter("DriftTrackerRamsey_phase_2")
 
     @kernel
-    def TrackLine1(self):
+    def TrackLine2(self):
         delay(1*ms)
         self.repump854.run(self)
         self.dopplerCooling.run(self)
@@ -99,6 +157,70 @@ class RamseyDriftTracker(PulseSequence):
         delay(self.wait_time)
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_2") * 0.01745329251
         self.rabi.run(self)
+
+    def analyze_trackline1(self):
+        cxn = labrad.connect()
+        pv = cxn.parametervault
+        ramsey_time = self.p.DriftTrackerRamsey.gap_time_2
+        duration = self.p.DriftTrackerRamsey.line_2_pi_time
+        if self.StateReadout_readout_mode == "pmt":
+            p1, p2 = self.data.TrackLine2.y[-1]
+        else:
+            p1, p2 = self.data.TrackLine2.y[self.p.DriftTrackerRamsey.ion_number]
+        if p1 == p2 == 0 or p1 == p2 == 1:
+            logger.error("Abnormal populations, something isn't right.")
+            raise TerminationRequested
+
+        pstar =  abs((p1 - p2) / (p1 + p2))  
+        if pstar > .8:
+            new_ramsey_time = ramsey_time / 2
+            if new_ramsey_time >= self.min_gap:
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", new_ramsey_time)
+                logger.info("Halving gap_time_2.")
+            if self.p.DriftTrackerRamsey.auto_schedule:
+                pv.set_parameter("DriftTrackerRamsey", "auto_schedule", False)
+                self.scheduler.submit("main", self.expid, priority=100)
+                raise TerminationRequested
+        elif pstar > .55:
+            new_ramsey_time = ramsey_time * 2/3
+            if new_ramsey_time >= self.min_gap:
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", new_ramsey_time)
+                logger.info("Reducing gap_time_2 by 1/3.")
+            else:
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", self.min_gap)
+                logger.info("Reducing gap_time_2 to minimum, as specified.")
+        elif pstar < .15:
+            new_ramsey_time = ramsey_time * 3/2
+            if new_ramsey_time < self.max_gap:
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", new_ramsey_time)
+                logger.info("Increasing gap_time_2 by 3/2.")
+            else:
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", self.max_gap)
+                logger.info("Increasing gap_time_2 to maximum, as specified.")
+
+        detuning = np.arcsin(pstar / (2 * np.pi * ramsey_time + 4 * duration)) / 1000
+        self.detuning_2_global = detuning
+
+        line1 = self.p.DriftTracker.line_selection_1
+        line2 = self.p.DriftTracker.line_selection_2
+
+        old_carr1 = self.carrier_values[self.carrier_dict[line1]] * 1e-6
+        old_carr2 = self.carrier_values[self.carrier_dict[line2]] * 1e-6
+
+        carr1 = self.detuning_1_global * 1e-6 + old_carr1
+        carr2 = self.detuning_2_global * 1e-6 + old_carr2
+
+        submission = [(line1, U(carr1, "MHz")), (line2, U(carr2, "MHz"))]
+
+        try:
+            global_cxn = labrad.connect(cl.global_address, password=cl.global_password,
+                                        tls_mode="off")
+            global_cxn.sd_tracker_global.set_measurements(submission, cl.client_name)
+        except:
+            logger.error("Failed to connect to global drift tracker.", exc_info=True)
+            return
+        global_cxn.disconnect()
+        cxn.disconnect()
 
 
 
