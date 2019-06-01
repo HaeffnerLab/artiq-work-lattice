@@ -116,7 +116,8 @@ class HeatingRate(PulseSequence):
                         plot_title=self.plotname)
                 self.manual_save(self.wait_times, self.nbars, name="HeatingRate-" + self.timestamp,
                         plot_window="nbar", xlabel="heating_time", ylabel="nbar")
-            except:
+            except Exception as e:
+                print(e)
                 pass
 
     @kernel
@@ -157,7 +158,8 @@ class HeatingRate(PulseSequence):
                         plot_title=self.plotname)
                 self.manual_save(self.wait_times, self.nbars, name="HeatingRate-" + self.timestamp,
                         plot_window="nbar", xlabel="heating_time", ylabel="nbar")
-            except:
+            except Exception as e:
+                print(e)
                 pass
 
 
