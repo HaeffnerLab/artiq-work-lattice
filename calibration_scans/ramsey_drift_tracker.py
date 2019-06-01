@@ -91,7 +91,7 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.phase_729 = self.get_variable_parameter("DriftTrackerRamsey_phase_1") * 0.01745329251
         self.rabi.run(self)
 
-    def analyze_trackline1(self):
+    def analyze_trackline1(self):#
         cxn = labrad.connect()
         pv = cxn.parametervault
         ramsey_time = self.p.DriftTrackerRamsey.gap_time_1
