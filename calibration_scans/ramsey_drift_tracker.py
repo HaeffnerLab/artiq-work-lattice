@@ -68,7 +68,7 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.att_729 = self.DriftTrackerRamsey_line_1_att
         self.rabi.freq_729 = self.calc_frequency(
                     self.DriftTracker_line_selection_1, 
-                    dds=self.DriftTrackerRamsey_Ramsey_channel_729
+                    dds=self.DriftTrackerRamsey_channel_729
                 )
 
     @kernel
@@ -137,7 +137,7 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.att_729 = self.DriftTrackerRamsey_line_2_att
         self.rabi.freq_729 = self.calc_frequency(
                     self.DriftTracker_line_selection_2, 
-                    dds=self.DriftTrackerRamsey_Ramsey_channel_729
+                    dds=self.DriftTrackerRamsey_channel_729
                 )
         self.line_2_phase = self.get_variable_parameter("DriftTrackerRamsey_phase_2")
 
