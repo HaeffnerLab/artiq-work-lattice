@@ -104,7 +104,7 @@ class Ramsey(PulseSequence):
         self.rabi.run(self)
         self.schedule()
         
-    @rpc(flags={"async"})
+    # @rpc(flags={"async"})
     def schedule(self):
         self.scheduler.submit("main", self.expid, priority=100)
         self.scheduler.pause()
