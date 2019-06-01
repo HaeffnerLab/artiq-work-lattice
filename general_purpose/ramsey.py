@@ -14,6 +14,7 @@ class Ramsey(PulseSequence):
         "Ramsey.order",
         "Ramsey.channel_729",
         "Ramsey.detuning",
+        "Ramsey.echo",
         "Rotation729L1.pi_time",
         "Rotation729L1.line_selection",
         "Rotation729L1.amplitude",
@@ -83,8 +84,16 @@ class Ramsey(PulseSequence):
             self.sbc.run(self)
             self.opc.run(self)
         self.rabi.phase_729 = 0.
-        self.rabi.run(self)
-        delay(self.wait_time)
-        self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase")
-        self.rabi.run(self)
-        
+        if not self.Ramsey_echo:
+            self.rabi.run(self)
+            delay(self.wait_time)
+            self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase")
+            self.rabi.run(self)
+        else:
+            self.rabi.run(self)
+            self.rabi.duration = self.pi_time
+            delay(self.wait_time / 2)
+            self.rabi.duration = self.pi_time / 2
+            delay(self.wait_time / 2)
+            self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase")
+            self.rabi.run(self)
