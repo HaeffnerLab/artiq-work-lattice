@@ -62,9 +62,12 @@ class Ramsey(PulseSequence):
         self.wait_time = 0.
         self.phase = 0.
         self.expid = {
+                    "arguments": {},
                     "class_name": "CalibAllLines",
                     "file": "calibration_scans/calib_all_lines.py",
-                    "priority": 100
+                    "priority": 100,
+                    "log_level": 30,
+                    "repo_rev": None
                 }
 
     
