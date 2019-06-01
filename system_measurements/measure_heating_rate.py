@@ -50,7 +50,7 @@ class HeatingRate(PulseSequence):
         self.nbars = list()
         self.run_after["CalibRed"] = self.analyze_calibred
         self.run_after["CalibBlue"] = self.analyze_calibblue
-        self.plotname = str(datetime.now().strftime("%Y-%m-%d")) + " - HeatingRates"
+        self.plotname = str(datetime.now().strftime("%H%M_%S")) + " - HeatingRates"
 
     @kernel
     def set_subsequence_calibred(self):
@@ -111,7 +111,7 @@ class HeatingRate(PulseSequence):
                 self.rcg.plot(self.wait_times, self.nbars, tab_name="CalibSidebands",
                         plot_name="nbar", append=True,
                         plot_title=self.plotname)
-                self.manual_save(self.wait_times, self.nbars, timestamp=9999,
+                self.manual_save(self.wait_times, self.nbars, timestamp=self.plot_name,
                         plot_window="nbar", xlabel="heating_time", ylabel="nbar")
             except:
                 pass
