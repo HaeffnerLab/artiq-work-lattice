@@ -107,7 +107,7 @@ class RamseyDriftTracker(PulseSequence):
         if pstar > .8:
             new_ramsey_time = ramsey_time / 2
             if new_ramsey_time >= self.min_gap:
-                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", new_ramsey_time)
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", U(new_ramsey_time, "s"))
                 logger.info("Halving gap_time_1.")
             if self.p.DriftTrackerRamsey.auto_schedule:
                 pv.set_parameter("DriftTrackerRamsey", "auto_schedule", False)
@@ -116,18 +116,18 @@ class RamseyDriftTracker(PulseSequence):
         elif pstar > .55:
             new_ramsey_time = ramsey_time * 2/3
             if new_ramsey_time >= self.min_gap:
-                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", new_ramsey_time)
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", U(new_ramsey_time, "s"))
                 logger.info("Reducing gap_time_1 by 1/3.")
             else:
-                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", self.min_gap)
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", U(self.min_gap, "s"))
                 logger.info("Reducing gap_time_1 to minimum, as specified.")
         elif pstar < .15:
             new_ramsey_time = ramsey_time * 3/2
             if new_ramsey_time < self.max_gap:
-                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", new_ramsey_time)
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", U(new_ramsey_time, "s"))
                 logger.info("Increasing gap_time_1 by 3/2.")
             else:
-                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", self.max_gap)
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_1", U(self.max_gap, "s"))
                 logger.info("Increasing gap_time_1 to maximum, as specified.")
 
         detuning = np.arcsin(pstar / (2 * np.pi * ramsey_time + 4 * duration)) / 1000
@@ -176,7 +176,7 @@ class RamseyDriftTracker(PulseSequence):
         if pstar > .8:
             new_ramsey_time = ramsey_time / 2
             if new_ramsey_time >= self.min_gap:
-                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", new_ramsey_time)
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", U(new_ramsey_time, "s"))
                 logger.info("Halving gap_time_2.")
             if self.p.DriftTrackerRamsey.auto_schedule:
                 pv.set_parameter("DriftTrackerRamsey", "auto_schedule", False)
@@ -185,18 +185,18 @@ class RamseyDriftTracker(PulseSequence):
         elif pstar > .55:
             new_ramsey_time = ramsey_time * 2/3
             if new_ramsey_time >= self.min_gap:
-                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", new_ramsey_time)
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", U(new_ramsey_time, "s"))
                 logger.info("Reducing gap_time_2 by 1/3.")
             else:
-                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", self.min_gap)
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", U(self.min_gap, "s"))
                 logger.info("Reducing gap_time_2 to minimum, as specified.")
         elif pstar < .15:
             new_ramsey_time = ramsey_time * 3/2
             if new_ramsey_time < self.max_gap:
-                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", new_ramsey_time)
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", U(new_ramsey_time, "us"))
                 logger.info("Increasing gap_time_2 by 3/2.")
             else:
-                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", self.max_gap)
+                pv.set_parameter("DriftTrackerRamsey", "gap_time_2", U(self.max_gap, "us"))
                 logger.info("Increasing gap_time_2 to maximum, as specified.")
 
         detuning = np.arcsin(pstar / (2 * np.pi * ramsey_time + 4 * duration)) / 1000
