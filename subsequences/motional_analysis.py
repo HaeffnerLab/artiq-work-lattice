@@ -27,6 +27,6 @@ class MotionalAnalysis:
         delay(MotionalAnalysis.pulse_width)
         with parallel:
             self.dds_397.sw.off()
-            self.mod397.of()
+            self.mod397.off()
         delay(50*us)
         self.dds_866.sw.off()
