@@ -45,7 +45,6 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.set_subsequence["MotionalSpectrum"] = self.set_subsequence_motionalspectrum
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
         self.cxn = labrad.connect()
-        print("HERE: ", self.variable_parameter_names)
         # self.agi = self.cxn.agilent
 
     @kernel
@@ -54,6 +53,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
         self.set_frequency(detuning)
         self.ma.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
+        print("HERE: ", self.variable_parameter_names)
         self.rabi.duration = self.RabiFlopping_duration
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
         self.rabi.att_729 = self.RabiFlopping_att_729
