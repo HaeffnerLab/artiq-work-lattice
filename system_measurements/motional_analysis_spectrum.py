@@ -58,7 +58,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.rabi.att_729 = self.RabiFlopping_att_729
         self.rabi.freq_729 = self.calc_frequency(
             self.RabiFlopping_line_selection, 
-            sideband=0.,#self.RabiFlopping_selection_sideband,
+            # sideband=self.RabiFlopping_selection_sideband,
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
