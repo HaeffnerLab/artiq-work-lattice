@@ -52,7 +52,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.ma.pulse_width = self.MotionAnalysis_pulse_width_397
         detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
         if not self.Display_relative_frequencies:
-            self.bind_param(detuning)
+            self.bind_param("MotionAnalysis_detuning", detuning)
         self.set_frequency(detuning)
         self.ma.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
         self.rabi.duration = self.RabiFlopping_duration
