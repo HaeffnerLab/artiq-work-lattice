@@ -42,9 +42,9 @@ class CalibSideband(PulseSequence):
         self.set_subsequence["CalibSideband"] = self.set_subsequence_calibsideband
         rt = self.rcg_tabs
         if self.p.CalibrationScans.order < 0:
-            rt["CalibSideband"] = "CalibRed"
+            rt["CalibSideband"]["Spectrum.sideband_detuning"] = "CalibRed"
         else:
-            rt["CalibSideband"] = "CalibBlue"
+            rt["CalibSideband"]["Spectrum.sideband_detuning"] = "CalibBlue"
 
     @kernel
     def set_subsequence_calibsideband(self):
