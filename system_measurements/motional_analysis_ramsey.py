@@ -76,7 +76,7 @@ class MotionalAnalysisRamsey(PulseSequence):
             self.opc.duration = 100*us
             self.opc.run(self)
         self.ma.run(self)
-        delay(self.get_variable_parameter(self.MotionAnalysis_ramsey_detuning))
+        delay(self.get_variable_parameter("MotionAnalysis_ramsey_detuning"))
         self.ma.run(self)
         self.opc.run(self)
         self.rabi.run(self)
