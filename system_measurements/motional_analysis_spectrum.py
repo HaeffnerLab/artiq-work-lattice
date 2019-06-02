@@ -43,22 +43,24 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.rabi = self.add_subsequence(RabiExcitation)
         self.ma = self.add_subsequence(MotionalAnalysis)
         self.set_subsequence["MotionalSpectrum"] = self.set_subsequence_motionalspectrum
-        # self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
-        # self.cxn = labrad.connect()
+        self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
+        self.cxn = labrad.connect()
         # self.agi = self.cxn.agilent
 
     @kernel
     def set_subsequence_motionalspectrum(self):
         self.ma.pulse_width = self.MotionAnalysis_pulse_width_397
-        detuning = self.get_variable_parameter("MotionAnalysis_detuning")
+        detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
         self.set_frequency(detuning)
         self.ma.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
+        print("amp: ", self.ma.amp_397)
+        print("detuning: ", detuning)
         self.rabi.duration = self.RabiFlopping_duration
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
         self.rabi.att_729 = self.RabiFlopping_att_729
         self.rabi.freq_729 = self.calc_frequency(
             self.RabiFlopping_line_selection, 
-            # sideband=self.RabiFlopping_selection_sideband,
+            sideband=self.RabiFlopping_selection_sideband,
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
@@ -80,8 +82,8 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.opc.run(self)
         self.rabi.run(self)
 
-    # def run_finally(self):
-    #     self.cxn.disconnect()
+    def run_finally(self):
+        self.cxn.disconnect()
     
     def set_frequency(self, detuning):
         pass#self.agi.set_frequency(detuning)
