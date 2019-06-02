@@ -35,10 +35,12 @@ class RamseyDriftTracker(PulseSequence):
 
     }
 
-    PulseSequence.scan_params["TrackLine1"] = ("DriftTrackerRamsey1",
-            [("DriftTrackerRamsey.phase_1", 90., 270., 2, "deg")])
-    PulseSequence.scan_params["TrackLine2"] = ("DriftTrackerRamsey2",
-            [("DriftTrackerRamsey.phase_2", 90., 270., 2, "deg")])
+    PulseSequence.scan_params["TrackLine1"] = [
+        ("DriftTrackerRamsey1", ("DriftTrackerRamsey.phase_1", 90., 270., 2, "deg"))
+    ]
+    PulseSequence.scan_params["TrackLine2"] = [ 
+        ("DriftTrackerRamsey2", ("DriftTrackerRamsey.phase_2", 90., 270., 2, "deg"))
+    ]
 
     def run_initially(self):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
