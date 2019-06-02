@@ -78,6 +78,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.ma.run(self)
         self.opc.run(self)
         self.rabi.run(self)
+        print("here")
 
     def run_finally(self):
         self.cxn.disconnect()
