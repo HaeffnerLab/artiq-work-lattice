@@ -48,6 +48,9 @@ class MotionalAnalysisRamsey(PulseSequence):
 
     @kernel
     def set_subsequence_motionalramsey(self):
+        self.ma.pulse_width = self.MotionAnalysis_pulse_width_397
+        detuning = self.sideband + self.MotionAnalysis_ramsey_detuning
+        self.set_frequency(detuning)
         self.rabi.duration = self.RabiFlopping_duration
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
         self.rabi.att_729 = self.RabiFlopping_att_729
@@ -57,10 +60,7 @@ class MotionalAnalysisRamsey(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        self.ma.pulse_width = self.MotionAnalysis_pulse_width_397
-        detuning = self.sideband + self.MotionAnalysis_ramsey_detuning
-        self.set_frequency(detuning)
-        delay(10*ms)
+        delay(2*ms)
 
     @kernel
     def MotionalRamsey(self):
