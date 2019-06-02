@@ -30,9 +30,9 @@ class MotionalAnalysisRamsey(PulseSequence):
         "DopplerCooling.doppler_cooling_amplitude_866",
         "DopplerCooling.doppler_cooling_att_866"
     }
-    PulseSequence.scan_params["MotionalRamsey"] = ("Ramsey",
-        [("MotionAnalysis.ramsey_duration", 0*ms, 10*ms, 40)]
-    )
+    PulseSequence.scan_params["MotionalRamsey"] = [
+        ("Ramsey", ("MotionAnalysis.ramsey_duration", 0*ms, 10*ms, 40))
+    ])
 
     def run_initially(self):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
