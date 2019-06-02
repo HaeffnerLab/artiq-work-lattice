@@ -31,7 +31,7 @@ class MotionalAnalysisRamsey(PulseSequence):
         "DopplerCooling.doppler_cooling_att_866"
     }
     PulseSequence.scan_params["MotionalRamsey"] = [
-        ("Ramsey", ("MotionAnalysis.ramsey_duration", 0*ms, 10*ms, 40))
+        ("Ramsey", ("MotionAnalysis.ramsey_duration", 0*ms, 10*ms, 40, "ms"))
     ]
 
     def run_initially(self):
@@ -44,7 +44,7 @@ class MotionalAnalysisRamsey(PulseSequence):
         self.set_subsequence["MotionalRamsey"] = self.set_subsequence_motionalramsey
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
         self.cxn = labrad.connect()
-        self.agi = self.cxn.agilent
+        # self.agi = self.cxn.agilent
 
     @kernel
     def set_subsequence_motionalramsey(self):
@@ -85,4 +85,4 @@ class MotionalAnalysisRamsey(PulseSequence):
         self.cxn.disconnect()
     
     def set_frequency(self, detuning):
-        self.agi.set_frequency(detuning)
+        pass#self.agi.set_frequency(detuning)
