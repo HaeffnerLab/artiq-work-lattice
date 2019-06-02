@@ -35,7 +35,7 @@ class Ramsey(PulseSequence):
         Ramsey=[
             ("Ramsey", ("Ramsey.wait_time", 0*ms, 5*ms, 100, "ms")),
             ("Ramsey", ("Ramsey.phase", 0., 360., 20, "deg"))
-        ]
+        ])
     
     def run_initially(self):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
