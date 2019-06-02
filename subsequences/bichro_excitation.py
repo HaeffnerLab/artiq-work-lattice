@@ -22,28 +22,29 @@ class BichroExcitation:
     detuning="MolmerSorensen.detuning"
 
     def subsequence(self):
-        trap_frequency = self.get_trap_frequency(BichroExcitation.selection_sideband)
-        freq_blue = 80*MHz + trap_frequency + BichroExcitation.detuning
-        freq_red = 80*MHz - trap_frequency - BichroExcitation.detuning
-        if BichroExcitation.channel == "global":
+        b = BichroExcitation
+        trap_frequency = self.get_trap_frequency(b.selection_sideband)
+        freq_blue = 80*MHz + trap_frequency + b.detuning
+        freq_red = 80*MHz - trap_frequency - b.detuning
+        if b.channel == "global":
             self.get_729_dds("729G")
             dp_freq = self.calc_frequency(
-                BichroExcitation.line_selection,
+                b.line_selection,
                 dds="729G"
             )
-            self.dds_729.set(dp_freq, amplitude=BichroExcitation.amp,
-                             phase=BichroExcitation.phase / 360)
-            self.dds_729.set_att(BichroExcitation.att)
-            if BichroExcitation.bichro_enable:
-                self.dds_729_SP.set(freq_blue, amplitude=BichroExcitation.amp_blue)
-                self.dds_729_SP.set_att(BichroExcitation.att_blue)
-                self.dds_729_SP_bichro.set(freq_red, amplitude=BichroExcitation.amp_red)
-                self.dds_729_SP_bichro.set_att(BichroExcitation.att_red)
+            self.dds_729.set(dp_freq, amplitude=b.amp,
+                             phase=b.phase / 360)
+            self.dds_729.set_att(b.att)
+            if b.bichro_enable:
+                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue)
+                self.dds_729_SP.set_att(b.att_blue)
+                self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red)
+                self.dds_729_SP_bichro.set_att(b.att_red)
                 with parallel:
                     self.dds_729.sw.on()
                     self.dds_729_SP.sw.on()
                     self.dds_729_SP_bichro.sw.on()
-                delay(BichroExcitation.duration)
+                delay(b.duration)
                 with parallel:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
@@ -52,43 +53,43 @@ class BichroExcitation:
                 with parallel:
                     self.dds_729.sw.on()
                     self.dds_729_SP.sw.on()
-                delay(BichroExcitation.duration)
+                delay(b.duration)
                 with parallel:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
 
-        elif BichroExcitation.channel == "local":
+        elif b.channel == "local":
             self.get_729_dds("729L1")
             self.get_729_dds("729L2", i=1)
             dp_freq1 = self.calc_frequency(
-                BichroExcitation.line_selection,
+                b.line_selection,
                 dds="729L1"
             )
-            if BichroExcitation.due_carrier_enable:
+            if b.due_carrier_enable:
                 dp_freq2 = self.calc_frequency(
-                    BichroExcitation.line_selection_ion2,
+                    b.line_selection_ion2,
                     dds="729L2"
                 )
             else:
                 dp_freq2 = self.calc_frequency(
-                    BichroExcitation.line_selection,
+                    b.line_selection,
                     dds="729L2"
                 )
-            self.dds_729.set(dp_freq1, amplitude=BichroExcitation.amp,
-                             phase=BichroExcitation.phase / 360)
-            self.dds_729.set_att(BichroExcitation.att)
-            self.dds_7291.set(dp_freq2, amplitude=BichroExcitation.amp_ion2,
-                             phase=BichroExcitation.phase / 360)
-            self.dds_7291.set_att(BichroExcitation.att_ion2)
-            if BichroExcitation.bichro_enable:
-                self.dds_729_SP.set(freq_blue, amplitude=BichroExcitation.amp_blue)
-                self.dds_729_SP.set_att(BichroExcitation.att_blue)
-                self.dds_729_SP_bichro.set(freq_red, amplitude=BichroExcitation.amp_red)
-                self.dds_729_SP_bichro.set_att(BichroExcitation.att_red)
-                self.dds_729_SP1.set(freq_blue, amplitude=BichroExcitation.amp_blue_ion2)
-                self.dds_729_SP1.set_att(BichroExcitation.att_blue_ion_2)
-                self.dds_729_SP1_bichro.set(freq_red, amplitude=BichroExcitation.amp_red_ion2)
-                self.dds_729_SP1_bichro.set_att(BichroExcitation.att_red_ion2)
+            self.dds_729.set(dp_freq1, amplitude=b.amp,
+                             phase=b.phase / 360)
+            self.dds_729.set_att(b.att)
+            self.dds_7291.set(dp_freq2, amplitude=b.amp_ion2,
+                             phase=b.phase / 360)
+            self.dds_7291.set_att(b.att_ion2)
+            if b.bichro_enable:
+                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue)
+                self.dds_729_SP.set_att(b.att_blue)
+                self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red)
+                self.dds_729_SP_bichro.set_att(b.att_red)
+                self.dds_729_SP1.set(freq_blue, amplitude=b.amp_blue_ion2)
+                self.dds_729_SP1.set_att(b.att_blue_ion_2)
+                self.dds_729_SP1_bichro.set(freq_red, amplitude=b.amp_red_ion2)
+                self.dds_729_SP1_bichro.set_att(b.att_red_ion2)
                 with parallel:
                     self.dds_729.sw.on()
                     self.dds_729_SP.sw.on()
@@ -96,7 +97,7 @@ class BichroExcitation:
                     self.dds_7291.sw.on()
                     self.dds_729_SP1.sw.on()
                     self.dds_729_SP_bichro1.sw.on()
-                delay(BichroExcitation.duration)
+                delay(b.duration)
                 with parallel:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
@@ -110,7 +111,7 @@ class BichroExcitation:
                     self.dds_729_SP.sw.on()
                     self.dds_7291.sw.on()
                     self.dds_729_SP1.sw.on()
-                delay(BichroExcitation.duration)
+                delay(b.duration)
                 with parallel:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()

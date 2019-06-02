@@ -36,83 +36,83 @@ class SidebandCooling:
     sequential2_order="SequentialSBCooling2.order"
 
     def subsequence(self):
-        delay(100*us)
-        self.get_729_dds(SidebandCooling.channel_729)
+        s = SidebandCooling
+        self.get_729_dds(s.channel_729)
         freq_729 = self.calc_frequency(
-                        SidebandCooling.line_selection,
-                        detuning=SidebandCooling.stark_shift,
-                        sideband=SidebandCooling.selection_sideband,
-                        order=SidebandCooling.order,
-                        dds=SidebandCooling.channel_729
+                        s.line_selection,
+                        detuning=s.stark_shift,
+                        sideband=s.selection_sideband,
+                        order=s.order,
+                        dds=s.channel_729
                     )
         self.dds_729.set(freq_729, 
-                         amplitude=SidebandCooling.amplitude_729)
-        self.dds_729.set_att(SidebandCooling.att_729)
-        self.dds_854.set(SidebandCooling.freq_854, 
-                         amplitude=SidebandCooling.amp_854)
-        self.dds_854.set_att(SidebandCooling.att_854)
-        self.dds_866.set(SidebandCooling.freq_866, 
-                         amplitude=SidebandCooling.amp_866)
-        self.dds_866.set_att(SidebandCooling.att_866)
+                         amplitude=s.amplitude_729)
+        self.dds_729.set_att(s.att_729)
+        self.dds_854.set(s.freq_854, 
+                         amplitude=s.amp_854)
+        self.dds_854.set_att(s.att_854)
+        self.dds_866.set(s.freq_866, 
+                         amplitude=s.amp_866)
+        self.dds_866.set_att(s.att_866)
         with parallel:
             self.dds_854.sw.on()
             self.dds_866.sw.on()
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
-        delay(SidebandCooling.duration)
+        delay(s.duration)
         with parallel:
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
         
-        if SidebandCooling.sequential_enable:
-            self.get_729_dds(SidebandCooling.sequential_channel_729)
+        if s.sequential_enable:
+            self.get_729_dds(s.sequential_channel_729)
             freq_729 = self.calc_frequency( 
-                    SidebandCooling.line_selection,
-                    detuning=SidebandCooling.stark_shift,
-                    sideband=SidebandCooling.sequential_selection_sideband,
-                    order=SidebandCooling.sequential_order,
-                    dds=SidebandCooling.channel_729)
+                    s.line_selection,
+                    detuning=s.stark_shift,
+                    sideband=s.sequential_selection_sideband,
+                    order=s.sequential_order,
+                    dds=s.channel_729)
             with parallel:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
-            delay(SidebandCooling.duration)
+            delay(s.duration)
             with parallel:
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
 
-        if SidebandCooling.sequential1_enable:
-            self.get_729_dds(SidebandCooling.sequential1_channel_729)
+        if s.sequential1_enable:
+            self.get_729_dds(s.sequential1_channel_729)
             freq_729 = self.calc_frequency( 
-                    SidebandCooling.line_selection,
-                    detuning=SidebandCooling.stark_shift,
-                    sideband=SidebandCooling.sequential1_selection_sideband,
-                    order=SidebandCooling.sequential1_order,
-                    dds=SidebandCooling.channel_729)
+                    s.line_selection,
+                    detuning=s.stark_shift,
+                    sideband=s.sequential1_selection_sideband,
+                    order=s.sequential1_order,
+                    dds=s.channel_729)
             with parallel:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
-            delay(SidebandCooling.duration)
+            delay(s.duration)
             with parallel:
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
 
-        if SidebandCooling.sequential2_enable:
-            self.get_729_dds(SidebandCooling.sequential2_channel_729)
+        if s.sequential2_enable:
+            self.get_729_dds(s.sequential2_channel_729)
             freq_729 = self.calc_frequency( 
-                    SidebandCooling.line_selection,
-                    detuning=SidebandCooling.stark_shift,
-                    sideband=SidebandCooling.sequential2_selection_sideband,
-                    order=SidebandCooling.sequential2_order,
-                    dds=SidebandCooling.channel_729)
+                    s.line_selection,
+                    detuning=s.stark_shift,
+                    sideband=s.sequential2_selection_sideband,
+                    order=s.sequential2_order,
+                    dds=s.channel_729)
             with parallel:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
-            delay(SidebandCooling.duration)
+            delay(s.duration)
             with parallel:
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
         
-        delay(3 * SidebandCooling.repump_additional)
+        delay(3 * s.repump_additional)
         with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()

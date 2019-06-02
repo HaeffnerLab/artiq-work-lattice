@@ -14,17 +14,18 @@ class MotionalAnalysis:
 
 
     def subsequence(self):
-        self.dds_397.set(MotionalAnalysis.freq_397,
-                         amplitude=MotionalAnalysis.amp_397)
-        self.dds_397.set_att(MotionalAnalysis.att_397)
-        self.dds_866.set(MotionalAnalysis.freq_866,
-                         amplitude=MotionalAnalysis.amp_866)
-        self.dds_866.set_att(MotionalAnalysis.att_866)
+        m = MotionalAnalysis
+        self.dds_397.set(m.freq_397,
+                         amplitude=m.amp_397)
+        self.dds_397.set_att(m.att_397)
+        self.dds_866.set(m.freq_866,
+                         amplitude=m.amp_866)
+        self.dds_866.set_att(m.att_866)
         with parallel:
             self.dds_866.sw.on()
             self.dds_397.sw.on()
             self.mod397.on()
-        delay(MotionalAnalysis.pulse_width)
+        delay(m.pulse_width)
         with parallel:
             self.dds_397.sw.off()
             self.mod397.off()

@@ -17,30 +17,31 @@ class OpticalPumpingPulsed:
     line_selection="OpticalPumping.line_selection"
 
     def subsequence(self):
-        self.get_729_dds(OpticalPumpingPulsed.channel_729)
-        self.dds_866.set(OpticalPumpingPulsed.frequency_866, 
-                         amplitude=OpticalPumpingPulsed.amplitude_866)
-        self.dds_866.set_att(OpticalPumpingPulsed.att_866)
+        o = OpticalPumpingPulsed
+        self.get_729_dds(o.channel_729)
+        self.dds_866.set(o.frequency_866, 
+                         amplitude=o.amplitude_866)
+        self.dds_866.set_att(o.att_866)
         freq_729 = self.calc_frequency(
-            OpticalPumpingPulsed.line_selection,
-            dds=OpticalPumpingPulsed.channel_729
+            o.line_selection,
+            dds=o.channel_729
         )
         self.dds_729.set(freq_729, 
-                         amplitude=OpticalPumpingPulsed.amplitude_729)
-        self.dds_729.set_att(OpticalPumpingPulsed.att_729)
-        self.dds_854.set(OpticalPumpingPulsed.frequency_854, 
-                         amplitude=OpticalPumpingPulsed.amplitude_854)
-        self.dds_854.set_att(OpticalPumpingPulsed.att_854)
-        for _ in range(int(OpticalPumpingPulsed.number_of_cycles)):
+                         amplitude=o.amplitude_729)
+        self.dds_729.set_att(o.att_729)
+        self.dds_854.set(o.frequency_854, 
+                         amplitude=o.amplitude_854)
+        self.dds_854.set_att(o.att_854)
+        for _ in range(int(o.number_of_cycles)):
             with parallel:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
-            delay(OpticalPumpingPulsed.pi_time)
+            delay(o.pi_time)
             with parallel:
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
                 self.dds_854.sw.on()
                 self.dds_866.sw.on()
-            delay(OpticalPumpingPulsed.duration_854)
+            delay(o.duration_854)
             self.dds_854.sw.off()
             self.dds_866.sw.off()
