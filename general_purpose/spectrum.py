@@ -19,9 +19,9 @@ class Spectrum(PulseSequence):
         "StatePreparation.sideband_cooling_enable"
     }
     PulseSequence.scan_params.update(
-        spectrum=("Spectrum",
-            [("Spectrum.carrier_detuning", -150*kHz, 150*kHz, 100, "kHz")])
-    )
+        spectrum=[
+            ("Spectrum", ("Spectrum.carrier_detuning", -150*kHz, 150*kHz, 100, "kHz"))
+        ])
 
     def run_initially(self):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
