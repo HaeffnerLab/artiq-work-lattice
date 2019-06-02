@@ -30,11 +30,11 @@ class OptimizeSidebandCooling(PulseSequence):
         "StatePreparation.channel_729"
     }
 
-    PulseSequence.scan_params["krun"] = ("Current",
-        [("SidebandCooling.amplitude_854", 0., 1., 25),
-         ("SidebandCooling.att_854", 5., 32.5, 15, "dB"),
-         ("SidebandCooling.stark_shift", -60*kHz, 60*kHz, 20, "kHz")]    
-    )
+    PulseSequence.scan_params["krun"] = [
+        ("Current", ("SidebandCooling.amplitude_854", 0., 1., 25)),
+        ("Current", ("SidebandCooling.att_854", 5., 32.5, 15, "dB")),
+        ("Current", ("SidebandCooling.stark_shift", -60*kHz, 60*kHz, 20, "kHz"))   
+    ]
 
     def run_initially(self):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
