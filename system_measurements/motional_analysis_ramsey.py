@@ -31,7 +31,7 @@ class MotionalAnalysisRamsey(PulseSequence):
         "DopplerCooling.doppler_cooling_att_866"
     }
     PulseSequence.scan_params["MotionalRamsey"] = [
-        ("Ramsey", ("MotionAnalysis.ramsey_duration", 0*ms, 10*ms, 40, "ms"))
+        ("Ramsey", ("MotionAnalysis.ramsey_time", 0*ms, 10*ms, 40, "ms"))
     ]
 
     def run_initially(self):
@@ -64,7 +64,7 @@ class MotionalAnalysisRamsey(PulseSequence):
 
     @kernel
     def MotionalRamsey(self):
-        wait_time = self.get_variable_parameter("MotionAnalysis_ramsey_duraiton")
+        wait_time = self.get_variable_parameter("MotionAnalysis_ramsey_time")
         delay(1*ms)
         self.dopplerCooling.run(self)
         if self.StatePreparation_pulsed_optical_pumping:
