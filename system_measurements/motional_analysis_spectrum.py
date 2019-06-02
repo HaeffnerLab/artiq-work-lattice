@@ -60,8 +60,8 @@ class MotionalAnalysisSpectrum(PulseSequence):
         )
         self.ma.pulse_width = self.MotionAnalysis_pulse_width_397
         detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
-        self.set_frequency(detuning)
-        delay(10*ms)
+        # self.set_frequency(detuning)
+        # delay(10*ms)
 
     @kernel
     def MotionalSpectrum(self):
