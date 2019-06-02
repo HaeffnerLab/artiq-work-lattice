@@ -23,7 +23,7 @@ class RabiFlopping(PulseSequence):
     PulseSequence.scan_params = dict(
         RabiFlopping=[
             ("Rabi", ("RabiFlopping.duration", 0., 100e-6, 20, "us"))
-        ]
+        ])
 
     def run_initially(self):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
