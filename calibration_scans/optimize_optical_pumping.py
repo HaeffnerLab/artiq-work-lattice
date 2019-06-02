@@ -28,15 +28,14 @@ class OptimizeOpticalPumping(PulseSequence):
         "OpticalPumping.amplitude_729"
     }
 
-    PulseSequence.scan_params["krun"] = ("Current",
-        [("OpticalPumping.optical_pumping_frequency_854", -2*MHz, 2*MHz, 20, "MHz"),
-         ("OpticalPumping.optical_pumping_amplitude_854", 0., 1., 20),
-         ("StatePreparation.number_of_cycles", 0, 20, 20),
-         ("StatePreparation.pulsed_amplitude", 0., 1., 20),
-         ("StatePreparation.pulsed_854_duration", 1*us, 100*us, 20, "us"),
-         ("OpticalPumping.amplitude_729", 0., 1., 20)        
-        ]
-    )
+    PulseSequence.scan_params["krun"] = [
+        ("Current", ("OpticalPumping.optical_pumping_frequency_854", -2*MHz, 2*MHz, 20, "MHz")),
+        ("Current", ("OpticalPumping.optical_pumping_amplitude_854", 0., 1., 20)),
+        ("Current", ("StatePreparation.number_of_cycles", 0, 20, 20)),
+        ("Current", ("StatePreparation.pulsed_amplitude", 0., 1., 20)),
+        ("Current", ("StatePreparation.pulsed_854_duration", 1*us, 100*us, 20, "us")),
+        ("Current", ("OpticalPumping.amplitude_729", 0., 1., 20))        
+    ]
 
     def run_initially(self):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
