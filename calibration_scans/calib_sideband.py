@@ -29,7 +29,7 @@ class CalibSideband(PulseSequence):
     PulseSequence.scan_params.update(
         CalibSideband=[
              ("Spectrum", ("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz"))
-        ]
+        ])
 
     def run_initially(self):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
