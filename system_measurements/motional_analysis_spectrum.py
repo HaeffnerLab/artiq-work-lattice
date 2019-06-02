@@ -49,6 +49,10 @@ class MotionalAnalysisSpectrum(PulseSequence):
 
     @kernel
     def set_subsequence_motionalspectrum(self):
+        self.ma.pulse_width = self.MotionAnalysis_pulse_width_397
+        detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
+        self.set_frequency(detuning)
+        self.ma.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
         self.rabi.duration = self.RabiFlopping_duration
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
         self.rabi.att_729 = self.RabiFlopping_att_729
@@ -58,10 +62,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        self.ma.pulse_width = self.MotionAnalysis_pulse_width_397
-        detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
-        # self.set_frequency(detuning)
-        # delay(10*ms)
+        delay(2*ms)
 
     @kernel
     def MotionalSpectrum(self):
@@ -78,7 +79,6 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.ma.run(self)
         self.opc.run(self)
         self.rabi.run(self)
-        print("here")
 
     def run_finally(self):
         self.cxn.disconnect()
