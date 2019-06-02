@@ -30,9 +30,10 @@ class MotionalAnalysisSpectrum(PulseSequence):
     }
 
     PulseSequence.scan_params.update(
-        MotionalSpectrum=("Spectrum",
-        [("MotionAnalysis.detuning", 0., 50e3, 25, "kHz"),
-         ("MotionAnalysis.amplitude_397", 0., 1., 25)])
+        MotionalSpectrum=([
+            ("Spectrum", ("MotionAnalysis.detuning", 0., 50e3, 25, "kHz")),
+            ("Current", ("MotionAnalysis.amplitude_397", 0., 1., 25))
+        ]
     )
 
     def run_initially(self):
