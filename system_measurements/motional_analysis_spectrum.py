@@ -50,7 +50,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
     @kernel
     def set_subsequence_motionalspectrum(self):
         self.ma.pulse_width = self.MotionAnalysis_pulse_width_397
-        detuning = self.sideband + self.get_variable_parameter("MotionAnalysis_detuning")
+        detuning = self.get_variable_parameter("MotionAnalysis_detuning")
         self.set_frequency(detuning)
         self.ma.amp_397 = self.get_variable_parameter("MotionAnalysis_amplitude_397")
         self.rabi.duration = self.RabiFlopping_duration
