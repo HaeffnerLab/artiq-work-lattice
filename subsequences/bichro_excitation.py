@@ -91,7 +91,7 @@ class BichroExcitation:
                 self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red)
                 self.dds_729_SP_bichro.set_att(b.att_red)
                 self.dds_729_SP1.set(freq_blue, amplitude=b.amp_blue_ion2)
-                self.dds_729_SP1.set_att(b.att_blue_ion_2)
+                self.dds_729_SP1.set_att(b.att_blue_ion2)
                 self.dds_729_SP1_bichro.set(freq_red, amplitude=b.amp_red_ion2)
                 self.dds_729_SP1_bichro.set_att(b.att_red_ion2)
                 with parallel:
