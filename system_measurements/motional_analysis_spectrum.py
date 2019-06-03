@@ -47,6 +47,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
         rm = visa.ResourceManager("@py")
         self.agi = rm.open_resource(u'USB0::2391::1031::MY44013736::0::INSTR')
+        self.agi.write("SYST:BEEP: STAT OFF")
 
     @kernel
     def set_subsequence_motionalspectrum(self):
