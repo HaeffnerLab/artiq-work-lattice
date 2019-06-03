@@ -84,4 +84,4 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.rabi.run(self)
     
     def set_frequency(self, detuning):
-        self.agi.write("APPL:SQU {} MHZ, 5.0 VPP".format(detuning))
+        self.agi.write("APPL:SQU {} HZ, 5.0 VPP".format(detuning))
