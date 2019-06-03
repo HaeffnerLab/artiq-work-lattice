@@ -119,5 +119,5 @@ class BichroExcitation:
                 with parallel:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
-                    self.dds_729.sw1.off()
+                    self.dds_7291.sw.off()
                     self.dds_729_SP1.sw.off()
