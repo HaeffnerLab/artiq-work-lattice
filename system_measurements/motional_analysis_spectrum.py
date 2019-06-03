@@ -1,4 +1,4 @@
-import labrad
+import visa
 from pulse_sequence import PulseSequence
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
@@ -45,8 +45,8 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.ma = self.add_subsequence(MotionalAnalysis)
         self.set_subsequence["MotionalSpectrum"] = self.set_subsequence_motionalspectrum
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
-        self.cxn = labrad.connect()
-        # self.agi = self.cxn.agilent
+        rm = visa.ResourceManager("@py")
+        self.agi = rm.open_resource(u'USB0::2391::1031::MY44013736::0::INSTR')
 
     @kernel
     def set_subsequence_motionalspectrum(self):
@@ -82,9 +82,6 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.ma.run(self)
         self.opc.run(self)
         self.rabi.run(self)
-
-    def run_finally(self):
-        self.cxn.disconnect()
     
     def set_frequency(self, detuning):
-        pass#self.agi.set_frequency(detuning)
+        self.agi.write("APPL:SQU {} MHZ, 5.0 VPP".format(detuning))
