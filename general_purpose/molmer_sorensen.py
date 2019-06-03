@@ -66,4 +66,5 @@ class MolmerSorensenGate(PulseSequence):
             self.sbc.run(self)
             self.opc.duration = 100*us
             self.opc.run(self)
+        return
         self.ms.run(self)
