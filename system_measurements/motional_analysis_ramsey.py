@@ -1,4 +1,4 @@
-import labrad
+import visa
 from pulse_sequence import PulseSequence
 from subsequences.doppler_cooling import DopplerCooling
 from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
@@ -43,8 +43,9 @@ class MotionalAnalysisRamsey(PulseSequence):
         self.ma = self.add_subsequence(MotionalAnalysis)
         self.set_subsequence["MotionalRamsey"] = self.set_subsequence_motionalramsey
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
-        self.cxn = labrad.connect()
-        # self.agi = self.cxn.agilent
+        rm = visa.ResourceManager("@py")
+        self.agi = rm.open_resource(u'USB0::2391::1031::MY44013736::0::INSTR')
+        self.agi.write("SYST:BEEP: STAT OFF")
 
     @kernel
     def set_subsequence_motionalramsey(self):
@@ -85,4 +86,4 @@ class MotionalAnalysisRamsey(PulseSequence):
         self.cxn.disconnect()
     
     def set_frequency(self, detuning):
-        pass#self.agi.set_frequency(detuning)
+        self.agi.write("APPL:SQU {} HZ, 5.0 VPP".format(detuning))
