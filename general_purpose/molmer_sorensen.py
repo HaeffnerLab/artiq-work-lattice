@@ -27,6 +27,7 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.bichro_enable",
         "MolmerSorensen.analysis_duration",
         "MolmerSorensen.analysis_amplitude",
+        "MolmerSorensen.channel_729"
     }
 
     PulseSequence.scan_params.update(
