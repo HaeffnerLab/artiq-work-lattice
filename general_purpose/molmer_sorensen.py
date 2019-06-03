@@ -47,12 +47,14 @@ class MolmerSorensenGate(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.ms = self.add_subsequence(BichroExcitation)
+        self.rabi = self.add_subsequence(RabiExcitation)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
 
     @kernel
     def set_subsequence_ms(self):
         self.ms.duration = self.get_variable_parameter("MolmerSorensen_duration")
         self.ms.amp = self.get_variable_parameter("MolmerSorensen_amplitude")
+        self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase") / 360
 
     @kernel
     def MolmerSorensen(self):
@@ -67,3 +69,5 @@ class MolmerSorensenGate(PulseSequence):
             self.opc.duration = 100*us
             self.opc.run(self)
         self.ms.run(self)
+        if self.MolmerSorensen_analysis_pulse_enable:
+            self.rabi.run(self)
