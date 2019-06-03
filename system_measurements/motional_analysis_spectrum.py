@@ -45,9 +45,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.ma = self.add_subsequence(MotionalAnalysis)
         self.set_subsequence["MotionalSpectrum"] = self.set_subsequence_motionalspectrum
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
-        rm = visa.ResourceManager("@py")
-        self.agi = rm.open_resource(u'USB0::2391::1031::MY44013736::0::INSTR')
-        self.agi.write("SYST:BEEP: STAT OFF")
+        self.agi_connected = False
 
     @kernel
     def set_subsequence_motionalspectrum(self):
@@ -85,4 +83,9 @@ class MotionalAnalysisSpectrum(PulseSequence):
         self.rabi.run(self)
     
     def set_frequency(self, detuning):
+        if not self.agi_connected:
+            rm = visa.ResourceManager("@py")
+            self.agi = rm.open_resource(u'USB0::2391::1031::MY44013736::0::INSTR')
+            self.agi.write("SYST:BEEP: STAT OFF")
+            self.agi_connected = True
         self.agi.write("APPL:SQU {} HZ, 5.0 VPP".format(detuning))
