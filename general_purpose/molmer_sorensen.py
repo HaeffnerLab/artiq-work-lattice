@@ -27,6 +27,7 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.bichro_enable",
         "MolmerSorensen.analysis_duration",
         "MolmerSorensen.analysis_amplitude",
+        "MolmerSorensen.analysis_att",
         "MolmerSorensen.channel_729"
     }
 
@@ -55,6 +56,8 @@ class MolmerSorensenGate(PulseSequence):
         self.ms.duration = self.get_variable_parameter("MolmerSorensen_duration")
         self.ms.amp = self.get_variable_parameter("MolmerSorensen_amplitude")
         self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase") / 360
+        self.rabi.amp_729 = self.MolmerSorensen_analysis_amplitude
+        self.rabi.att_729 = self.MolmerSorensen_analysis_att
 
     @kernel
     def MolmerSorensen(self):
