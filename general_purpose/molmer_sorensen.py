@@ -57,6 +57,7 @@ class MolmerSorensenGate(PulseSequence):
     @kernel
     def MolmerSorensen(self):
         delay(1*ms)
+        return
         self.dopplerCooling.run(self)
         if self.StatePreparation_pulsed_optical_pumping:
             self.opp.run(self)
@@ -66,5 +67,4 @@ class MolmerSorensenGate(PulseSequence):
             self.sbc.run(self)
             self.opc.duration = 100*us
             self.opc.run(self)
-        return
         self.ms.run(self)
