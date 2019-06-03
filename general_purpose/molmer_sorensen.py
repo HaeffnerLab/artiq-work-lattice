@@ -41,8 +41,28 @@ class MolmerSorensenGate(PulseSequence):
     )
 
     def run_initially(self):
-        pass
+        self.dopplerCooling = self.add_subsequence(DopplerCooling)
+        self.opp = self.add_subsequence(OpticalPumpingPulsed)
+        self.opc = self.add_subsequence(OpticalPumpingContinuous)
+        self.sbc = self.add_subsequence(SidebandCooling)
+        self.ms = self.add_subsequence(BichroExcitation)
+        self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
 
     @kernel
     def set_subsequence_ms(self):
-        pass
+        self.ms.duration = self.get_variable_parameter("MolmerSorensen_duration")
+        self.ms.amp = self.get_variable_parameter("MolmerSorensen_amplitude")
+
+    @kernel
+    def MolmerSorensen(self):
+        delay(1*ms)
+        self.dopplerCooling.run(self)
+        if self.StatePreparation_pulsed_optical_pumping:
+            self.opp.run(self)
+        else:
+            self.opc.run(self)
+        if self.StatePreparation_sideband_cooling_enable:
+            self.sbc.run(self)
+            self.opc.duration = 100*us
+            self.opc.run(self)
+        self.ms.run(self)
