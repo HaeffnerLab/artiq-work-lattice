@@ -16,7 +16,6 @@ class MotionalAnalysisRamsey(PulseSequence):
         "MotionAnalysis.sideband_selection",
         "MotionAnalysis.att_397",
         "MotionAnalysis.ramsey_detuning",
-        "MotionAnalysis.pi_time",
         "RabiFlopping.duration",
         "RabiFlopping.amplitude_729",
         "RabiFlopping.line_selection",
@@ -75,6 +74,7 @@ class MotionalAnalysisRamsey(PulseSequence):
             self.opc.duration = 100*us
             self.opc.run(self)
         self.ma.run(self)
+        self.opc.run(self)
         delay(wait_time)
         self.ma.run(self)
         self.opc.run(self)
