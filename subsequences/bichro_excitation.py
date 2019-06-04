@@ -24,6 +24,8 @@ class BichroExcitation:
     selection_sideband="MolmerSorensen.selection_sideband"
     duration="MolmerSorensen.duration"
     detuning="MolmerSorensen.detuning"
+    detuning_carrier_1="MolmerSorensen.detuning_carrier_1"
+    detuning_carrier_2="MolmerSorensen.detuning_carrier_2"
 
     def subsequence(self):
         b = BichroExcitation
@@ -67,11 +69,13 @@ class BichroExcitation:
             self.get_729_dds("729L2", i=1)
             dp_freq1 = self.calc_frequency(
                 b.line_selection,
+                detuning=b.detuning_carrier_1,
                 dds="729L1"
             )
             if b.due_carrier_enable:
                 dp_freq2 = self.calc_frequency(
                     b.line_selection_ion2,
+                    detuning=b.detuning_carrier_2,
                     dds="729L2"
                 )
             else:

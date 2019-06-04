@@ -56,7 +56,10 @@ class MolmerSorensenGate(PulseSequence):
     def set_subsequence_ms(self):
         self.ms.duration = self.get_variable_parameter("MolmerSorensen_duration")
         self.ms.amp = self.get_variable_parameter("MolmerSorensen_amplitude")
-        self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase") / 360
+        self.ms.amp_ion2 = self.get_variable_parameter("MolmerSorensen_amplitude_ion2")
+        self.ms.detuning_carrier_1 = self.get_variable_parameter("MolmerSorensen_detuning_carrier_1")
+        self.ms.detuning_carrier_2 = self.get_variable_parameter("MolmerSorensen_detuning_carrier_2")
+        self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase") / 360.
         self.rabi.amp_729 = self.MolmerSorensen_analysis_amplitude
         self.rabi.att_729 = self.MolmerSorensen_analysis_att
 
