@@ -107,7 +107,7 @@ class RamseyDriftTracker(PulseSequence):
         if self.StateReadout_readout_mode == "pmt":
             p1, p2 = self.data.TrackLine1.y[-1]
         else:
-            p1, p2 = self.data.TrackLine1.y[self.p.DriftTrackerRamsey.ion_number]
+            p1, p2 = self.data.TrackLine1.y[int(self.p.DriftTrackerRamsey.ion_number)]
         if p1 == p2 == 0 or p1 == p2 == 1:
             logger.error("Abnormal populations, something isn't right.")
             raise TerminationRequested
@@ -179,7 +179,7 @@ class RamseyDriftTracker(PulseSequence):
         if self.StateReadout_readout_mode == "pmt":
             p1, p2 = self.data.TrackLine2.y[-1]
         else:
-            p1, p2 = self.data.TrackLine2.y[self.p.DriftTrackerRamsey.ion_number]
+            p1, p2 = self.data.TrackLine2.y[int(self.p.DriftTrackerRamsey.ion_number)]
         if p1 == p2 == 0 or p1 == p2 == 1:
             logger.error("Abnormal populations, something isn't right.")
             raise TerminationRequested
