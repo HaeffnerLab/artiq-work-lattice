@@ -34,4 +34,4 @@ class RabiExcitation:
         delay(r.duration)
         with parallel:
             dds_729.sw.off()
-            dds_729_SP.sw.off()
+            dds_729_SP.sw.off()#
