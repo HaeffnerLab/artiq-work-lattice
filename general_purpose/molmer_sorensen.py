@@ -34,7 +34,7 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.ramsey_duration"
     }
 
-    PulseSequence.scan_params.update(#
+    PulseSequence.scan_params.update(
         MolmerSorensen=[
             ("Molmer-Sorensen", ("MolmerSorensen.duration", 0., 400*us, 20, "us")),
             ("Molmer-Sorensen", ("MolmerSorensen.amplitude", 0., 1., 20)),
