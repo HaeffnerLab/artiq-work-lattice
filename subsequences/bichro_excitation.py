@@ -33,10 +33,10 @@ class BichroExcitation:
         freq_blue = 80*MHz + trap_frequency + b.detuning
         freq_red = 80*MHz - trap_frequency - b.detuning
         if b.channel == "global":
-            self.get_729_dds("729G")
+            self.get_729_dds("729L1") # Need to change this in final config
             dp_freq = self.calc_frequency(
                 b.line_selection,
-                dds="729G"
+                dds="729L1" # Need to change in final config
             )
             self.dds_729.set(dp_freq, amplitude=b.amp,
                              phase=b.phase / 360)
