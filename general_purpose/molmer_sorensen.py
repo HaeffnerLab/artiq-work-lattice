@@ -64,7 +64,7 @@ class MolmerSorensenGate(PulseSequence):
         self.rabi.att_729 = self.MolmerSorensen_analysis_att
 
     @kernel
-    def MolmerSorensen(self):
+    def MolmerSorensen(self):#
         delay(1*ms)
         self.dopplerCooling.run(self)
         if self.StatePreparation_pulsed_optical_pumping:
