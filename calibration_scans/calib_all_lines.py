@@ -48,6 +48,7 @@ class CalibAllLines(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.rabi.channel_729 = self.p.CalibrationScans.calibration_channel_729
         self.set_subsequence["CalibLine1"] = self.set_subsequence_calibline1
         self.set_subsequence["CalibLine2"] = self.set_subsequence_calibline2
         self.run_after["CalibLine1"] = self.analyze_calibline1
