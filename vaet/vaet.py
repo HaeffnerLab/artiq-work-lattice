@@ -9,7 +9,52 @@ from artiq.experiment import *
 
 
 class VAET(PulseSequence):
-    PulseSequence.accessed_params = {}
+    PulseSequence.accessed_params = {
+        "VAET.duration",
+        "VAET.rotate_out",
+        "VAET.rotate_in",
+        "SZX.line_selection",
+        "SZX.sideband_selection",
+        "SZX.bichro_enable",
+        "SZX.amplitude",
+        "SZX.att",
+        "SZX.amp_blue",
+        "SZX.att_blue",
+        "SZX.amp_red",
+        "SZX.att_red",
+        "SZX.nu_effective",
+        "SZX.carrier_detuning",
+        "SZX.post_local_rotation",
+        "SZX.calibration_offset",
+        "SZX.local_rabi_amp",
+        "SZX.local_rabi_att",
+        "MolmerSorensen.line_selection",
+        "MolmerSorensen.line_selection_ion2",
+        "MolmerSorensen.due_carrier_enable",
+        "MolmerSorensen.sideband_selection",
+        "MolmerSorensen.detuning",
+        "MolmerSorensen.amp_red",
+        "MolmerSorensen.att_red",
+        "MolmerSorensen.amp_blue",
+        "MolmerSorensen.att_blue",
+        "MolmerSorensen.amplitude",
+        "MolmerSorensen.att",
+        "MolmerSorensen.amplitude_ion2",
+        "MolmerSorensen.att_ion2",
+        "MolmerSorensen.analysis_pulse_enable",
+        "MolmerSorensen.SDDS_enable",
+        "MolmerSorensen.SDDS_rotate_out",
+        "MolmerSorensen.bichro_enable",
+        "MolmerSorensen.analysis_duration",
+        "MolmerSorensen.analysis_amplitude",
+        "MolmerSorensen.analysis_att",
+        "MolmerSorensen.analysis_amplitude_ion2",
+        "MolmerSorensen.analysis_att_ion2",
+        "MolmerSorensen.detuning_carrier_1",
+        "MolmerSorensen.detuning_carrier_2",
+        "MolmerSorensen.ramsey_duration",
+        "VAET.ramsey_time"
+    }
 
     PulseSequence.scan_params.update(
         VAET=[

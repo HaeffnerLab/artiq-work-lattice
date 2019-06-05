@@ -17,7 +17,9 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.sideband_selection",
         "MolmerSorensen.detuning",
         "MolmerSorensen.amp_red",
+        "MolmerSorensen.att_red",
         "MolmerSorensen.amp_blue",
+        "MolmerSorensen.att_blue",
         "MolmerSorensen.amplitude",
         "MolmerSorensen.att",
         "MolmerSorensen.amplitude_ion2",
@@ -30,6 +32,8 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.analysis_duration",
         "MolmerSorensen.analysis_amplitude",
         "MolmerSorensen.analysis_att",
+        "MolmerSorensen.analysis_amplitude_ion2",
+        "MolmerSorensen.analysis_att_ion2",
         "MolmerSorensen.channel_729",
         "MolmerSorensen.ramsey_duration"
     }
