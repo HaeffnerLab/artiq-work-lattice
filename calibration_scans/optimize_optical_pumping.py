@@ -27,7 +27,8 @@ class OptimizeOpticalPumping(PulseSequence):
         "OpticalPumping.line_selection",
         "OpticalPumping.amplitude_729",
         "OpticalPumping.amplitude_729",
-        "OpticalPumping.att_729"
+        "OpticalPumping.att_729",
+        "OpticalPumpingContinuous.optical_pumping_continuous_duration"
     }
 
     PulseSequence.scan_params["krun"] = [
