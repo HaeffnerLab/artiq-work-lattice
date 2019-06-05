@@ -13,6 +13,11 @@ class VAET(PulseSequence):
 
     PulseSequence.scan_params.update(
         VAET=[
+            ("vaet_time", ("VAET.vaet_duration", 0, 50*us, 25, "us")),
+            ("vaet_time", ("VAET.rabi_duration", 0, 50*us, 25, "us")),
+            ("scan_nu_eff", ("SZX.nu_effective", -10*kHz, 10*kHz, 25, "kHz")),
+            ("vaet_time", ("SZX.carrier_detuning", -1*MHz, 1*MHz, 25, "MHz")),
+            ("vaet_parity", ("VAET.ramsey_time", 0, 1*ms, 25, "ms"))
 
         ]
     )
