@@ -39,6 +39,7 @@ class MotionalAnalysisRamsey(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.ma = self.add_subsequence(MotionalAnalysis)
         self.set_subsequence["MotionalRamsey"] = self.set_subsequence_motionalramsey
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]

@@ -43,6 +43,7 @@ class Ramsey(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.rabi.channel_729 = self.p.Ramsey.channel_729
         self.set_subsequence["Ramsey"] = self.set_subsequence_ramsey
         if self.p.Ramsey.channel_729 == "729L1":
             self.pi_time = self.p.Rotation729L1.pi_time

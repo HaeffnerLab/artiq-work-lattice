@@ -57,6 +57,7 @@ class MolmerSorensenGate(PulseSequence):
         self.sbc = self.add_subsequence(SidebandCooling)
         self.ms = self.add_subsequence(BichroExcitation)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.rabi.channel_729 = self.p.MolmerSorensen.channel_729
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
 

@@ -40,6 +40,7 @@ class HeatingRate(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.rabi.channel_729 = self.p.CalibrationScans.calibration_channel_729
         self.kernel_invariants.update({"sideband"})
         self.sideband = self.p.CalibrationScans.selection_sideband
         self.set_subsequence["CalibRed"] = self.set_subsequence_calibred

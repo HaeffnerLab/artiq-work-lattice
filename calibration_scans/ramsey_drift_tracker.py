@@ -51,6 +51,7 @@ class RamseyDriftTracker(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.rabi.channel_729 = self.p.DriftTrackerRamsey.channel_729
         self.set_subsequence["TrackLine1"] = self.set_subsequence_trackline1
         self.set_subsequence["TrackLine2"] = self.set_subsequence_trackline2
         self.run_after["TrackLine1"] = self.analyze_trackline1

@@ -42,6 +42,7 @@ class OptimizeSidebandCooling(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.set_subsequence["krun"] = self.set_subsequence_krun
 
     @kernel
