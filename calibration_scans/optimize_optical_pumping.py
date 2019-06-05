@@ -25,7 +25,9 @@ class OptimizeOpticalPumping(PulseSequence):
         "OpticalPumping.optical_pumping_amplitude_854",
         "OpticalPumping.optical_pumping_att_854",
         "OpticalPumping.line_selection",
-        "OpticalPumping.amplitude_729"
+        "OpticalPumping.amplitude_729",
+        "OpticalPumping.amplitude_729",
+        "OpticalPumping.att_729"
     }
 
     PulseSequence.scan_params["krun"] = [
@@ -34,7 +36,8 @@ class OptimizeOpticalPumping(PulseSequence):
         ("Current", ("StatePreparation.number_of_cycles", 0, 20, 20)),
         ("Current", ("StatePreparation.pulsed_amplitude", 0., 1., 20)),
         ("Current", ("StatePreparation.pulsed_854_duration", 1*us, 100*us, 20, "us")),
-        ("Current", ("OpticalPumping.amplitude_729", 0., 1., 20))        
+        ("Current", ("OpticalPumping.amplitude_729", 0., 1., 20)),
+        ("Current", ("OpticalPumpingContinuous.optical_pumping_continuous_duration", 0, 100*us, 20, "us"))        
     ]
 
     def run_initially(self):
