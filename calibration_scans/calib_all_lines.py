@@ -48,6 +48,7 @@ class CalibAllLines(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.rabi.channel_729 = self.p.CalibrationScans.calibration_channel_729
         self.set_subsequence["CalibLine1"] = self.set_subsequence_calibline1
         self.set_subsequence["CalibLine2"] = self.set_subsequence_calibline2
         self.run_after["CalibLine1"] = self.analyze_calibline1
@@ -58,7 +59,6 @@ class CalibAllLines(PulseSequence):
         delta = self.get_variable_parameter("Spectrum_carrier_detuning")
         rabi_line = self.DriftTracker_line_selection_1
         rabi_dds = self.CalibrationScans_calibration_channel_729
-        self.rabi.channel_729 = rabi_dds
         self.rabi.amp_729 = self.Spectrum_car1_amp
         self.rabi.att_729 = self.Spectrum_car1_att
         self.rabi.duration = self.Spectrum_manual_excitation_time
@@ -94,7 +94,6 @@ class CalibAllLines(PulseSequence):
         delta = self.get_variable_parameter("Spectrum_carrier_detuning")
         rabi_line = self.DriftTracker_line_selection_2
         rabi_dds = self.CalibrationScans_calibration_channel_729
-        self.rabi.channel_729 = rabi_dds
         self.rabi.amp_729 = self.Spectrum_car2_amp
         self.rabi.att_729 = self.Spectrum_car2_att
         self.rabi.duration = self.Spectrum_manual_excitation_time
