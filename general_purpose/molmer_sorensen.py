@@ -5,6 +5,7 @@ from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.sideband_cooling import SidebandCooling
 from subsequences.bichro_excitation import BichroExcitation
+from subsequences.szx import SZX
 from artiq.experiment import *
 
 
@@ -56,6 +57,7 @@ class MolmerSorensenGate(PulseSequence):
         self.sbc = self.add_subsequence(SidebandCooling)
         self.ms = self.add_subsequence(BichroExcitation)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
 
     @kernel
