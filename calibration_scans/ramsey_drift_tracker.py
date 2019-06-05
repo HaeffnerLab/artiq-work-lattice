@@ -42,7 +42,10 @@ class RamseyDriftTracker(PulseSequence):
         ("DriftTrackerRamsey2", ("DriftTrackerRamsey.phase_2", 90., 270., 2, "deg"))
     ]
 
+    
     def run_initially(self):
+        if "camera" in self.p.StateReadout.readout_mode:
+            self.p.StateReadout.readout_mode = "camera"
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opp = self.add_subsequence(OpticalPumpingPulsed)
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
