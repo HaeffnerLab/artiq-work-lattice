@@ -57,7 +57,9 @@ class RabiFlopping(PulseSequence):
             self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
-            # self.opc.duration = 500*us
-            self.opp.run(self)
+            if self.StatePreparation_pulsed_optical_pumping:
+                self.opp.run(self)
+            elif self.StatePreparation_optical_pumping_enable:
+                self.opc.run(self)
         self.rabi.run(self)
         
