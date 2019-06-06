@@ -83,12 +83,14 @@ class Ramsey(PulseSequence):
         self.dopplerCooling.run(self)
         if self.StatePreparation_pulsed_optical_pumping:
             self.opp.run(self)
-        else:
+        elif self.StatePreparation_optical_pumping_enable:
             self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
-            self.opc.duration = 100*us
-            self.opc.run(self)
+            if self.StatePreparation_pulsed_optical_pumping:
+                self.opp.run(self)
+            elif self.StatePreparation_optical_pumping_enable:
+                self.opc.run(self)
         self.rabi.phase_729 = 0.
         if not self.Ramsey_echo:
             self.rabi.run(self)
