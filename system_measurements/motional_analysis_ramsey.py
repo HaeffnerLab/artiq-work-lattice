@@ -64,16 +64,17 @@ class MotionalAnalysisRamsey(PulseSequence):
     @kernel
     def MotionalRamsey(self):
         delay(1*ms)
-        wait_time = self.get_variable_parameter("MotionAnalysis_ramsey_time")
         self.dopplerCooling.run(self)
         if self.StatePreparation_pulsed_optical_pumping:
             self.opp.run(self)
-        else:
+        elif self.StatePreparation_optical_pumping_enable:
             self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
-            self.opc.duration = 100*us
-            self.opc.run(self)
+            if self.StatePreparation_pulsed_optical_pumping:
+                self.opp.run(self)
+            elif self.StatePreparation_optical_pumping_enable:
+                self.opc.run(self)
         self.ma.run(self)
         self.opc.run(self)
         delay(wait_time)

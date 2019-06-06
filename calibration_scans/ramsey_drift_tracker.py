@@ -91,12 +91,14 @@ class RamseyDriftTracker(PulseSequence):
         self.dopplerCooling.run(self)
         if self.StatePreparation_pulsed_optical_pumping:
             self.opp.run(self)
-        else:
+        elif self.StatePreparation_optical_pumping_enable:
             self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
-            self.opc.duration = 100*us
-            self.opc.run(self)
+            if self.StatePreparation_pulsed_optical_pumping:
+                self.opp.run(self)
+            elif self.StatePreparation_optical_pumping_enable:
+                self.opc.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
         delay(self.DriftTrackerRamsey_gap_time_1)
@@ -163,12 +165,14 @@ class RamseyDriftTracker(PulseSequence):
         self.dopplerCooling.run(self)
         if self.StatePreparation_pulsed_optical_pumping:
             self.opp.run(self)
-        else:
+        elif self.StatePreparation_optical_pumping_enable:
             self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
             self.sbc.run(self)
-            self.opc.duration = 100*us
-            self.opc.run(self)
+            if self.StatePreparation_pulsed_optical_pumping:
+                self.opp.run(self)
+            elif self.StatePreparation_optical_pumping_enable:
+                self.opc.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
         delay(self.DriftTrackerRamsey_gap_time_2)
