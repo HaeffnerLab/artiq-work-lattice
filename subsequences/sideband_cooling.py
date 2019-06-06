@@ -10,7 +10,7 @@ class SidebandCooling:
     repump_additional="OpticalPumpingContinuous.optical_pumping_continuous_repump_additional"
     amplitude_729="SidebandCooling.amplitude_729"
     att_729="SidebandCooling.att_729"
-    duration="SidebandCoolingContinuous.sideband_cooling_continuous_duration"
+    duration="SidebandCooling.duration"
     
     freq_866="SidebandCooling.frequency_866"
     amp_866="SidebandCooling.amplitude_866"
