@@ -31,7 +31,7 @@ class CalibSideband(PulseSequence):
              ("Spectrum", ("Spectrum.sideband_detuning", -5e3, 5e3, 15, "kHz"))
         ])
 
-    def run_initially(self):#
+    def run_initially(self):
         self.dopplerCooling = self.add_subsequence(DopplerCooling)
         self.opp = self.add_subsequence(OpticalPumpingPulsed)
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
