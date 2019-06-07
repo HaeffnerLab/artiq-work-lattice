@@ -36,7 +36,8 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.analysis_amplitude_ion2",
         "MolmerSorensen.analysis_att_ion2",
         "MolmerSorensen.channel_729",
-        "MolmerSorensen.ramsey_duration"
+        "MolmerSorensen.ramsey_duration",
+        "MolmerSorensen.override_readout"
     }
 
     PulseSequence.scan_params.update(
