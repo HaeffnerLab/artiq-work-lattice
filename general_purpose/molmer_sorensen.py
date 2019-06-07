@@ -63,12 +63,11 @@ class MolmerSorensenGate(PulseSequence):
         ss = self.selected_scan["MolmerSorensen"]
         if self.p.MolmerSorensen.bichro_enable:
             if ss == "MolmerSorensen.ms_phase":
-                self.p.StatePreparation.readout_mode = "camera_parity"
+                self.p.StateReadout.readout_mode = "camera_parity"
             else:
-                self.p.StatePreparation.readout_mode = "camera_states"
+                self.p.StateReadout.readout_mode = "camera_states"
         else:
-            self.p.StatePreparation.readout_mode = "camera"
-        print(self.p.StatePreparation)
+            self.p.StateReadout.readout_mode = "camera"
 
     @kernel
     def set_subsequence_ms(self):
