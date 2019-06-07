@@ -15,7 +15,7 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.line_selection",
         "MolmerSorensen.line_selection_ion2",
         "MolmerSorensen.due_carrier_enable",
-        "MolmerSorensen.sideband_selection",
+        "MolmerSorensen.selection_sideband",
         "MolmerSorensen.detuning",
         "MolmerSorensen.amp_red",
         "MolmerSorensen.att_red",
