@@ -46,6 +46,7 @@ class CalibSideband(PulseSequence):
             rt["CalibSideband"]["Spectrum.sideband_detuning"] = "CalibRed"
         else:
             rt["CalibSideband"]["Spectrum.sideband_detuning"] = "CalibBlue"
+        self.p.StateReadout.readout_mode = self.p.CalibrationScans.readout_mode
 
     @kernel
     def set_subsequence_calibsideband(self):
