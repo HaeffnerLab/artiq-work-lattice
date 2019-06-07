@@ -30,8 +30,8 @@ class BichroExcitation:
     def subsequence(self):
         b = BichroExcitation
         trap_frequency = self.get_trap_frequency(b.selection_sideband)
-        freq_blue = 80*MHz + trap_frequency + b.detuning
-        freq_red = 80*MHz - trap_frequency - b.detuning
+        freq_blue = 80*MHz - trap_frequency - b.detuning
+        freq_red = 80*MHz + trap_frequency + b.detuning
         if b.channel == "global":
             self.get_729_dds("729G")
             dp_freq = self.calc_frequency(
@@ -50,7 +50,7 @@ class BichroExcitation:
                     self.dds_729.sw.on()
                     self.dds_729_SP.sw.on()
                     self.dds_729_SP_bichro.sw.on()
-                delay(b.duration)#
+                delay(b.duration)
                 with parallel:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
