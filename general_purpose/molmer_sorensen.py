@@ -68,6 +68,7 @@ class MolmerSorensenGate(PulseSequence):
                 self.p.StatePreparation.readout_mode = "camera_states"
         else:
             self.p.StatePreparation.readout_mode = "camera"
+        print(self.p.StatePreparation)
 
     @kernel
     def set_subsequence_ms(self):
@@ -81,7 +82,7 @@ class MolmerSorensenGate(PulseSequence):
         self.rabi.att_729 = self.MolmerSorensen_analysis_att
 
     @kernel
-    def MolmerSorensen(self):#
+    def MolmerSorensen(self):
         delay(1*ms)
         self.dopplerCooling.run(self)
         if self.StatePreparation_pulsed_optical_pumping:
