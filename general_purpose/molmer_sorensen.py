@@ -61,14 +61,15 @@ class MolmerSorensenGate(PulseSequence):
         self.rabi.channel_729 = self.p.MolmerSorensen.channel_729
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
-        ss = self.selected_scan["MolmerSorensen"]
-        if self.p.MolmerSorensen.bichro_enable:
-            if ss == "MolmerSorensen.ms_phase":
-                self.p.StateReadout.readout_mode = "camera_parity"
+        if not self.p.MolmerSorensen.override_readout:
+            ss = self.selected_scan["MolmerSorensen"]
+            if self.p.MolmerSorensen.bichro_enable:
+                if ss == "MolmerSorensen.ms_phase":
+                    self.p.StateReadout.readout_mode = "camera_parity"
+                else:
+                    self.p.StateReadout.readout_mode = "camera_states"
             else:
-                self.p.StateReadout.readout_mode = "camera_states"
-        else:
-            self.p.StateReadout.readout_mode = "camera"
+                self.p.StateReadout.readout_mode = "camera"
 
     @kernel
     def set_subsequence_ms(self):
