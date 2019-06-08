@@ -38,7 +38,9 @@ class RampTest(EnvExperiment):
         self.core.break_realtime()
 
         self.dds.set(80*MHz, amplitude=1., profile=0)
+        self.dds.cpld.io_update.pulse_mu(8)
         self.dds.set_att(5*dB)
+        self.dds.sw.on()
 
         r = [0]*len(data)
         self.dds.read_ram(r)
