@@ -18,7 +18,9 @@ class RampTest(EnvExperiment):
 
         amps = [.1 * i for i in range(1, 11)]
         r = [0]*10
-        print(self.dds.amplitude_to_ram(amps, r))
+        self.dds.amplitude_to_ram(amps, r)
+        print("\n\n\n", r, "\n\n\n")
+        self.core.break_realtime()
 
 
         n = 10
