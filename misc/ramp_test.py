@@ -17,18 +17,18 @@ class RampTest(EnvExperiment):
         self.core.break_realtime()
 
         amps = [.1 * i for i in range(1, 11)]
-        r = [0]*10
-        self.dds.amplitude_to_ram(amps, r)
+        data = [0]*10
+        self.dds.amplitude_to_ram(amps, data)
         print("\n\n\n", r, "\n\n\n")
         self.core.break_realtime()
 
 
-        n = 10
-        data = [0]*(1 << n)
-        for i in range(len(data)//2):
-            data[i] = i << (32 - (n - 1))
-            data[i + len(data)//2] = 0xffff << 16
-        self.dds.cpld.get_att_mu()
+       # n = 10
+       # data = [0]*(1 << n)
+       # for i in range(len(data)//2):
+       #     data[i] = i << (32 - (n - 1))
+       #     data[i + len(data)//2] = 0xffff << 16
+       # self.dds.cpld.get_att_mu()
         self.core.break_realtime()
 
         self.dds.set_profile_ram(
