@@ -46,6 +46,7 @@ class RampTest(EnvExperiment):
         #    assert r[i] == data[i]
         self.core.break_realtime()
         while True:
+            self.dds.cpld.set_profile(0)
             self.dds.sw.on()
             delay(1*ms)
             self.dds.sw.off()
