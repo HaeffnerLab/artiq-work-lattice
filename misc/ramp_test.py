@@ -27,6 +27,7 @@ class RampTest(EnvExperiment):
                 profile=0, mode=RAM_MODE_BIDIR_RAMP
             )
         self.dds.cpld.set_profile(0)
+        self.dds.cpld.io_update.pulse_mu(8)
         self.dds.write_ram(data)
         self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
 
