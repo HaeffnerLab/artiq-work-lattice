@@ -28,7 +28,9 @@ class RampTest(EnvExperiment):
             )
         self.dds.cpld.set_profile(0)
         self.dds.cpld.io_update.pulse_mu(8)
+        delay(1*ms)
         self.dds.write_ram(data)
+        delay(1*ms)
         self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
 
         self.core.break_realtime()
