@@ -19,5 +19,5 @@ class RampTest(EnvExperiment):
         self.dds.set_att(5*dB)
 
         self.dds.sw.on()
-        delay(1*ms)
+        delay(1*s)
         self.dds.sw.off()
