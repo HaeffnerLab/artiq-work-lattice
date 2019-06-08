@@ -38,6 +38,11 @@ class RampTest(EnvExperiment):
         self.dds.set(80*MHz, amplitude=1., profile=0)
         self.dds.set_att(5*dB)
 
+        r = [0]*len(data)
+        self.u.read_ram(r)
+        for i in range(len(data)):
+            assert r[i] == data[i]
+
         self.dds.sw.on()
         delay(1*s)
         self.dds.sw.off()
