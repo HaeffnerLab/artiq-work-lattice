@@ -30,6 +30,8 @@ class RampTest(EnvExperiment):
         self.dds.write_ram(data)
         self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
 
+        self.core.break_realtime()
+
         self.dds.set(80*MHz, amplitude=1., profile=0)
         self.dds.set_att(5*dB)
 
