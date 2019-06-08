@@ -22,7 +22,7 @@ class RampTest(EnvExperiment):
             data[i] = i << (32 - (n - 1))
             data[i + len(data)//2] = 0xffff << 16
 
-        self.dds.cpld.set_profile_ram(
+        self.dds.set_profile_ram(
                 start=0, end=0 + len(data) - 1, step=1,
                 profile=0, mode=RAM_MODE_BIDIR_RAMP
             )
