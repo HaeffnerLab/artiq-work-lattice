@@ -15,7 +15,7 @@ class RampTest(EnvExperiment):
         self.dds.init()
         self.core.break_realtime()
 
-        self.dds.set(80*MHz, amplitude=1.)
+        self.dds.set(80*MHz, amplitude=1., profile=5)
         self.dds.set_att(5*dB)
 
         self.dds.sw.on()
