@@ -43,6 +43,7 @@ class RampTest(EnvExperiment):
         #for i in range(len(data)):
         #    assert r[i] == data[i]
         self.core.break_realtime()
-        self.dds.sw.on()
-        delay(1*s)
-        self.dds.sw.off()
+        while True:
+            self.dds.sw.on()
+            delay(1*ms)
+            self.dds.sw.off()
