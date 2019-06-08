@@ -39,7 +39,7 @@ class RampTest(EnvExperiment):
         self.dds.set_att(5*dB)
 
         r = [0]*len(data)
-        self.u.read_ram(r)
+        self.dds.read_ram(r)
         for i in range(len(data)):
             assert r[i] == data[i]
 
