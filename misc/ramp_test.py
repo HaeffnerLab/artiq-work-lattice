@@ -21,6 +21,7 @@ class RampTest(EnvExperiment):
         for i in range(len(data)//2):
             data[i] = i << (32 - (n - 1))
             data[i + len(data)//2] = 0xffff << 16
+        self.dds.cpld.get_att_mu()
 
         self.dds.set_profile_ram(
                 start=0, end=0 + len(data) - 1, step=1,
