@@ -32,7 +32,7 @@ class OpticalPumpingPulsed:
         self.dds_854.set(o.frequency_854, 
                          amplitude=o.amplitude_854)
         self.dds_854.set_att(o.att_854)
-        for _ in range(int(o.number_of_cycles)):
+        for i in range(int(o.number_of_cycles)):
             with parallel:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
@@ -42,6 +42,9 @@ class OpticalPumpingPulsed:
                 self.dds_729_SP.sw.off()
                 self.dds_854.sw.on()
                 self.dds_866.sw.on()
-            delay(o.duration_854)
+            if i != len(int(o.number_of_cycles)) - 1:
+                delay(o.duration_854)
+            else:
+                delay(300*us)
             self.dds_854.sw.off()
             self.dds_866.sw.off()
