@@ -13,5 +13,5 @@ class rf_test(EnvExperiment):
         self.dds.set_att(20*dB)
         self.core.break_realtime()
         self.dds.sw.on()
-        delay(10000*s)
+        delay(10*s)
         self.dds.sw.off()
