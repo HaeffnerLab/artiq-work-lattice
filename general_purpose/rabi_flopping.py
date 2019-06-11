@@ -46,6 +46,7 @@ class RabiFlopping(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
+        print("\n\n", self.rabi.att_729, "\n\n")
 
     @kernel
     def RabiFlopping(self):
