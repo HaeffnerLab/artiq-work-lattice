@@ -44,6 +44,7 @@ class OpticalPumpingPulsed:
                 self.dds_866.sw.on()
             self.core.wait_until_mu(now_mu())
             if i != int(o.number_of_cycles) - 1:
+                self.core.wait_until_mu(now_mu())
                 delay(o.duration_854)
             else:
                 self.dds_854.set(80*MHz, amplitude=1.)
