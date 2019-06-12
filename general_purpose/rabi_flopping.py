@@ -51,16 +51,16 @@ class RabiFlopping(PulseSequence):
     @kernel
     def RabiFlopping(self):
         delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+        # self.dopplerCooling.run(self)
+        # if self.StatePreparation_pulsed_optical_pumping:
+        #     self.opp.run(self)
+        # elif self.StatePreparation_optical_pumping_enable:
+        #     self.opc.run(self)
+        # if self.StatePreparation_sideband_cooling_enable:
+        #     self.sbc.run(self)
+        #     if self.StatePreparation_pulsed_optical_pumping:
+        #         self.opp.run(self)
+        #     elif self.StatePreparation_optical_pumping_enable:
+        #         self.opc.run(self)
         self.rabi.run(self)
         
