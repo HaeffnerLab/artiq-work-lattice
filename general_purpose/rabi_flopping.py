@@ -51,6 +51,7 @@ class RabiFlopping(PulseSequence):
     def RabiFlopping(self):
         delay(1*ms)
         self.dopplerCooling.run(self)
+        delay(10*us)
         if self.StatePreparation_pulsed_optical_pumping:
             self.opp.run(self)
         elif self.StatePreparation_optical_pumping_enable:
