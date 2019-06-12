@@ -69,6 +69,7 @@ class CalibAllLines(PulseSequence):
     def CalibLine1(self):
         delay(1*ms)
         self.dopplerCooling.run(self)
+        delay(10*us)
         if self.StatePreparation_pulsed_optical_pumping:
             self.opp.run(self)
         elif self.StatePreparation_optical_pumping_enable:
@@ -106,6 +107,7 @@ class CalibAllLines(PulseSequence):
     def CalibLine2(self):
         delay(1*ms)
         self.dopplerCooling.run(self)
+        delay(10*us)
         if self.StatePreparation_pulsed_optical_pumping:
             self.opp.run(self)
         elif self.StatePreparation_optical_pumping_enable:
