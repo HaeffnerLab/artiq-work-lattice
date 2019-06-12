@@ -32,6 +32,7 @@ class OpticalPumpingPulsed:
         self.dds_854.set(o.frequency_854, 
                          amplitude=o.amplitude_854)
         self.dds_854.set_att(o.att_854)
+        self.core.break_realtime()
         for i in range(int(o.number_of_cycles)):
             with parallel:
                 self.dds_729.sw.on()
