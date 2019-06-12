@@ -24,6 +24,7 @@ class DopplerCooling:
         delay(d.pre_duration)
         self.dds_397.set(d.frequency_397, amplitude=d.amplitude_397)
         delay(d.duration)
+        delay(10*us)
         self.dds_397.sw.off()
         self.dds_397.set(20*MHz, amplitude=0.)
         delay(d.additional_repump_duration)
