@@ -116,7 +116,7 @@ class CalibAllLines(PulseSequence):
                 self.opp.run(self)
             elif self.StatePreparation_optical_pumping_enable:
                 self.opc.run(self)
-        self.rabi.run(self)
+        self.rabi.run(self)####
 
     def analyze_calibline2(self):
         x = self.data.CalibLine2.x
