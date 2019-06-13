@@ -64,7 +64,7 @@ class SidebandCooling:
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
         
-        if s.sequential_enable:
+        if s.sequential_enable:#
             self.get_729_dds(s.sequential_channel_729)
             freq_729 = self.calc_frequency( 
                     s.line_selection,
