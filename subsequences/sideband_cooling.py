@@ -62,7 +62,7 @@ class SidebandCooling:
         delay(s.duration)
         with parallel:
             self.dds_729.sw.off()
-            self.dds_729_SP.sw.off()#
+            self.dds_729_SP.sw.off()
         
         if s.sequential_enable:
             self.get_729_dds(s.sequential_channel_729)
