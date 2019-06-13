@@ -24,7 +24,6 @@ class HeatingRate(PulseSequence):
         "CalibrationScans.readout_mode",
         "StatePreparation.sideband_cooling_enable",
         "Heating.background_heating_time",
-        "Heating.scan_range"
     }
     
     master_scans = [("Heating.background_heating_time", 0., 100e-3, 20, "ms")]
