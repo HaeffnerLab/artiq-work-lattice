@@ -121,7 +121,7 @@ class RamseyDriftTracker(PulseSequence):
         pstar =  abs((p1 - p2) / (p1 + p2))  
         if pstar > .8:
             new_ramsey_time = ramsey_time / 2
-            if new_ramsey_time >= self.min_gap:
+            if new_ramsey_time >= self.min_gap:#
                 pv.set_parameter("DriftTrackerRamsey", "gap_time_1", U(new_ramsey_time, "s"))
                 logger.info("Halving gap_time_1.")
             if self.p.DriftTrackerRamsey.auto_schedule:
