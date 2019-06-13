@@ -21,7 +21,7 @@ class RabiExcitation:
         with parallel:
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
-        delay_mu(self.core.seconds_to_mu(r.duration))
+        delay(r.duration)
         with parallel:
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
