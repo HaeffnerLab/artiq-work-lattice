@@ -95,7 +95,7 @@ class MolmerSorensenGate(PulseSequence):
             if self.StatePreparation_pulsed_optical_pumping:
                 self.opp.run(self)
             elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)#
+                self.opc.run(self)
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
             delay(self.MolmerSorensen_ramsey_duration)
