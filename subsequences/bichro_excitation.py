@@ -34,6 +34,9 @@ class BichroExcitation:
         freq_red = 80*MHz + trap_frequency + b.detuning
         if b.channel == "global":
             self.get_729_dds("729G")
+            offset = self.get_offset_frequency("729G")
+            freq_blue += offset
+            freq_red += offset
             dp_freq = self.calc_frequency(
                 b.line_selection,
                 dds="729G"
@@ -67,6 +70,12 @@ class BichroExcitation:
         elif b.channel == "local":
             self.get_729_dds("729L1")
             self.get_729_dds("729L2", i=1)
+            offset1 = self.get_offset_frequency("729L1")
+            freq_blue1 += offset1
+            freq_red1 += offset1
+            offset2 = self.get_offset_frequency("729L2")
+            freq_blue2 += offset2
+            freq_red2 += offset2
             dp_freq1 = self.calc_frequency(
                 b.line_selection,
                 detuning=b.detuning_carrier_1,
@@ -90,13 +99,13 @@ class BichroExcitation:
                              phase=b.phase / 360)
             self.dds_7291.set_att(b.att_ion2)
             if b.bichro_enable:
-                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue)
+                self.dds_729_SP.set(freq_blue1, amplitude=b.amp_blue)
                 self.dds_729_SP.set_att(b.att_blue)
-                self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red)
+                self.dds_729_SP_bichro.set(freq_red1, amplitude=b.amp_red)
                 self.dds_729_SP_bichro.set_att(b.att_red)
-                self.dds_729_SP1.set(freq_blue, amplitude=b.amp_blue_ion2)
+                self.dds_729_SP1.set(freq_blue2, amplitude=b.amp_blue_ion2)
                 self.dds_729_SP1.set_att(b.att_blue_ion2)
-                self.dds_729_SP_bichro1.set(freq_red, amplitude=b.amp_red_ion2)
+                self.dds_729_SP_bichro1.set(freq_red2, amplitude=b.amp_red_ion2)
                 self.dds_729_SP_bichro1.set_att(b.att_red_ion2)
                 with parallel:
                     self.dds_729.sw.on()
