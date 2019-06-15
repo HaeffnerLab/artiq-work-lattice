@@ -35,7 +35,7 @@ class SidebandCooling:
     sequential2_selection_sideband="SequentialSBcooling2.selection_sideband"
     sequential2_order="SequentialSBCooling2.order"
 
-    def subsequence(self):
+    def subsequence(self):#
         s = SidebandCooling
         self.get_729_dds(s.channel_729)
         freq_729 = self.calc_frequency(
