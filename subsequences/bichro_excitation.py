@@ -57,7 +57,7 @@ class BichroExcitation:
                 with parallel:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
-                    self.dds_729_SP_bichro.sw.off()
+                    self.dds_729_SP_bichro.sw.off()#
             else:
                 with parallel:
                     self.dds_729.sw.on()
