@@ -30,8 +30,8 @@ class BichroExcitation:
     def subsequence(self):
         b = BichroExcitation
         trap_frequency = self.get_trap_frequency(b.selection_sideband)
-        freq_blue = 80*MHz - trap_frequency - b.detuning
-        freq_red = 80*MHz + trap_frequency + b.detuning
+        freq_red = 80*MHz - trap_frequency - b.detuning
+        freq_blue = 80*MHz + trap_frequency + b.detuning
         if b.channel == "global":
             self.get_729_dds("729G")
             offset = self.get_offset_frequency("729G")
