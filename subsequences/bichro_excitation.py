@@ -71,11 +71,11 @@ class BichroExcitation:
             self.get_729_dds("729L1")
             self.get_729_dds("729L2", i=1)
             offset1 = self.get_offset_frequency("729L1")
-            freq_blue1 += offset1
-            freq_red1 += offset1
+            freq_blue1 = freq_blue + offset1
+            freq_red1 = freq_red + offset1
             offset2 = self.get_offset_frequency("729L2")
-            freq_blue2 += offset2
-            freq_red2 += offset2
+            freq_blue2 = freq_blue + offset2
+            freq_red2 = freq_red + offset2
             dp_freq1 = self.calc_frequency(
                 b.line_selection,
                 detuning=b.detuning_carrier_1,
