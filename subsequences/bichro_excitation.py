@@ -35,7 +35,6 @@ class BichroExcitation:
         if b.channel == "global":
             self.get_729_dds("729G")
             offset = self.get_offset_frequency("729G")
-            print("\n\n\n\n\n", offset, "\n\n\n\n\n")
             freq_blue += offset
             freq_red += offset
             dp_freq = self.calc_frequency(
