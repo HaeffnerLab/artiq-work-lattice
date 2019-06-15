@@ -50,14 +50,14 @@ class BichroExcitation:
                 self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red)
                 self.dds_729_SP_bichro.set_att(b.att_red)
                 with parallel:
-                    self.dds_729.sw.on()
                     self.dds_729_SP.sw.on()
                     self.dds_729_SP_bichro.sw.on()
+                    self.dds_729.sw.on()
                 delay(b.duration)
                 with parallel:
-                    self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
-                    self.dds_729_SP_bichro.sw.off()#
+                    self.dds_729_SP_bichro.sw.off()
+                    self.dds_729.sw.off()
             else:
                 with parallel:
                     self.dds_729.sw.on()
