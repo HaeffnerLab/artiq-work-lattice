@@ -5,7 +5,7 @@ from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.sideband_cooling import SidebandCooling
 from artiq.experiment import *
-#
+##
 class RabiFlopping(PulseSequence):
     PulseSequence.accessed_params = {
         "RabiFlopping.line_selection",
