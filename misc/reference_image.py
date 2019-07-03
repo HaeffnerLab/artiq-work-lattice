@@ -1,9 +1,11 @@
 import labrad
 import numpy as np
 import matplotlib.pyplot as plt
+import logging
 from artiq.experiment import *
 from artiq.protocols.pc_rpc import Client
 
+logger = logging.getLogger(__name__)
 
 class ReferenceImage(EnvExperiment):
 
