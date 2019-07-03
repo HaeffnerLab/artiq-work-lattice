@@ -10,7 +10,7 @@ class RabiFlopping(PulseSequence):
     PulseSequence.accessed_params = {
         "RabiFlopping.line_selection",
         "RabiFlopping.amplitude_729",
-        "RabiFlopping.aadd_subsequencett_729",
+        "RabiFlopping.att_729",
         "RabiFlopping.channel_729",
         "RabiFlopping.duration",
         "RabiFlopping.selection_sideband",
