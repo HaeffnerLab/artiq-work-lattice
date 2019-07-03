@@ -7,7 +7,6 @@ from subsequences.sideband_cooling import SidebandCooling
 from artiq.experiment import *
 
 
-
 class RabiFlopping(PulseSequence):
     PulseSequence.accessed_params = {
         "RabiFlopping.line_selection",
