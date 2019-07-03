@@ -119,6 +119,7 @@ class ReferenceImage(EnvExperiment):
         camera_dock = Client("::1", 3288, "camera_reference_image")
         done = self.camera.wait_for_kinetic()
         if not done:
+            logger.error("Failed to get all Kinetic images from the camera.")
             camera_dock.enable_button()
             camera_dock.close_rpc()
             self.close_camera()
