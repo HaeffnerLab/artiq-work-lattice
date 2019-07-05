@@ -35,9 +35,9 @@ class SidebandCooling:
     sequential2_selection_sideband="SequentialSBcooling2.selection_sideband"
     sequential2_order="SequentialSBCooling2.order"
 
-    def subsequence(self):#
+    def subsequence(self):
         s = SidebandCooling
-        self.get_729_dds(s.channel_729)
+        self.get_729_dds(s.channel_729, id="SBCooling")
         freq_729 = self.calc_frequency(
                         s.line_selection,
                         detuning=s.stark_shift,
@@ -45,9 +45,9 @@ class SidebandCooling:
                         order=s.order,
                         dds=s.channel_729
                     )
-        self.dds_729.set(freq_729, 
+        self.dds_729_SBC.set(freq_729, 
                          amplitude=s.amplitude_729)
-        self.dds_729.set_att(s.att_729)
+        self.dds_729_SBC.set_att(s.att_729)
         self.dds_854.set(s.freq_854, 
                          amplitude=s.amp_854)
         self.dds_854.set_att(s.att_854)
@@ -57,60 +57,60 @@ class SidebandCooling:
         with parallel:
             self.dds_854.sw.on()
             self.dds_866.sw.on()
-            self.dds_729.sw.on()
-            self.dds_729_SP.sw.on()
+            self.dds_729_SBC.sw.on()
+            self.dds_729_SP_SBC.sw.on()
         delay(s.duration)
         with parallel:
-            self.dds_729.sw.off()
-            self.dds_729_SP.sw.off()
+            self.dds_729_SBC.sw.off()
+            self.dds_729_SP_SBC.sw.off()
         
         if s.sequential_enable:
-            self.get_729_dds(s.sequential_channel_729)
+            self.get_729_dds(s.sequential_channel_729, id="SeqSBCooling")
             freq_729 = self.calc_frequency( 
                     s.line_selection,
                     detuning=s.stark_shift,
                     sideband=s.sequential_selection_sideband,
                     order=s.sequential_order,
-                    dds=s.channel_729)
+                    dds=s.sequential_channel_729)
             with parallel:
-                self.dds_729.sw.on()
-                self.dds_729_SP.sw.on()
+                self.dds_729_SeqSBC.sw.on()
+                self.dds_729_SP_SeqSBC.sw.on()
             delay(s.duration)
             with parallel:
-                self.dds_729.sw.off()
-                self.dds_729_SP.sw.off()
+                self.dds_729_SeqSBC.sw.off()
+                self.dds_729_SP_SeqSBC.sw.off()
 
         if s.sequential1_enable:
-            self.get_729_dds(s.sequential1_channel_729)
+            self.get_729_dds(s.sequential1_channel_729, id="SeqSBCooling1")
             freq_729 = self.calc_frequency( 
                     s.line_selection,
                     detuning=s.stark_shift,
                     sideband=s.sequential1_selection_sideband,
                     order=s.sequential1_order,
-                    dds=s.channel_729)
+                    dds=s.sequential1_channel_729)
             with parallel:
-                self.dds_729.sw.on()
-                self.dds_729_SP.sw.on()
+                self.dds_729_SeqSBC1.sw.on()
+                self.dds_729_SP_SeqSBC1.sw.on()
             delay(s.duration)
             with parallel:
-                self.dds_729.sw.off()
-                self.dds_729_SP.sw.off()
+                self.dds_729_SeqSBC1.sw.off()
+                self.dds_729_SP_SeqSBC1.sw.off()
 
         if s.sequential2_enable:
-            self.get_729_dds(s.sequential2_channel_729)
+            self.get_729_dds(s.sequential2_channel_729, id="SeqSBCooling2")
             freq_729 = self.calc_frequency( 
                     s.line_selection,
                     detuning=s.stark_shift,
                     sideband=s.sequential2_selection_sideband,
                     order=s.sequential2_order,
-                    dds=s.channel_729)
+                    dds=s.sequential2_channel_729)
             with parallel:
-                self.dds_729.sw.on()
-                self.dds_729_SP.sw.on()
+                self.dds_729_SeqSBC2.sw.on()
+                self.dds_729_SP_SeqSBC2.sw.on()
             delay(s.duration)
             with parallel:
-                self.dds_729.sw.off()
-                self.dds_729_SP.sw.off()
+                self.dds_729_SeqSBC2.sw.off()
+                self.dds_729_SP_SeqSBC2.sw.off()
         
         delay(3 * s.repump_additional)
         with parallel:
