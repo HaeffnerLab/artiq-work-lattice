@@ -71,6 +71,9 @@ class SidebandCooling:
                     sideband=s.sequential_selection_sideband,
                     order=s.sequential_order,
                     dds=s.sequential_channel_729)
+            self.dds_729_SeqSBC.set(freq_729, 
+                            amplitude=s.amplitude_729)
+            self.dds_729_SeqSBC.set_att(s.att_729)
             with parallel:
                 self.dds_729_SeqSBC.sw.on()
                 self.dds_729_SP_SeqSBC.sw.on()
@@ -87,6 +90,9 @@ class SidebandCooling:
                     sideband=s.sequential1_selection_sideband,
                     order=s.sequential1_order,
                     dds=s.sequential1_channel_729)
+            self.dds_729_SeqSBC1.set(freq_729, 
+                            amplitude=s.amplitude_729)
+            self.dds_729_SeqSBC1.set_att(s.att_729)
             with parallel:
                 self.dds_729_SeqSBC1.sw.on()
                 self.dds_729_SP_SeqSBC1.sw.on()
@@ -103,6 +109,9 @@ class SidebandCooling:
                     sideband=s.sequential2_selection_sideband,
                     order=s.sequential2_order,
                     dds=s.sequential2_channel_729)
+            self.dds_729_SeqSBC2.set(freq_729, 
+                            amplitude=s.amplitude_729)
+            self.dds_729_SeqSBC2.set_att(s.att_729)
             with parallel:
                 self.dds_729_SeqSBC2.sw.on()
                 self.dds_729_SP_SeqSBC2.sw.on()
