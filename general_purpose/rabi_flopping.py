@@ -43,7 +43,7 @@ class RabiFlopping(PulseSequence):
             detuning=self.RabiFlopping_detuning,
             sideband=self.RabiFlopping_selection_sideband,
             order=self.RabiFlopping_order, 
-            dds=self.RabiFlopping_channel_729
+            dds="729L1" #self.RabiFlopping_channel_729
         )
 
     @kernel
