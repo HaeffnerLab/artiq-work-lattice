@@ -17,6 +17,7 @@ class OpticalPumpingContinuous:
 
     def subsequence(self):
         o = OpticalPumpingContinuous
+        print("**** OpticalPumpingContinuous get_729_dds:", o.channel_729)
         self.get_729_dds(o.channel_729)
         self.dds_866.set(o.frequency_866,
                          amplitude=o.amplitude_866)
