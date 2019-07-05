@@ -1,4 +1,7 @@
 from artiq.experiment import *
+import logging
+
+logger = logging.getLogger(__name__)
 
 class OpticalPumpingContinuous:
     frequency_866="DopplerCooling.doppler_cooling_frequency_866"
@@ -16,7 +19,7 @@ class OpticalPumpingContinuous:
 
     def subsequence(self):
         o = OpticalPumpingContinuous
-        print("**** OpticalPumpingContinuous get_729_dds:", o.channel_729)
+        logger.info("**** OpticalPumpingContinuous get_729_dds:", o.channel_729)
         self.get_729_dds(o.channel_729)
         self.dds_866.set(o.frequency_866,
                          amplitude=o.amplitude_866)
