@@ -19,34 +19,38 @@ class OpticalPumpingPulsed:
         o = OpticalPumpingPulsed
         #self.get_729_dds(o.channel_729, "OpticalPumping")
         self.get_729_dds(self.StatePreparation_channel_729, "OpticalPumping")
-        self.dds_866.set(o.frequency_866, 
-                         amplitude=o.amplitude_866)
-        self.dds_866.set_att(o.att_866)
+        #self.dds_866.set(o.frequency_866, 
+        #                 amplitude=o.amplitude_866)
+        self.dds_866.set(self.DopplerCooling_doppler_cooling_frequency_866)
+        #self.dds_866.set_att(o.att_866)
+        self.dds_866.set_att(self.DopplerCooling_doppler_cooling_att_866)
         freq_729 = self.calc_frequency(
             #o.line_selection,
             #dds=o.channel_729
-            self.OpticalPumping_line_selection, dds=self.StatePreparation_channel_729
+            self.OpticalPumping_line_selection,
+            dds=self.StatePreparation_channel_729
         )
         self.dds_729_OP.set(freq_729, 
                          #amplitude=o.amplitude_729)
                          amplitude=self.StatePreparation_pulsed_amplitude)
         #self.dds_729_OP.set_att(o.att_729)
         self.dds_729_OP.set_att(self.StatePreparation_pulsed_att)
-        self.dds_854.set(o.frequency_854, 
-                         amplitude=o.amplitude_854)
-        self.dds_854.set_att(o.att_854)
-        for i in range(int(o.number_of_cycles)):
+        self.dds_854.set(self.OpticalPumping_optical_pumping_frequency_854,
+            amplitude=self.OpticalPumping_optical_pumping_amplitude_854)
+        self.dds_854.set_att(self.OpticalPumping_optical_pumping_att_854)
+        for i in range(int(self.StatePreparation_number_of_cycles)):
             with parallel:
                 self.dds_729_OP.sw.on()
                 self.dds_729_SP_OP.sw.on()
-            delay(o.pi_time)
+            #delay(o.pi_time)
+            delay(self.StatePreparation_pi_time)
             with parallel:
                 self.dds_729_OP.sw.off()
                 self.dds_729_SP_OP.sw.off()
                 self.dds_854.sw.on()
                 self.dds_866.sw.on()
-            if i != int(o.number_of_cycles) - 1:
-                delay(o.duration_854)
+            if i != int(self.StatePreparation_number_of_cycles) - 1:
+                delay(self.StatePreparation_pulsed_854_duration)
             else:
                 delay(10*us)
                 self.dds_854.set(80*MHz, amplitude=1.)
