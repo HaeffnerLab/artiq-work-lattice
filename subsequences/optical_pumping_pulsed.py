@@ -5,7 +5,7 @@ class OpticalPumpingPulsed:
     number_of_cycles="StatePreparation.number_of_cycles"
     duration_854="StatePreparation.pulsed_854_duration"
     pi_time="StatePreparation.pi_time"
-    channel_729="StatePreparation.channel_729"
+    op_channel_729="StatePreparation.channel_729"
     amplitude_729="StatePreparation.pulsed_amplitude"
     att_729="StatePreparation.pulsed_att"
     frequency_866="DopplerCooling.doppler_cooling_frequency_866"
@@ -18,13 +18,13 @@ class OpticalPumpingPulsed:
 
     def subsequence(self):
         o = OpticalPumpingPulsed
-        self.get_729_dds(o.channel_729, "OpticalPumping")
+        self.get_729_dds(o.op_channel_729, "OpticalPumping")
         self.dds_866.set(o.frequency_866, 
                          amplitude=o.amplitude_866)
         self.dds_866.set_att(o.att_866)
         freq_729 = self.calc_frequency(
             o.line_selection,
-            dds=o.channel_729
+            dds=o.op_channel_729
         )
         self.dds_729_OP.set(freq_729, 
                          amplitude=o.amplitude_729)

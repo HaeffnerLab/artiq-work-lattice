@@ -30,7 +30,7 @@ class RabiFlopping(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
-        self.rabi.channel_729 = "729L1" #self.p.RabiFlopping.channel_729
+        self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.set_subsequence["RabiFlopping"] = self.set_subsequence_rabiflopping
 
     @kernel
@@ -43,7 +43,7 @@ class RabiFlopping(PulseSequence):
             detuning=self.RabiFlopping_detuning,
             sideband=self.RabiFlopping_selection_sideband,
             order=self.RabiFlopping_order, 
-            dds="729L1" #self.RabiFlopping_channel_729
+            dds=self.RabiFlopping_channel_729
         )
 
     @kernel
