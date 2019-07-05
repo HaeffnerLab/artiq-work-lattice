@@ -32,6 +32,7 @@ class RabiFlopping(PulseSequence):
         self.sbc = self.add_subsequence(SidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.RabiFlopping.channel_729
+        print("**** RabiFlopping.rabi.channel_729:", self.rabi.channel_729)
         self.set_subsequence["RabiFlopping"] = self.set_subsequence_rabiflopping
 
     @kernel
@@ -39,6 +40,7 @@ class RabiFlopping(PulseSequence):
         self.rabi.duration = self.get_variable_parameter("RabiFlopping_duration")
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
         self.rabi.att_729 = self.RabiFlopping_att_729
+        print("**** RabiFlopping.RabiFlopping_channel_729:", self.RabiFlopping_channel_729)
         self.rabi.freq_729 = self.calc_frequency(
             self.RabiFlopping_line_selection, 
             detuning=self.RabiFlopping_detuning,
