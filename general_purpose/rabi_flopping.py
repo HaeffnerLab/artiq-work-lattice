@@ -52,6 +52,7 @@ class RabiFlopping(PulseSequence):
         self.dopplerCooling.run(self)
         if self.StatePreparation_pulsed_optical_pumping:
             self.opp.run(self)
+            delay(1*ms)
         elif self.StatePreparation_optical_pumping_enable:
             self.opc.run(self)
         if self.StatePreparation_sideband_cooling_enable:
