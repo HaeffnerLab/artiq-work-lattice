@@ -1,7 +1,4 @@
 from artiq.experiment import *
-import logging
-
-logger = logging.getLogger(__name__)
 
 class RabiExcitation:
     freq_729="Excitation_729.rabi_excitation_frequency"
@@ -14,7 +11,6 @@ class RabiExcitation:
 
     def subsequence(self):
         r = RabiExcitation
-        logger.info("**** RabiExcitation.channel_729:", r.channel_729)
         self.get_729_dds(r.channel_729)
         self.dds_729.set(r.freq_729, amplitude=r.amp_729,
                     phase=r.phase_729 / 360)
