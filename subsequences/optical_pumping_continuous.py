@@ -1,6 +1,5 @@
 from artiq.experiment import *
 
-
 class OpticalPumpingContinuous:
     frequency_866="DopplerCooling.doppler_cooling_frequency_866"
     amplitude_866="DopplerCooling.doppler_cooling_amplitude_866"
