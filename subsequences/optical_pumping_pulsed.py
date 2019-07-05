@@ -21,9 +21,10 @@ class OpticalPumpingPulsed:
         self.get_729_dds(self.StatePreparation_channel_729, "OpticalPumping")
         #self.dds_866.set(o.frequency_866, 
         #                 amplitude=o.amplitude_866)
-        self.dds_866.set(self.DopplerCooling_doppler_cooling_frequency_866)
+        self.dds_866.set(self.DopplerCooling_doppler_cooling_frequency_866,
+            amplitude=self.DopplerCooling_doppler_cooling_frequency_866,)
         #self.dds_866.set_att(o.att_866)
-        self.dds_866.set_att(self.DopplerCooling_doppler_cooling_att_866)
+        self.dds_866.set_att(self.DopplerCooling_doppler_cooling_amplitude_866)
         freq_729 = self.calc_frequency(
             #o.line_selection,
             #dds=o.channel_729
