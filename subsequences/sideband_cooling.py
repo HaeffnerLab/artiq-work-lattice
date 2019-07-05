@@ -1,5 +1,6 @@
 from artiq.experiment import *
 
+
 class SidebandCooling:
     line_selection="SidebandCooling.line_selection"
     selection_sideband="SidebandCooling.selection_sideband"
