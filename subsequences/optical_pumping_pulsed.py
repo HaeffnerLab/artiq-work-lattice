@@ -17,17 +17,21 @@ class OpticalPumpingPulsed:
 
     def subsequence(self):
         o = OpticalPumpingPulsed
-        self.get_729_dds(o.channel_729, "OpticalPumping")
+        #self.get_729_dds(o.channel_729, "OpticalPumping")
+        self.get_729_dds(self.StatePreparation_channel_729, "OpticalPumping")
         self.dds_866.set(o.frequency_866, 
                          amplitude=o.amplitude_866)
         self.dds_866.set_att(o.att_866)
         freq_729 = self.calc_frequency(
-            o.line_selection,
-            dds=o.channel_729
+            #o.line_selection,
+            #dds=o.channel_729
+            self.OpticalPumping_line_selection, dds=self.StatePreparation_channel_729
         )
         self.dds_729_OP.set(freq_729, 
-                         amplitude=o.amplitude_729)
-        self.dds_729_OP.set_att(o.att_729)
+                         #amplitude=o.amplitude_729)
+                         amplitude=self.StatePreparation_pulsed_amplitude)
+        #self.dds_729_OP.set_att(o.att_729)
+        self.dds_729_OP.set_att(self.StatePreparation_pulsed_att)
         self.dds_854.set(o.frequency_854, 
                          amplitude=o.amplitude_854)
         self.dds_854.set_att(o.att_854)
