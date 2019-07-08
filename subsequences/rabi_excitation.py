@@ -18,7 +18,7 @@ class RabiExcitation:
                     phase=r.phase_729 / 360)
         self.dds_729.set_att(r.att_729)
         self.dds_729_SP.set_amplitude(r.sp_amp_729)
-        self.dds_729_SP.set_att(r.sp_att_729)
+        #self.dds_729_SP.set_att(r.sp_att_729)
         
         with parallel:
             self.dds_729.sw.on()

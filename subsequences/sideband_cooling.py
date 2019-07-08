@@ -50,7 +50,7 @@ class SidebandCooling:
                          amplitude=s.amplitude_729)
         self.dds_729_SBC.set_att(s.att_729)
         self.dds_729_SP_SBC.set_amplitude(s.sp_amp_729)
-        self.dds_729_SP_SBC.set_att(s.sp_att_729)
+        #self.dds_729_SP_SBC.set_att(s.sp_att_729)
         self.dds_854.set(s.freq_854, 
                          amplitude=s.amp_854)
         self.dds_854.set_att(s.att_854)
@@ -79,7 +79,7 @@ class SidebandCooling:
                             amplitude=s.amplitude_729)
             self.dds_729_SeqSBC.set_att(s.att_729)
             self.dds_729_SP_SeqSBC.set_amplitude(s.sp_amp_729)
-            self.dds_729_SP_SeqSBC.set_att(s.sp_att_729)
+            #self.dds_729_SP_SeqSBC.set_att(s.sp_att_729)
             with parallel:
                 self.dds_729_SeqSBC.sw.on()
                 self.dds_729_SP_SeqSBC.sw.on()
@@ -100,7 +100,7 @@ class SidebandCooling:
                             amplitude=s.amplitude_729)
             self.dds_729_SeqSBC1.set_att(s.att_729)
             self.dds_729_SP_SeqSBC1.set_amplitude(s.sp_amp_729)
-            self.dds_729_SP_SeqSBC1.set_att(s.sp_att_729)
+            #self.dds_729_SP_SeqSBC1.set_att(s.sp_att_729)
             with parallel:
                 self.dds_729_SeqSBC1.sw.on()
                 self.dds_729_SP_SeqSBC1.sw.on()
@@ -121,7 +121,7 @@ class SidebandCooling:
                             amplitude=s.amplitude_729)
             self.dds_729_SeqSBC2.set_att(s.att_729)
             self.dds_729_SP_SeqSBC2.set_amplitude(s.sp_amp_729)
-            self.dds_729_SP_SeqSBC2.set_att(s.sp_att_729)
+            #self.dds_729_SP_SeqSBC2.set_att(s.sp_att_729)
             with parallel:
                 self.dds_729_SeqSBC2.sw.on()
                 self.dds_729_SP_SeqSBC2.sw.on()
