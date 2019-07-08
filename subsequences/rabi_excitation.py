@@ -1,5 +1,6 @@
 from artiq.experiment import *
 
+
 class RabiExcitation:
     freq_729="Excitation_729.rabi_excitation_frequency"
     amp_729="Excitation_729.rabi_excitation_amplitude"
