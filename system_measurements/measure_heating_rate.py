@@ -105,13 +105,14 @@ class HeatingRate(PulseSequence):
         try:
             popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
             self.red_amps.append(popt[0])
+            print("red_amp:", popt[0])
         except:
             self.red_amps.append(np.nan)
             raise FitError
         if len(self.red_amps) == len(self.blue_amps):
             try:
                 R = self.red_amps[-1] / self.blue_amps[-1]
-                nbar = R / (1 - R)
+                nbar = R / (1 - R) if R < 1 else -1
                 self.nbars.append(nbar)
                 self.wait_times.append(self.p.Heating.background_heating_time)
                 self.rcg.plot(self.wait_times, self.nbars, tab_name="CalibSidebands",
@@ -149,13 +150,14 @@ class HeatingRate(PulseSequence):
         try:
             popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
             self.blue_amps.append(popt[0])
+            print("blue_amp:", popt[0])
         except:
             self.blue_amps.append(np.nan)
             raise FitError
         if len(self.red_amps) == len(self.blue_amps):
             try:
                 R = self.red_amps[-1] / self.blue_amps[-1]
-                nbar = R / (1 - R)
+                nbar = R / (1 - R) if R < 1 else -1
                 self.nbars.append(nbar)
                 self.wait_times.append(self.p.Heating.background_heating_time)
                 self.rcg.plot(self.wait_times, self.nbars, tab_name="CalibSidebands",
