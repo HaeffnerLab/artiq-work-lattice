@@ -103,7 +103,8 @@ class HeatingRate(PulseSequence):
         x = self.data.CalibRed.x
         global_max = x[np.argmax(y)]
         try:
-            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
+            #popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
+            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, -1000.0, 500.0])
             self.red_amps.append(popt[0])
             print("red_amp:", popt[0])
         except:
@@ -148,7 +149,8 @@ class HeatingRate(PulseSequence):
         if np.max(y) < 0.1:
             raise FitError
         try:
-            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
+            #popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
+            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, -1000.0, 500.0])
             self.blue_amps.append(popt[0])
             print("blue_amp:", popt[0])
         except:
