@@ -29,6 +29,9 @@ class OpticalPumpingPulsed:
         self.dds_729_OP.set(freq_729, 
                          amplitude=o.amplitude_729)
         self.dds_729_OP.set_att(o.att_729)
+        self.dds_729_SP_OP.set_amplitude(o.amplitude_729)
+        self.dds_729_SP_OP.set_att(o.att_729)
+
         self.dds_854.set(o.frequency_854, 
                          amplitude=o.amplitude_854)
         self.dds_854.set_att(o.att_854)

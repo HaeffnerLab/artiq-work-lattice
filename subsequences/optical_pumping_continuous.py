@@ -31,6 +31,9 @@ class OpticalPumpingContinuous:
         self.dds_729_OP.set(freq_729, 
                          amplitude=o.amplitude_729)
         self.dds_729_OP.set_att(o.att_729)
+        self.dds_729_SP_OP.set_amplitude(o.amplitude_729)
+        self.dds_729_SP_OP.set_att(o.att_729)
+
         with parallel:
             self.dds_866.sw.on()
             self.dds_854.sw.on()
