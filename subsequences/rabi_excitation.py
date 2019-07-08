@@ -8,6 +8,8 @@ class RabiExcitation:
     channel_729="Excitation_729.channel_729"
     duration="Excitation_729.rabi_excitation_duration"
     line_selection="Excitation_729.line_selection"
+    sp_amp_729="Excitation_729.single_pass_amplitude"
+    sp_att_729="Excitation_729.single_pass_att"
 
     def subsequence(self):
         r = RabiExcitation
@@ -15,8 +17,8 @@ class RabiExcitation:
         self.dds_729.set(r.freq_729, amplitude=r.amp_729,
                     phase=r.phase_729 / 360)
         self.dds_729.set_att(r.att_729)
-        self.dds_729_SP.set_amplitude(r.amp_729)
-        self.dds_729_SP.set_att(r.att_729)
+        self.dds_729_SP.set_amplitude(r.sp_amp_729)
+        self.dds_729_SP.set_att(r.sp_att_729)
         
         with parallel:
             self.dds_729.sw.on()

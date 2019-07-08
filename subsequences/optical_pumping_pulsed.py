@@ -15,6 +15,8 @@ class OpticalPumpingPulsed:
     amplitude_854="OpticalPumping.optical_pumping_amplitude_854"
     att_854="OpticalPumping.optical_pumping_att_854"
     line_selection="OpticalPumping.line_selection"
+    sp_amp_729="Excitation_729.single_pass_amplitude"
+    sp_att_729="Excitation_729.single_pass_att"
 
     def subsequence(self):
         o = OpticalPumpingPulsed
@@ -29,8 +31,8 @@ class OpticalPumpingPulsed:
         self.dds_729_OP.set(freq_729, 
                          amplitude=o.amplitude_729)
         self.dds_729_OP.set_att(o.att_729)
-        self.dds_729_SP_OP.set_amplitude(o.amplitude_729)
-        self.dds_729_SP_OP.set_att(o.att_729)
+        self.dds_729_SP_OP.set_amplitude(o.sp_amp_729)
+        self.dds_729_SP_OP.set_att(o.sp_att_729)
 
         self.dds_854.set(o.frequency_854, 
                          amplitude=o.amplitude_854)
