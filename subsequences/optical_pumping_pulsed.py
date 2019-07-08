@@ -1,6 +1,5 @@
 from artiq.experiment import *
 
-
 class OpticalPumpingPulsed:
     number_of_cycles="StatePreparation.number_of_cycles"
     duration_854="StatePreparation.pulsed_854_duration"
@@ -32,7 +31,7 @@ class OpticalPumpingPulsed:
                          amplitude=o.amplitude_729)
         self.dds_729_OP.set_att(o.att_729)
         self.dds_729_SP_OP.set_amplitude(o.sp_amp_729)
-        #self.dds_729_SP_OP.set_att(o.sp_att_729)
+        self.dds_729_SP_OP.set_att(o.sp_att_729)
 
         self.dds_854.set(o.frequency_854, 
                          amplitude=o.amplitude_854)
