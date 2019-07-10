@@ -24,6 +24,7 @@ class HeatingRate(PulseSequence):
         "CalibrationScans.readout_mode",
         "StatePreparation.sideband_cooling_enable",
         "Heating.background_heating_time",
+        "SidebandCooling.sideband_cooling_cycles",
     }
     
     master_scans = [("Heating.background_heating_time", 0., 100e-3, 20, "ms")]
@@ -89,12 +90,15 @@ class HeatingRate(PulseSequence):
             self.opp.run(self)
         elif self.StatePreparation_optical_pumping_enable:
             self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+
+        num_cycles = int(self.SidebandCooling_sideband_cooling_cycles)
+        for i in range(num_cycles):
+            if self.StatePreparation_sideband_cooling_enable:
+                self.sbc.run(self)
+                if self.StatePreparation_pulsed_optical_pumping:
+                    self.opp.run(self)
+                elif self.StatePreparation_optical_pumping_enable:
+                    self.opc.run(self)
         delay(self.Heating_background_heating_time)
         self.rabi.run(self)
 
@@ -132,12 +136,15 @@ class HeatingRate(PulseSequence):
             self.opp.run(self)
         elif self.StatePreparation_optical_pumping_enable:
             self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+
+        num_cycles = int(self.SidebandCooling_sideband_cooling_cycles)
+        for i in range(num_cycles):
+            if self.StatePreparation_sideband_cooling_enable:
+                self.sbc.run(self)
+                if self.StatePreparation_pulsed_optical_pumping:
+                    self.opp.run(self)
+                elif self.StatePreparation_optical_pumping_enable:
+                    self.opc.run(self)
         delay(self.Heating_background_heating_time)
         self.rabi.run(self)
 

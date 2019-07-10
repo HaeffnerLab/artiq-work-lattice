@@ -18,7 +18,7 @@ class RabiFlopping(PulseSequence):
         "RabiFlopping.order",
         "RabiFlopping.detuning",
         "StatePreparation.sideband_cooling_enable",
-        "SidebandCooling.sideband_cooling_cycles"
+        "SidebandCooling.sideband_cooling_cycles",
     }
 
     PulseSequence.scan_params = dict(
