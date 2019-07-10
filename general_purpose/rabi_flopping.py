@@ -17,7 +17,8 @@ class RabiFlopping(PulseSequence):
         "RabiFlopping.selection_sideband",
         "RabiFlopping.order",
         "RabiFlopping.detuning",
-        "StatePreparation.sideband_cooling_enable"
+        "StatePreparation.sideband_cooling_enable",
+        "SidebandCooling.sideband_cooling_cycles"
     }
 
     PulseSequence.scan_params = dict(
@@ -55,11 +56,14 @@ class RabiFlopping(PulseSequence):
             self.opp.run(self)
         elif self.StatePreparation_optical_pumping_enable:
             self.opc.run(self)
+
         if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+            num_cycles = self.SidebandCooling_sideband_cooling_cycles
+            for i in range(num_cycles):
+                self.sbc.run(self)
+                if self.StatePreparation_pulsed_optical_pumping:
+                    self.opp.run(self)
+                elif self.StatePreparation_optical_pumping_enable:
+                    self.opc.run(self)
         self.rabi.run(self)
         
