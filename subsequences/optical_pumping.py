@@ -12,7 +12,7 @@ class OpticalPumping:
 
     def subsequence(self):
         o = OpticalPumping
-        if s.enable_pulsed_optical_pumping:
-            s.opp.run(self)
+        if o.enable_pulsed_optical_pumping:
+            o.opp.run(self)
         else:
-            s.opc.run(self)
+            o.opc.run(self)
