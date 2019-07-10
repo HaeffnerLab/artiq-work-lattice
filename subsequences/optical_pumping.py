@@ -14,5 +14,5 @@ class OpticalPumping:
         o = OpticalPumping
         if s.enable_pulsed_optical_pumping:
             s.opp.run(self)
-        else
+        else:
             s.opc.run(self)
