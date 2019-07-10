@@ -11,11 +11,11 @@ class StatePreparation:
     sideband_cooling_cycles="SidebandCooling.sideband_cooling_cycles"
 
     def add_child_subsequences(pulse_sequence):
-        s = StatePreparation
-        s.dopplerCooling = pulse_sequence.add_subsequence(DopplerCooling)
-        s.opp = pulse_sequence.add_subsequence(OpticalPumpingPulsed)
-        s.opc = pulse_sequence.add_subsequence(OpticalPumpingContinuous)
-        s.sbc = pulse_sequence.add_subsequence(SidebandCooling)
+        #s = StatePreparation
+        StatePreparation.dopplerCooling = pulse_sequence.add_subsequence(DopplerCooling)
+        StatePreparation.opp = pulse_sequence.add_subsequence(OpticalPumpingPulsed)
+        StatePreparation.opc = pulse_sequence.add_subsequence(OpticalPumpingContinuous)
+        StatePreparation.sbc = pulse_sequence.add_subsequence(SidebandCooling)
 
     @kernel
     def subsequence(self):
