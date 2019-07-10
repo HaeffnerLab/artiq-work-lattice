@@ -22,15 +22,3 @@ class StatePreparation:
             s.op.run(self)
         if s.enable_sideband_cooling:
             s.sbc.run(self)
-
-            
-        if s.enable_sideband_cooling:
-            s.sbc.run(self)
-
-            num_cycles = int(s.sideband_cooling_cycles)
-            for i in range(num_cycles):
-                s.sbc.run(self)
-                if s.enable_pulsed_optical_pumping:
-                    s.opp.run(self)
-                elif s.enable_optical_pumping:
-                    s.opc.run(self)
