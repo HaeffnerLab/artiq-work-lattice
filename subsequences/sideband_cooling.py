@@ -78,6 +78,7 @@ class SidebandCooling:
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
             s.op.run(self)
+            delay(10*us)
             
             if s.sequential_enable:
                 self.get_729_dds(s.sequential_channel_729)
@@ -92,7 +93,15 @@ class SidebandCooling:
                 self.dds_729.set_att(s.att_729)
                 self.dds_729_SP.set_amplitude(s.sp_amp_729)
                 self.dds_729_SP.set_att(s.sp_att_729)
+                self.dds_854.set(s.freq_854, 
+                                amplitude=s.amp_854)
+                self.dds_854.set_att(s.att_854)
+                self.dds_866.set(s.freq_866, 
+                                amplitude=s.amp_866)
+                self.dds_866.set_att(s.att_866)
                 with parallel:
+                    self.dds_854.sw.on()
+                    self.dds_866.sw.on()
                     self.dds_729.sw.on()
                     self.dds_729_SP.sw.on()
                 delay(s.duration)
@@ -100,6 +109,7 @@ class SidebandCooling:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
                 s.op.run(self)
+                delay(10*us)
 
             if s.sequential1_enable:
                 self.get_729_dds(s.sequential1_channel_729)
@@ -114,7 +124,15 @@ class SidebandCooling:
                 self.dds_729.set_att(s.att_729)
                 self.dds_729_SP.set_amplitude(s.sp_amp_729)
                 self.dds_729_SP.set_att(s.sp_att_729)
+                self.dds_854.set(s.freq_854, 
+                                amplitude=s.amp_854)
+                self.dds_854.set_att(s.att_854)
+                self.dds_866.set(s.freq_866, 
+                                amplitude=s.amp_866)
+                self.dds_866.set_att(s.att_866)
                 with parallel:
+                    self.dds_854.sw.on()
+                    self.dds_866.sw.on()
                     self.dds_729.sw.on()
                     self.dds_729_SP.sw.on()
                 delay(s.duration)
@@ -122,6 +140,7 @@ class SidebandCooling:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
                 s.op.run(self)
+                delay(10*us)
 
             if s.sequential2_enable:
                 self.get_729_dds(s.sequential2_channel_729)
@@ -136,7 +155,15 @@ class SidebandCooling:
                 self.dds_729.set_att(s.att_729)
                 self.dds_729_SP.set_amplitude(s.sp_amp_729)
                 self.dds_729_SP.set_att(s.sp_att_729)
+                self.dds_854.set(s.freq_854, 
+                                amplitude=s.amp_854)
+                self.dds_854.set_att(s.att_854)
+                self.dds_866.set(s.freq_866, 
+                                amplitude=s.amp_866)
+                self.dds_866.set_att(s.att_866)
                 with parallel:
+                    self.dds_854.sw.on()
+                    self.dds_866.sw.on()
                     self.dds_729.sw.on()
                     self.dds_729_SP.sw.on()
                 delay(s.duration)
@@ -144,9 +171,9 @@ class SidebandCooling:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
                 s.op.run(self)
+                delay(10*us)
             
-            self.core.wait_until_mu(now_mu())
-            delay(3 * s.repump_additional)
-            with parallel:
-                self.dds_854.sw.off()
-                self.dds_866.sw.off()
+        delay(3 * s.repump_additional)
+        with parallel:
+            self.dds_854.sw.off()
+            self.dds_866.sw.off()
