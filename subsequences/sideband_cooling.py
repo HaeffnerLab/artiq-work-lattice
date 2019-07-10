@@ -1,4 +1,5 @@
 from artiq.experiment import *
+from subsequences.optical_pumping import OpticalPumping
 
 class SidebandCooling:
     line_selection="SidebandCooling.line_selection"
@@ -21,6 +22,8 @@ class SidebandCooling:
     amp_854="SidebandCooling.amplitude_854"
     att_854="SidebandCooling.att_854"
 
+    sideband_cooling_cycles="SidebandCooling.sideband_cooling_cycles"
+
     sequential_enable="SequentialSBCooling.enable"
     sequential_channel_729="SequentialSBCooling.channel_729"
     sequential_selection_sideband="SequentialSBcooling.selection_sideband"
@@ -36,101 +39,112 @@ class SidebandCooling:
     sequential2_selection_sideband="SequentialSBcooling2.selection_sideband"
     sequential2_order="SequentialSBCooling2.order"
 
+    def add_child_subsequences(pulse_sequence):
+        s = SidebandCooling
+        s.op = pulse_sequence.add_subsequence(OpticalPumping)
+
     def subsequence(self):
         s = SidebandCooling
-        self.get_729_dds(s.channel_729)
-        freq_729 = self.calc_frequency(
+
+        num_cycles = int(s.sideband_cooling_cycles)
+        for i in range(num_cycles):
+            self.get_729_dds(s.channel_729)
+            freq_729 = self.calc_frequency(
+                            s.line_selection,
+                            detuning=s.stark_shift,
+                            sideband=s.selection_sideband,
+                            order=s.order,
+                            dds=s.channel_729
+                        )
+            self.dds_729.set(freq_729, 
+                            amplitude=s.amplitude_729)
+            self.dds_729.set_att(s.att_729)
+            self.dds_729_SP.set_amplitude(s.sp_amp_729)
+            self.dds_729_SP.set_att(s.sp_att_729)
+            self.dds_854.set(s.freq_854, 
+                            amplitude=s.amp_854)
+            self.dds_854.set_att(s.att_854)
+            self.dds_866.set(s.freq_866, 
+                            amplitude=s.amp_866)
+            self.dds_866.set_att(s.att_866)
+            with parallel:
+                self.dds_854.sw.on()
+                self.dds_866.sw.on()
+                self.dds_729.sw.on()
+                self.dds_729_SP.sw.on()
+            delay(s.duration)
+            with parallel:
+                self.dds_729.sw.off()
+                self.dds_729_SP.sw.off()
+            s.op.run(self)
+            
+            if s.sequential_enable:
+                self.get_729_dds(s.sequential_channel_729)
+                freq_729 = self.calc_frequency( 
                         s.line_selection,
                         detuning=s.stark_shift,
-                        sideband=s.selection_sideband,
-                        order=s.order,
-                        dds=s.channel_729
-                    )
-        self.dds_729.set(freq_729, 
-                         amplitude=s.amplitude_729)
-        self.dds_729.set_att(s.att_729)
-        self.dds_729_SP.set_amplitude(s.sp_amp_729)
-        self.dds_729_SP.set_att(s.sp_att_729)
-        self.dds_854.set(s.freq_854, 
-                         amplitude=s.amp_854)
-        self.dds_854.set_att(s.att_854)
-        self.dds_866.set(s.freq_866, 
-                         amplitude=s.amp_866)
-        self.dds_866.set_att(s.att_866)
-        with parallel:
-            self.dds_854.sw.on()
-            self.dds_866.sw.on()
-            self.dds_729.sw.on()
-            self.dds_729_SP.sw.on()
-        delay(s.duration)
-        with parallel:
-            self.dds_729.sw.off()
-            self.dds_729_SP.sw.off()
-        
-        if s.sequential_enable:
-            self.get_729_dds(s.sequential_channel_729)
-            freq_729 = self.calc_frequency( 
-                    s.line_selection,
-                    detuning=s.stark_shift,
-                    sideband=s.sequential_selection_sideband,
-                    order=s.sequential_order,
-                    dds=s.sequential_channel_729)
-            self.dds_729.set(freq_729, 
-                            amplitude=s.amplitude_729)
-            self.dds_729.set_att(s.att_729)
-            self.dds_729_SP.set_amplitude(s.sp_amp_729)
-            self.dds_729_SP.set_att(s.sp_att_729)
-            with parallel:
-                self.dds_729.sw.on()
-                self.dds_729_SP.sw.on()
-            delay(s.duration)
-            with parallel:
-                self.dds_729.sw.off()
-                self.dds_729_SP.sw.off()
+                        sideband=s.sequential_selection_sideband,
+                        order=s.sequential_order,
+                        dds=s.sequential_channel_729)
+                self.dds_729.set(freq_729, 
+                                amplitude=s.amplitude_729)
+                self.dds_729.set_att(s.att_729)
+                self.dds_729_SP.set_amplitude(s.sp_amp_729)
+                self.dds_729_SP.set_att(s.sp_att_729)
+                with parallel:
+                    self.dds_729.sw.on()
+                    self.dds_729_SP.sw.on()
+                delay(s.duration)
+                with parallel:
+                    self.dds_729.sw.off()
+                    self.dds_729_SP.sw.off()
+                s.op.run(self)
 
-        if s.sequential1_enable:
-            self.get_729_dds(s.sequential1_channel_729)
-            freq_729 = self.calc_frequency( 
-                    s.line_selection,
-                    detuning=s.stark_shift,
-                    sideband=s.sequential1_selection_sideband,
-                    order=s.sequential1_order,
-                    dds=s.sequential1_channel_729)
-            self.dds_729.set(freq_729, 
-                            amplitude=s.amplitude_729)
-            self.dds_729.set_att(s.att_729)
-            self.dds_729_SP.set_amplitude(s.sp_amp_729)
-            self.dds_729_SP.set_att(s.sp_att_729)
-            with parallel:
-                self.dds_729.sw.on()
-                self.dds_729_SP.sw.on()
-            delay(s.duration)
-            with parallel:
-                self.dds_729.sw.off()
-                self.dds_729_SP.sw.off()
+            if s.sequential1_enable:
+                self.get_729_dds(s.sequential1_channel_729)
+                freq_729 = self.calc_frequency( 
+                        s.line_selection,
+                        detuning=s.stark_shift,
+                        sideband=s.sequential1_selection_sideband,
+                        order=s.sequential1_order,
+                        dds=s.sequential1_channel_729)
+                self.dds_729.set(freq_729, 
+                                amplitude=s.amplitude_729)
+                self.dds_729.set_att(s.att_729)
+                self.dds_729_SP.set_amplitude(s.sp_amp_729)
+                self.dds_729_SP.set_att(s.sp_att_729)
+                with parallel:
+                    self.dds_729.sw.on()
+                    self.dds_729_SP.sw.on()
+                delay(s.duration)
+                with parallel:
+                    self.dds_729.sw.off()
+                    self.dds_729_SP.sw.off()
+                s.op.run(self)
 
-        if s.sequential2_enable:
-            self.get_729_dds(s.sequential2_channel_729)
-            freq_729 = self.calc_frequency( 
-                    s.line_selection,
-                    detuning=s.stark_shift,
-                    sideband=s.sequential2_selection_sideband,
-                    order=s.sequential2_order,
-                    dds=s.sequential2_channel_729)
-            self.dds_729.set(freq_729, 
-                            amplitude=s.amplitude_729)
-            self.dds_729.set_att(s.att_729)
-            self.dds_729_SP.set_amplitude(s.sp_amp_729)
-            self.dds_729_SP.set_att(s.sp_att_729)
+            if s.sequential2_enable:
+                self.get_729_dds(s.sequential2_channel_729)
+                freq_729 = self.calc_frequency( 
+                        s.line_selection,
+                        detuning=s.stark_shift,
+                        sideband=s.sequential2_selection_sideband,
+                        order=s.sequential2_order,
+                        dds=s.sequential2_channel_729)
+                self.dds_729.set(freq_729, 
+                                amplitude=s.amplitude_729)
+                self.dds_729.set_att(s.att_729)
+                self.dds_729_SP.set_amplitude(s.sp_amp_729)
+                self.dds_729_SP.set_att(s.sp_att_729)
+                with parallel:
+                    self.dds_729.sw.on()
+                    self.dds_729_SP.sw.on()
+                delay(s.duration)
+                with parallel:
+                    self.dds_729.sw.off()
+                    self.dds_729_SP.sw.off()
+                s.op.run(self)
+            
+            delay(3 * s.repump_additional)
             with parallel:
-                self.dds_729.sw.on()
-                self.dds_729_SP.sw.on()
-            delay(s.duration)
-            with parallel:
-                self.dds_729.sw.off()
-                self.dds_729_SP.sw.off()
-        
-        delay(3 * s.repump_additional)
-        with parallel:
-            self.dds_854.sw.off()
-            self.dds_866.sw.off()
+                self.dds_854.sw.off()
+                self.dds_866.sw.off()
