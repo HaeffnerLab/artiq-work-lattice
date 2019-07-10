@@ -1,9 +1,6 @@
 from pulse_sequence import PulseSequence
-from subsequences.doppler_cooling import DopplerCooling
-from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
-from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
-from subsequences.sideband_cooling import SidebandCooling
+from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
 
@@ -28,7 +25,6 @@ class Ramsey(PulseSequence):
         "Rotation729G.line_selection",
         "Rotation729G.amplitude",
         "Rotation729G.att",
-        "StatePreparation.sideband_cooling_enable"
     }
 
     PulseSequence.scan_params = dict(
@@ -38,10 +34,7 @@ class Ramsey(PulseSequence):
         ])
     
     def run_initially(self):
-        self.dopplerCooling = self.add_subsequence(DopplerCooling)
-        self.opp = self.add_subsequence(OpticalPumpingPulsed)
-        self.opc = self.add_subsequence(OpticalPumpingContinuous)
-        self.sbc = self.add_subsequence(SidebandCooling)
+        self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.Ramsey.channel_729
         self.set_subsequence["Ramsey"] = self.set_subsequence_ramsey
@@ -79,18 +72,7 @@ class Ramsey(PulseSequence):
 
     @kernel
     def Ramsey(self):
-        delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+        self.stateprep.run(self)
         self.rabi.phase_729 = 0.
         if not self.Ramsey_echo:
             self.rabi.run(self)

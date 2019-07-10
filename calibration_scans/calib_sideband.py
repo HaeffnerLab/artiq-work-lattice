@@ -4,11 +4,8 @@ import artiq.dashboard.drift_tracker.client_config as cl
 from labrad.units import WithUnit as U 
 from scipy.optimize import curve_fit
 from pulse_sequence import PulseSequence, FitError
-from subsequences.doppler_cooling import DopplerCooling
-from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
-from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
-from subsequences.sideband_cooling import SidebandCooling
+from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
 
@@ -23,7 +20,6 @@ class CalibSideband(PulseSequence):
         "CalibrationScans.sideband_calibration_line",
         "Display.relative_frequencies",
         "CalibrationScans.readout_mode",
-        "StatePreparation.sideband_cooling_enable"
     }
 
     PulseSequence.scan_params.update(
@@ -32,12 +28,9 @@ class CalibSideband(PulseSequence):
         ])
 
     def run_initially(self):
-        self.dopplerCooling = self.add_subsequence(DopplerCooling)
-        self.opp = self.add_subsequence(OpticalPumpingPulsed)
-        self.opc = self.add_subsequence(OpticalPumpingContinuous)
-        self.sbc = self.add_subsequence(SidebandCooling)
+        self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
-        
+
         # Use calibration_channel_729 from CalibrationScans parameter group
         # instead of RabiFlopping.channel_729
         self.rabi.channel_729 = self.p.CalibrationScans.calibration_channel_729
@@ -66,18 +59,7 @@ class CalibSideband(PulseSequence):
    
     @kernel
     def CalibSideband(self):
-        delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+        self.stateprep.run(self)
         self.rabi.run(self)
 
     def run_finally(self):

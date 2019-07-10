@@ -5,11 +5,8 @@ import logging
 from labrad.units import WithUnit as U 
 from scipy.optimize import curve_fit
 from pulse_sequence import PulseSequence, FitError
-from subsequences.doppler_cooling import DopplerCooling
-from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
-from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
-from subsequences.sideband_cooling import SidebandCooling
+from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
 
@@ -28,7 +25,6 @@ class CalibAllLines(PulseSequence):
         "DriftTracker.line_selection_2",
         "Display.relative_frequencies",
         "CalibrationScans.readout_mode",
-        "StatePreparation.sideband_cooling_enable"
     }
 
     fixed_params = [("Display.relative_frequencies", False),
@@ -43,10 +39,7 @@ class CalibAllLines(PulseSequence):
 
 
     def run_initially(self):
-        self.dopplerCooling = self.add_subsequence(DopplerCooling)
-        self.opp = self.add_subsequence(OpticalPumpingPulsed)
-        self.opc = self.add_subsequence(OpticalPumpingContinuous)
-        self.sbc = self.add_subsequence(SidebandCooling)
+        self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.CalibrationScans.calibration_channel_729
         self.set_subsequence["CalibLine1"] = self.set_subsequence_calibline1
@@ -67,18 +60,7 @@ class CalibAllLines(PulseSequence):
     
     @kernel
     def CalibLine1(self):
-        delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+        self.stateprep.run(self)
         self.rabi.run(self)
     
     def analyze_calibline1(self):
@@ -104,18 +86,7 @@ class CalibAllLines(PulseSequence):
     
     @kernel
     def CalibLine2(self):
-        delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+        self.stateprep.run(self)
         self.rabi.run(self)#
 
     def analyze_calibline2(self):

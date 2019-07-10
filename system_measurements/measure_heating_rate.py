@@ -2,14 +2,10 @@ import numpy as np
 from datetime import datetime
 from pulse_sequence import PulseSequence, FitError
 from scipy.optimize import curve_fit
-from subsequences.doppler_cooling import DopplerCooling
-from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
-from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
-from subsequences.sideband_cooling import SidebandCooling
+from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 import traceback
-
 
 class HeatingRate(PulseSequence):
     PulseSequence.accessed_params = {
@@ -22,9 +18,7 @@ class HeatingRate(PulseSequence):
         "CalibrationScans.sideband_calibration_line",
         "Display.relative_frequencies",
         "CalibrationScans.readout_mode",
-        "StatePreparation.sideband_cooling_enable",
         "Heating.background_heating_time",
-        "SidebandCooling.sideband_cooling_cycles",
     }
     
     master_scans = [("Heating.background_heating_time", 0., 100e-3, 20, "ms")]
@@ -35,10 +29,7 @@ class HeatingRate(PulseSequence):
     )
 
     def run_initially(self):
-        self.dopplerCooling = self.add_subsequence(DopplerCooling)
-        self.opp = self.add_subsequence(OpticalPumpingPulsed)
-        self.opc = self.add_subsequence(OpticalPumpingContinuous)
-        self.sbc = self.add_subsequence(SidebandCooling)
+        self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.CalibrationScans.calibration_channel_729
         self.kernel_invariants.update({"sideband"})
@@ -84,21 +75,7 @@ class HeatingRate(PulseSequence):
 
     @kernel
     def CalibRed(self):
-        delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-
-        num_cycles = int(self.SidebandCooling_sideband_cooling_cycles)
-        for i in range(num_cycles):
-            if self.StatePreparation_sideband_cooling_enable:
-                self.sbc.run(self)
-                if self.StatePreparation_pulsed_optical_pumping:
-                    self.opp.run(self)
-                elif self.StatePreparation_optical_pumping_enable:
-                    self.opc.run(self)
+        self.stateprep.run(self)
         delay(self.Heating_background_heating_time)
         self.rabi.run(self)
 
@@ -130,21 +107,7 @@ class HeatingRate(PulseSequence):
 
     @kernel
     def CalibBlue(self):
-        delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-
-        num_cycles = int(self.SidebandCooling_sideband_cooling_cycles)
-        for i in range(num_cycles):
-            if self.StatePreparation_sideband_cooling_enable:
-                self.sbc.run(self)
-                if self.StatePreparation_pulsed_optical_pumping:
-                    self.opp.run(self)
-                elif self.StatePreparation_optical_pumping_enable:
-                    self.opc.run(self)
+        self.stateprep.run(self)
         delay(self.Heating_background_heating_time)
         self.rabi.run(self)
 
@@ -176,8 +139,5 @@ class HeatingRate(PulseSequence):
                 print("\n"*10)
                 traceback.print_exc()
 
-
 def gaussian(x, A, x0, sigma):
     return A * np.exp((-(x - x0)**2) / (2*sigma**2))
-
-       
