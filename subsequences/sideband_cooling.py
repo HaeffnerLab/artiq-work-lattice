@@ -80,7 +80,7 @@ class SidebandCooling:
             delay(150*us)
 
         num_cycles = int(s.sideband_cooling_cycles)
-        for _ in range(num_cycles):
+        for i in range(num_cycles):
             delay(150*us)
 
             run_sideband_cooling(
@@ -111,7 +111,7 @@ class SidebandCooling:
                     s.sequential2_order)
             
         delay(3 * s.repump_additional)
-        with parallel:
-            self.dds_854.sw.off()
-            self.dds_866.sw.off()
+        #with parallel:
+        self.dds_854.sw.off()
+        self.dds_866.sw.off()
         delay(150*us)
