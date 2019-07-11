@@ -85,7 +85,7 @@ class SidebandCooling:
 
         i = 0
         for i in range(num_cycles):
-            delay(200*us)
+            delay(400*us)
 
             run_sideband_cooling(
                 self,
