@@ -26,17 +26,17 @@ class SidebandCooling:
 
     sequential_enable="SequentialSBCooling.enable"
     sequential_channel_729="SequentialSBCooling.channel_729"
-    sequential_selection_sideband="SequentialSBcooling.selection_sideband"
+    sequential_selection_sideband="SequentialSBCooling.selection_sideband"
     sequential_order="SequentialSBCooling.order"
 
     sequential1_enable="SequentialSBCooling1.enable"
     sequential1_channel_729="SequentialSBCooling1.channel_729"
-    sequential1_selection_sideband="SequentialSBcooling1.selection_sideband"
+    sequential1_selection_sideband="SequentialSBCooling1.selection_sideband"
     sequential1_order="SequentialSBCooling1.order"
 
     sequential2_enable="SequentialSBCooling2.enable"
     sequential2_channel_729="SequentialSBCooling2.channel_729"
-    sequential2_selection_sideband="SequentialSBcooling2.selection_sideband"
+    sequential2_selection_sideband="SequentialSBCooling2.selection_sideband"
     sequential2_order="SequentialSBCooling2.order"
 
     def add_child_subsequences(pulse_sequence):
@@ -82,7 +82,7 @@ class SidebandCooling:
             delay(150*us)
 
         num_cycles = int(s.sideband_cooling_cycles)
-        
+
         i = 0
         for i in range(num_cycles):
             delay(150*us)
