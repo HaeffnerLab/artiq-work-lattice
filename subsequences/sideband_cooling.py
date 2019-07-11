@@ -121,4 +121,4 @@ class SidebandCooling:
         with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()
-        #delay(400*us)
+        delay(400*us)
