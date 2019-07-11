@@ -43,7 +43,7 @@ class SidebandCooling:
         s = SidebandCooling
         s.op = pulse_sequence.add_subsequence(OpticalPumping)
 
-    def run_sideband_cooling(channel_729, selection_sideband, order):
+    def run_sideband_cooling(self, channel_729, selection_sideband, order):
         self.get_729_dds(channel_729)
         freq_729 = self.calc_frequency(
                         s.line_selection,
@@ -84,24 +84,28 @@ class SidebandCooling:
             delay(150*us)
 
             s.run_sideband_cooling(
+                self,
                 s.channel_729,
                 s.selection_sideband,
                 s.order)
             
             if s.sequential_enable:
                 s.run_sideband_cooling(
+                    self,
                     s.sequential_channel_729,
                     s.sequential_selection_sideband,
                     s.sequential_order)
 
             if s.sequential1_enable:
                 s.run_sideband_cooling(
+                    self,
                     s.sequential1_channel_729,
                     s.sequential1_selection_sideband,
                     s.sequential1_order)
 
             if s.sequential2_enable:
                 s.run_sideband_cooling(
+                    self,
                     s.sequential2_channel_729,
                     s.sequential2_selection_sideband,
                     s.sequential2_order)
