@@ -43,6 +43,7 @@ class SidebandCooling:
         s = SidebandCooling
         s.op = pulse_sequence.add_subsequence(OpticalPumping)
 
+    @kernel
     def run_sideband_cooling(self, channel_729, selection_sideband, order):
         self.get_729_dds(channel_729)
         freq_729 = self.calc_frequency(
