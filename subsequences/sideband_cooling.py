@@ -77,7 +77,7 @@ class SidebandCooling:
                 self.dds_866.sw.off()
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
-            delay(400*us)
+            delay(1*ms)
             s.op.run(self)
             delay(400*us)
 
