@@ -83,29 +83,25 @@ class SidebandCooling:
         for i in range(num_cycles):
             delay(150*us)
 
-            s.run_sideband_cooling(
-                self,
+            self.run_sideband_cooling(
                 s.channel_729,
                 s.selection_sideband,
                 s.order)
             
             if s.sequential_enable:
-                s.run_sideband_cooling(
-                    self,
+                self.run_sideband_cooling(
                     s.sequential_channel_729,
                     s.sequential_selection_sideband,
                     s.sequential_order)
 
             if s.sequential1_enable:
-                s.run_sideband_cooling(
-                    self,
+                self.run_sideband_cooling(
                     s.sequential1_channel_729,
                     s.sequential1_selection_sideband,
                     s.sequential1_order)
 
             if s.sequential2_enable:
-                s.run_sideband_cooling(
-                    self,
+                self.run_sideband_cooling(
                     s.sequential2_channel_729,
                     s.sequential2_selection_sideband,
                     s.sequential2_order)
