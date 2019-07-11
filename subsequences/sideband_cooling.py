@@ -77,7 +77,7 @@ class SidebandCooling:
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
             s.op.run(self)
-            delay(10*us)
+            delay(50*us)
             
             if s.sequential_enable:
                 self.get_729_dds(s.sequential_channel_729)
@@ -108,7 +108,7 @@ class SidebandCooling:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
                 s.op.run(self)
-                delay(10*us)
+                delay(50*us)
 
             if s.sequential1_enable:
                 self.get_729_dds(s.sequential1_channel_729)
@@ -139,7 +139,7 @@ class SidebandCooling:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
                 s.op.run(self)
-                delay(10*us)
+                delay(50*us)
 
             if s.sequential2_enable:
                 self.get_729_dds(s.sequential2_channel_729)
@@ -170,7 +170,7 @@ class SidebandCooling:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
                 s.op.run(self)
-                delay(10*us)
+                delay(50*us)
             
         delay(3 * s.repump_additional)
         with parallel:
