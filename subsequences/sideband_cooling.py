@@ -46,15 +46,14 @@ class SidebandCooling:
     def subsequence(self):
         s = SidebandCooling
 
-        i = 0
-        def run_sideband_cooling(self, channel_729, selection_sideband, order):
-            self.get_729_dds(channel_729)
+        def run_sideband_cooling(self, channel, sideband, sideband_order):
+            self.get_729_dds(channel)
             freq_729 = self.calc_frequency(
                             s.line_selection,
                             detuning=s.stark_shift,
-                            sideband=selection_sideband,
-                            order=order,
-                            dds=channel_729
+                            sideband=sideband,
+                            order=sideband_order,
+                            dds=channel
                         )
             self.dds_729.set(freq_729, 
                             amplitude=s.amplitude_729)
@@ -83,6 +82,8 @@ class SidebandCooling:
             delay(150*us)
 
         num_cycles = int(s.sideband_cooling_cycles)
+        
+        i = 0
         for i in range(num_cycles):
             delay(150*us)
 
