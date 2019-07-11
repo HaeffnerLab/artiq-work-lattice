@@ -48,7 +48,7 @@ class SidebandCooling:
 
         num_cycles = int(s.sideband_cooling_cycles)
         for i in range(num_cycles):
-            delay(100*us)
+            delay(200*us)
 
             self.get_729_dds(s.channel_729)
             freq_729 = self.calc_frequency(
@@ -78,8 +78,9 @@ class SidebandCooling:
             with parallel:
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
+            delay(200*us)
             s.op.run(self)
-            delay(100*us)
+            delay(200*us)
             
             if s.sequential_enable:
                 self.get_729_dds(s.sequential_channel_729)
@@ -109,8 +110,9 @@ class SidebandCooling:
                 with parallel:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
+                delay(200*us)
                 s.op.run(self)
-                delay(100*us)
+                delay(200*us)
 
             if s.sequential1_enable:
                 self.get_729_dds(s.sequential1_channel_729)
@@ -140,8 +142,9 @@ class SidebandCooling:
                 with parallel:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
+                delay(200*us)
                 s.op.run(self)
-                delay(100*us)
+                delay(200*us)
 
             if s.sequential2_enable:
                 self.get_729_dds(s.sequential2_channel_729)
@@ -171,10 +174,12 @@ class SidebandCooling:
                 with parallel:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
+                delay(200*us)
                 s.op.run(self)
-                delay(100*us)
+                delay(200*us)
             
         delay(3 * s.repump_additional)
         with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()
+        delay(200*us)
