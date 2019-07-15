@@ -69,7 +69,7 @@ class BichroExcitation:
 
         elif b.channel == "local":
             self.get_729_dds("729L1")
-            self.get_729_dds("729L2", id="1")
+            self.get_729_dds("729L2", id=1)
             offset1 = self.get_offset_frequency("729L1")
             freq_blue1 = freq_blue + offset1
             freq_red1 = freq_red + offset1

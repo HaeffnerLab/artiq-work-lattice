@@ -85,8 +85,6 @@ class SidebandCooling:
 
         i = 0
         for i in range(num_cycles):
-            #delay(400*us)
-
             run_sideband_cooling(
                 self,
                 s.channel_729,
@@ -121,4 +119,3 @@ class SidebandCooling:
         with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()
-        #delay(400*us)
