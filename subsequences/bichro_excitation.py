@@ -48,7 +48,7 @@ class BichroExcitation:
             if b.bichro_enable:
 
                 # TEMP ramping stuff
-                n_steps = 100
+                n_steps = 1
                 amps = [(1./n_steps) * b.amp_blue * (i+1) for i in range(n_steps)]
                 data = [0]*len(amps)
                 self.dds_729_SP.amplitude_to_ram(amps, data)
