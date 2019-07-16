@@ -48,17 +48,23 @@ class BichroExcitation:
             if b.bichro_enable:
 
                 # TEMP ramping stuff
-                n_steps = 1
-                amps = [(1./n_steps) * b.amp_blue * (i+1) for i in range(n_steps)]
-                data = [0]*len(amps)
-                self.dds_729_SP.amplitude_to_ram(amps, data)
+                n_steps = 10
+                write = [0]*n_steps
+                read = [0]*n_steps
+                #amps = [(1./n_steps) * b.amp_blue * (i+1) for i in range(n_steps)]
+                #data = [0]*n_steps
+
+                self.dds_729_SP.amplitude_to_ram(amps, write)
+                self.dds_729_SP.set_cfr1(ram_enable=0)
+                self.dds_729_SP.cpld.io_update.pulse_mu(8)
                 self.dds_729_SP.set_profile_ram(
-                        start=0, end=0 + len(data) - 1, step=1,
+                        start=0, end=0 + n_steps - 1, step=1,
                         profile=0, mode=RAM_MODE_RAMPUP)
                 self.dds_729_SP.cpld.set_profile(0)
                 self.dds_729_SP.cpld.io_update.pulse_mu(8)
                 delay(1*ms)
                 self.dds_729_SP.write_ram(data)
+                self.dds_729_SP.cpld.io_update.pulse_mu(8)
                 delay(1*ms)
                 self.dds_729_SP.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
                 self.dds_729_SP.cpld.io_update.pulse_mu(8)
