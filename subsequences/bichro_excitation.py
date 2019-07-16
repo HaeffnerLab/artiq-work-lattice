@@ -57,9 +57,9 @@ class BichroExcitation:
                         profile=0, mode=RAM_MODE_RAMPUP)
                 self.dds_729_SP.cpld.set_profile(0)
                 self.dds_729_SP.cpld.io_update.pulse_mu(8)
-                #delay(1*ms)
+                delay(1*ms)
                 self.dds_729_SP.write_ram(data)
-                #delay(1*ms)
+                delay(1*ms)
                 self.dds_729_SP.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
                 # END TEMP ramping stuff
 
