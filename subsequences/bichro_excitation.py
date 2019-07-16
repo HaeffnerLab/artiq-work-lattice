@@ -46,6 +46,23 @@ class BichroExcitation:
                              phase=b.phase / 360)
             self.dds_729.set_att(b.att)
             if b.bichro_enable:
+
+                # TEMP ramping stuff
+                n_steps = 100
+                amps = [(1./n_steps) * b.amp_blue * (i+1) for i in range(n_steps)]
+                data = [0]*len(amps)
+                self.dds_729_SP.amplitude_to_ram(amps, data)
+                self.dds_729_SP.set_profile_ram(
+                        start=0, end=0 + len(data) - 1, step=1,
+                        profile=0, mode=RAM_MODE_RAMPUP)
+                self.dds_729_SP.cpld.set_profile(0)
+                self.dds_729_SP.cpld.io_update.pulse_mu(8)
+                #delay(1*ms)
+                self.dds_729_SP.write_ram(data)
+                #delay(1*ms)
+                self.dds_729_SP.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
+                # END TEMP ramping stuff
+
                 self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue)
                 self.dds_729_SP.set_att(b.att_blue)
                 self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red)
