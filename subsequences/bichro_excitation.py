@@ -48,7 +48,7 @@ class BichroExcitation:
             if b.bichro_enable:
 
                 # TEMP ramping stuff
-                n_steps = 10
+                n_steps = 100
                 amps = [(1./n_steps) * b.amp_blue * (i+1) for i in range(n_steps)]
                 write = [0]*n_steps
 
