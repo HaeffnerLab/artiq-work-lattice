@@ -71,7 +71,7 @@ class BichroExcitation:
                 # END TEMP ramping stuff
                 #
 
-                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, profile=5)
+                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue)
                 self.dds_729_SP.set_att(b.att_blue)
                 self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red)
                 self.dds_729_SP_bichro.set_att(b.att_red)
