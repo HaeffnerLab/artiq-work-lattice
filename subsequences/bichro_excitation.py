@@ -51,7 +51,9 @@ class BichroExcitation:
                 n_steps = 10
                 amps = [(1./n_steps) * b.amp_blue * (i+1) for i in range(n_steps)]
                 write = [0]*n_steps
+                print(amps)
 
+                self.core.break_realtime()
                 self.dds_729_SP.amplitude_to_ram(amps, write)
                 self.dds_729_SP.set_cfr1(ram_enable=0)
                 self.dds_729_SP.cpld.io_update.pulse_mu(8)
