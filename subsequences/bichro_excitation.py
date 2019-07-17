@@ -60,7 +60,7 @@ class BichroExcitation:
                 self.dds_729_SP.set_profile_ram(
                         start=200, end=200 + n_steps - 1, step=1,
                         profile=1, mode=RAM_MODE_RAMPUP)
-                self.dds_729_SP.cpld.set_profile(1)
+                #self.dds_729_SP.cpld.set_profile(1)
                 self.dds_729_SP.cpld.io_update.pulse_mu(8)
                 #delay(1*ms)
                 #self.dds_729_SP.write_ram(write)
