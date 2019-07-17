@@ -70,7 +70,7 @@ class MotionalAnalysisSpectrum(PulseSequence):
         if not self.agi_connected:
             rm = visa.ResourceManager("@py")
             #self.agi = rm.open_resource(u'USB0::2391::1031::MY44013736::0::INSTR')
-            self.agi = rm.open_resource(u'USB0::2391::1031::MY44007101::INSTR')
+            self.agi = rm.open_resource(u'USB0::2391::1031::MY44007101::0::INSTR')
             self.agi.write("SYST:BEEP: STAT OFF")
             self.agi_connected = True
         self.agi.write("APPL:SQU {} HZ, 5.0 VPP".format(detuning))
