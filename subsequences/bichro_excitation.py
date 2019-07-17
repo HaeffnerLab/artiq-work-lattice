@@ -53,9 +53,8 @@ class BichroExcitation:
                 write = [0]*n_steps
 
                 self.dds_729_SP.amplitude_to_ram(amps, write)
-                print(write)
-                self.core.break_realtime()
-
+                #print(write)
+                #self.core.break_realtime()
                 #self.dds_729_SP.set_cfr1(ram_enable=0)
                 #self.dds_729_SP.cpld.io_update.pulse_mu(8)
                 self.dds_729_SP.set_profile_ram(
