@@ -42,10 +42,6 @@ class BichroExcitation:
                 detuning=b.detuning_carrier_1,
                 dds="729G"
             )
-            print("freq_blue", freq_blue)
-            print("freq_red", freq_red)
-            print("dp_freq", dp_freq)
-            self.core.break_realtime()
             self.dds_729.set(dp_freq, amplitude=b.amp,
                              phase=b.phase / 360)
             self.dds_729.set_att(b.att)
@@ -91,6 +87,8 @@ class BichroExcitation:
                 # Reset the SP frequencies to their default values
                 self.dds_729_SP.set_frequency(80*MHz + offset)
                 self.dds_729_SP_bichro.set_frequency(80*MHz + offset)
+                print("freq", 80*MHz + offset)
+                self.core.break_realtime()
                 delay(10*us)
             else:
                 with parallel:
@@ -167,4 +165,4 @@ class BichroExcitation:
                     self.dds_729.sw.off()
                     self.dds_729_SP.sw.off()
                     self.dds_7291.sw.off()
-                    self.dds_729_SP1.sw.off()
+                    self.dds_729_SP1.sw.off()dds_729_SP
