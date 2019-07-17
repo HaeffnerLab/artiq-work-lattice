@@ -51,16 +51,17 @@ class BichroExcitation:
                 n_steps = 10
                 amps = [(1./n_steps) * b.amp_blue * (i+1) for i in range(n_steps)]
                 write = [0]*n_steps
-                print(amps)
 
-                self.core.break_realtime()
                 self.dds_729_SP.amplitude_to_ram(amps, write)
-                self.dds_729_SP.set_cfr1(ram_enable=0)
-                self.dds_729_SP.cpld.io_update.pulse_mu(8)
+                print(write)
+                self.core.break_realtime()
+
+                #self.dds_729_SP.set_cfr1(ram_enable=0)
+                #self.dds_729_SP.cpld.io_update.pulse_mu(8)
                 self.dds_729_SP.set_profile_ram(
                         start=0, end=0 + n_steps - 1, step=1,
-                        profile=0, mode=RAM_MODE_RAMPUP)
-                self.dds_729_SP.cpld.set_profile(0)
+                        profile=1, mode=RAM_MODE_RAMPUP)
+                self.dds_729_SP.cpld.set_profile(1)
                 self.dds_729_SP.cpld.io_update.pulse_mu(8)
                 delay(1*ms)
                 self.dds_729_SP.write_ram(write)
@@ -70,13 +71,13 @@ class BichroExcitation:
                 self.dds_729_SP.cpld.io_update.pulse_mu(8)
                 # END TEMP ramping stuff
 
-                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, profile=0)
+                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, profile=1)
                 self.dds_729_SP.set_frequency(freq_blue)
                 self.dds_729_SP.set_att(b.att_blue)
                 self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red)
                 self.dds_729_SP_bichro.set_att(b.att_red)
                 with parallel:
-                    #self.dds_729_SP.sw.on()
+                    self.dds_729_SP.sw.on()
                     self.dds_729_SP_bichro.sw.on()
                     self.dds_729.sw.on()
                 delay(b.duration)
