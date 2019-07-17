@@ -58,8 +58,8 @@ class SidebandCooling:
             self.dds_729.set(freq_729, 
                             amplitude=s.amplitude_729)
             self.dds_729.set_att(s.att_729)
-            self.dds_729_SP.set(80.3*MHz, amplitude=s.sp_amp_729)
-            #self.dds_729_SP.set_amplitude(s.sp_amp_729)
+            sp_freq_729 = 80*MHz + self.get_offset_frequency(channel)
+            self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
             self.dds_729_SP.set_att(s.sp_att_729)
             self.dds_854.set(s.freq_854, 
                             amplitude=s.amp_854)

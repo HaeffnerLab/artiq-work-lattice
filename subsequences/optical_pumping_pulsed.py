@@ -31,9 +31,8 @@ class OpticalPumpingPulsed:
                          amplitude=o.amplitude_729)
         self.dds_729.set_att(o.att_729)
 
-        # Reset the SP frequencies to their default values
-        self.dds_729_SP.set(80.3*MHz, amplitude=o.sp_amp_729)
-        #self.dds_729_SP.set_amplitude(o.sp_amp_729)
+        sp_freq_729 = 80*MHz + self.get_offset_frequency(o.channel_729)
+        self.dds_729_SP.set(sp_freq_729, amplitude=o.sp_amp_729)
         self.dds_729_SP.set_att(o.sp_att_729)
 
         self.dds_854.set(o.frequency_854, 
