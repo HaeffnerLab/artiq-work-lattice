@@ -19,6 +19,8 @@ class RabiExcitation:
         self.dds_729.set_att(r.att_729)
         self.dds_729_SP.set_amplitude(r.sp_amp_729)
         self.dds_729_SP.set_att(r.sp_att_729)
+        print("r.freq_729", r.freq_729)
+        self.core.break_realtime()
         
         with parallel:
             self.dds_729.sw.on()
