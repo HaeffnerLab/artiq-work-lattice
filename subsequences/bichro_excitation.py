@@ -56,10 +56,10 @@ class BichroExcitation:
                 #print(write)
                 #self.core.break_realtime()
                 self.dds_729_SP.set_cfr1(ram_enable=0)
-                #self.dds_729_SP.cpld.io_update.pulse_mu(8)
-                #self.dds_729_SP.set_profile_ram(
-                #        start=200, end=200 + n_steps - 1, step=1,
-                #        profile=1, mode=RAM_MODE_RAMPUP)
+                self.dds_729_SP.cpld.io_update.pulse_mu(8)
+                self.dds_729_SP.set_profile_ram(
+                        start=200, end=200 + n_steps - 1, step=1,
+                        profile=1, mode=RAM_MODE_RAMPUP)
                 #self.dds_729_SP.cpld.set_profile(1)
                 #self.dds_729_SP.cpld.io_update.pulse_mu(8)
                 #delay(1*ms)
