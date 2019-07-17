@@ -70,13 +70,13 @@ class BichroExcitation:
                 self.dds_729_SP.cpld.io_update.pulse_mu(8)
                 # END TEMP ramping stuff
 
-                #self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue)
+                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, profile=0)
                 self.dds_729_SP.set_frequency(freq_blue)
                 self.dds_729_SP.set_att(b.att_blue)
                 self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red)
                 self.dds_729_SP_bichro.set_att(b.att_red)
                 with parallel:
-                    self.dds_729_SP.sw.on()
+                    #self.dds_729_SP.sw.on()
                     self.dds_729_SP_bichro.sw.on()
                     self.dds_729.sw.on()
                 delay(b.duration)
