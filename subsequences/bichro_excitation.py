@@ -88,6 +88,9 @@ class BichroExcitation:
                     self.dds_729_SP.sw.off()
                     self.dds_729_SP_bichro.sw.off()
                     self.dds_729.sw.off()
+                # Reset the SP frequencies to their default values
+                self.dds_729_SP.set_frequency(80*MHz + offset)
+                self.dds_729_SP_bichro.set_frequency(80*MHz + offset)
             else:
                 with parallel:
                     self.dds_729.sw.on()
