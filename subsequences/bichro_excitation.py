@@ -45,6 +45,7 @@ class BichroExcitation:
             print("freq_blue", freq_blue)
             print("freq_red", freq_red)
             print("dp_freq", dp_freq)
+            self.core.break_realtime()
             self.dds_729.set(dp_freq, amplitude=b.amp,
                              phase=b.phase / 360)
             self.dds_729.set_att(b.att)
