@@ -46,6 +46,7 @@ class MolmerSorensenGate(PulseSequence):
             ("Molmer-Sorensen", ("MolmerSorensen.amplitude_ion2", 0., 1., 20)),
             ("Molmer-Sorensen", ("MolmerSorensen.detuning_carrier_1", -10*kHz, 10*kHz, 20, "kHz")),
             ("Molmer-Sorensen", ("MolmerSorensen.detuning_carrier_2", -10*kHz, 10*kHz, 20, "kHz")),
+            ("Molmer-Sorensen", ("MolmerSorensen.ramsey_duration", 0., 2*ms, 40, "ms")),
             ("Molmer-Sorensen", ("MolmerSorensen.ms_phase", 0., 360., 20, "deg")),
         ]
     )
@@ -60,7 +61,7 @@ class MolmerSorensenGate(PulseSequence):
         if not self.p.MolmerSorensen.override_readout:#
             ss = self.selected_scan["MolmerSorensen"]
             if self.p.MolmerSorensen.bichro_enable:
-                if ss == "MolmerSorensen.ms_phase":
+                if ss == "MolmerSorensen.ms_phase" or ss == "MolmerSorensen.ramsey_duration":
                     self.p.StateReadout.readout_mode = "camera_parity"
                 else:
                     self.p.StateReadout.readout_mode = "camera_states"
@@ -80,6 +81,7 @@ class MolmerSorensenGate(PulseSequence):
         self.rabi.duration = self.MolmerSorensen_analysis_duration
         self.rabi.freq_729 = self.calc_frequency(
             self.MolmerSorensen_line_selection, 
+            detuning=self.ms.detuning_carrier_1,
             dds="729G"
         )
     @kernel
@@ -87,5 +89,5 @@ class MolmerSorensenGate(PulseSequence):
         self.stateprep.run(self)
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
-            delay(self.MolmerSorensen_ramsey_duration)
+            delay(self.get_variable_parameter("MolmerSorensen_ramsey_duration"))
             self.rabi.run(self)
