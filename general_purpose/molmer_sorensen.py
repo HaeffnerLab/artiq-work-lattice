@@ -81,11 +81,13 @@ class MolmerSorensenGate(PulseSequence):
             self.MolmerSorensen_line_selection, 
             dds=self.MolmerSorensen_channel_729
         )
-
     @kernel
     def MolmerSorensen(self):
         self.stateprep.run(self)
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
+            print("duration", self.rabi.duration)
+            print("freq_729", self.rabi.freq_729)
+            self.core.break_realtime()
             delay(self.MolmerSorensen_ramsey_duration)
             self.rabi.run(self)
