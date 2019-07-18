@@ -13,6 +13,8 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.due_carrier_enable",
         "MolmerSorensen.selection_sideband",
         "MolmerSorensen.detuning",
+        "MolmerSorensen.detuning_carrier_1",
+        "MolmerSorensen.detuning_carrier_2",
         "MolmerSorensen.amp_red",
         "MolmerSorensen.att_red",
         "MolmerSorensen.amp_blue",
