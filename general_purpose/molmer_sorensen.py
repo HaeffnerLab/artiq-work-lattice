@@ -76,7 +76,7 @@ class MolmerSorensenGate(PulseSequence):
         self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase")
         self.rabi.amp_729 = self.MolmerSorensen_analysis_amplitude
         self.rabi.att_729 = self.MolmerSorensen_analysis_att
-        self.rabi.duration = self.MolmerSorenen_analysis_duration
+        self.rabi.duration = self.MolmerSorensen_analysis_duration
         self.rabi.freq_729 = self.calc_frequency(
             self.MolmerSorensen_line_selection, 
             dds=self.MolmerSorensen_channel_729
