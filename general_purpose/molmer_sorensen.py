@@ -36,7 +36,7 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.channel_729",
         "MolmerSorensen.ramsey_duration",
         "MolmerSorensen.override_readout",
-        "MolmerSorensen.ms_phase"
+        #"MolmerSorensen.ms_phase"
     }
 
     PulseSequence.scan_params.update(
