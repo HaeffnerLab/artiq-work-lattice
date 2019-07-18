@@ -44,16 +44,18 @@ class BichroExcitation:
             )
             self.dds_729.set(dp_freq, amplitude=b.amp,
                              phase=b.phase / 360)
+            print("BichroExcitation.phase", b.phase) #TEMP
+            self.core.break_realtime() #TEMP
             self.dds_729.set_att(b.att)
             if b.bichro_enable:
 
                 #
                 # TEMP ramping stuff
                 #
-                n_steps = 10
-                amps = [(1./n_steps) * b.amp_blue * (i+1) for i in range(n_steps)]
-                write = [0]*n_steps
-                self.dds_729_SP.amplitude_to_ram(amps, write)
+                #n_steps = 10
+                #amps = [(1./n_steps) * b.amp_blue * (i+1) for i in range(n_steps)]
+                #write = [0]*n_steps
+                #self.dds_729_SP.amplitude_to_ram(amps, write)
                 #print(write)
                 #self.core.break_realtime()
 
