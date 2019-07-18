@@ -155,6 +155,13 @@ class BichroExcitation:
                     self.dds_729_SP1.sw.off()
                     self.dds_729_SP_bichro1.sw.off()
             else:
+                # bichro disabled
+                sp_freq_7291 = 80*MHz + offset1
+                self.dds_729_SP.set(sp_freq_7291, amplitude=b.default_sp_amp_729)
+                self.dds_729_SP.set_att(b.default_sp_att_729)
+                sp_freq_7292 = 80*MHz + offset2
+                self.dds_729_SP1.set(sp_freq_7292, amplitude=b.default_sp_amp_729)
+                self.dds_729_SP1.set_att(b.default_sp_att_729)
                 with parallel:
                     self.dds_729.sw.on()
                     self.dds_729_SP.sw.on()
