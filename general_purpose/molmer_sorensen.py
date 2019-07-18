@@ -88,5 +88,4 @@ class MolmerSorensenGate(PulseSequence):
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
             delay(self.MolmerSorensen_ramsey_duration)
-            self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase")
             self.rabi.run(self)

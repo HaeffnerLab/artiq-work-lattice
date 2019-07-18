@@ -26,6 +26,8 @@ class BichroExcitation:
     detuning="MolmerSorensen.detuning"
     detuning_carrier_1="MolmerSorensen.detuning_carrier_1"
     detuning_carrier_2="MolmerSorensen.detuning_carrier_2"
+    default_sp_amp_729="Excitation_729.single_pass_amplitude"
+    default_sp_att_729="Excitation_729.single_pass_att"
 
     def subsequence(self):
         b = BichroExcitation
@@ -85,6 +87,10 @@ class BichroExcitation:
                     self.dds_729_SP_bichro.sw.off()
                     self.dds_729.sw.off()
             else:
+                # bichro disabled
+                sp_freq_729 = 80*MHz + offset
+                self.dds_729_SP.set(sp_freq_729, amplitude=b.default_sp_amp_729)
+                self.dds_729_SP.set_att(b.default_sp_att_729)
                 with parallel:
                     self.dds_729.sw.on()
                     self.dds_729_SP.sw.on()
