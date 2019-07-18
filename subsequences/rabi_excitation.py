@@ -15,7 +15,7 @@ class RabiExcitation:
         r = RabiExcitation
         self.get_729_dds(r.channel_729)
         self.dds_729.set(r.freq_729, amplitude=r.amp_729,
-                    phase=r.phase_729 )
+                    phase=r.phase_729 / 360.)
         self.dds_729.set_att(r.att_729)
         sp_freq_729 = 80*MHz + self.get_offset_frequency(r.channel_729)
         self.dds_729_SP.set(sp_freq_729, amplitude=r.sp_amp_729)
