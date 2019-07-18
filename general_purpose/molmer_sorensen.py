@@ -79,7 +79,7 @@ class MolmerSorensenGate(PulseSequence):
         self.rabi.duration = self.MolmerSorensen_analysis_duration
         self.rabi.freq_729 = self.calc_frequency(
             self.MolmerSorensen_line_selection, 
-            dds=self.MolmerSorensen_channel_729
+            dds="729G"
         )
     @kernel
     def MolmerSorensen(self):
