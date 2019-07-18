@@ -1,6 +1,6 @@
 from artiq.experiment import *
 from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP, RAM_DEST_ASF
-
+from artiq.coredevice.ad9910 import PHASE_MODE_ABSOLUTE
 class BichroExcitation:
     bichro_enable="MolmerSorensen.bichro_enable"
     due_carrier_enable="MolmerSorensen.due_carrier_enable"
@@ -43,7 +43,8 @@ class BichroExcitation:
                 dds="729G"
             )
             self.dds_729.set(dp_freq, amplitude=b.amp,
-                             phase=b.phase / 360)
+                             phase=b.phase / 360,
+                             phase_mode=PHASE_MODE_ABSOLUTE)
             self.dds_729.set_att(b.att)
             if b.bichro_enable:
 
