@@ -35,7 +35,8 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.analysis_att_ion2",
         "MolmerSorensen.channel_729",
         "MolmerSorensen.ramsey_duration",
-        "MolmerSorensen.override_readout"
+        "MolmerSorensen.override_readout",
+        "MolmerSorensen.ms_phase"
     }
 
     PulseSequence.scan_params.update(
@@ -87,4 +88,6 @@ class MolmerSorensenGate(PulseSequence):
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
             delay(self.MolmerSorensen_ramsey_duration)
+            print(self.rabi.phase_729)
+            self.core.break_realtime()
             self.rabi.run(self)
