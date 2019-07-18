@@ -53,7 +53,7 @@ class MolmerSorensenGate(PulseSequence):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.ms = self.add_subsequence(BichroExcitation)
         self.rabi = self.add_subsequence(RabiExcitation)
-        self.rabi.channel_729 = self.p.MolmerSorensen.channel_729
+        self.rabi.channel_729 = "729G" #self.p.MolmerSorensen.channel_729
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
         if not self.p.MolmerSorensen.override_readout:#
@@ -86,8 +86,12 @@ class MolmerSorensenGate(PulseSequence):
         self.stateprep.run(self)
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
-            #print("duration", self.rabi.duration)
-            #print("freq_729", self.rabi.freq_729)
-            #self.core.break_realtime()
+            print("channel_729", self.rabi.channel_729)
+            print("amp_729", self.rabi.amp_729)
+            print("att_729", self.rabi.att_729)
+            print("phase_729", self.rabi.phase_729)
+            print("duration", self.rabi.duration)
+            print("freq_729", self.rabi.freq_729)
+            self.core.break_realtime()
             delay(self.MolmerSorensen_ramsey_duration)
             self.rabi.run(self)
