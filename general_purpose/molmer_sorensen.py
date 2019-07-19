@@ -79,11 +79,12 @@ class MolmerSorensenGate(PulseSequence):
         self.rabi.amp_729 = self.MolmerSorensen_analysis_amplitude
         self.rabi.att_729 = self.MolmerSorensen_analysis_att
         self.rabi.duration = self.MolmerSorensen_analysis_duration
-        self.rabi.freq_729 = self.calc_frequency(
+        self.rabi.freq_729 = 80.3*MHz
+        """ self.rabi.freq_729 = self.calc_frequency(
             self.MolmerSorensen_line_selection, 
             detuning=self.ms.detuning_carrier_1,
             dds="729G"
-        )
+        ) """
     @kernel
     def MolmerSorensen(self):
         self.stateprep.run(self)

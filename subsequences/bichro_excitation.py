@@ -39,11 +39,12 @@ class BichroExcitation:
             offset = self.get_offset_frequency("729G")
             freq_blue += offset
             freq_red += offset
-            dp_freq = self.calc_frequency(
+            dp_freq = 80.3*MHz
+            """ dp_freq = self.calc_frequency(
                 b.line_selection,
                 detuning=b.detuning_carrier_1,
                 dds="729G"
-            )
+            ) """
             self.dds_729.set(dp_freq, amplitude=b.amp,
                              phase=b.phase / 360)
             self.dds_729.set_att(b.att)
