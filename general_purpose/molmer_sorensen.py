@@ -79,16 +79,33 @@ class MolmerSorensenGate(PulseSequence):
         self.rabi.amp_729 = self.MolmerSorensen_analysis_amplitude
         self.rabi.att_729 = self.MolmerSorensen_analysis_att
         self.rabi.duration = self.MolmerSorensen_analysis_duration
-        self.rabi.freq_729 = 80.3*MHz
-        """ self.rabi.freq_729 = self.calc_frequency(
+        self.rabi.freq_729 = self.calc_frequency(
             self.MolmerSorensen_line_selection, 
             detuning=self.ms.detuning_carrier_1,
             dds="729G"
-        ) """
+        )
     @kernel
     def MolmerSorensen(self):
         self.stateprep.run(self)
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
             delay(self.get_variable_parameter("MolmerSorensen_ramsey_duration"))
-            self.rabi.run(self)
+            #self.rabi.run(self)
+            self.get_729_dds(self.rabi.channel_729)
+            self.dds_729.set(self.rabi.freq_729, amplitude=self.rabi.amp_729,
+                        phase=self.rabi.phase_729 / 360.)
+            self.dds_729.set_att(self.rabi.att_729)
+
+            trap_frequency = self.get_trap_frequency(self.ms.selection_sideband)
+            freq_blue = 80*MHz + trap_frequency + self.ms.detuning
+            sp_freq_729 = freq_blue + self.get_offset_frequency(self.rabi.channel_729)
+            self.dds_729_SP.set(sp_freq_729, amplitude=self.rabi.sp_amp_729)
+            self.dds_729_SP.set_att(self.rabi.sp_att_729)
+            
+            with parallel:
+                self.dds_729.sw.on()
+                self.dds_729_SP.sw.on()
+            delay(self.rabi.duration)
+            with parallel:
+                self.dds_729.sw.off()
+                self.dds_729_SP.sw.off()
