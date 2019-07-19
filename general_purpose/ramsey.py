@@ -61,13 +61,14 @@ class Ramsey(PulseSequence):
         self.rabi.duration = self.pi_time / 2
         self.rabi.amp_729 = self.amplitude
         self.rabi.att_729 = self.att
-        self.rabi.freq_729 = self.calc_frequency(
+        self.rabi.freq_729 = 80.3*MHz
+        """ self.rabi.freq_729 = self.calc_frequency(
             self.line_selection, 
             detuning=self.Ramsey_detuning,
             sideband=self.Ramsey_selection_sideband,
             order=self.Ramsey_order, 
             dds=self.Ramsey_channel_729
-        )
+        ) """
         self.wait_time = self.get_variable_parameter("Ramsey_wait_time")
 
     @kernel
