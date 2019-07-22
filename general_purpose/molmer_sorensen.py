@@ -70,6 +70,10 @@ class MolmerSorensenGate(PulseSequence):
 
     @kernel
     def set_subsequence_ms(self):
+        phase_ref_time = now_mu()
+        self.ms.phase_ref_time = phase_ref_time
+        self.rabi.phase_ref_time = phase_ref_time
+
         self.ms.duration = self.get_variable_parameter("MolmerSorensen_duration")
         self.ms.amp = self.get_variable_parameter("MolmerSorensen_amplitude")
         self.ms.amp_ion2 = self.get_variable_parameter("MolmerSorensen_amplitude_ion2")

@@ -58,6 +58,9 @@ class Ramsey(PulseSequence):
         
     @kernel
     def set_subsequence_ramsey(self):
+        phase_ref_time = now_mu()
+        self.rabi.phase_ref_time = phase_ref_time
+
         self.rabi.duration = self.pi_time / 2
         self.rabi.amp_729 = self.amplitude
         self.rabi.att_729 = self.att
