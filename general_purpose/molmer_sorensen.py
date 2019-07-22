@@ -100,12 +100,12 @@ class MolmerSorensenGate(PulseSequence):
             #self.rabi.run(self)
 
             # Below runs analysis pulse on blue sideband
-            self.get_729_dds(self.rabi.channel_729)
-            self.dds_729.set(self.rabi.freq_729,
-                            amplitude=self.ms.amp,
-                            phase=self.get_variable_parameter("MolmerSorensen_ms_phase") / 360.,
-                            phase_mode=PHASE_MODE_TRACKING,
-                            ref_time_mu=self.rabi.phase_ref_time)
+            #self.get_729_dds(self.rabi.channel_729)
+            #self.dds_729.set(self.rabi.freq_729,
+            #                amplitude=self.ms.amp,
+            #                phase=self.get_variable_parameter("MolmerSorensen_ms_phase") / 360.,
+            #                phase_mode=PHASE_MODE_TRACKING,
+            #                ref_time_mu=self.rabi.phase_ref_time)
             #self.dds_729.set_att(self.ms.att)
 
             #trap_frequency = self.get_trap_frequency(self.ms.selection_sideband)
