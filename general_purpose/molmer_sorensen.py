@@ -3,6 +3,7 @@ from subsequences.rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
 from subsequences.bichro_excitation import BichroExcitation
 from subsequences.szx import SZX
+import numpy as np
 from artiq.experiment import *
 
 class MolmerSorensenGate(PulseSequence):
@@ -56,6 +57,7 @@ class MolmerSorensenGate(PulseSequence):
         self.ms = self.add_subsequence(BichroExcitation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = "729G"
+        self.phase_ref_time = np.int64(0)
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
         if not self.p.MolmerSorensen.override_readout:#
