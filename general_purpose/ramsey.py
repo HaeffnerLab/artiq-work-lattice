@@ -83,9 +83,12 @@ class Ramsey(PulseSequence):
             self.rabi.run(self)
 
             self.dds_729.set(220*MHz, amplitude=1.)
+            self.dds_729_SP.set(85*MHz, amplitude=1.)
             self.dds_729.sw.on()
+            self.dds_729_SP.sw.on()
             delay(2*us)
             self.dds_729.sw.off()
+            self.dds_729_SP.sw.off()
 
             delay_mu(self.core.seconds_to_mu(self.wait_time))
 
