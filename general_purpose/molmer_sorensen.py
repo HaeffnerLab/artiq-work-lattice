@@ -109,9 +109,9 @@ class MolmerSorensenGate(PulseSequence):
             #self.dds_729.set_att(self.ms.att)
 
             #trap_frequency = self.get_trap_frequency(self.ms.selection_sideband)
-            #freq_blue = 80*MHz + trap_frequency + self.ms.detuning + self.get_offset_frequency(self.rabi.channel_729)
-            #self.dds_729_SP.set(freq_blue, amplitude=self.ms.amp_blue,
-            #                    phase_mode=PHASE_MODE_TRACKING, ref_time_mu=self.rabi.phase_ref_time)
+            freq_729_SP = 80*MHz + self.get_offset_frequency(self.rabi.channel_729)
+            self.dds_729_SP.set(freq_729_SP) #, amplitude=self.ms.amp_blue,
+                                #phase_mode=PHASE_MODE_TRACKING, ref_time_mu=self.rabi.phase_ref_time)
             #self.dds_729_SP.set_att(self.ms.att_blue)
             
             with parallel:
