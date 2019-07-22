@@ -79,11 +79,10 @@ class Ramsey(PulseSequence):
         if not self.Ramsey_echo:
             self.rabi.run(self)
 
-            dds = self.get_device("729G")
-            dds.set(220*MHz, amplitude=1.)
-            self.dds.sw.on()
+            self.dds_729.set(220*MHz, amplitude=1.)
+            self.dds_729.sw.on()
             delay(2*us)
-            self.dds.sw.off()
+            self.dds_729.sw.off()
 
             delay_mu(self.core.seconds_to_mu(self.wait_time))
 
