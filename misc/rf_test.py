@@ -27,7 +27,7 @@ class rf_test(EnvExperiment):
 
         delay(2*us)
         self.dds.sw.off()
-        delay(0.25*us)
+        delay(1*us)
 
         #delay(20*ns)
 
@@ -40,7 +40,7 @@ class rf_test(EnvExperiment):
 
         self.dds.set(2*MHz, amplitude=1.)
         self.dds.sw.on()
-        delay(2*us)
+        delay(1*us)
 
         with parallel:
             self.dds.sw.off()
