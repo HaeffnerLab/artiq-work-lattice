@@ -5,6 +5,7 @@ from subsequences.bichro_excitation import BichroExcitation
 from subsequences.szx import SZX
 import numpy as np
 from artiq.experiment import *
+from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING
 
 class MolmerSorensenGate(PulseSequence):
     PulseSequence.accessed_params = {
