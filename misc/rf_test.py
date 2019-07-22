@@ -33,12 +33,12 @@ class rf_test(EnvExperiment):
         delay(2*us)
         self.dds.sw.off()
 
-        self.dds.set(10*MHz, amplitude=1., ref_time_mu=ref_time)
+        self.dds.set(10*MHz, amplitude=1.)
         self.dds.sw.on()
         delay(0.5*us)
         self.dds.sw.off()
 
-        self.dds.set(2*MHz, amplitude=1., ref_time_mu=ref_time)
+        self.dds.set(2*MHz, amplitude=1.)
         self.dds.sw.on()
         delay(2*us)
 
