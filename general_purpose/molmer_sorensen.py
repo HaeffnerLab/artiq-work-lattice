@@ -97,8 +97,10 @@ class MolmerSorensenGate(PulseSequence):
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
             delay(self.get_variable_parameter("MolmerSorensen_ramsey_duration"))
-            #self.rabi.run(self)
+            self.rabi.run(self)
 
+            # Below runs analysis pulse on blue sideband
+"""         
             self.get_729_dds(self.rabi.channel_729)
             self.dds_729.set(self.rabi.freq_729,
                             amplitude=self.rabi.amp_729,
@@ -119,4 +121,4 @@ class MolmerSorensenGate(PulseSequence):
             delay(self.rabi.duration)
             with parallel:
                 self.dds_729.sw.off()
-                self.dds_729_SP.sw.off()
+                self.dds_729_SP.sw.off() """

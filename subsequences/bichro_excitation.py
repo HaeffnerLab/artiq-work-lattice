@@ -39,6 +39,10 @@ class BichroExcitation:
         freq_blue = 80*MHz + trap_frequency + b.detuning
         if b.channel == "global":
             self.get_729_dds("729G")
+            self.dds_729.set_phase_mode(PHASE_MODE_TRACKING)
+            self.dds_729_SP.set_phase_mode(PHASE_MODE_TRACKING)
+            self.dds_729_SP_bichro.set_phase_mode(PHASE_MODE_TRACKING)
+
             offset = self.get_offset_frequency("729G")
             freq_blue += offset
             freq_red += offset
@@ -47,12 +51,9 @@ class BichroExcitation:
                 detuning=b.detuning_carrier_1,
                 dds="729G"
             )
-            print("b.phase_ref_time", b.phase_ref_time)
-            self.core.break_realtime()
             self.dds_729.set(dp_freq,
                              amplitude=b.amp,
                              phase=b.phase / 360,
-                             phase_mode=PHASE_MODE_TRACKING,
                              ref_time_mu=b.phase_ref_time)
             self.dds_729.set_att(b.att)
             if b.bichro_enable:
@@ -81,11 +82,9 @@ class BichroExcitation:
                 # END TEMP ramping stuff
                 #
 
-                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, 
-                             phase_mode=PHASE_MODE_TRACKING, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP.set_att(b.att_blue)
-                self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red,
-                             phase_mode=PHASE_MODE_TRACKING, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP_bichro.set_att(b.att_red)
                 with parallel:
                     self.dds_729_SP.sw.on()
@@ -99,8 +98,7 @@ class BichroExcitation:
             else:
                 # bichro disabled
                 sp_freq_729 = 80*MHz + offset
-                self.dds_729_SP.set(sp_freq_729, amplitude=b.default_sp_amp_729,
-                             phase_mode=PHASE_MODE_TRACKING, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP.set(sp_freq_729, amplitude=b.default_sp_amp_729, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP.set_att(b.default_sp_att_729)
                 with parallel:
                     self.dds_729.sw.on()
@@ -138,27 +136,21 @@ class BichroExcitation:
             self.dds_729.set(dp_freq1,
                              amplitude=b.amp,
                              phase=b.phase / 360,
-                             phase_mode=PHASE_MODE_TRACKING,
                              ref_time_mu=b.phase_ref_time)
             self.dds_729.set_att(b.att)
             self.dds_7291.set(dp_freq2,
                              amplitude=b.amp_ion2,
                              phase=b.phase / 360,
-                             phase_mode=PHASE_MODE_TRACKING,
                              ref_time_mu=b.phase_ref_time)
             self.dds_7291.set_att(b.att_ion2)
             if b.bichro_enable:
-                self.dds_729_SP.set(freq_blue1, amplitude=b.amp_blue,
-                             phase_mode=PHASE_MODE_TRACKING, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP.set(freq_blue1, amplitude=b.amp_blue, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP.set_att(b.att_blue)
-                self.dds_729_SP_bichro.set(freq_red1, amplitude=b.amp_red,
-                             phase_mode=PHASE_MODE_TRACKING, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP_bichro.set(freq_red1, amplitude=b.amp_red, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP_bichro.set_att(b.att_red)
-                self.dds_729_SP1.set(freq_blue2, amplitude=b.amp_blue_ion2,
-                             phase_mode=PHASE_MODE_TRACKING, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP1.set(freq_blue2, amplitude=b.amp_blue_ion2, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP1.set_att(b.att_blue_ion2)
-                self.dds_729_SP_bichro1.set(freq_red2, amplitude=b.amp_red_ion2,
-                             phase_mode=PHASE_MODE_TRACKING, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP_bichro1.set(freq_red2, amplitude=b.amp_red_ion2, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP_bichro1.set_att(b.att_red_ion2)
                 with parallel:
                     self.dds_729.sw.on()
@@ -178,12 +170,10 @@ class BichroExcitation:
             else:
                 # bichro disabled
                 sp_freq_7291 = 80*MHz + offset1
-                self.dds_729_SP.set(sp_freq_7291, amplitude=b.default_sp_amp_729,
-                             phase_mode=PHASE_MODE_TRACKING, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP.set(sp_freq_7291, amplitude=b.default_sp_amp_729, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP.set_att(b.default_sp_att_729)
                 sp_freq_7292 = 80*MHz + offset2
-                self.dds_729_SP1.set(sp_freq_7292, amplitude=b.default_sp_amp_729,
-                             phase_mode=PHASE_MODE_TRACKING, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP1.set(sp_freq_7292, amplitude=b.default_sp_amp_729, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP1.set_att(b.default_sp_att_729)
                 with parallel:
                     self.dds_729.sw.on()
