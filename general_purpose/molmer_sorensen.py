@@ -97,23 +97,22 @@ class MolmerSorensenGate(PulseSequence):
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
             delay(self.get_variable_parameter("MolmerSorensen_ramsey_duration"))
-            self.rabi.run(self)
+            #self.rabi.run(self)
 
             # Below runs analysis pulse on blue sideband
-"""         
             self.get_729_dds(self.rabi.channel_729)
             self.dds_729.set(self.rabi.freq_729,
-                            amplitude=self.rabi.amp_729,
-                            phase=self.rabi.phase_729 / 360.,
+                            amplitude=self.ms.amplitude,
+                            phase=self.get_variable_parameter("MolmerSorensen_ms_phase") / 360.,
                             phase_mode=PHASE_MODE_TRACKING,
                             ref_time_mu=self.rabi.phase_ref_time)
-            self.dds_729.set_att(self.rabi.att_729)
+            self.dds_729.set_att(self.ms.att)
 
             trap_frequency = self.get_trap_frequency(self.ms.selection_sideband)
             freq_blue = 80*MHz + trap_frequency + self.ms.detuning + self.get_offset_frequency(self.rabi.channel_729)
-            self.dds_729_SP.set(freq_blue, amplitude=self.rabi.sp_amp_729,
+            self.dds_729_SP.set(freq_blue, amplitude=self.ms.amp_blue,
                                 phase_mode=PHASE_MODE_TRACKING, ref_time_mu=self.rabi.phase_ref_time)
-            self.dds_729_SP.set_att(self.rabi.sp_att_729)
+            self.dds_729_SP.set_att(self.ms.att_blue)
             
             with parallel:
                 self.dds_729.sw.on()
@@ -121,4 +120,4 @@ class MolmerSorensenGate(PulseSequence):
             delay(self.rabi.duration)
             with parallel:
                 self.dds_729.sw.off()
-                self.dds_729_SP.sw.off() """
+                self.dds_729_SP.sw.off()
