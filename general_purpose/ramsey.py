@@ -78,7 +78,15 @@ class Ramsey(PulseSequence):
         self.rabi.phase_729 = 0.
         if not self.Ramsey_echo:
             self.rabi.run(self)
+
+            dds = self.get_device("729G")
+            dds.set(220*MHz, amplitude=1.)
+            self.dds.sw.on()
+            delay(2*us)
+            self.dds.sw.off()
+
             delay_mu(self.core.seconds_to_mu(self.wait_time))
+
             self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase")
             self.rabi.run(self)
         else:
