@@ -12,10 +12,10 @@ class rf_test(EnvExperiment):
         self.core.reset()
         
         self.dds.set(220*MHz, amplitude=1.)
-        self.dds.set_att(20*dB)
+        self.dds.set_att(5*dB)
 
         self.dds2.set(220*MHz, amplitude=1.)
-        self.dds2.set_att(20*dB)
+        self.dds2.set_att(5*dB)
 
         self.core.break_realtime()
 
