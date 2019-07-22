@@ -2,6 +2,7 @@ from pulse_sequence import PulseSequence
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
+from artiq.coredevice.ad9910 import PHASE_MODE_CONTINUOUS
 
 
 class Ramsey(PulseSequence):
@@ -77,6 +78,8 @@ class Ramsey(PulseSequence):
         self.stateprep.run(self)
         self.rabi.phase_729 = 0.
         if not self.Ramsey_echo:
+            self.dds_729.set_phase_mode(PHASE_MODE_CONTINUOUS)
+
             self.rabi.run(self)
 
             self.dds_729.set(220*MHz, amplitude=1.)
