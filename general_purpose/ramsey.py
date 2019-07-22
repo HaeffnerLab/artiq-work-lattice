@@ -79,14 +79,15 @@ class Ramsey(PulseSequence):
         self.rabi.phase_729 = 0.
         if not self.Ramsey_echo:
             self.dds_729.set_phase_mode(PHASE_MODE_CONTINUOUS)
+            self.dds_729_SP.set_phase_mode(PHASE_MODE_CONTINUOUS)
 
             self.rabi.run(self)
 
-            self.dds_729.set(220*MHz, amplitude=1.)
-            self.dds_729_SP.set(85*MHz, amplitude=1.)
+            self.dds_729.set(220*MHz, amplitude=0.5)
+            self.dds_729_SP.set(85*MHz, amplitude=0.5)
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
-            delay(2*us)
+            delay(10*us)
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
 
