@@ -5,7 +5,7 @@ from subsequences.bichro_excitation import BichroExcitation
 from subsequences.szx import SZX
 import numpy as np
 from artiq.experiment import *
-from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING
+from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
 
 class MolmerSorensenGate(PulseSequence):
     PulseSequence.accessed_params = {
@@ -100,17 +100,18 @@ class MolmerSorensenGate(PulseSequence):
             #self.rabi.run(self)
 
             # Below runs analysis pulse on blue sideband
-            #self.get_729_dds(self.rabi.channel_729)
-            #self.dds_729.set(self.rabi.freq_729,
-            #                amplitude=self.ms.amp,
-            #                phase=self.get_variable_parameter("MolmerSorensen_ms_phase") / 360.,
-            #                phase_mode=PHASE_MODE_TRACKING,
-            #                ref_time_mu=self.rabi.phase_ref_time)
+            self.get_729_dds(self.rabi.channel_729)
+            self.dds_729.set_phase_mode(PHASE_MODE_ABSOLUTE)
+            self.dds_729.set(self.rabi.freq_729,
+                            amplitude=self.rabi.amp_729,
+                            phase=self.get_variable_parameter("MolmerSorensen_ms_phase") / 360.)
+                            #ref_time_mu=self.rabi.phase_ref_time)
             #self.dds_729.set_att(self.ms.att)
 
             #trap_frequency = self.get_trap_frequency(self.ms.selection_sideband)
             freq_729_SP = 80*MHz + self.get_offset_frequency(self.rabi.channel_729)
-            self.dds_729_SP.set(freq_729_SP) #, amplitude=self.ms.amp_blue,
+            self.dds_729_SP.set_phase_mode(PHASE_MODE_ABSOLUTE)
+            self.dds_729_SP.set(freq_729_SP, phase=0.)  #, amplitude=self.ms.amp_blue,
                                 #phase_mode=PHASE_MODE_TRACKING, ref_time_mu=self.rabi.phase_ref_time)
             #self.dds_729_SP.set_att(self.ms.att_blue)
             
@@ -121,3 +122,6 @@ class MolmerSorensenGate(PulseSequence):
             with parallel:
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
+            
+            self.dds_729.set_phase_mode(PHASE_MODE_TRACKING)
+            self.dds_729_SP.set_phase_mode(PHASE_MODE_TRACKING)
