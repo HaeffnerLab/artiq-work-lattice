@@ -30,14 +30,14 @@ class rf_test(EnvExperiment):
 
         #delay(20*ns)
 
-        self.dds.set_frequency(100*MHz)
+        self.dds.set(10*MHz, amplitude=1.)
         self.dds.sw.on()
         delay(2*us)
         self.dds.sw.off()
 
         #delay(20*ns)
 
-        self.dds.set_frequency(220*MHz)
+        self.dds.set(2*MHz, amplitude=1.)
         self.dds.sw.on()
         delay(2*us)
 
