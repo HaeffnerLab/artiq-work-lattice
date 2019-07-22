@@ -1,5 +1,6 @@
 from artiq.experiment import *
 from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP, RAM_DEST_ASF
+import numpy as np
 
 class BichroExcitation:
     bichro_enable="MolmerSorensen.bichro_enable"
@@ -28,7 +29,7 @@ class BichroExcitation:
     detuning_carrier_2="MolmerSorensen.detuning_carrier_2"
     default_sp_amp_729="Excitation_729.single_pass_amplitude"
     default_sp_att_729="Excitation_729.single_pass_att"
-    phase_ref_time=0
+    phase_ref_time=np.int64(0)
 
     def subsequence(self):
         b = BichroExcitation
