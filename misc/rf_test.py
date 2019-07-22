@@ -11,12 +11,12 @@ class rf_test(EnvExperiment):
     def run(self):
         self.core.reset()
         
-        self.dds.set(10*MHz, amplitude=1.)
+        self.dds.set(5*MHz, amplitude=1.)
         self.dds.set_att(5*dB)
 
         self.core.break_realtime()
 
-        self.dds2.set(10*MHz, amplitude=1.)
+        self.dds2.set(5*MHz, amplitude=1.)
         self.dds2.set_att(5*dB)
 
         self.core.break_realtime()
@@ -25,21 +25,21 @@ class rf_test(EnvExperiment):
             self.dds.sw.on()
             self.dds2.sw.on()
 
-        delay(1*us)
+        delay(2*us)
         self.dds.sw.off()
 
         #delay(20*ns)
 
         self.dds.set_frequency(100*MHz)
         self.dds.sw.on()
-        delay(1*us)
+        delay(2*us)
         self.dds.sw.off()
 
         #delay(20*ns)
 
         self.dds.set_frequency(220*MHz)
         self.dds.sw.on()
-        delay(1*us)
+        delay(2*us)
 
         with parallel:
             self.dds.sw.off()
