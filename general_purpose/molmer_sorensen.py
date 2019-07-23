@@ -5,7 +5,7 @@ from subsequences.bichro_excitation import BichroExcitation
 from subsequences.szx import SZX
 import numpy as np
 from artiq.experiment import *
-from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
+#from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
 
 class MolmerSorensenGate(PulseSequence):
     PulseSequence.accessed_params = {
@@ -58,7 +58,7 @@ class MolmerSorensenGate(PulseSequence):
         self.ms = self.add_subsequence(BichroExcitation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = "729G"
-        self.phase_ref_time = np.int64(0)
+        #self.phase_ref_time = np.int64(0)
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
         if not self.p.MolmerSorensen.override_readout:#
@@ -73,9 +73,9 @@ class MolmerSorensenGate(PulseSequence):
 
     @kernel
     def set_subsequence_ms(self):
-        self.phase_ref_time = now_mu()
-        self.ms.phase_ref_time = self.phase_ref_time
-        self.rabi.phase_ref_time = self.phase_ref_time
+        #self.phase_ref_time = now_mu()
+        #self.ms.phase_ref_time = self.phase_ref_time
+        #self.rabi.phase_ref_time = self.phase_ref_time
 
         self.ms.duration = self.get_variable_parameter("MolmerSorensen_duration")
         self.ms.amp = self.get_variable_parameter("MolmerSorensen_amplitude")
@@ -88,7 +88,7 @@ class MolmerSorensenGate(PulseSequence):
         self.rabi.duration = self.MolmerSorensen_analysis_duration
         self.rabi.freq_729 = self.calc_frequency(
             self.MolmerSorensen_line_selection, 
-            #detuning=self.ms.detuning_carrier_1,
+            detuning=self.ms.detuning_carrier_1,
             dds="729G"
         )
     @kernel
@@ -97,25 +97,25 @@ class MolmerSorensenGate(PulseSequence):
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
             delay(self.get_variable_parameter("MolmerSorensen_ramsey_duration"))
-            #self.rabi.run(self)
+            self.rabi.run(self)
 
-            self.get_729_dds(self.rabi.channel_729)
-            self.dds_729.set_phase_mode(PHASE_MODE_ABSOLUTE)
-            self.dds_729.set(self.rabi.freq_729,
-                            amplitude=self.rabi.amp_729,
-                            phase=self.get_variable_parameter("MolmerSorensen_ms_phase") / 360.)
+            # self.get_729_dds(self.rabi.channel_729)
+            # self.dds_729.set_phase_mode(PHASE_MODE_ABSOLUTE)
+            # self.dds_729.set(self.rabi.freq_729,
+            #                 amplitude=self.rabi.amp_729,
+            #                 phase=self.get_variable_parameter("MolmerSorensen_ms_phase") / 360.)
 
-            freq_729_SP = 80*MHz + self.get_offset_frequency(self.rabi.channel_729)
-            self.dds_729_SP.set_phase_mode(PHASE_MODE_ABSOLUTE)
-            self.dds_729_SP.set(freq_729_SP, phase=0.)
+            # freq_729_SP = 80*MHz + self.get_offset_frequency(self.rabi.channel_729)
+            # self.dds_729_SP.set_phase_mode(PHASE_MODE_ABSOLUTE)
+            # self.dds_729_SP.set(freq_729_SP, phase=0.)
             
-            with parallel:
-                self.dds_729.sw.on()
-                self.dds_729_SP.sw.on()
-            delay(self.rabi.duration)
-            with parallel:
-                self.dds_729.sw.off()
-                self.dds_729_SP.sw.off()
+            # with parallel:
+            #     self.dds_729.sw.on()
+            #     self.dds_729_SP.sw.on()
+            # delay(self.rabi.duration)
+            # with parallel:
+            #     self.dds_729.sw.off()
+            #     self.dds_729_SP.sw.off()
             
-            self.dds_729.set_phase_mode(PHASE_MODE_TRACKING)
-            self.dds_729_SP.set_phase_mode(PHASE_MODE_TRACKING)
+            # self.dds_729.set_phase_mode(PHASE_MODE_TRACKING)
+            # self.dds_729_SP.set_phase_mode(PHASE_MODE_TRACKING)

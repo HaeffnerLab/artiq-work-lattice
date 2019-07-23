@@ -1,6 +1,5 @@
 from artiq.experiment import *
 from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP, RAM_DEST_ASF
-from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING
 import numpy as np
 
 class BichroExcitation:
@@ -39,10 +38,6 @@ class BichroExcitation:
         freq_blue = 80*MHz + trap_frequency + b.detuning
         if b.channel == "global":
             self.get_729_dds("729G")
-            self.dds_729.set_phase_mode(PHASE_MODE_TRACKING)
-            self.dds_729_SP.set_phase_mode(PHASE_MODE_TRACKING)
-            self.dds_729_SP_bichro.set_phase_mode(PHASE_MODE_TRACKING)
-
             offset = self.get_offset_frequency("729G")
             freq_blue += offset
             freq_red += offset
