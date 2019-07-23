@@ -29,7 +29,7 @@ class BichroExcitation:
     detuning_carrier_2="MolmerSorensen.detuning_carrier_2"
     default_sp_amp_729="Excitation_729.single_pass_amplitude"
     default_sp_att_729="Excitation_729.single_pass_att"
-    phase_ref_time=np.int64(0)
+    phase_ref_time=np.int64(-1)
 
     def subsequence(self):
         b = BichroExcitation

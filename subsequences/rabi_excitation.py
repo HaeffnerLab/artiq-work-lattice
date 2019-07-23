@@ -11,7 +11,7 @@ class RabiExcitation:
     line_selection="Excitation_729.line_selection"
     sp_amp_729="Excitation_729.single_pass_amplitude"
     sp_att_729="Excitation_729.single_pass_att"
-    phase_ref_time=np.int64(0)
+    phase_ref_time=np.int64(-1)
 
     def subsequence(self):
         r = RabiExcitation
