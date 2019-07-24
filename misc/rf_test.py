@@ -17,6 +17,8 @@ class rf_test(EnvExperiment):
 
         #ref_time = now_mu()
 
+        self.core.break_realtime()
+
         self.dds.set(2*MHz, amplitude=1.) #, ref_time_mu=ref_time)
         self.dds.set_att(5*dB)
 
