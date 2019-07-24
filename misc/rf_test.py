@@ -15,16 +15,16 @@ class rf_test(EnvExperiment):
         self.dds.set_phase_mode(PHASE_MODE_TRACKING)
         self.dds2.set_phase_mode(PHASE_MODE_TRACKING)
 
-        #ref_time = now_mu()
+        ref_time = now_mu()
 
         delay(100*us)
 
-        self.dds.set(0.5*MHz, amplitude=1.) #, ref_time_mu=ref_time)
+        self.dds.set(0.5*MHz, amplitude=1., ref_time_mu=ref_time)
         self.dds.set_att(5*dB)
 
         self.core.break_realtime()
 
-        self.dds2.set(0.5*MHz, amplitude=1.)
+        self.dds2.set(0.5*MHz, amplitude=1., ref_time_mu=ref_time)
         self.dds2.set_att(5*dB)
 
         self.core.break_realtime()
@@ -38,12 +38,12 @@ class rf_test(EnvExperiment):
 
         #self.dds.set_phase_mode(PHASE_MODE_TRACKING)
 
-        self.dds.set(0.5*MHz, amplitude=1.)
+        self.dds.set(0.5*MHz, amplitude=1., ref_time_mu=ref_time)
         self.dds.sw.on()
         delay(5*us)
         self.dds.sw.off()
 
-        self.dds.set(0.5*MHz, amplitude=1.) #, ref_time_mu=ref_time)
+        self.dds.set(0.5*MHz, amplitude=1., ref_time_mu=ref_time)
         self.dds.sw.on()
         delay(10*us)
 
