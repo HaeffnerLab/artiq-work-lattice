@@ -7,8 +7,8 @@ class phase_test(EnvExperiment):
         self.setattr_device("core")
         #self.dds1 = self.get_device("729G")
         self.dds1 = self.get_device("SP_729G")
-        self.dds2 = self.get_device("729L1")
-        self.dds_sum = self.get_device("SP_729G")
+        self.dds2 = self.get_device("SP_729G_bichro")
+        self.dds_sum = self.get_device("729L1")
 
     @kernel
     def run(self):
