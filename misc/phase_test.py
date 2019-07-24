@@ -32,7 +32,7 @@ class phase_test(EnvExperiment):
 
         self.core.break_realtime()
 
-        self.dds2.set(25.5*MHz, ref_time_mu=ref_time)
+        self.dds2.set(25*MHz+100*Hz, ref_time_mu=ref_time)
         self.dds2.set_att(5*dB)
 
         # turn on the two frequencies
