@@ -24,7 +24,7 @@ class rf_test(EnvExperiment):
 
         self.core.break_realtime()
 
-        self.dds2.set(0.5*MHz, amplitude=1.)
+        self.dds2.set(1.0*MHz, amplitude=1.)
         self.dds2.set_att(5*dB)
 
         self.core.break_realtime()
