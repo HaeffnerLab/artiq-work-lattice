@@ -27,16 +27,16 @@ class rf_test(EnvExperiment):
 
         self.core.break_realtime()
 
-        with parallel:
-            self.dds.sw.on()
-            self.dds2.sw.on()
+        #with parallel:
+        self.dds.sw.on()
+        self.dds2.sw.on()
 
         delay(2*us)
         self.dds.sw.off()
 
         #self.dds.set_phase_mode(PHASE_MODE_TRACKING)
 
-        self.dds.set(10*MHz, amplitude=1.)
+        self.dds.set(4*MHz, amplitude=1.)
         self.dds.sw.on()
         delay(0.5*us)
         self.dds.sw.off()
@@ -45,6 +45,6 @@ class rf_test(EnvExperiment):
         self.dds.sw.on()
         delay(2*us)
 
-        with parallel:
-            self.dds.sw.off()
-            self.dds2.sw.off()
+        #with parallel:
+        self.dds.sw.off()
+        self.dds2.sw.off()
