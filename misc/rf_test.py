@@ -10,7 +10,7 @@ class rf_test(EnvExperiment):
 
     @kernel
     def run(self):
-        self.core.reset()
+        #self.core.reset()
 
         self.dds.set_phase_mode(PHASE_MODE_TRACKING)
         self.dds2.set_phase_mode(PHASE_MODE_TRACKING)
