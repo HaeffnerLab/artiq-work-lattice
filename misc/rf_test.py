@@ -15,7 +15,7 @@ class rf_test(EnvExperiment):
         self.dds.set_phase_mode(PHASE_MODE_TRACKING)
         self.dds2.set_phase_mode(PHASE_MODE_TRACKING)
 
-        ref_time = now_mu()
+        ref_time = 0 #now_mu()
 
         delay(100*us)
 
