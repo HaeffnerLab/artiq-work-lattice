@@ -28,7 +28,7 @@ class phase_test(EnvExperiment):
 
         delay(100*us)
 
-        self.dds1.set(25*MHz+20*Hz, ref_time_mu=ref_time)
+        self.dds1.set(25*MHz, ref_time_mu=ref_time)
         self.dds1.set_att(5*dB)
 
         self.core.break_realtime()
