@@ -32,27 +32,28 @@ class phase_test(EnvExperiment):
 
         self.core.break_realtime()
 
-        self.dds2.set(25*MHz+76.85*Hz, ref_time_mu=ref_time)
+        #self.dds2.set(25*MHz+76.875*Hz, ref_time_mu=ref_time)
+        self.dds2.set(15*MHz+76.875*Hz, ref_time_mu=ref_time)
         self.dds2.set_att(5*dB)
 
         # turn on the two frequencies
         self.dds1.sw.on()
         self.dds2.sw.on()
 
-        # delay(10*us)
+        delay(10*us)
 
-        # self.dds_sum.set(20*MHz, ref_time_mu=ref_time)
-        # self.dds_sum.set_att(5*dB)
+        self.dds_sum.set(20*MHz, ref_time_mu=ref_time)
+        self.dds_sum.set_att(5*dB)
 
-        # self.core.break_realtime()
+        self.core.break_realtime()
 
-        # delay(10*us)
+        delay(10*us)
 
-        # self.dds_sum.set(40*MHz, ref_time_mu=ref_time)
-        # self.dds_sum.set_att(5*dB)
+        self.dds_sum.set(40*MHz, ref_time_mu=ref_time)
+        self.dds_sum.set_att(5*dB)
 
-        # self.core.break_realtime()
+        self.core.break_realtime()
 
-        # self.dds_sum.sw.on()
+        self.dds_sum.sw.on()
 
         # leave each DDS on so that we can measure
