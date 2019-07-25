@@ -48,7 +48,7 @@ class RampTest(EnvExperiment):
 
         self.core.break_realtime()
 
-        #self.dds.set(220*MHz, amplitude=1., profile=0)
+        self.dds.set(220*MHz, amplitude=1., profile=0)
         self.dds.set_frequency(220*MHz)
         #self.dds.cpld.io_update.pulse_mu(8)
         self.dds.set_att(5*dB)
