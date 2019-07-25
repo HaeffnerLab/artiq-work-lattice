@@ -43,12 +43,12 @@ class phase_test(EnvExperiment):
         self.dds1.sw.on()
         self.dds2.sw.on()
 
-        delay(10*us)
+        # delay(10*us)
 
-        self.dds_sum.set(20*MHz, ref_time_mu=ref_time)
-        self.dds_sum.set_att(5*dB)
+        # self.dds_sum.set(20*MHz, ref_time_mu=ref_time)
+        # self.dds_sum.set_att(5*dB)
 
-        self.core.break_realtime()
+        # self.core.break_realtime()
 
         delay(10*us)
 
