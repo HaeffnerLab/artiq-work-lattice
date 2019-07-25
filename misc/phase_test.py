@@ -80,7 +80,7 @@ class phase_test(EnvExperiment):
         print("bichro_red_freq =", bichro_red_freq)
         self.core.break_realtime()
 
-        delay(10*us)
+        delay(100*us)
 
         # turn on the two bichro frequencies
         self.dds1.set(bichro_blue_freq, ref_time_mu=ref_time)
