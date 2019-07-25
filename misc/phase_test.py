@@ -68,7 +68,7 @@ class phase_test(EnvExperiment):
         delay(10*us)
 
         phase_degrees = 0.
-        self.dds_sum.set(sp_freq*2., ref_time_mu=ref_time, phase=phase_degrees/360.)
+        self.dds_sum.set(sp_freq*2. + 200*Hz, ref_time_mu=ref_time, phase=phase_degrees/360.)
         self.dds_sum.set_att(5*dB)
 
         self.core.break_realtime()
