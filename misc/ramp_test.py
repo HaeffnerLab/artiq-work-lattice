@@ -28,9 +28,9 @@ class RampTest(EnvExperiment):
             amplitude_step_size = 0x00
             amplitude_scale_factor = self.dds.amplitude_to_asf(amps[i])
             amplitude_ramp_rate = 10   # clock cycles per step
-            data[i] = amplitude_step_size |
-                      amplitude_scale_factor << 2 |
-                      amplitude_ramp_rate << 16
+            data[i] = (amplitude_step_size |
+                       amplitude_scale_factor << 2 |
+                       amplitude_ramp_rate << 16)
 
         print(data)
         self.core.break_realtime()
