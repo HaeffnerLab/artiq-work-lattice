@@ -1,5 +1,5 @@
 from artiq.experiment import *
-from artiq.coredevice.ad9910 import RAM_MODE_BIDIR_RAMP, RAM_DEST_ASF
+from artiq.coredevice.ad9910 import RAM_MODE_BIDIR_RAMP, RAM_MODE_RAMPUP, RAM_DEST_ASF
 
 
 class RampTest(EnvExperiment):
