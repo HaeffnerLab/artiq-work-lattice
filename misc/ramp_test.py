@@ -1,5 +1,5 @@
 from artiq.experiment import *
-from artiq.coredevice.ad9910 import RAM_MODE_BIDIR_RAMP, RAM_MODE_RAMPUP, RAM_DEST_ASF, RAM_MODE_DIRECTSWITCH
+from artiq.coredevice.ad9910 import RAM_MODE_BIDIR_RAMP, RAM_MODE_CONT_RAMPUP, RAM_MODE_RAMPUP, RAM_DEST_ASF, RAM_MODE_DIRECTSWITCH
 
 
 class RampTest(EnvExperiment):
@@ -36,8 +36,8 @@ class RampTest(EnvExperiment):
         self.core.break_realtime()
 
         self.dds.set_profile_ram(
-               start=0, end=n_steps - 1, step=1000,
-               profile=0, mode=RAM_MODE_DIRECTSWITCH)
+               start=0, end=n_steps - 1, stepRAM_MODE_DIRECTSWITCH=100,
+               profile=0, mode=RAM_MODE_CONT_RAMPUP)
         self.dds.cpld.set_profile(0)
         #self.dds.cpld.io_update.pulse_mu(8)
         #delay(1*ms)
