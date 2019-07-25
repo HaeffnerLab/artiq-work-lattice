@@ -7,7 +7,7 @@ class RampTest(EnvExperiment):
     def build(self):
         self.setattr_device("core")
         self.dds = self.get_device("729G")
-        self.cpld = self.get_device("urukul2_cpld")
+        self.cpld = self.get_device("urukul0_cpld")
 
     @kernel
     def run(self):
@@ -54,8 +54,19 @@ class RampTest(EnvExperiment):
         #for i in range(len(data)):
         #    assert r[i] == data[i]
         self.core.break_realtime()
-        while True:
-            self.dds.cpld.set_profile(0)
-            self.dds.sw.on()
-            delay(1*ms)
-            self.dds.sw.off()
+
+        #while True:
+        self.dds.cpld.set_profile(0)
+        self.dds.sw.on()
+        delay(1*ms)
+        self.dds.sw.off()
+
+        # turn on the 397 and 866 so we don't lose our ions
+        self.dds_397.set(78*MHz)
+        self.dds_397.set_att(5*dB)
+        self.core.break_realtime()
+        self.dds_866.set(80*MHz)
+        self.dds_866.set_att(5*dB)
+        self.core.break_realtime()
+        self.dds_397.sw.on()
+        self.dds_866.sw.on()
