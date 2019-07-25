@@ -31,7 +31,7 @@ class RampTest(EnvExperiment):
             data[i] = amplitude_step_size |
                       amplitude_scale_factor << 2 |
                       amplitude_ramp_rate << 16
-        
+
         print(data)
         self.core.break_realtime()
 
