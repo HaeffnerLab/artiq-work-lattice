@@ -6,7 +6,7 @@ class RampTest(EnvExperiment):
 
     def build(self):
         self.setattr_device("core")
-        self.dds = self.get_device("SP_729L2")
+        self.dds = self.get_device("729G")
         self.cpld = self.get_device("urukul2_cpld")
 
     @kernel
@@ -44,10 +44,10 @@ class RampTest(EnvExperiment):
 
         self.core.break_realtime()
 
-        self.dds.set(80*MHz, amplitude=1., profile=0)
+        self.dds.set(220*MHz, amplitude=1., profile=0)
         self.dds.cpld.io_update.pulse_mu(8)
         self.dds.set_att(5*dB)
-        self.dds.sw.on()
+        #self.dds.sw.on()
 
         r = [0]*len(data)
         self.dds.read_ram(r)
