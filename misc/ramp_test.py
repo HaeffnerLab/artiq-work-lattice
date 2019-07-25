@@ -22,15 +22,15 @@ class RampTest(EnvExperiment):
         n_steps = 10
         amps = [.1 * i for i in range(1, n_steps+1)]
         data = [0]*n_steps
-        self.dds.amplitude_to_ram(amps, data)
+        #self.dds.amplitude_to_ram(amps, data)
 
-        # for i in range(len(data)):
-        #     amplitude_step_size = 0x00
-        #     amplitude_scale_factor = self.dds.amplitude_to_asf(amps[i])
-        #     amplitude_ramp_rate = 10   # clock cycles per step
-        #     data[i] = (amplitude_step_size |
-        #                amplitude_scale_factor << 2 |
-        #                amplitude_ramp_rate << 16)
+        for i in range(len(data)):
+            amplitude_step_size = 0x00
+            amplitude_scale_factor = self.dds.amplitude_to_asf(amps[i])
+            amplitude_ramp_rate = 10   # clock cycles per step
+            data[i] = (amplitude_step_size |
+                       amplitude_scale_factor << 2 |
+                       amplitude_ramp_rate << 16)
 
         print(data)
         self.core.break_realtime()
