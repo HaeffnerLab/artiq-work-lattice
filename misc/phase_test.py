@@ -27,11 +27,11 @@ class phase_test(EnvExperiment):
         if True: #self.dds1.sync_delay_seed == -1:
             delay(100*us)
             d0, w0 = self.dds1.tune_sync_delay()
-            t0 = self.dds1.tune_io_update_delay()
+            #t0 = self.dds1.tune_io_update_delay()
             d1, w1 = self.dds2.tune_sync_delay()
-            t1 = self.dds2.tune_io_update_delay()
+            #t1 = self.dds2.tune_io_update_delay()
             d2, w2 = self.dds_sum.tune_sync_delay()
-            t2 = self.dds_sum.tune_io_update_delay()
+            #t2 = self.dds_sum.tune_io_update_delay()
             # Add the values found to each of the four channels in your
             # device_db.py so that e.g. for urukul0_ch0 it looks like:
             #    "urukul0_ch0": {
@@ -48,7 +48,7 @@ class phase_test(EnvExperiment):
             # where T is the io_update_delay of the channel and
             # D is the sync_delay_seed of the channel below:
             print("sync_delay_seed", [d0, d1, d2])
-            print("io_update_delay", [t0, t1, t2])
+            #print("io_update_delay", [t0, t1, t2])
             # As long as the values don't differ too much between the channels,
             # using the mean for them is also fine.
             # This one is for information purposes only:
