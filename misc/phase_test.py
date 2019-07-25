@@ -22,12 +22,12 @@ class phase_test(EnvExperiment):
         self.dds2.sw.off()
         self.dds_sum.sw.off()
 
-        self.dds1.set_phase_mode(PHASE_MODE_CONTINUOUS)
-        self.dds2.set_phase_mode(PHASE_MODE_CONTINUOUS)
-        self.dds_sum.set_phase_mode(PHASE_MODE_CONTINUOUS)
+        self.dds1.set_phase_mode(PHASE_MODE_ABSOLUTE)
+        self.dds2.set_phase_mode(PHASE_MODE_ABSOLUTE)
+        self.dds_sum.set_phase_mode(PHASE_MODE_ABSOLUTE)
 
-        #ref_time = np.int64(-1)
-        ref_time = now_mu()
+        ref_time = np.int64(-1)
+        #ref_time = now_mu()
         print(ref_time)
         self.core.break_realtime()
 
