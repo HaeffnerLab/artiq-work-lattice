@@ -34,7 +34,7 @@ class phase_test(EnvExperiment):
         delay(100*us)
 
         sp_freq = 80.3*MHz
-        trap_freq = 830*kHz
+        trap_freq = 830*kHz * 4
         detuning = 5*kHz
         bichro_blue_freq = sp_freq + trap_freq + detuning
         bichro_red_freq = sp_freq - trap_freq - detuning
@@ -65,7 +65,9 @@ class phase_test(EnvExperiment):
         self.dds_sum.set_att(5*dB)
 
         self.core.break_realtime()
+        self.dds_sum.sw.on()
         delay(10*us)
+        self.dds_sum.sw.off()
 
         phase_degrees = 0.
         self.dds_sum.set(sp_freq*2. + 200*Hz, ref_time_mu=ref_time, phase=phase_degrees/360.)
