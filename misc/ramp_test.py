@@ -36,7 +36,7 @@ class RampTest(EnvExperiment):
         self.core.break_realtime()
 
         self.dds.set_profile_ram(
-               start=0, end=n_steps - 1, stepRAM_MODE_DIRECTSWITCH=100,
+               start=0, end=n_steps - 1, step=100,
                profile=0, mode=RAM_MODE_CONT_RAMPUP)
         self.dds.cpld.set_profile(0)
         #self.dds.cpld.io_update.pulse_mu(8)
@@ -55,7 +55,7 @@ class RampTest(EnvExperiment):
         
         #self.dds.cpld.set_profile(0)
         self.dds.sw.on()
-        delay(10000*ms)
+        delay(5000*ms)
         self.dds.sw.off()
 
         # turn on the 397 and 866 so we don't lose our ions
