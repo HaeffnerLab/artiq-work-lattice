@@ -11,6 +11,9 @@ class phase_test(EnvExperiment):
         self.dds2 = self.get_device("SP_729G_bichro")
         self.dds_sum = self.get_device("729L1")
 
+        self.dds_397 = self.get_device("397")
+        self.dds_866 = self.get_device("866")
+
     @kernel
     def run(self):
         self.core.reset()
@@ -71,3 +74,13 @@ class phase_test(EnvExperiment):
         self.dds_sum.sw.on()
 
         # leave each DDS on so that we can measure
+
+        # turn on the 397 and 866 so we don't lose our ions
+        self.dds_397.set(78*MHz)
+        self.dds_397.set_att(5*dB)
+        self.core.break_realtime()
+        self.dds_866.set(80*MHz)
+        self.dds_866.set_att(5*dB)
+        self.core.break_realtime()
+        self.dds_397.sw.on()
+        self.dds_866.sw.on()
