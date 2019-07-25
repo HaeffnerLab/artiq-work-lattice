@@ -36,7 +36,7 @@ class RampTest(EnvExperiment):
         self.core.break_realtime()
 
         self.dds.set_profile_ram(
-               start=0, end=n_steps - 1, step=100,
+               start=0, end=n_steps - 1, step=1000,
                profile=0, mode=RAM_MODE_RAMPUP)
         self.dds.cpld.set_profile(0)
         #self.dds.cpld.io_update.pulse_mu(8)
@@ -48,9 +48,9 @@ class RampTest(EnvExperiment):
 
         self.core.break_realtime()
 
-        self.dds.set(220*MHz, amplitude=1., profile=0)
+        #self.dds.set(220*MHz, amplitude=1., profile=0)
         #self.dds.cpld.io_update.pulse_mu(8)
-        self.dds.set_att(5*dB)
+        #self.dds.set_att(5*dB)
         
         #self.dds.cpld.set_profile(0)
         self.dds.sw.on()
