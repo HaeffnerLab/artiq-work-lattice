@@ -30,29 +30,35 @@ class phase_test(EnvExperiment):
 
         delay(100*us)
 
-        self.dds1.set(25*MHz, ref_time_mu=ref_time)
+        sp_freq = 80.3*MHz
+        trap_freq = 830*kHz
+        detuning = 5*kHz
+        bichro_blue_freq = sp_freq + trap_freq + detuning
+        bichro_red_freq = sp_freq - trap_freq - detuning
+
+        # turn on the two bichro frequencies
+        self.dds1.set(bichro_blue_freq, ref_time_mu=ref_time)
         self.dds1.set_att(5*dB)
 
         self.core.break_realtime()
 
-        #self.dds2.set(25*MHz, ref_time_mu=ref_time)
-        self.dds2.set(15*MHz, ref_time_mu=ref_time)
+        self.dds2.set(bichro_red_freq, ref_time_mu=ref_time)
         self.dds2.set_att(5*dB)
 
-        # turn on the two frequencies
         self.dds1.sw.on()
         self.dds2.sw.on()
 
-        # delay(10*us)
-
-        # self.dds_sum.set(20*MHz, ref_time_mu=ref_time)
-        # self.dds_sum.set_att(5*dB)
-
-        self.core.break_realtime()
-
         delay(10*us)
 
-        self.dds_sum.set(40*MHz, ref_time_mu=ref_time, phase=90./360.)
+        # on the third channel, first set to the bichro, then change to the default
+        self.dds_sum.set(bichro_blue_freq, ref_time_mu=ref_time)
+        self.dds_sum.set_att(5*dB)
+
+        self.core.break_realtime()
+        delay(10*us)
+
+        phase_degrees = 0.
+        self.dds_sum.set(sp_freq, ref_time_mu=ref_time, phase=phase_degrees/360.)
         self.dds_sum.set_att(5*dB)
 
         self.core.break_realtime()
