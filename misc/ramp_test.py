@@ -47,7 +47,7 @@ class RampTest(EnvExperiment):
         self.dds.cpld.set_profile(0)
         self.dds.cpld.io_update.pulse_mu(8)
         delay(1*ms)
-        self.dds.write_ram(write)
+        self.dds.write_ram(data)
         self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
         self.dds.cpld.io_update.pulse_mu(8)
         delay(1*ms)
