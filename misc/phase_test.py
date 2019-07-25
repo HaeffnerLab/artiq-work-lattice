@@ -36,6 +36,11 @@ class phase_test(EnvExperiment):
         bichro_blue_freq = sp_freq + trap_freq + detuning
         bichro_red_freq = sp_freq - trap_freq - detuning
 
+        print("sp_freq =", sp_freq)
+        print("bichro_blue_freq =", bichro_blue_freq)
+        print("bichro_red_freq =", bichro_red_freq)
+        self.core.break_realtime()
+
         # turn on the two bichro frequencies
         self.dds1.set(bichro_blue_freq, ref_time_mu=ref_time)
         self.dds1.set_att(5*dB)
