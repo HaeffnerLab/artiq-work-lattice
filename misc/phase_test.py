@@ -24,7 +24,7 @@ class phase_test(EnvExperiment):
 
         # This calibration needs to be done only once to find good values.
         # The rest is happening at each future init() of the DDS.
-        if True: #self.dds1.sync_delay_seed == -1:
+        if self.dds1.sync_delay_seed == -1:
             delay(100*us)
             d0, w0 = self.dds1.tune_sync_delay()
             #t0 = self.dds1.tune_io_update_delay()
@@ -56,7 +56,6 @@ class phase_test(EnvExperiment):
             #
             # then run this script again
             return
-
 
         self.dds1.set_phase_mode(PHASE_MODE_TRACKING)
         self.dds2.set_phase_mode(PHASE_MODE_TRACKING)
