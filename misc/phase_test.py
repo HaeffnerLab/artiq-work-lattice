@@ -97,7 +97,11 @@ class phase_test(EnvExperiment):
 
         # on the third channel, first set to the bichro, then change to the default
         self.dds_sum.set(bichro_blue_freq*2., ref_time_mu=ref_time)
+        self.core.break_realtime()
+        delay(100*us)
         self.dds_sum.set_att(5*dB)
+        self.core.break_realtime()
+        delay(100*us)
 
         self.core.break_realtime()
         self.dds_sum.sw.on()
