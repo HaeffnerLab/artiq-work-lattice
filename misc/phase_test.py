@@ -81,46 +81,35 @@ class phase_test(EnvExperiment):
         delay(100*us)
 
         # turn on the two bichro frequencies
-        self.dds1.set(bichro_blue_freq, ref_time_mu=ref_time)
+        self.dds1.set(bichro_blue_freq) #, ref_time_mu=ref_time)
         self.dds1.set_att(5*dB)
 
         # self.core.break_realtime()
 
-        self.dds2.set(bichro_red_freq, ref_time_mu=ref_time)
+        self.dds2.set(bichro_red_freq) #, ref_time_mu=ref_time)
         self.dds2.set_att(5*dB)
 
         with parallel:
             self.dds1.sw.on()
             self.dds2.sw.on()
-            ref_time = now_mu()
 
-        #delay(150*us)
-        # self.core.break_realtime()
+        ref_time = now_mu()
 
         # on the third channel, first set to the bichro, then change to the default
         self.dds_sum.set(bichro_blue_freq*2., ref_time_mu=ref_time)
-        # self.core.break_realtime()
-        #delay(150*us)
         self.dds_sum.set_att(5*dB)
-        # self.core.break_realtime()
-        #delay(100*us)
 
-        # self.core.break_realtime()
         self.dds_sum.sw.on()
         delay(10*us)
         self.dds_sum.sw.off()
 
         delay(100*us)
         phase_degrees = 0.
-        pow = self.dds_sum.set(sp_freq*2., ref_time_mu=ref_time, phase=phase_degrees/360.)
+        self.dds_sum.set_att(5*dB)
+        pow = self.dds_sum.set(sp_freq*2., ref_time_mu=ref_time) #, phase=phase_degrees/360.)
         # print("phase offset:", pow)
         # self.core.break_realtime()
         #delay(100*us)
-
-        self.dds_sum.set_att(5*dB)
-
-        #delay(100*us)
-        # self.core.break_realtime()
 
         self.dds_sum.sw.on()
 
