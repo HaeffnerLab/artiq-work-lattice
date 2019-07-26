@@ -129,9 +129,9 @@ class phase_test(EnvExperiment):
         # turn on the 397 and 866 so we don't lose our ions
         self.dds_397.set(78*MHz)
         self.dds_397.set_att(5*dB)
-        # self.core.break_realtime()
+        self.core.break_realtime()
         self.dds_866.set(80*MHz)
         self.dds_866.set_att(5*dB)
-        # self.core.break_realtime()
+        self.core.break_realtime()
         self.dds_397.sw.on()
         self.dds_866.sw.on()
