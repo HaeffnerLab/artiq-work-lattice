@@ -4,15 +4,6 @@ from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE, PH
 import numpy as np
 
 class phase_test(EnvExperiment):
-    is_ndim = False
-    kernel_invariants = set()
-    range_guess = dict()
-    data = edict()
-    run_after = dict()
-    set_subsequence = dict()
-    fixed_params = list()
-    master_scans = list()
-
     def build(self):
         self.setattr_device("core")
         #self.dds1 = self.get_device("729G")
