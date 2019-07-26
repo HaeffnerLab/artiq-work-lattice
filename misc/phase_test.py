@@ -59,7 +59,7 @@ class phase_test(EnvExperiment):
 
         self.dds1.set_phase_mode(PHASE_MODE_ABSOLUTE)
         self.dds2.set_phase_mode(PHASE_MODE_ABSOLUTE)
-        self.dds_sum.set_phase_mode(PHASE_MODE_TRACKING)
+        self.dds_sum.set_phase_mode(PHASE_MODE_ABSOLUTE)
 
         ref_time = np.int64(-1)
         # print(ref_time)
@@ -92,7 +92,7 @@ class phase_test(EnvExperiment):
         with parallel:
             self.dds1.sw.on()
             self.dds2.sw.on()
-            ref_time = now_mu()
+            #ref_time = now_mu()
 
         #delay(150*us)
         # self.core.break_realtime()
