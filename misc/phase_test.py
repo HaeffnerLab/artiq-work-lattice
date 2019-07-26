@@ -22,40 +22,40 @@ class phase_test(EnvExperiment):
         self.dds2.sw.off()
         self.dds_sum.sw.off()
 
-        # This calibration needs to be done only once to find good values.
-        # The rest is happening at each future init() of the DDS.
-        if self.dds1.sync_delay_seed == -1:
-            delay(100*us)
-            d0, w0 = self.dds1.tune_sync_delay()
-            #t0 = self.dds1.tune_io_update_delay()
-            d1, w1 = self.dds2.tune_sync_delay()
-            #t1 = self.dds2.tune_io_update_delay()
-            d2, w2 = self.dds_sum.tune_sync_delay()
-            #t2 = self.dds_sum.tune_io_update_delay()
-            # Add the values found to each of the four channels in your
-            # device_db.py so that e.g. for urukul0_ch0 it looks like:
-            #    "urukul0_ch0": {
-            #       ...
-            #        "class": "AD9910",
-            #        "arguments": {
-            #            "pll_n": 32,
-            #            "chip_select": 4,
-            #           "sync_delay_seed": D,
-            #           "io_update_delay": T,
-            #           "cpld_device": "urukul0_cpld",
-            #           ...
-            #       }
-            # where T is the io_update_delay of the channel and
-            # D is the sync_delay_seed of the channel below:
-            print("sync_delay_seed", [d0, d1, d2])
-            #print("io_update_delay", [t0, t1, t2])
-            # As long as the values don't differ too much between the channels,
-            # using the mean for them is also fine.
-            # This one is for information purposes only:
-            # print("validation delays", [w0, w1, w2, w3])
-            #
-            # then run this script again
-            return
+        # # This calibration needs to be done only once to find good values.
+        # # The rest is happening at each future init() of the DDS.
+        # if self.dds1.sync_delay_seed == -1:
+        #     delay(100*us)
+        #     d0, w0 = self.dds1.tune_sync_delay()
+        #     #t0 = self.dds1.tune_io_update_delay()
+        #     d1, w1 = self.dds2.tune_sync_delay()
+        #     #t1 = self.dds2.tune_io_update_delay()
+        #     d2, w2 = self.dds_sum.tune_sync_delay()
+        #     #t2 = self.dds_sum.tune_io_update_delay()
+        #     # Add the values found to each of the four channels in your
+        #     # device_db.py so that e.g. for urukul0_ch0 it looks like:
+        #     #    "urukul0_ch0": {
+        #     #       ...
+        #     #        "class": "AD9910",
+        #     #        "arguments": {
+        #     #            "pll_n": 32,
+        #     #            "chip_select": 4,
+        #     #           "sync_delay_seed": D,
+        #     #           "io_update_delay": T,
+        #     #           "cpld_device": "urukul0_cpld",
+        #     #           ...
+        #     #       }
+        #     # where T is the io_update_delay of the channel and
+        #     # D is the sync_delay_seed of the channel below:
+        #     print("sync_delay_seed", [d0, d1, d2])
+        #     #print("io_update_delay", [t0, t1, t2])
+        #     # As long as the values don't differ too much between the channels,
+        #     # using the mean for them is also fine.
+        #     # This one is for information purposes only:
+        #     # print("validation delays", [w0, w1, w2, w3])
+        #     #
+        #     # then run this script again
+        #     return
 
         self.dds1.set_phase_mode(PHASE_MODE_TRACKING)
         self.dds2.set_phase_mode(PHASE_MODE_TRACKING)
