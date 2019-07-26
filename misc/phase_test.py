@@ -110,6 +110,7 @@ class phase_test(EnvExperiment):
         delay(10*us)
         self.dds_sum.sw.off()
 
+        delay(100*us)
         phase_degrees = 0.
         pow = self.dds_sum.set(sp_freq*2., ref_time_mu=ref_time, phase=phase_degrees/360.)
         # print("phase offset:", pow)
