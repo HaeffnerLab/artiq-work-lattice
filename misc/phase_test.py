@@ -92,8 +92,7 @@ class phase_test(EnvExperiment):
         with parallel:
             self.dds1.sw.on()
             self.dds2.sw.on()
-
-        ref_time = now_mu()
+            ref_time = now_mu()
 
         # on the third channel, first set to the bichro, then change to the default
         self.dds_sum.set(bichro_blue_freq*2., ref_time_mu=ref_time)
