@@ -63,8 +63,8 @@ class phase_test(EnvExperiment):
 
         #ref_time = np.int64(-1)
         ref_time = now_mu()
-        print(ref_time)
-        self.core.break_realtime()
+        # print(ref_time)
+        # self.core.break_realtime()
 
         delay(100*us)
 
@@ -74,10 +74,10 @@ class phase_test(EnvExperiment):
         bichro_blue_freq = sp_freq + trap_freq + detuning
         bichro_red_freq = sp_freq - trap_freq - detuning
 
-        print("sp_freq =", sp_freq)
-        print("bichro_blue_freq =", bichro_blue_freq)
-        print("bichro_red_freq =", bichro_red_freq)
-        self.core.break_realtime()
+        # print("sp_freq =", sp_freq)
+        # print("bichro_blue_freq =", bichro_blue_freq)
+        # print("bichro_red_freq =", bichro_red_freq)
+        # self.core.break_realtime()
 
         delay(100*us)
 
@@ -85,7 +85,7 @@ class phase_test(EnvExperiment):
         self.dds1.set(bichro_blue_freq, ref_time_mu=ref_time)
         self.dds1.set_att(5*dB)
 
-        self.core.break_realtime()
+        # self.core.break_realtime()
 
         self.dds2.set(bichro_red_freq, ref_time_mu=ref_time)
         self.dds2.set_att(5*dB)
@@ -94,31 +94,31 @@ class phase_test(EnvExperiment):
         self.dds2.sw.on()
 
         delay(150*us)
-        self.core.break_realtime()
+        # self.core.break_realtime()
 
         # on the third channel, first set to the bichro, then change to the default
         self.dds_sum.set(bichro_blue_freq*2., ref_time_mu=ref_time)
-        self.core.break_realtime()
+        # self.core.break_realtime()
         delay(150*us)
         self.dds_sum.set_att(5*dB)
-        self.core.break_realtime()
+        # self.core.break_realtime()
         delay(100*us)
 
-        self.core.break_realtime()
+        # self.core.break_realtime()
         self.dds_sum.sw.on()
         delay(10*us)
         self.dds_sum.sw.off()
 
         phase_degrees = 0.
         pow = self.dds_sum.set(sp_freq*2., ref_time_mu=ref_time, phase=phase_degrees/360.)
-        print("phase offset:", pow)
-        self.core.break_realtime()
+        # print("phase offset:", pow)
+        # self.core.break_realtime()
         delay(100*us)
 
         self.dds_sum.set_att(5*dB)
 
         delay(100*us)
-        self.core.break_realtime()
+        # self.core.break_realtime()
 
         self.dds_sum.sw.on()
 
@@ -127,9 +127,9 @@ class phase_test(EnvExperiment):
         # turn on the 397 and 866 so we don't lose our ions
         self.dds_397.set(78*MHz)
         self.dds_397.set_att(5*dB)
-        self.core.break_realtime()
+        # self.core.break_realtime()
         self.dds_866.set(80*MHz)
         self.dds_866.set_att(5*dB)
-        self.core.break_realtime()
+        # self.core.break_realtime()
         self.dds_397.sw.on()
         self.dds_866.sw.on()
