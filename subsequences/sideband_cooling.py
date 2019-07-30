@@ -55,6 +55,9 @@ class SidebandCooling:
                             order=sideband_order,
                             dds=channel
                         )
+            print("sbc freq", freq_729)
+            self.core.break_realtime()
+
             self.dds_729.set(freq_729, 
                             amplitude=s.amplitude_729)
             self.dds_729.set_att(s.att_729)

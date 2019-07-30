@@ -16,6 +16,8 @@ class RabiExcitation:
 
     def subsequence(self):
         r = RabiExcitation
+        print("rabi freq", r.freq_729)
+        self.core.break_realtime()
         self.get_729_dds(r.channel_729)
         self.dds_729.set(r.freq_729,
                          amplitude=r.amp_729,
