@@ -1,5 +1,6 @@
 from artiq.experiment import *
 import numpy as np
+from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
 
 class RabiExcitation:
     freq_729="Excitation_729.rabi_excitation_frequency"
@@ -22,7 +23,8 @@ class RabiExcitation:
         self.dds_729.set_att(r.att_729)
         sp_freq_729 = 80*MHz + self.get_offset_frequency(r.channel_729)
         self.dds_729_SP.set(sp_freq_729, amplitude=r.sp_amp_729, 
-                         phase=r.phase_729 / 360., ref_time_mu=r.phase_ref_time)
+                         phase=r.phase_729 / 360., phase_mode=PHASE_MODE_TRACKING,
+                         ref_time_mu=r.phase_ref_time)
         self.dds_729_SP.set_att(r.sp_att_729)
         
         with parallel:
