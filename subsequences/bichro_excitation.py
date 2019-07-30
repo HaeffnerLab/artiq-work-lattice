@@ -48,8 +48,8 @@ class BichroExcitation:
             )
             self.dds_729.set(dp_freq,
                              amplitude=b.amp,
-                             phase=b.phase / 360,
-                             ref_time_mu=b.phase_ref_time)
+                             phase=b.phase / 360)
+                             #ref_time_mu=b.phase_ref_time)
             self.dds_729.set_att(b.att)
             if b.bichro_enable:
 
