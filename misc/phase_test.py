@@ -35,8 +35,8 @@ class phase_test(EnvExperiment):
         # The rest is happening at each future init() of the DDS.
         if True: # self.dds1.sync_delay_seed == -1:
             delay(100*us)
-            d0, w0 = (None, None) #self.dds1.tune_sync_delay()
-            t0 = None # self.dds1.tune_io_update_delay()
+            d0, w0 = (-1, -1) #self.dds1.tune_sync_delay()
+            t0 = -1 # self.dds1.tune_io_update_delay()
             d1, w1 = self.dds2.tune_sync_delay()
             t1 = self.dds2.tune_io_update_delay()
             d2, w2 = self.dds_sum.tune_sync_delay()
