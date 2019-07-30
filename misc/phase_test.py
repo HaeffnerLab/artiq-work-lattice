@@ -18,11 +18,18 @@ class phase_test(EnvExperiment):
 
     @kernel
     def run(self):
-        self.core.reset()
+        #self.core.reset()
+        self.core.break_realtime()
+        self.dds1.cpld.init()
+        self.dds1.init()
+        self.dds2.init()
+        self.dds_sum.init()
+        self.dds4.init()
 
         self.dds1.sw.off()
         self.dds2.sw.off()
         self.dds_sum.sw.off()
+        self.dds4.sw.off()
 
         # This calibration needs to be done only once to find good values.
         # The rest is happening at each future init() of the DDS.
