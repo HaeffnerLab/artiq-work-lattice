@@ -6,7 +6,7 @@ class SidebandCooling:
     selection_sideband="SidebandCooling.selection_sideband"
     order="SidebandCooling.order"
     stark_shift="SidebandCooling.stark_shift"
-    channel_729="StatePreparation.channel_729"
+    channel_729="SidebandCooling.channel_729"
     repump_additional="OpticalPumpingContinuous.optical_pumping_continuous_repump_additional"
     amplitude_729="SidebandCooling.amplitude_729"
     att_729="SidebandCooling.att_729"
