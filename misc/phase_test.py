@@ -18,7 +18,7 @@ class phase_test(EnvExperiment):
 
     @kernel
     def run(self):
-        #self.core.reset()
+        self.core.reset()
         self.core.break_realtime()
         self.dds1.cpld.init()
         self.dds1.init()
