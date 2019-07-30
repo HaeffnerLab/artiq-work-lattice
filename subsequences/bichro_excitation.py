@@ -49,7 +49,8 @@ class BichroExcitation:
             )
             self.dds_729.set(dp_freq,
                              amplitude=b.amp,
-                             phase=b.phase / 360)
+                             phase=b.phase / 360,
+                             ref_time_mu=b.phase_ref_time)
             self.dds_729.set_att(b.att)
             if b.bichro_enable:
 
@@ -77,9 +78,9 @@ class BichroExcitation:
                 # END TEMP ramping stuff
                 #
 
-                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, phase_mode=PHASE_MODE_ABSOLUTE) #, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP.set_att(b.att_blue)
-                self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red, phase_mode=PHASE_MODE_ABSOLUTE) #, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP_bichro.set_att(b.att_red)
                 with parallel:
                     self.dds_729_SP.sw.on()
