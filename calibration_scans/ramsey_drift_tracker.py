@@ -210,6 +210,13 @@ class RamseyDriftTracker(PulseSequence):
         carr1 = self.detuning_1_global * 1e-6 + old_carr1
         carr2 = self.detuning_2_global * 1e-6 + old_carr2
 
+        print("old_carr1", old_carr1)
+        print("old_carr2", old_carr2)
+        print("carr1", carr1)
+        print("carr2", carr2)
+        print("self.detuning_1_global", self.detuning_1_global)
+        print("self.detuning_2_global", self.detuning_2_global)
+
         submission = [(line1, U(carr1, "MHz")), (line2, U(carr2, "MHz"))]
 
         try:
