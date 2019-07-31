@@ -204,11 +204,11 @@ class RamseyDriftTracker(PulseSequence):
         line1 = self.p.DriftTracker.line_selection_1
         line2 = self.p.DriftTracker.line_selection_2
 
-        old_carr1 = self.carrier_values[self.carrier_dict[line1]] * 1e-6
-        old_carr2 = self.carrier_values[self.carrier_dict[line2]] * 1e-6
+        old_carr1 = self.carrier_values[self.carrier_dict[line1]] 
+        old_carr2 = self.carrier_values[self.carrier_dict[line2]]
 
-        carr1 = self.detuning_1_global * 1e-6 + old_carr1
-        carr2 = self.detuning_2_global * 1e-6 + old_carr2
+        carr1 = old_carr1 - self.detuning_1_global
+        carr2 = old_carr2 - self.detuning_2_global
 
         print("old_carr1", old_carr1)
         print("old_carr2", old_carr2)
@@ -217,7 +217,7 @@ class RamseyDriftTracker(PulseSequence):
         print("self.detuning_1_global", self.detuning_1_global)
         print("self.detuning_2_global", self.detuning_2_global)
 
-        submission = [(line1, U(carr1, "MHz")), (line2, U(carr2, "MHz"))]
+        submission = [(line1, U(carr1 * 1e-6, "MHz")), (line2, U(carr2 * 1e-6, "MHz"))]
 
         try:
             global_cxn = labrad.connect(cl.global_address, password=cl.global_password,
