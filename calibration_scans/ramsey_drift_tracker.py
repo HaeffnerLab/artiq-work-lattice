@@ -81,6 +81,8 @@ class RamseyDriftTracker(PulseSequence):
 
     @kernel
     def TrackLine1(self):
+        self.rabi.phase_ref_time = now_mu()
+
         self.stateprep.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
@@ -144,6 +146,8 @@ class RamseyDriftTracker(PulseSequence):
 
     @kernel
     def TrackLine2(self):
+        self.rabi.phase_ref_time = now_mu()
+        
         self.stateprep.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
