@@ -58,7 +58,7 @@ class MolmerSorensenGate(PulseSequence):
         self.ms = self.add_subsequence(BichroExcitation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = "729G"
-        #self.phase_ref_time = np.int64(0)
+        self.phase_ref_time = np.int64(0)
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
         if not self.p.MolmerSorensen.override_readout:#
@@ -73,10 +73,6 @@ class MolmerSorensenGate(PulseSequence):
 
     @kernel
     def set_subsequence_ms(self):
-        #self.phase_ref_time = now_mu()
-        #self.ms.phase_ref_time = self.phase_ref_time
-        #self.rabi.phase_ref_time = self.phase_ref_time
-
         self.ms.duration = self.get_variable_parameter("MolmerSorensen_duration")
         self.ms.amp = self.get_variable_parameter("MolmerSorensen_amplitude")
         self.ms.amp_ion2 = self.get_variable_parameter("MolmerSorensen_amplitude_ion2")
@@ -93,6 +89,10 @@ class MolmerSorensenGate(PulseSequence):
         )
     @kernel
     def MolmerSorensen(self):
+        self.phase_ref_time = now_mu()
+        self.ms.phase_ref_time = self.phase_ref_time
+        self.rabi.phase_ref_time = self.phase_ref_time
+
         self.stateprep.run(self)
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
