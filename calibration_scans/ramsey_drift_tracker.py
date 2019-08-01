@@ -50,7 +50,7 @@ class RamseyDriftTracker(PulseSequence):
         self.set_subsequence["TrackLine2"] = self.set_subsequence_trackline2
         self.run_after["TrackLine1"] = self.analyze_trackline1
         self.run_after["TrackLine2"] = self.analyze_trackline2
-        self.max_gap = 500*us
+        self.max_gap = 300*us
         self.min_gap = 25*us
         self.expid = {
             "arguments": {
@@ -210,12 +210,8 @@ class RamseyDriftTracker(PulseSequence):
         carr1 = old_carr1 - self.detuning_1_global
         carr2 = old_carr2 - self.detuning_2_global
 
-        print("old_carr1", old_carr1)
-        print("old_carr2", old_carr2)
-        print("carr1", carr1)
-        print("carr2", carr2)
-        print("self.detuning_1_global", self.detuning_1_global)
-        print("self.detuning_2_global", self.detuning_2_global)
+        print("RamseyDriftTracker detuning_1_global", self.detuning_1_global)
+        print("RamseyDriftTracker detuning_2_global", self.detuning_2_global)
 
         submission = [(line1, U(carr1 * 1e-6, "MHz")), (line2, U(carr2 * 1e-6, "MHz"))]
 
