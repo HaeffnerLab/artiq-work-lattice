@@ -19,7 +19,7 @@ class RampTest(EnvExperiment):
         self.dds.init()
         self.core.break_realtime()
 
-        n_steps = 10
+        n_steps = 3
         amps = [.1 * i for i in range(1, n_steps+1)]
         data = [0]*n_steps
         self.dds.amplitude_to_ram(amps, data)
@@ -40,7 +40,7 @@ class RampTest(EnvExperiment):
         self.dds.set_profile_ram(
                start=0, end=n_steps - 1, step=100,
                profile=0, mode=RAM_MODE_RAMPUP)
-        #self.dds.cpld.set_profile(0)
+        self.dds.cpld.set_profile(0)
         #self.dds.cpld.io_update.pulse_mu(8)
         #delay(1*ms)
         self.dds.write_ram(data)
