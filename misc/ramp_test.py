@@ -92,7 +92,7 @@ class RampTest(EnvExperiment):
         reversed_data = [0]*(n_steps+1) # reverse the ramp-up data for this ramp-down waveform
         for i in range(len(data)):
             reversed_data[i] = data[len(data)-i-1]
-        self.dds.write_ram(data)
+        self.dds.write_ram(reversed_data)
         
         #
         # Now set the desired initial parameters and turn on the DDS.
@@ -118,7 +118,7 @@ class RampTest(EnvExperiment):
         #
         # Wait for some time. The output should remain at the high level.
         #
-        delay(10*us)
+        delay(5*us)
 
         #
         # Activate the ramp-down profile. This immediately starts
