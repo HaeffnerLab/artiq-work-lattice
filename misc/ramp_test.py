@@ -19,9 +19,9 @@ class RampTest(EnvExperiment):
         self.dds.init()
         self.core.break_realtime()
 
-        n_steps = 10
+        n_steps = 20
         amps = [0.05/n_steps * i for i in range(1, n_steps+1)]
-        data = [0]*100
+        data = [0]*n_steps
         #self.dds.amplitude_to_ram(amps, data)
 
         for i in range(len(amps)):
