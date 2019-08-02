@@ -38,12 +38,12 @@ class RampTest(EnvExperiment):
         n_steps = 50
         max_amplitude = 1.0
         amps = [max_amplitude/n_steps * (float(n_steps)-i) for i in range(n_steps+1)]
-        data = [0]*n_steps
+        data = [0]*(n_steps+1)
         # NOTE: The built-in amplitude_to_ram() method does not
         #       comply with the AD9910 specification. Doing this
         #       manually instead, until amplitude_to_ram() is fixed.
         # self.dds.amplitude_to_ram(amps, data)
-        for i in range(n_steps):
+        for i in range(len(amps)):
             data[i] = (np.int32(round(amps[i]*0x3fff)) << 18)
 
         #
@@ -57,11 +57,11 @@ class RampTest(EnvExperiment):
         # Program the RAM with the ramp-up waveform and ramp mode.
         #
         ramp_up_profile = 3  # arbitrary choice, must be 0 to 7
-        start_address = 100  # arbitrary choice, must be 0 to (1024-n_steps)
+        start_address = 100  # arbitrary choice, must be 0 to (1024-n_steps-1)
         delay(1*ms) # to avoid RTIO underflow
         self.dds.set_profile_ram(
                start=start_address,
-               end=start_address + n_steps - 1,
+               end=start_address + n_steps,
                step=4,
                nodwell_high=0,
                profile=ramp_up_profile,
@@ -76,11 +76,11 @@ class RampTest(EnvExperiment):
         # Program the RAM with the ramp-down waveform.
         #
         ramp_down_profile = 4  # arbitrary choice, must be 0 to 7
-        start_address = 200  # arbitrary choice, must be 0 to (1024-n_steps)
+        start_address = 200  # arbitrary choice, must be 0 to (1024-n_steps-1)
         delay(1*ms) # to avoid RTIO underflow
         self.dds.set_profile_ram(
                start=start_address,
-               end=start_address + n_steps - 1,
+               end=start_address + n_steps,
                step=4,
                nodwell_high=0,
                profile=ramp_down_profile,
@@ -89,7 +89,7 @@ class RampTest(EnvExperiment):
         self.dds.cpld.set_profile(ramp_down_profile)
         self.dds.cpld.io_update.pulse(1*us)
         delay(1*ms) # to avoid RTIO underflow
-        reversed_data = [0]*n_steps # reverse the ramp-up data for this ramp-down waveform
+        reversed_data = [0]*(n_steps+1) # reverse the ramp-up data for this ramp-down waveform
         for i in range(len(data)):
             reversed_data[i] = data[len(data)-i-1]
         self.dds.write_ram(data)
