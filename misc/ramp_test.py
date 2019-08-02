@@ -84,7 +84,7 @@ class RampTest(EnvExperiment):
 
         print("amps:", amps)
         print("data:", data)
-        #self.core.break_realtime()
+        self.core.break_realtime()
 
         ram_profile = 3
         start_address = 100
