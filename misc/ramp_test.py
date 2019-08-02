@@ -88,7 +88,7 @@ class RampTest(EnvExperiment):
 
         ram_profile = 3
         start_address = 100
-        #delay(1*ms)
+        delay(1*ms)
         self.dds.set_profile_ram(
                start=start_address, end=start_address + n_steps - 1,
                step=10, nodwell_high=0,
