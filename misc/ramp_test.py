@@ -34,11 +34,11 @@ class RampTest(EnvExperiment):
 
         self.dds.sw.on()
 
-        self.dds.set(80.3*MHz, amplitude=0.2)
-        self.dds.set(80.3*MHz, amplitude=0.4)
-        self.dds.set(80.3*MHz, amplitude=0.6)
-        self.dds.set(80.3*MHz, amplitude=0.8)
-        self.dds.set(80.3*MHz, amplitude=1.)
+        # self.dds.set(80.3*MHz, amplitude=0.2)
+        # self.dds.set(80.3*MHz, amplitude=0.4)
+        # self.dds.set(80.3*MHz, amplitude=0.6)
+        # self.dds.set(80.3*MHz, amplitude=0.8)
+        # self.dds.set(80.3*MHz, amplitude=1.)
 
         delay(5*us)
         self.dds.sw.off()
@@ -63,6 +63,8 @@ class RampTest(EnvExperiment):
         print(data)
         self.core.break_realtime()
 
+        self.dds.sw.on()
+
         start_address = 100
         delay(1*ms)
         self.dds.set_profile_ram(
@@ -76,16 +78,13 @@ class RampTest(EnvExperiment):
         self.dds.write_ram(data)
 
         # turn on the DDS and enable the ramp
-        self.dds.set(80.3*MHz, amplitude=1., profile=0)
-        self.dds.sw.on()
-        delay(5*us)
 
         self.dds.set_cfr1(ram_enable=1,
             ram_destination=RAM_DEST_ASF)
         self.dds.cpld.io_update.pulse_mu(8)
 
         #self.dds.set(80.3*MHz, amplitude=0., profile=0)
-        #delay(10*us)
+        delay(5*us)
         self.dds.set(80.3*MHz, amplitude=1., profile=0)
 
         delay(500*us)
