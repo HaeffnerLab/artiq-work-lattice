@@ -50,6 +50,7 @@ class RampTest(EnvExperiment):
                start=start_address, end=start_address + n_steps - 1,
                step=1, nodwell_high=0,
                profile=0, mode=RAM_MODE_RAMPUP)
+        delay(1*ms)
         self.dds.cpld.set_profile(0)
         self.dds.cpld.io_update.pulse_mu(8)
         delay(1*ms)
