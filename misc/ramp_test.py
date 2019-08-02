@@ -46,6 +46,7 @@ class RampTest(EnvExperiment):
         self.dds.sw.on()
 
         start_address = 200
+        delay(1*ms)
         self.dds.set_profile_ram(
                start=start_address, end=start_address + n_steps - 1,
                step=1, nodwell_high=0,
