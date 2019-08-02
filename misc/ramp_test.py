@@ -69,11 +69,8 @@ class RampTest(EnvExperiment):
         data = [0]*n_steps
         #self.dds.amplitude_to_ram(amps, data)
         # or - calculating manually seems to work better:
-        def amp_to_asf(amplitude):
-            return int32(round(amplitude*0x3fff))
         for i in range(len(amps)):
-            weird_constant = 1.
-            data[i] = (amp_to_asf(amps[i] * weird_constant) << 18)
+            data[i] = (int32(round(amps[i]*0x3fff)) << 18)
 
         # freqs = [1*MHz, 5*MHz, 20*MHz, 40*MHz, 80*MHz] #[40*MHz + ((80*MHz/n_steps) * i) for i in range(i, n_steps+1)]
         # n_steps = len(freqs)
