@@ -37,7 +37,7 @@ class RampTest(EnvExperiment):
         #
         n_steps = 50
         max_amplitude = 1.0
-        amps = [max_amplitude/float(n_steps) * (n_steps-i) for i in range(n_steps+1)]
+        amps = [max_amplitude/n_steps * (float(n_steps)-i) for i in range(n_steps+1)]
         data = [0]*n_steps
         # NOTE: The built-in amplitude_to_ram() method does not
         #       comply with the AD9910 specification. Doing this
