@@ -18,47 +18,54 @@ class RampTest(EnvExperiment):
         self.dds.init()
         self.core.break_realtime()
 
-
-        #amps = [1./n_steps * i for i in range(1, n_steps+1)]
-        #self.dds.amplitude_to_ram(amps, data)
+        n_steps = 10
+        amps = [1./n_steps * i for i in range(1, n_steps+1)]
+        self.dds.amplitude_to_ram(amps, data)
         # or - calculate manually:
         #for i in range(len(amps)):
         #    data[i] = self.dds.amplitude_to_asf(amps[i])
 
-        freqs = [1*MHz, 5*MHz, 20*MHz, 40*MHz, 80*MHz] #[40*MHz + ((80*MHz/n_steps) * i) for i in range(i, n_steps+1)]
-        n_steps = len(freqs)
-        data = [0]*n_steps
-        self.dds.frequency_to_ram(freqs, data)
+        # freqs = [1*MHz, 5*MHz, 20*MHz, 40*MHz, 80*MHz] #[40*MHz + ((80*MHz/n_steps) * i) for i in range(i, n_steps+1)]
+        # n_steps = len(freqs)
+        # data = [0]*n_steps
+        # self.dds.frequency_to_ram(freqs, data)
 
-        print(data)
-        self.core.break_realtime()
-
+        # print(data)
         # self.core.break_realtime()
 
         self.dds.set_cfr1(ram_enable=0)
         self.dds.cpld.io_update.pulse_mu(8)
 
-        self.dds.set(1*MHz, amplitude=1., profile=0)
+        self.dds.set(80.3*MHz, amplitude=0., profile=0)
         self.dds.set_att(8*dB)
         
         self.dds.sw.on()
 
-        start_address = 200
-        delay(1*ms)
-        self.dds.set_profile_ram(
-               start=start_address, end=start_address + n_steps - 1,
-               step=20, nodwell_high=0,
-               profile=0, mode=RAM_MODE_RAMPUP)
-        delay(1*ms)
-        self.dds.cpld.set_profile(0)
-        self.dds.cpld.io_update.pulse_mu(8)
-        delay(1*ms)
-        self.dds.write_ram(data)
+        self.dds.set(80.3*MHz, amplitude=0.2)
+        delay(1*us)
+        self.dds.set(80.3*MHz, amplitude=0.4)
+        delay(1*us)
+        self.dds.set(80.3*MHz, amplitude=0.6)
+        delay(1*us)
+        self.dds.set(80.3*MHz, amplitude=0.8)
+        delay(1*us)
+        self.dds.set(80.3*MHz, amplitude=1.)
 
-        self.dds.set_cfr1(ram_enable=1,
-            #ram_destination=RAM_DEST_ASF)
-            ram_destination=RAM_DEST_FTW)
-        self.dds.cpld.io_update.pulse_mu(8)
+        # start_address = 200
+        # delay(1*ms)
+        # self.dds.set_profile_ram(
+        #        start=start_address, end=start_address + n_steps - 1,
+        #        step=1, nodwell_high=0,
+        #        profile=0, mode=RAM_MODE_RAMPUP)
+        # delay(1*ms)
+        # self.dds.cpld.set_profile(0)
+        # self.dds.cpld.io_update.pulse_mu(8)
+        # delay(1*ms)
+        # self.dds.write_ram(data)
+
+        # self.dds.set_cfr1(ram_enable=1,
+        #     ram_destination=RAM_DEST_ASF)
+        # self.dds.cpld.io_update.pulse_mu(8)
         #delay(1*ms)
 
         #self.dds.set(80.3*MHz, amplitude=1., profile=0)
@@ -66,8 +73,8 @@ class RampTest(EnvExperiment):
         delay(1000*ms)
         self.dds.sw.off()
 
-        self.dds.set_cfr1(ram_enable=0)
-        self.dds.cpld.io_update.pulse_mu(8)
+        # self.dds.set_cfr1(ram_enable=0)
+        # self.dds.cpld.io_update.pulse_mu(8)
 
         # turn on the 397 and 866 so we don't lose our ions
         self.dds_397.set(78*MHz)
