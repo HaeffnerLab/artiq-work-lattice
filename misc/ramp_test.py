@@ -20,6 +20,7 @@ class RampTest(EnvExperiment):
 
         n_steps = 10
         amps = [1./n_steps * i for i in range(1, n_steps+1)]
+        data = [0]*n_steps
         self.dds.amplitude_to_ram(amps, data)
         # or - calculate manually:
         #for i in range(len(amps)):
@@ -27,7 +28,6 @@ class RampTest(EnvExperiment):
 
         # freqs = [1*MHz, 5*MHz, 20*MHz, 40*MHz, 80*MHz] #[40*MHz + ((80*MHz/n_steps) * i) for i in range(i, n_steps+1)]
         # n_steps = len(freqs)
-        # data = [0]*n_steps
         # self.dds.frequency_to_ram(freqs, data)
 
         # print(data)
