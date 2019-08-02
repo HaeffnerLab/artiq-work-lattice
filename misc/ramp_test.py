@@ -7,7 +7,6 @@ class RampTest(EnvExperiment):
     def build(self):
         self.setattr_device("core")
         self.dds = self.get_device("SP_729G_bichro")
-        self.cpld = self.get_device("urukul1_cpld")
 
         self.dds_397 = self.get_device("397")
         self.dds_866 = self.get_device("866")
@@ -15,7 +14,7 @@ class RampTest(EnvExperiment):
     @kernel
     def run(self):
         self.core.reset()
-        self.cpld.init()
+        self.dds.cpld.init()
         self.dds.init()
         self.core.break_realtime()
 
