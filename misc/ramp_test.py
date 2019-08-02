@@ -6,8 +6,8 @@ class RampTest(EnvExperiment):
 
     def build(self):
         self.setattr_device("core")
-        self.dds = self.get_device("729G")
-        self.cpld = self.get_device("urukul0_cpld")
+        self.dds = self.get_device("SP_729G_bichro")
+        self.cpld = self.get_device("urukul1_cpld")
 
         self.dds_397 = self.get_device("397")
         self.dds_866 = self.get_device("866")
@@ -35,18 +35,20 @@ class RampTest(EnvExperiment):
         self.dds.set_cfr1(ram_enable=0)
         self.dds.cpld.io_update.pulse_mu(8)
 
-        #self.dds.set(220*MHz, amplitude=0., profile=0)
+        self.dds.set(220*MHz, amplitude=0., profile=0)
         #self.dds.set_frequency(220*MHz)
         #self.dds.cpld.io_update.pulse_mu(8)
-        self.dds.set_amplitude(0.)
+        #self.dds.set_amplitude(0.)
         self.dds.set_att(5*dB)
         self.dds.cpld.io_update.pulse_mu(8)
         
         #self.dds.cpld.set_profile(0)
         self.dds.sw.on()
 
+        start_address = 200
         self.dds.set_profile_ram(
-               start=0, end=n_steps - 2, step=1, nodwell_high=0,
+               start=start_address, end=start_address + n_steps - 1,
+               step=1, nodwell_high=0,
                profile=0, mode=RAM_MODE_RAMPUP)
         self.dds.cpld.set_profile(0)
         self.dds.cpld.io_update.pulse_mu(8)
@@ -62,6 +64,9 @@ class RampTest(EnvExperiment):
 
         delay(1000*ms)
         self.dds.sw.off()
+
+        self.dds.set_cfr1(ram_enable=0)
+        self.dds.cpld.io_update.pulse_mu(8)
 
         # turn on the 397 and 866 so we don't lose our ions
         self.dds_397.set(78*MHz)
