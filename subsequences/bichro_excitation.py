@@ -62,7 +62,8 @@ class BichroExcitation:
                     self.dds_729_SP_bichro.sw.on()
 
                 self.pulse_with_amplitude_ramp(b.duration, ramp_duration=1*us,
-                    dds1_name="729G", dds1_amp=b.amp, dds1_phase=b.phase / 360)
+                    dds1_name="729G", dds1_amp=b.amp,
+                    dds1_freq=dp_freq, dds1_phase=b.phase / 360)
 
                 with parallel:
                     self.dds_729_SP.sw.off()
