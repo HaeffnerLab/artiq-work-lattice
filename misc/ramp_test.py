@@ -12,6 +12,39 @@ class RampTest(EnvExperiment):
         self.dds_397 = self.get_device("397")
         self.dds_866 = self.get_device("866")
 
+        n_steps = 10
+        amps = [1./n_steps * i for i in range(1, n_steps+1)]
+        data = [0]*n_steps
+        #self.dds.amplitude_to_ram(amps, data)
+        # or - calculating manually seems to work better:
+        for i in range(len(amps)):
+            data[i] = (int32(round(amps[i]*0x3fff)) << 18)
+
+        # freqs = [1*MHz, 5*MHz, 20*MHz, 40*MHz, 80*MHz] #[40*MHz + ((80*MHz/n_steps) * i) for i in range(i, n_steps+1)]
+        # n_steps = len(freqs)
+        # self.dds.frequency_to_ram(freqs, data)
+
+        print("amps:", amps)
+        print("data:", data)
+        #self.core.break_realtime()
+
+        self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
+        self.dds.cpld.io_update.pulse(1*us)
+
+        ram_profile = 3
+        start_address = 100
+        #delay(1*ms)
+        self.dds.set_profile_ram(
+               start=start_address, end=start_address + n_steps - 1,
+               step=10, nodwell_high=0,
+               profile=ram_profile, mode=RAM_MODE_RAMPUP)
+        #delay(1*ms)
+
+        self.dds.cpld.set_profile(ram_profile)
+        self.dds.cpld.io_update.pulse(1*us)
+        #delay(1*ms)
+        self.dds.write_ram(data)
+
     @kernel
     def run(self):
         self.core.reset()
@@ -66,41 +99,8 @@ class RampTest(EnvExperiment):
         # now, try to use built-in RAM ramping
         # on the AD9910
         #
-        n_steps = 10
-        amps = [1./n_steps * i for i in range(1, n_steps+1)]
-        data = [0]*n_steps
-        #self.dds.amplitude_to_ram(amps, data)
-        # or - calculating manually seems to work better:
-        for i in range(len(amps)):
-            data[i] = (int32(round(amps[i]*0x3fff)) << 18)
-
-        # freqs = [1*MHz, 5*MHz, 20*MHz, 40*MHz, 80*MHz] #[40*MHz + ((80*MHz/n_steps) * i) for i in range(i, n_steps+1)]
-        # n_steps = len(freqs)
-        # self.dds.frequency_to_ram(freqs, data)
-
-        print("amps:", amps)
-        print("data:", data)
-        self.core.break_realtime()
-
-        self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
-        self.dds.cpld.io_update.pulse(1*us)
-
-        ram_profile = 3
-        start_address = 100
-        delay(1*ms)
-        self.dds.set_profile_ram(
-               start=start_address, end=start_address + n_steps - 1,
-               step=10, nodwell_high=0,
-               profile=ram_profile, mode=RAM_MODE_RAMPUP)
-        delay(1*ms)
-
-        self.dds.cpld.set_profile(ram_profile)
-        self.dds.cpld.io_update.pulse(1*us)
-        delay(1*ms)
-        self.dds.write_ram(data)
-
-        self.dds.cpld.set_profile(0)
-        self.dds.cpld.io_update.pulse(1*us)
+        #self.dds.cpld.set_profile(0)
+        #self.dds.cpld.io_update.pulse(1*us)
 
         self.dds.sw.on()
 
