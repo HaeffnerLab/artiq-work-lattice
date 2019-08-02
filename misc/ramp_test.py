@@ -28,15 +28,16 @@ class RampTest(EnvExperiment):
         self.dds.cpld.set_profile(0)
         self.dds.cpld.io_update.pulse(1*us)
 
+        #
         # Create the list of amplitudes for the ramp and corresponding
         # register values.
         # NOTE: AD9910 plays back the amplitudes in the reverse order
         #       of how they are written. So for a ramp-up, one must
         #       construct the list from largest to smallest.
+        #
         n_steps = 50
         amps = [1./n_steps * (n_steps-i) for i in range(n_steps)]
         data = [0]*n_steps
-        
         # NOTE: The built-in amplitude_to_ram() method does not
         #       comply with the AD9910 specification. Doing this
         #       manually instead, until amplitude_to_ram() is fixed.
@@ -44,12 +45,16 @@ class RampTest(EnvExperiment):
         for i in range(len(amps)):
             data[i] = (np.int32(round(amps[i]*0x3fff)) << 18)
 
+        #
         # Print the list of amplitudes and corresponding register values.
+        #
         print("amps:", amps)
         print("data:", data)
         self.core.break_realtime()
 
+        #
         # Program the RAM with the desired waveform and ramp mode.
+        #
         ram_profile = 3      # arbitrary choice, must be 0 to 7
         start_address = 100  # arbitrary choice, must be 0 to (1024-n_steps)
         delay(1*ms) # to avoid RTIO underflow
@@ -66,19 +71,23 @@ class RampTest(EnvExperiment):
         delay(1*ms) # to avoid RTIO underflow
         self.dds.write_ram(data)
         
-        # We have to set the frequency explicitly here. Somehow in
-        # the above code, the previous frequency is getting reset.
-        #self.dds.set_frequency(80.3*MHz)
-
-        # Now turn on the DDS.
+        #
+        # Now set the desired frequency and attenuation and turn on the DDS.
+        #
+        self.dds.set_frequency(80.3*MHz)
+        self.dds.set_att(8*dB)
         self.dds.sw.on()
 
+        #
         # Finally, enable the ramping. This immediately starts
         # playing back the waveform programmed above.
+        #
         self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
         self.dds.cpld.io_update.pulse(1*us)
 
+        #
         # Wait for some time, and then turn off the DDS.
+        #
         delay(100*us)        
         self.dds.sw.off()
 
