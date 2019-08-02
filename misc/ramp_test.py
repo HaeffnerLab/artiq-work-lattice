@@ -85,13 +85,13 @@ class RampTest(EnvExperiment):
         self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
         self.dds.cpld.io_update.pulse(1*us)
 
-        start_address = 100
-        delay(1*ms)
+        start_address = 300
+        #delay(1*ms)
         self.dds.set_profile_ram(
                start=start_address, end=start_address + n_steps - 1,
                step=1, nodwell_high=0,
                profile=0, mode=RAM_MODE_RAMPUP)
-        delay(1*ms)
+        #delay(1*ms)
         self.dds.cpld.set_profile(0)
         self.dds.cpld.io_update.pulse(1*us)
         #delay(1*ms)
