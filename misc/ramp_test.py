@@ -3,7 +3,6 @@ from artiq.coredevice.ad9910 import RAM_MODE_BIDIR_RAMP, RAM_MODE_CONT_BIDIR_RAM
 from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE, PHASE_MODE_CONTINUOUS
 import numpy as np
 
-
 class RampTest(EnvExperiment):
 
     def build(self):
