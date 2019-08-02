@@ -42,13 +42,9 @@ class RampTest(EnvExperiment):
         self.dds.sw.on()
 
         self.dds.set(80.3*MHz, amplitude=0.2)
-        delay(1*us)
         self.dds.set(80.3*MHz, amplitude=0.4)
-        delay(1*us)
         self.dds.set(80.3*MHz, amplitude=0.6)
-        delay(1*us)
         self.dds.set(80.3*MHz, amplitude=0.8)
-        delay(1*us)
         self.dds.set(80.3*MHz, amplitude=1.)
 
         # start_address = 200
