@@ -96,12 +96,10 @@ class RampTest(EnvExperiment):
         #
         # Now set the desired initial parameters and turn on the DDS.
         #
-        #self.dds.set_frequency(80.3*MHz)
-        #self.dds.set_amplitude(1.)
+        self.dds.set_frequency(80.3*MHz)
+        self.dds.set_amplitude(1.)
         self.dds.set_att(8*dB)
-        self.dds.set(80.3*MHz, amplitude=1., phase_mode=PHASE_MODE_CONTINUOUS)
         self.dds.sw.on()
-        delay(5*us)
 
         #
         # Set the current profile to the ramp-up profile constructed above.
