@@ -24,8 +24,8 @@ class RampTest(EnvExperiment):
         data = [0]*n_steps
         #self.dds.amplitude_to_ram(amps, data)
 
-        for i, amp in enumerate(amps):
-            data[i] = self.dds.amplitude_to_asf(amp)
+        for i in range(len(amps)):
+            data[i] = self.dds.amplitude_to_asf(amps[i])
 
         print(data)
         self.core.break_realtime()
