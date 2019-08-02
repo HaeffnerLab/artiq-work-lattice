@@ -99,6 +99,7 @@ class RampTest(EnvExperiment):
         self.dds.set_frequency(80.3*MHz)
         self.dds.set_amplitude(1.)
         self.dds.set_att(8*dB)
+        self.dds.cpld.io_update.pulse(1*us)
         self.dds.sw.on()
         delay(5*us)
 
