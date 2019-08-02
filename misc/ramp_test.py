@@ -93,11 +93,11 @@ class RampTest(EnvExperiment):
         self.dds.write_ram(data)
 
         # turn on the DDS and enable the ramp
-        self.dds.set(80.3*MHz, amplitude=0., profile=0)
-        self.dds.sw.on()
-
         self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
         self.dds.cpld.io_update.pulse(1*us)
+
+        self.dds.sw.on()
+        self.dds.set(80.3*MHz, amplitude=1., profile=0)
 
         #self.dds.set(80.3*MHz, amplitude=0., profile=0)
         #delay(5*us)
