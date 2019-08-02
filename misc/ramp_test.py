@@ -72,9 +72,10 @@ class RampTest(EnvExperiment):
         self.dds.write_ram(data)
         
         #
-        # Now set the desired frequency and attenuation and turn on the DDS.
+        # Now set the desired initial parameters and turn on the DDS.
         #
         self.dds.set_frequency(80.3*MHz)
+        self.dds.set_amplitude(0.)
         self.dds.set_att(8*dB)
         self.dds.sw.on()
 
