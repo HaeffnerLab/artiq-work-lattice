@@ -43,7 +43,7 @@ class RampTest(EnvExperiment):
         #       comply with the AD9910 specification. Doing this
         #       manually instead, until amplitude_to_ram() is fixed.
         # self.dds.amplitude_to_ram(amps, data)
-        for i in range(len(amps)):
+        for i in range(n_steps):
             data[i] = (np.int32(round(amps[i]*0x3fff)) << 18)
 
         #
