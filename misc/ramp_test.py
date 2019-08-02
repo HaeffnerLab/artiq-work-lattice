@@ -44,7 +44,24 @@ class RampTest(EnvExperiment):
         self.dds.sw.off()
 
         #
-        # now, try to use built-in ramping
+        # use the auto OSK on the AD9910
+        # -- unfortunately, OSK is not currently supported through Urukul.
+        #
+        # self.dds.set(80.3*MHz, amplitude=0., profile=0)
+        # self.dds.sw.on()
+
+        # self.dds.set_cfr1(auto_osk=1, osk_enable=1)
+        # amplitude_step_size = 0
+        # amplitude_ramp_rate = 1
+        # asf_reg_value = (
+        #     amplitude_step_size |
+        #     (self.amplitude_to_asf(1.) << 2) |
+        #     (amplitude_ramp_rate << 16)
+        # )
+
+
+        #
+        # now, try to use built-in RAM ramping
         # on the AD9910
         #
         n_steps = 10
@@ -79,14 +96,14 @@ class RampTest(EnvExperiment):
 
         # turn on the DDS and enable the ramp
         self.dds.set_cfr1(ram_enable=1,
-            ram_destination=RAM_DEST_ASF)
+           ram_destination=RAM_DEST_ASF)
         self.dds.cpld.io_update.pulse_mu(8)
 
         #self.dds.set(80.3*MHz, amplitude=0., profile=0)
-        delay(5*us)
-        self.dds.set(80.3*MHz, amplitude=1., profile=0)
+        #delay(5*us)
+        #self.dds.set(80.3*MHz, amplitude=1., profile=0)
 
-        delay(500*us)
+        delay(100*us)
         self.dds.sw.off()
 
         #
