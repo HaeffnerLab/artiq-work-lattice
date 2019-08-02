@@ -69,15 +69,18 @@ class RampTest(EnvExperiment):
         data = [0]*n_steps
         #self.dds.amplitude_to_ram(amps, data)
         # or - calculating manually seems to work better:
+        def amp_to_asf(amplitude):
+            return int32(round(amplitude*0x3fff))
         for i in range(len(amps)):
-            weird_constant = 0.1
-            data[i] = (self.dds.amplitude_to_asf(amps[i] * weird_constant) << 18)
+            weird_constant = 1.
+            data[i] = (amp_to_asf(amps[i] * weird_constant) << 18)
 
         # freqs = [1*MHz, 5*MHz, 20*MHz, 40*MHz, 80*MHz] #[40*MHz + ((80*MHz/n_steps) * i) for i in range(i, n_steps+1)]
         # n_steps = len(freqs)
         # self.dds.frequency_to_ram(freqs, data)
 
-        print(data)
+        print("amps:", amps)
+        print("data:", data)
         self.core.break_realtime()
 
         self.dds.sw.on()
@@ -85,19 +88,22 @@ class RampTest(EnvExperiment):
         self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
         self.dds.cpld.io_update.pulse(1*us)
 
+        ram_profile = 3
         start_address = 100
         delay(1*ms)
         self.dds.set_profile_ram(
                start=start_address, end=start_address + n_steps - 1,
                step=1, nodwell_high=0,
-               profile=0, mode=RAM_MODE_RAMPUP)
+               profile=ram_profile, mode=RAM_MODE_RAMPUP)
         delay(1*ms)
-        self.dds.cpld.set_profile(0)
-        self.dds.cpld.io_update.pulse(1*us)
-        #delay(1*ms)
         self.dds.write_ram(data)
 
-        self.dds.set(80.3*MHz, amplitude=1., profile=0)
+        self.dds.cpld.set_profile(ram_profile)
+        self.dds.cpld.io_update.pulse(1*us)
+        #delay(1*ms)
+
+        #self.dds.set(80.3*MHz, amplitude=1., profile=ram_profile,
+        #             phase_mode=PHASE_MODE_CONTINUOUS)
 
         #self.dds.set(80.3*MHz, amplitude=0., profile=0)
         #delay(5*us)
