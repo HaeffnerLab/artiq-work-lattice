@@ -35,7 +35,7 @@ class RampTest(EnvExperiment):
         #       construct the list from largest to smallest.
         #
         n_steps = 50
-        max_amplitude = 0.5
+        max_amplitude = 1.0
         amps = [max_amplitude/n_steps * (float(n_steps)-i) for i in range(n_steps+1)]
         data = [0]*(n_steps+1)
         # NOTE: The built-in amplitude_to_ram() method does not
