@@ -1,6 +1,7 @@
 from artiq.experiment import *
 from artiq.coredevice.ad9910 import RAM_MODE_BIDIR_RAMP, RAM_MODE_CONT_BIDIR_RAMP, RAM_MODE_CONT_RAMPUP, RAM_MODE_RAMPUP, RAM_DEST_ASF, RAM_DEST_FTW, RAM_MODE_DIRECTSWITCH
 from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE, PHASE_MODE_CONTINUOUS
+import numpy as np
 
 
 class RampTest(EnvExperiment):
@@ -18,7 +19,7 @@ class RampTest(EnvExperiment):
         #self.dds.amplitude_to_ram(amps, data)
         # or - calculating manually seems to work better:
         for i in range(len(amps)):
-            data[i] = (int32(round(amps[i]*0x3fff)) << 18)
+            data[i] = (np.int32(round(amps[i]*0x3fff)) << 18)
 
         # freqs = [1*MHz, 5*MHz, 20*MHz, 40*MHz, 80*MHz] #[40*MHz + ((80*MHz/n_steps) * i) for i in range(i, n_steps+1)]
         # n_steps = len(freqs)
