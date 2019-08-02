@@ -93,11 +93,11 @@ class RampTest(EnvExperiment):
                start=start_address, end=start_address + n_steps - 1,
                step=10, nodwell_high=0,
                profile=ram_profile, mode=RAM_MODE_CONT_BIDIR_RAMP) # mode=RAM_MODE_RAMPUP)
-        #delay(1*ms)
+        delay(1*ms)
 
         self.dds.cpld.set_profile(ram_profile)
         self.dds.cpld.io_update.pulse(1*us)
-        #delay(1*ms)
+        delay(1*ms)
         self.dds.write_ram(data)
 
         self.dds.sw.on()
