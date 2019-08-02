@@ -21,7 +21,7 @@ class RampTest(EnvExperiment):
         self.core.break_realtime()
 
         #
-        # start by disabling ramping and resetting to profile 0
+        # Start by disabling ramping and resetting to profile 0.
         #
         self.dds.set_cfr1(ram_enable=0)
         self.dds.cpld.io_update.pulse(1*us)
@@ -36,7 +36,8 @@ class RampTest(EnvExperiment):
         #       construct the list from largest to smallest.
         #
         n_steps = 50
-        amps = [1./n_steps * (n_steps-i) for i in range(n_steps)]
+        max_amplitude = 1.0
+        amps = [max_amplitude/n_steps * (n_steps-i) for i in range(n_steps+1)]
         data = [0]*n_steps
         # NOTE: The built-in amplitude_to_ram() method does not
         #       comply with the AD9910 specification. Doing this
@@ -53,9 +54,9 @@ class RampTest(EnvExperiment):
         self.core.break_realtime()
 
         #
-        # Program the RAM with the desired waveform and ramp mode.
+        # Program the RAM with the ramp-up waveform and ramp mode.
         #
-        ram_profile = 3      # arbitrary choice, must be 0 to 7
+        ramp_up_profile = 3  # arbitrary choice, must be 0 to 7
         start_address = 100  # arbitrary choice, must be 0 to (1024-n_steps)
         delay(1*ms) # to avoid RTIO underflow
         self.dds.set_profile_ram(
@@ -63,12 +64,32 @@ class RampTest(EnvExperiment):
                end=start_address + n_steps - 1,
                step=4,
                nodwell_high=0,
-               profile=ram_profile,
+               profile=ramp_up_profile,
                mode=RAM_MODE_RAMPUP)
         delay(1*ms) # to avoid RTIO underflow
-        self.dds.cpld.set_profile(ram_profile)
+        self.dds.cpld.set_profile(ramp_up_profile)
         self.dds.cpld.io_update.pulse(1*us)
         delay(1*ms) # to avoid RTIO underflow
+        self.dds.write_ram(data)
+
+        #
+        # Program the RAM with the ramp-down waveform.
+        #
+        ramp_down_profile = 4  # arbitrary choice, must be 0 to 7
+        start_address = 200  # arbitrary choice, must be 0 to (1024-n_steps)
+        delay(1*ms) # to avoid RTIO underflow
+        self.dds.set_profile_ram(
+               start=start_address,
+               end=start_address + n_steps - 1,
+               step=4,
+               nodwell_high=0,
+               profile=ramp_down_profile,
+               mode=RAM_MODE_RAMPUP)
+        delay(1*ms) # to avoid RTIO underflow
+        self.dds.cpld.set_profile(ramp_down_profile)
+        self.dds.cpld.io_update.pulse(1*us)
+        delay(1*ms) # to avoid RTIO underflow
+        data.reverse() # reverse the ramp-up data for this ramp-down waveform
         self.dds.write_ram(data)
         
         #
@@ -80,6 +101,12 @@ class RampTest(EnvExperiment):
         self.dds.sw.on()
 
         #
+        # Set the current profile to the ramp-up profile constructed above.
+        #
+        self.dds.cpld.set_profile(ramp_up_profile)
+        self.dds.cpld.io_update.pulse(1*us)
+
+        #
         # Finally, enable the ramping. This immediately starts
         # playing back the waveform programmed above.
         #
@@ -87,13 +114,30 @@ class RampTest(EnvExperiment):
         self.dds.cpld.io_update.pulse(1*us)
 
         #
-        # Wait for some time, and then turn off the DDS.
+        # Wait for some time. The output should remain at the high level.
         #
-        delay(100*us)        
-        self.dds.sw.off()
+        delay(10*us)
 
         #
-        # disable ramping again so we don't affect the next experiment
+        # Activate the ramp-down profile. This immediately starts
+        # playing back the ramp-down waveform.
+        #
+
+        #
+        # Turn off the DDS.
+        #
+        self.dds.sw.off()
+        self.dds.cpld.set_profile(ramp_down_profile)
+        self.dds.cpld.io_update.pulse(1*us)
+
+        #
+        # Wait for some time. The output should remain at the low level.
+        #
+        delay(2*us)
+
+        #
+        # Disable ramping so we don't affect the next experiment.
+        # Also reset to profile 0.
         #
         self.dds.set_cfr1(ram_enable=0)
         self.dds.cpld.io_update.pulse(1*us)
@@ -101,7 +145,7 @@ class RampTest(EnvExperiment):
         self.dds.cpld.io_update.pulse(1*us)
 
         #
-        # turn on the 397 and 866 so we don't lose our ions
+        # Turn on the 397 and 866 so we don't lose our ions.
         #
         self.dds_397.set(78*MHz)
         self.dds_397.set_att(5*dB)
