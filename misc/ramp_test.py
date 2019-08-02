@@ -59,7 +59,7 @@ class RampTest(EnvExperiment):
         self.dds.cpld.io_update.pulse_mu(8)
         #delay(1*ms)
 
-        #self.dds.set(220*MHz, amplitude=1., profile=0)
+        self.dds.set(220*MHz, amplitude=1., profile=0)
         #self.dds.set_amplitude(1.)
         #self.dds.cpld.io_update.pulse_mu(8)
 
