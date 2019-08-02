@@ -94,11 +94,11 @@ class RampTest(EnvExperiment):
                step=1, nodwell_high=0,
                profile=ram_profile, mode=RAM_MODE_RAMPUP)
         delay(1*ms)
-        self.dds.write_ram(data)
 
         self.dds.cpld.set_profile(ram_profile)
         self.dds.cpld.io_update.pulse(1*us)
         #delay(1*ms)
+        self.dds.write_ram(data)
 
         self.dds.set(80.3*MHz, amplitude=1., profile=ram_profile,
                      phase_mode=PHASE_MODE_CONTINUOUS)
