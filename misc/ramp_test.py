@@ -22,7 +22,7 @@ class RampTest(EnvExperiment):
         # start by disabling ramping
         #
         self.dds.set_cfr1(ram_enable=0)
-        self.dds.cpld.io_update.pulse_mu(8)
+        self.dds.cpld.io_update.pulse(1*us)
 
         #
         # first, try some naive ramping.
@@ -90,14 +90,13 @@ class RampTest(EnvExperiment):
                profile=0, mode=RAM_MODE_RAMPUP)
         delay(1*ms)
         self.dds.cpld.set_profile(0)
-        self.dds.cpld.io_update.pulse_mu(8)
-        delay(1*ms)
+        self.dds.cpld.io_update.pulse(1*us)
+        #delay(1*ms)
         self.dds.write_ram(data)
 
         # turn on the DDS and enable the ramp
-        self.dds.set_cfr1(ram_enable=1,
-           ram_destination=RAM_DEST_ASF)
-        self.dds.cpld.io_update.pulse_mu(8)
+        self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
+        self.dds.cpld.io_update.pulse(1*us)
 
         #self.dds.set(80.3*MHz, amplitude=0., profile=0)
         #delay(5*us)
@@ -110,7 +109,7 @@ class RampTest(EnvExperiment):
         # disable ramping again so we don't affect the next experiment
         #
         self.dds.set_cfr1(ram_enable=0)
-        self.dds.cpld.io_update.pulse_mu(8)
+        self.dds.cpld.io_update.pulse(1*us)
 
         #
         # turn on the 397 and 866 so we don't lose our ions
