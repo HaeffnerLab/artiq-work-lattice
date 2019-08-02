@@ -1,5 +1,5 @@
 from artiq.experiment import *
-from artiq.coredevice.ad9910 import RAM_MODE_BIDIR_RAMP, RAM_MODE_CONT_RAMPUP, RAM_MODE_RAMPUP, RAM_DEST_ASF, RAM_DEST_FTW, RAM_MODE_DIRECTSWITCH
+from artiq.coredevice.ad9910 import RAM_MODE_BIDIR_RAMP, RAM_MODE_CONT_BIDIR_RAMP, RAM_MODE_CONT_RAMPUP, RAM_MODE_RAMPUP, RAM_DEST_ASF, RAM_DEST_FTW, RAM_MODE_DIRECTSWITCH
 from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE, PHASE_MODE_CONTINUOUS
 
 
@@ -28,16 +28,13 @@ class RampTest(EnvExperiment):
         print("data:", data)
         #self.core.break_realtime()
 
-        self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
-        self.dds.cpld.io_update.pulse(1*us)
-
         ram_profile = 3
         start_address = 100
         #delay(1*ms)
         self.dds.set_profile_ram(
                start=start_address, end=start_address + n_steps - 1,
                step=10, nodwell_high=0,
-               profile=ram_profile, mode=RAM_MODE_RAMPUP)
+               profile=ram_profile, mode=RAM_MODE_CONT_BIDIR_RAMP) # mode=RAM_MODE_RAMPUP)
         #delay(1*ms)
 
         self.dds.cpld.set_profile(ram_profile)
@@ -101,14 +98,16 @@ class RampTest(EnvExperiment):
         #
         #self.dds.cpld.set_profile(0)
         #self.dds.cpld.io_update.pulse(1*us)
-
-        self.dds.sw.on()
-
         self.dds.cpld.set_profile(ram_profile)
         self.dds.cpld.io_update.pulse(1*us)
 
-        self.dds.set(80.3*MHz, amplitude=1., profile=ram_profile,
-                     phase_mode=PHASE_MODE_CONTINUOUS)
+        self.dds.sw.on()
+
+        self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
+        self.dds.cpld.io_update.pulse(1*us)
+
+        #self.dds.set(80.3*MHz, amplitude=1., profile=ram_profile,
+        #             phase_mode=PHASE_MODE_CONTINUOUS)
 
         #self.dds.set(80.3*MHz, amplitude=0., profile=0)
         #delay(5*us)
