@@ -104,7 +104,7 @@ class RampTest(EnvExperiment):
         #
         # Set the current profile to the ramp-up profile constructed above.
         #
-        self.dds.cpld.set_profile(ramp_up_profile)
+        self.dds.cpld.set_profile(ramp_down_profile)
         self.dds.cpld.io_update.pulse(1*us)
 
         #
