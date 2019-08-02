@@ -18,8 +18,6 @@ class RampTest(EnvExperiment):
         self.dds.init()
         self.core.break_realtime()
 
-        n_steps = 30
-        data = [0]*n_steps
 
         #amps = [1./n_steps * i for i in range(1, n_steps+1)]
         #self.dds.amplitude_to_ram(amps, data)
@@ -28,6 +26,8 @@ class RampTest(EnvExperiment):
         #    data[i] = self.dds.amplitude_to_asf(amps[i])
 
         freqs = [40*MHz, 50*MHz, 60*MHz, 70*MHz, 80*MHz] #[40*MHz + ((80*MHz/n_steps) * i) for i in range(i, n_steps+1)]
+        n_steps = len(freqs)
+        data = [0]*n_steps
         self.dds.frequency_to_ram(freqs, data)
 
         print(data)
