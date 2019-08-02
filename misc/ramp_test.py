@@ -97,7 +97,7 @@ class RampTest(EnvExperiment):
         # Now set the desired initial parameters and turn on the DDS.
         #
         self.dds.set_frequency(80.3*MHz)
-        self.dds.set_amplitude(1.)
+        self.dds.set_amplitude(0.)
         self.dds.set_att(8*dB)
         self.dds.sw.on()
 

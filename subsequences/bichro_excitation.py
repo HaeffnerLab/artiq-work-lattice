@@ -53,31 +53,6 @@ class BichroExcitation:
                              ref_time_mu=b.phase_ref_time)
             self.dds_729.set_att(b.att)
             if b.bichro_enable:
-
-                #
-                # TEMP ramping stuff
-                #
-                #n_steps = 10
-                #amps = [(1./n_steps) * b.amp_blue * (i+1) for i in range(n_steps)]
-                #write = [0]*n_steps
-                #self.dds_729_SP.amplitude_to_ram(amps, write)
-                #print(write)
-                #self.core.break_realtime()
-
-                #self.dds_729_SP.set_profile_ram(
-                #        start=200, end=200 + n_steps - 1, step=1,
-                #        profile=2, mode=RAM_MODE_RAMPUP)
-                #self.dds_729_SP.cpld.set_profile(2)
-                #self.dds_729_SP.cpld.io_update.pulse_mu(8)
-                #delay(1*ms)
-                #self.dds_729_SP.write_ram(write)
-                #self.dds_729_SP.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
-                #self.dds_729_SP.cpld.io_update.pulse_mu(8)
-                #delay(1*ms)
-                #
-                # END TEMP ramping stuff
-                #
-
                 self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP.set_att(b.att_blue)
                 self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red, ref_time_mu=b.phase_ref_time)
@@ -85,12 +60,13 @@ class BichroExcitation:
                 with parallel:
                     self.dds_729_SP.sw.on()
                     self.dds_729_SP_bichro.sw.on()
-                    self.dds_729.sw.on()
-                delay(b.duration)
+
+                self.pulse_with_amplitude_ramp(b.duration, ramp_duration=1*us,
+                    dds1_name="729G", dds1_amp=b.amp, dds1_phase=b.phase / 360)
+
                 with parallel:
                     self.dds_729_SP.sw.off()
                     self.dds_729_SP_bichro.sw.off()
-                    self.dds_729.sw.off()
             else:
                 # bichro disabled
                 sp_freq_729 = 80*MHz + offset
