@@ -123,11 +123,7 @@ class RampTest(EnvExperiment):
         # Activate the ramp-down profile. This immediately starts
         # playing back the ramp-down waveform.
         #
-        self.dds.set_cfr1(ram_enable=0)
-        self.dds.cpld.io_update.pulse(1*us)
         self.dds.cpld.set_profile(ramp_down_profile)
-        self.dds.cpld.io_update.pulse(1*us)
-        self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
         self.dds.cpld.io_update.pulse(1*us)
 
         #
