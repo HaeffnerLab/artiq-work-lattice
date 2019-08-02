@@ -18,7 +18,9 @@ class RampTest(EnvExperiment):
         self.dds.init()
         self.core.break_realtime()
 
+        #
         # start by disabling ramping
+        #
         self.dds.set_cfr1(ram_enable=0)
         self.dds.cpld.io_update.pulse_mu(8)
 
@@ -52,7 +54,7 @@ class RampTest(EnvExperiment):
         # or - calculating manually seems to work better:
         for i in range(len(amps)):
             weird_constant = 0.1
-            data[i] = weird_constant * self.dds.amplitude_to_asf(amps[i])
+            data[i] = self.dds.amplitude_to_asf(amps[i] * weird_constant)
 
         # freqs = [1*MHz, 5*MHz, 20*MHz, 40*MHz, 80*MHz] #[40*MHz + ((80*MHz/n_steps) * i) for i in range(i, n_steps+1)]
         # n_steps = len(freqs)
@@ -87,10 +89,15 @@ class RampTest(EnvExperiment):
         delay(10*us)
         self.dds.sw.off()
 
-        # self.dds.set_cfr1(ram_enable=0)
-        # self.dds.cpld.io_update.pulse_mu(8)
+        #
+        # disable ramping again so we don't affect the next experiment
+        #
+        self.dds.set_cfr1(ram_enable=0)
+        self.dds.cpld.io_update.pulse_mu(8)
 
+        #
         # turn on the 397 and 866 so we don't lose our ions
+        #
         self.dds_397.set(78*MHz)
         self.dds_397.set_att(5*dB)
         self.core.break_realtime()
