@@ -100,6 +100,7 @@ class RampTest(EnvExperiment):
         self.dds.set_amplitude(1.)
         self.dds.set_att(8*dB)
         self.dds.sw.on()
+        delay(5*us)
 
         #
         # Set the current profile to the ramp-up profile constructed above.
