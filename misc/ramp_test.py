@@ -122,11 +122,6 @@ class RampTest(EnvExperiment):
         # Activate the ramp-down profile. This immediately starts
         # playing back the ramp-down waveform.
         #
-
-        #
-        # Turn off the DDS.
-        #
-        self.dds.sw.off()
         self.dds.cpld.set_profile(ramp_down_profile)
         self.dds.cpld.io_update.pulse(1*us)
 
@@ -134,6 +129,11 @@ class RampTest(EnvExperiment):
         # Wait for some time. The output should remain at the low level.
         #
         delay(2*us)
+
+        #
+        # Turn off the DDS.
+        #
+        self.dds.sw.off()
 
         #
         # Disable ramping so we don't affect the next experiment.
