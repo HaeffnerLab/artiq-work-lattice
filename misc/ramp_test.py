@@ -50,11 +50,11 @@ class RampTest(EnvExperiment):
         n_steps = 10
         amps = [1./n_steps * i for i in range(1, n_steps+1)]
         data = [0]*n_steps
-        #self.dds.amplitude_to_ram(amps, data)
+        self.dds.amplitude_to_ram(amps, data)
         # or - calculating manually seems to work better:
-        for i in range(len(amps)):
-            weird_constant = 0.1
-            data[i] = self.dds.amplitude_to_asf(amps[i] * weird_constant)
+        #for i in range(len(amps)):
+        #    weird_constant = 0.1
+        #    data[i] = self.dds.amplitude_to_asf(amps[i] * weird_constant)
 
         # freqs = [1*MHz, 5*MHz, 20*MHz, 40*MHz, 80*MHz] #[40*MHz + ((80*MHz/n_steps) * i) for i in range(i, n_steps+1)]
         # n_steps = len(freqs)
@@ -75,12 +75,12 @@ class RampTest(EnvExperiment):
         delay(1*ms)
         self.dds.write_ram(data)
 
+        # turn on the DDS and enable the ramp
+        self.dds.sw.on()
+
         self.dds.set_cfr1(ram_enable=1,
             ram_destination=RAM_DEST_ASF)
         self.dds.cpld.io_update.pulse_mu(8)
-        #delay(1*ms)
-
-        self.dds.sw.on()
 
         self.dds.set(80.3*MHz, amplitude=0., profile=0)
         delay(10*us)
