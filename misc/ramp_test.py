@@ -89,7 +89,9 @@ class RampTest(EnvExperiment):
         self.dds.cpld.set_profile(ramp_down_profile)
         self.dds.cpld.io_update.pulse(1*us)
         delay(1*ms) # to avoid RTIO underflow
-        data.reverse() # reverse the ramp-up data for this ramp-down waveform
+        reversed_data = [0]*n_steps # reverse the ramp-up data for this ramp-down waveform
+        for i in range(len(data), -1, -1):
+            reversed_data.append(data[i])
         self.dds.write_ram(data)
         
         #
