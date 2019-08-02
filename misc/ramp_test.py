@@ -91,7 +91,7 @@ class RampTest(EnvExperiment):
         delay(1*ms)
         self.dds.set_profile_ram(
                start=start_address, end=start_address + n_steps - 1,
-               step=10, nodwell_high=0,
+               step=100, nodwell_high=0,
                profile=ram_profile, mode=RAM_MODE_CONT_BIDIR_RAMP) # mode=RAM_MODE_RAMPUP)
         delay(1*ms)
 
