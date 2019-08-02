@@ -99,8 +99,8 @@ class RampTest(EnvExperiment):
         self.dds.cpld.io_update.pulse(1*us)
         #delay(1*ms)
 
-        #self.dds.set(80.3*MHz, amplitude=1., profile=ram_profile,
-        #             phase_mode=PHASE_MODE_CONTINUOUS)
+        self.dds.set(80.3*MHz, amplitude=1., profile=ram_profile,
+                     phase_mode=PHASE_MODE_CONTINUOUS)
 
         #self.dds.set(80.3*MHz, amplitude=0., profile=0)
         #delay(5*us)
