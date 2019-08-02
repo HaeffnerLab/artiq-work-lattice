@@ -71,7 +71,7 @@ class RampTest(EnvExperiment):
         #self.dds.cpld.io_update.pulse(1*us)
 
         n_steps = 10
-        amps = [1./n_steps * i for i in range(1, n_steps+1)].reverse()
+        amps = [1./n_steps * (n_steps-i) for i in range(n_steps)]
         data = [0]*n_steps
         #self.dds.amplitude_to_ram(amps, data)
         # or - calculating manually seems to work better:
