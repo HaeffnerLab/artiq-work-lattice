@@ -20,11 +20,12 @@ class RampTest(EnvExperiment):
         self.core.break_realtime()
 
         #
-        # start by disabling ramping
+        # start by disabling ramping and resetting to profile 0
         #
         self.dds.set_cfr1(ram_enable=0)
         self.dds.cpld.io_update.pulse(1*us)
-
+        self.dds.cpld.set_profile(0)
+        self.dds.cpld.io_update.pulse(1*us)
         #
         # first, try some naive ramping.
         # each set() call takes a little over 1us,
@@ -121,6 +122,8 @@ class RampTest(EnvExperiment):
         # disable ramping again so we don't affect the next experiment
         #
         self.dds.set_cfr1(ram_enable=0)
+        self.dds.cpld.io_update.pulse(1*us)
+        self.dds.cpld.set_profile(0)
         self.dds.cpld.io_update.pulse(1*us)
 
         #
