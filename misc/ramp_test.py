@@ -80,8 +80,6 @@ class RampTest(EnvExperiment):
         print(data)
         self.core.break_realtime()
 
-        self.dds.sw.on()
-
         start_address = 100
         delay(1*ms)
         self.dds.set_profile_ram(
@@ -95,6 +93,8 @@ class RampTest(EnvExperiment):
         self.dds.write_ram(data)
 
         # turn on the DDS and enable the ramp
+        self.dds.sw.on()
+
         self.dds.set_cfr1(ram_enable=1, ram_destination=RAM_DEST_ASF)
         self.dds.cpld.io_update.pulse(1*us)
 
