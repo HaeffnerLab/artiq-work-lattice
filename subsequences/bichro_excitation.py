@@ -3,6 +3,7 @@ from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP, RAM_DEST_ASF
 from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
 import numpy as np
 
+
 class BichroExcitation:
     bichro_enable="MolmerSorensen.bichro_enable"
     due_carrier_enable="MolmerSorensen.due_carrier_enable"
