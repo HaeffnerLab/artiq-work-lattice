@@ -48,10 +48,10 @@ class BichroExcitation:
                 detuning=b.detuning_carrier_1,
                 dds="729G"
             )
-            #self.dds_729.set(dp_freq,
-            #                 amplitude=b.amp,
-            #                 phase=b.phase / 360,
-            #                 ref_time_mu=b.phase_ref_time)
+            self.dds_729.set(dp_freq,
+                             amplitude=b.amp,
+                             phase=b.phase / 360,
+                             ref_time_mu=b.phase_ref_time)
             self.dds_729.set_att(b.att)
             if b.bichro_enable:
                 self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, ref_time_mu=b.phase_ref_time)
@@ -61,18 +61,18 @@ class BichroExcitation:
                 with parallel:
                     self.dds_729_SP.sw.on()
                     self.dds_729_SP_bichro.sw.on()
-                    #self.dds_729.sw.on()
+                    self.dds_729.sw.on()
                 
-                #delay(b.duration)
+                delay(b.duration)
 
-                self.pulse_with_amplitude_ramp(b.duration, ramp_duration=1*us,
-                    dds1_name="729G", dds1_amp=b.amp,
-                    dds1_freq=dp_freq, dds1_phase=b.phase / 360)
+                #self.pulse_with_amplitude_ramp(b.duration, ramp_duration=1*us,
+                #    dds1_name="729G", dds1_amp=b.amp,
+                #    dds1_freq=dp_freq, dds1_phase=b.phase / 360)
 
                 with parallel:
                     self.dds_729_SP.sw.off()
                     self.dds_729_SP_bichro.sw.off()
-                    #self.dds_729.sw.off()
+                    self.dds_729.sw.off()
             else:
                 # bichro disabled
                 sp_freq_729 = 80*MHz + offset
