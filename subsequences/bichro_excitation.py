@@ -33,6 +33,10 @@ class BichroExcitation:
     default_sp_att_729="Excitation_729.single_pass_att"
     phase_ref_time=np.int64(-1)
 
+    def add_child_subsequences(pulse_sequence):
+        b = BichroExcitation
+        b.pulse_sequence = pulse_sequence
+
     def subsequence(self):
         b = BichroExcitation
         trap_frequency = self.get_trap_frequency(b.selection_sideband)
@@ -61,18 +65,19 @@ class BichroExcitation:
                 with parallel:
                     self.dds_729_SP.sw.on()
                     self.dds_729_SP_bichro.sw.on()
-                    self.dds_729.sw.on()
+                    #self.dds_729.sw.on()
                 
-                delay(b.duration)
+                #delay(b.duration)
 
-                #self.pulse_with_amplitude_ramp(b.duration, ramp_duration=1*us,
-                #    dds1_name="729G", dds1_amp=b.amp,
-                #    dds1_freq=dp_freq, dds1_phase=b.phase / 360)
+                b.pulse_sequence.pulse_with_amplitude_ramp(
+                    b.duration, ramp_duration=1*us,
+                    dds1_name="729G", dds1_amp=b.amp,
+                    dds1_freq=dp_freq, dds1_phase=b.phase / 360)
 
                 with parallel:
                     self.dds_729_SP.sw.off()
                     self.dds_729_SP_bichro.sw.off()
-                    self.dds_729.sw.off()
+                    #self.dds_729.sw.off()
             else:
                 # bichro disabled
                 sp_freq_729 = 80*MHz + offset
