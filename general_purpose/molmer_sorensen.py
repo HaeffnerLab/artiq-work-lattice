@@ -98,24 +98,3 @@ class MolmerSorensenGate(PulseSequence):
         if self.MolmerSorensen_analysis_pulse_enable:
             delay(self.get_variable_parameter("MolmerSorensen_ramsey_duration"))
             self.rabi.run(self)
-
-            # self.get_729_dds(self.rabi.channel_729)
-            # self.dds_729.set_phase_mode(PHASE_MODE_ABSOLUTE)
-            # self.dds_729.set(self.rabi.freq_729,
-            #                 amplitude=self.rabi.amp_729,
-            #                 phase=self.get_variable_parameter("MolmerSorensen_ms_phase") / 360.)
-
-            # freq_729_SP = 80*MHz + self.get_offset_frequency(self.rabi.channel_729)
-            # self.dds_729_SP.set_phase_mode(PHASE_MODE_ABSOLUTE)
-            # self.dds_729_SP.set(freq_729_SP, phase=0.)
-            
-            # with parallel:
-            #     self.dds_729.sw.on()
-            #     self.dds_729_SP.sw.on()
-            # delay(self.rabi.duration)
-            # with parallel:
-            #     self.dds_729.sw.off()
-            #     self.dds_729_SP.sw.off()
-            
-            # self.dds_729.set_phase_mode(PHASE_MODE_TRACKING)
-            # self.dds_729_SP.set_phase_mode(PHASE_MODE_TRACKING)
