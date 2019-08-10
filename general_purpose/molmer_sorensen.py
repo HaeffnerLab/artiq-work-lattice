@@ -93,8 +93,6 @@ class MolmerSorensenGate(PulseSequence):
         self.ms.phase_ref_time = self.phase_ref_time
         self.rabi.phase_ref_time = self.phase_ref_time
 
-        delay(6*ms) # to avoid RTIO underflow
-
         self.stateprep.run(self)
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
