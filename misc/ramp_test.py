@@ -55,7 +55,7 @@ class RampTest(EnvExperiment):
         #
         # Program the RAM with the ramp-up waveform and ramp mode.
         #
-        ramp_up_profile = 3  # arbitrary choice, must be 0 to 7
+        ramp_up_profile = 2  # arbitrary choice, must be 0 to 7
         start_address = 100  # arbitrary choice, must be 0 to (1024-n_steps-1)
         delay(1*ms) # to avoid RTIO underflow
         self.dds.set_profile_ram(
@@ -74,7 +74,7 @@ class RampTest(EnvExperiment):
         #
         # Program the RAM with the ramp-down waveform.
         #
-        ramp_down_profile = 5  # arbitrary choice, must be 0 to 7
+        ramp_down_profile = 3  # must differ by exactly one binary digit from ramp-up
         start_address = 200  # arbitrary choice, must be 0 to (1024-n_steps-1)
         delay(1*ms) # to avoid RTIO underflow
         self.dds.set_profile_ram(
