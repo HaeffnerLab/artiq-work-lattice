@@ -29,7 +29,7 @@ class StatePreparation:
                 num_modes += 1
             delay(delay_per_cycle*num_cycles*num_modes)
 
-        delay(1*ms)
+        delay(2*ms)
         s.dopplerCooling.run(self)
         if s.enable_optical_pumping:
             s.op.run(self)
