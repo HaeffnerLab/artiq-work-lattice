@@ -92,6 +92,7 @@ class MolmerSorensenGate(PulseSequence):
             pulse_duration=self.ms.duration,
             ramp_duration=1*us,
             dds1_amp=self.ms.amp)
+        self.core.wait_until_mu(now_mu())
 
     @kernel
     def MolmerSorensen(self):
