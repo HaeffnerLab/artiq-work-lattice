@@ -86,11 +86,11 @@ class MolmerSorensenGate(PulseSequence):
             self.MolmerSorensen_line_selection, 
             detuning=self.ms.detuning_carrier_1,
             dds="729G")
-
-        self.prepare_pulse_with_amplitude_ramp(
-            pulse_duration=self.ms.duration,
-            ramp_duration=1*us,
-            dds1_amp=self.ms.amp)
+        if self.MolmerSorensen_bichro_enable:
+            self.prepare_pulse_with_amplitude_ramp(
+                pulse_duration=self.ms.duration,
+                ramp_duration=1*us,
+                dds1_amp=self.ms.amp)
 
     @kernel
     def MolmerSorensen(self):
