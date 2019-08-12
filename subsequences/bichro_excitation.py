@@ -46,16 +46,18 @@ class BichroExcitation:
             offset = self.get_offset_frequency("729G")
             freq_blue += offset
             freq_red += offset
+
+            # Set double-pass to correct frequency and phase,
+            # and set amplitude to zero for now.
             dp_freq = self.calc_frequency(
                 b.line_selection,
                 detuning=b.detuning_carrier_1,
                 dds="729G"
             )
-            #self.dds_729.set(dp_freq,
-            #    amplitude=b.amp,
-            #    phase=b.phase / 360,
-            #    ref_time_mu=b.phase_ref_time)
-            #self.dds_729.set_att(b.att)
+            self.dds_729.set(dp_freq,
+                amplitude=0.,
+                phase=b.phase / 360,
+                ref_time_mu=b.phase_ref_time)
 
             if b.bichro_enable:
                 self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, ref_time_mu=b.phase_ref_time)
@@ -76,6 +78,8 @@ class BichroExcitation:
                     self.dds_729_SP_bichro.sw.off()
             else:
                 # bichro disabled
+                self.dds_729.set_amplitude(b.amp)
+                self.dds_729.set_att(b.att)
                 sp_freq_729 = 80*MHz + offset
                 self.dds_729_SP.set(sp_freq_729, amplitude=b.default_sp_amp_729, ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP.set_att(b.default_sp_att_729)
