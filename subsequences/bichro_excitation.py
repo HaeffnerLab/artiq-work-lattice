@@ -70,8 +70,7 @@ class BichroExcitation:
 
                 self.execute_pulse_with_amplitude_ramp(
                     dds1_att=b.att,
-                    dds1_freq=dp_freq,
-                    dds1_phase=b.phase / 360)
+                    dds1_freq=dp_freq)
 
                 with parallel:
                     self.dds_729_SP.sw.off()
