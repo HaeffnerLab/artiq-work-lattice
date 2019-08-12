@@ -18,8 +18,11 @@ class StatePreparation:
         s = StatePreparation
 
         # delay to avoid RTIO underflow
-        num_cycles = int(s.sideband_cooling_cycles)
-        delay(num_cycles*6*ms)
+        if s.enable_sideband_cooling:
+            num_cycles = int(s.sideband_cooling_cycles)
+            delay(num_cycles*6*ms)
+        else:
+            delay(1*ms)
 
         s.dopplerCooling.run(self)
         if s.enable_optical_pumping:
