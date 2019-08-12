@@ -35,7 +35,6 @@ class BichroExcitation:
 
     def add_child_subsequences(pulse_sequence):
         b = BichroExcitation
-        b.pulse_sequence = pulse_sequence
 
     def subsequence(self):
         b = BichroExcitation
@@ -67,12 +66,7 @@ class BichroExcitation:
                     self.dds_729_SP.sw.on()
                     self.dds_729_SP_bichro.sw.on()
 
-                b.pulse_sequence.prepare_pulse_with_amplitude_ramp(
-                    pulse_duration=b.duration,
-                    ramp_duration=1*us,
-                    dds1_amp=b.amp,
-                    dds1_freq=dp_freq)
-                b.pulse_sequence.execute_pulse_with_amplitude_ramp(
+                self.execute_pulse_with_amplitude_ramp(
                     dds1_att=b.att,
                     dds1_freq=dp_freq,
                     dds1_phase=b.phase / 360)

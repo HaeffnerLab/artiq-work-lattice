@@ -87,6 +87,12 @@ class MolmerSorensenGate(PulseSequence):
             detuning=self.ms.detuning_carrier_1,
             dds="729G"
         )
+
+        self.prepare_pulse_with_amplitude_ramp(
+            pulse_duration=self.ms.duration,
+            ramp_duration=1*us,
+            dds1_amp=self.ms.amp)
+
     @kernel
     def MolmerSorensen(self):
         self.phase_ref_time = now_mu()
