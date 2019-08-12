@@ -56,27 +56,14 @@ class SidebandCooling:
                             dds=channel
                         )
             self.dds_729.set(freq_729, amplitude=s.amplitude_729)
-            delay(10*us)
             self.dds_729.set_att(s.att_729)
-            delay(10*us)
-
             sp_freq_729 = 80*MHz + self.get_offset_frequency(channel)
             self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
-            delay(10*us)
             self.dds_729_SP.set_att(s.sp_att_729)
-            delay(10*us)
-
-            self.dds_854.set(s.freq_854, 
-                            amplitude=s.amp_854)
-            delay(10*us)
+            self.dds_854.set(s.freq_854, amplitude=s.amp_854)
             self.dds_854.set_att(s.att_854)
-            delay(10*us)
-
-            self.dds_866.set(s.freq_866, 
-                            amplitude=s.amp_866)
-            delay(10*us)
+            self.dds_866.set(s.freq_866, amplitude=s.amp_866)
             self.dds_866.set_att(s.att_866)
-            delay(10*us)
 
             with parallel:
                 self.dds_854.sw.on()
