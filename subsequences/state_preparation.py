@@ -17,8 +17,8 @@ class StatePreparation:
         s = StatePreparation
 
         # delay to avoid RTIO underflow
-        if s.sbc.enable_sideband_cooling:
-            num_cycles = int(s.sideband_cooling_cycles)
+        if s.enable_sideband_cooling:
+            num_cycles = int(s.sbc.sideband_cooling_cycles)
             num_modes = 1
             if s.sbc.sequential_enable:
                 num_modes += 1
