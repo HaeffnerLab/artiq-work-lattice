@@ -72,7 +72,7 @@ class BichroExcitation:
                     ramp_duration=1*us,
                     dds1_amp=b.amp,
                     dds1_freq=dp_freq)
-                b.pulse_sequence.execute_pulse_with_amplitude_ramp(                    
+                b.pulse_sequence.execute_pulse_with_amplitude_ramp(
                     dds1_att=b.att,
                     dds1_freq=dp_freq,
                     dds1_phase=b.phase / 360)
