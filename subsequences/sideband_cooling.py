@@ -73,6 +73,7 @@ class SidebandCooling:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
             delay(s.duration)
+            self.core.wait_until_mu(now_mu())
             with parallel:
                 self.dds_854.sw.off()
                 self.dds_866.sw.off()
