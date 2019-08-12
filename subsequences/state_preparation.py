@@ -6,6 +6,7 @@ from subsequences.sideband_cooling import SidebandCooling
 class StatePreparation:
     enable_optical_pumping="StatePreparation.optical_pumping_enable"
     enable_sideband_cooling="StatePreparation.sideband_cooling_enable"
+    sideband_cooling_cycles="SidebandCooling.sideband_cooling_cycles"
 
     def add_child_subsequences(pulse_sequence):
         s = StatePreparation
@@ -15,6 +16,9 @@ class StatePreparation:
 
     def subsequence(self):
         s = StatePreparation
+
+        num_cycles = int(s.sideband_cooling_cycles)
+        delay(4*num_cycles*1.4*ms)
 
         delay(1*ms)
         s.dopplerCooling.run(self)
