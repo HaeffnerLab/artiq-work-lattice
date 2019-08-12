@@ -6,7 +6,6 @@ from subsequences.sideband_cooling import SidebandCooling
 class StatePreparation:
     enable_optical_pumping="StatePreparation.optical_pumping_enable"
     enable_sideband_cooling="StatePreparation.sideband_cooling_enable"
-    sideband_cooling_cycles="SidebandCooling.sideband_cooling_cycles"
 
     def add_child_subsequences(pulse_sequence):
         s = StatePreparation
@@ -18,12 +17,18 @@ class StatePreparation:
         s = StatePreparation
 
         # delay to avoid RTIO underflow
-        if s.enable_sideband_cooling:
+        if s.sbc.enable_sideband_cooling:
             num_cycles = int(s.sideband_cooling_cycles)
-            delay(num_cycles*6*ms)
-        else:
-            delay(1*ms)
-
+            num_modes = 1
+            if s.sbc.sequential_enable:
+                num_modes += 1
+            if s.sbc.sequential1_enable:
+                num_modes += 1
+            if s.sbc.sequential2_enable:
+                num_modes += 1
+            delay(num_cycles*num_modes*1.4*ms)
+            
+        delay(1*ms)
         s.dopplerCooling.run(self)
         if s.enable_optical_pumping:
             s.op.run(self)
