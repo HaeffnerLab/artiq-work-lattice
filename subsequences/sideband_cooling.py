@@ -78,8 +78,9 @@ class SidebandCooling:
                 self.dds_866.sw.off()
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
-
+            delay(10*us)
             s.op.run(self)
+            delay(10*us)
 
         num_cycles = int(s.sideband_cooling_cycles)
 
