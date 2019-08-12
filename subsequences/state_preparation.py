@@ -22,11 +22,11 @@ class StatePreparation:
             num_cycles = int(s.sbc.sideband_cooling_cycles)
             num_modes = 1
             if s.sbc.sequential_enable:
-                num_modes += 1
+                num_modes *= 2
             if s.sbc.sequential1_enable:
-                num_modes += 1
+                num_modes *= 2
             if s.sbc.sequential2_enable:
-                num_modes += 1
+                num_modes *= 2
             delay(delay_per_cycle*num_cycles*num_modes)
             
         delay(1*ms)
