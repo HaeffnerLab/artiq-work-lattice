@@ -60,9 +60,9 @@ class BichroExcitation:
                 ref_time_mu=b.phase_ref_time)
 
             if b.bichro_enable:
-                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP.set_att(b.att_blue)
-                self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP_bichro.set(freq_red, amplitude=0., ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP_bichro.set_att(b.att_red)
 
                 # with parallel:
