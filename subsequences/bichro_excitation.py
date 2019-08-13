@@ -69,8 +69,7 @@ class BichroExcitation:
                 #     self.dds_729_SP.sw.on()
                 #     self.dds_729_SP_bichro.sw.on()
 
-                noise_std = 0.1 # TODO: should come from parameter vault
-                self.start_noisy_bichro(noise_std,
+                self.start_noisy_bichro(
                     freq_blue, b.amp_blue, b.att_blue,
                     freq_red, b.amp_red, b.att_red,
                     b.phase_ref_time)
