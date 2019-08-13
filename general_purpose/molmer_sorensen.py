@@ -61,12 +61,11 @@ class MolmerSorensenGate(PulseSequence):
         self.phase_ref_time = np.int64(0)
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
-
         if self.p.MolmerSorensen.bichro_enable:
+            noise_std = 0.1 # TODO: should come from parameter vault
             self.prepare_bichro_noise(
                 mean=self.p.MolmerSorensen.amp_blue,
-                std=self.p.MolmerSorensen.amp_red) # TODO: new parameter
-
+                std=noise_std)
         if not self.p.MolmerSorensen.override_readout:
             ss = self.selected_scan["MolmerSorensen"]
             if self.p.MolmerSorensen.bichro_enable:
