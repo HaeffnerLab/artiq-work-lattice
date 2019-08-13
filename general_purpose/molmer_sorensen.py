@@ -20,6 +20,7 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.amp_red",
         "MolmerSorensen.att_red",
         "MolmerSorensen.amp_blue",
+        "MolmerSorensen.amp_blue_noise_std",
         "MolmerSorensen.att_blue",
         "MolmerSorensen.amplitude",
         "MolmerSorensen.att",
@@ -64,7 +65,7 @@ class MolmerSorensenGate(PulseSequence):
         if self.p.MolmerSorensen.bichro_enable:
             self.generate_bichro_noise_waveform(
                 mean=self.p.MolmerSorensen.amp_blue,
-                std=self.p.MolmerSorensen.amp_red) # TODO: new noise parameter
+                std=self.p.MolmerSorensen.amp_blue_noise_std)
         if not self.p.MolmerSorensen.override_readout:
             ss = self.selected_scan["MolmerSorensen"]
             if self.p.MolmerSorensen.bichro_enable:
