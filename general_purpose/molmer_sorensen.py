@@ -62,7 +62,7 @@ class MolmerSorensenGate(PulseSequence):
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
         if self.p.MolmerSorensen.bichro_enable:
-            self.prepare_bichro_noise(
+            self.generate_bichro_noise_waveform(
                 mean=self.p.MolmerSorensen.amp_blue,
                 std=self.p.MolmerSorensen.amp_red) # TODO: new noise parameter
         if not self.p.MolmerSorensen.override_readout:
@@ -95,6 +95,7 @@ class MolmerSorensenGate(PulseSequence):
                 pulse_duration=self.ms.duration,
                 ramp_duration=1*us,
                 dds1_amp=self.ms.amp)
+            self.prepare_noisy_bichro()
 
     @kernel
     def MolmerSorensen(self):
