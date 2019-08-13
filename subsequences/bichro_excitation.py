@@ -60,18 +60,20 @@ class BichroExcitation:
                 ref_time_mu=b.phase_ref_time)
 
             if b.bichro_enable:
-                # self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, ref_time_mu=b.phase_ref_time)
-                # self.dds_729_SP.set_att(b.att_blue)
-                # self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red, ref_time_mu=b.phase_ref_time)
-                # self.dds_729_SP_bichro.set_att(b.att_red)
+                self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP.set_att(b.att_blue)
+                self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red, ref_time_mu=b.phase_ref_time)
+                self.dds_729_SP_bichro.set_att(b.att_red)
 
                 # with parallel:
                 #     self.dds_729_SP.sw.on()
                 #     self.dds_729_SP_bichro.sw.on()
 
-                self.start_noisy_bichro(
+                noise_std = 0.1 # TODO: should come from parameter vault
+                self.start_noisy_bichro(noise_std,
                     freq_blue, b.amp_blue, b.att_blue,
-                    freq_red, b.amp_red, b.att_red, b.phase_ref_time)
+                    freq_red, b.amp_red, b.att_red,
+                    b.phase_ref_time)
 
                 self.execute_pulse_with_amplitude_ramp(
                     dds1_att=b.att,
