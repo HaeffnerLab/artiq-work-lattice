@@ -65,7 +65,7 @@ class MolmerSorensenGate(PulseSequence):
         if self.p.MolmerSorensen.bichro_enable:
             self.generate_single_pass_noise_waveform(
                 mean=80.3*MHz, #self.p.MolmerSorensen.amp_blue,
-                std=0.01, #self.p.MolmerSorensen.amp_blue_noise_std,
+                std=10*kHz, #self.p.MolmerSorensen.amp_blue_noise_std,
                 freq_noise=True)
         if not self.p.MolmerSorensen.override_readout:
             ss = self.selected_scan["MolmerSorensen"]
