@@ -65,16 +65,16 @@ class BichroExcitation:
                 self.dds_729_SP_bichro.set(freq_red, amplitude=0., ref_time_mu=b.phase_ref_time)
                 self.dds_729_SP_bichro.set_att(b.att_red)
 
-                self.start_noisy_bichro(
+                self.start_noisy_single_pass(b.phase_ref_time,
                     freq_blue, b.amp_blue, b.att_blue,
-                    freq_red, b.amp_red, b.att_red,
-                    b.phase_ref_time)
+                    use_bichro=True,
+                    freq_red, b.amp_red, b.att_red)
 
                 self.execute_pulse_with_amplitude_ramp(
                     dds1_att=b.att,
                     dds1_freq=dp_freq)
 
-                self.stop_noisy_bichro()
+                self.stop_noisy_single_pass(use_bichro=True)
 
             else:
                 # bichro disabled
