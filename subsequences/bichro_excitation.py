@@ -66,9 +66,9 @@ class BichroExcitation:
                 self.dds_729_SP_bichro.set_att(b.att_red)
 
                 self.start_noisy_single_pass(b.phase_ref_time,
-                    freq_blue, b.amp_blue, b.att_blue,
+                    freq_sp=freq_blue, amp_sp=b.amp_blue, att_sp=b.att_blue,
                     use_bichro=True,
-                    freq_red, b.amp_red, b.att_red)
+                    freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
 
                 self.execute_pulse_with_amplitude_ramp(
                     dds1_att=b.att,
