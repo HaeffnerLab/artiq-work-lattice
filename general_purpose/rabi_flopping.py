@@ -39,12 +39,7 @@ class RabiFlopping(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        self.get_729_dds(self.rabi.channel_729)
-        self.prepare_pulse_with_amplitude_ramp(
-            pulse_duration=self.rabi.duration,
-            ramp_duration=1*us,
-            dds1_amp=self.rabi.amp_729
-        )
+        self.rabi.setup_ramping()
 
     @kernel
     def RabiFlopping(self):
