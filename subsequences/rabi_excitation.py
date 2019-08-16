@@ -15,6 +15,7 @@ class RabiExcitation:
     phase_ref_time=np.int64(-1)
     use_ramping=False
 
+    @kernel
     def setup_ramping(self):
         r = RabiExcitation        
         self.get_729_dds(r.channel_729)
