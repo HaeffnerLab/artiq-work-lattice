@@ -21,7 +21,7 @@ class RabiExcitation:
         self.prepare_pulse_with_amplitude_ramp(
             pulse_duration=r.duration,
             ramp_duration=1*us,
-            dds1_amp=r.amp_729
+            dds1_amp=r.amp_729)
         r.use_ramping = True
 
     def subsequence(self):
