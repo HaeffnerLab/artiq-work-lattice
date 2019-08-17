@@ -10,6 +10,7 @@ class BichroExcitation:
     channel="MolmerSorensen.channel_729"
     shape_profile="MolmerSorensen.shape_profile"
     amp_blue="MolmerSorensen.amp_blue"
+    amp_blue_noise_std="MolmerSorensen.amp_blue_noise_std"
     att_blue="MolmerSorensen.att_blue"
     amp_blue_ion2="MolmerSorensen.amp_blue_ion2"
     att_blue_ion2="MolmerSorensen.att_blue_ion2"
@@ -32,9 +33,30 @@ class BichroExcitation:
     default_sp_amp_729="Excitation_729.single_pass_amplitude"
     default_sp_att_729="Excitation_729.single_pass_att"
     phase_ref_time=np.int64(-1)
+    use_ramping=False
+    use_single_pass_freq_noise=False
 
     def add_child_subsequences(pulse_sequence):
         b = BichroExcitation
+    
+    @kernel
+    def setup_noisy_single_pass(pulse_sequence, freq_noise):
+        b = BichroExcitation
+        b.use_single_pass_freq_noise = freq_noise
+        pulse_sequence.generate_single_pass_noise_waveform(
+            mean=b.amp_blue,
+            std=b.amp_blue_noise_std,
+            freq_noise=freq_noise)
+
+    @kernel
+    def setup_ramping(pulse_sequence):
+        b = BichroExcitation
+        b.use_ramping = True
+        self.prepare_pulse_with_amplitude_ramp(
+            pulse_duration=b.duration,
+            ramp_duration=1*us,
+            dds1_amp=b.amp)
+        self.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)
 
     def subsequence(self):
         b = BichroExcitation
@@ -66,14 +88,21 @@ class BichroExcitation:
                 self.dds_729_SP_bichro.set_att(b.att_red)
 
                 self.start_noisy_single_pass(b.phase_ref_time,
-                    freq_noise=False,
+                    freq_noise=b.use_single_pass_freq_noise,
                     freq_sp=freq_blue, amp_sp=b.amp_blue, att_sp=b.att_blue,
                     use_bichro=True,
                     freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
 
-                self.execute_pulse_with_amplitude_ramp(
-                    dds1_att=b.att,
-                    dds1_freq=dp_freq)
+                if b.use_ramping:
+                    self.execute_pulse_with_amplitude_ramp(
+                        dds1_att=b.att,
+                        dds1_freq=dp_freq)
+                else:
+                    self.dds_729.set_amplitude(b.amp)
+                    self.dds_729.set_att(b.att)
+                    self.dds_729.sw.on()
+                    delay(b.duration)
+                    self.dds_729.sw.off()
 
                 self.stop_noisy_single_pass(use_bichro=True)
 
