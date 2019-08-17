@@ -39,7 +39,6 @@ class BichroExcitation:
     def add_child_subsequences(pulse_sequence):
         b = BichroExcitation
     
-    @kernel
     def setup_noisy_single_pass(pulse_sequence, freq_noise):
         b = BichroExcitation
         b.use_single_pass_freq_noise = freq_noise
