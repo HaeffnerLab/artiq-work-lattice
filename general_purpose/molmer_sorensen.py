@@ -63,7 +63,7 @@ class MolmerSorensenGate(PulseSequence):
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
         if self.p.MolmerSorensen.bichro_enable:
-            self.ms.setup_noisy_single_pass(freq_noise=False)
+            self.ms.setup_noisy_single_pass(self, freq_noise=False)
         if not self.p.MolmerSorensen.override_readout:
             ss = self.selected_scan["MolmerSorensen"]
             if self.p.MolmerSorensen.bichro_enable:
@@ -90,7 +90,7 @@ class MolmerSorensenGate(PulseSequence):
             detuning=self.ms.detuning_carrier_1,
             dds="729G")
         #if self.MolmerSorensen_bichro_enable:
-            #self.ms.setup_ramping()
+            #self.ms.setup_ramping(self)
 
     @kernel
     def MolmerSorensen(self):
