@@ -51,11 +51,11 @@ class BichroExcitation:
     def setup_ramping(pulse_sequence):
         b = BichroExcitation
         b.use_ramping = True
-        self.prepare_pulse_with_amplitude_ramp(
+        pulse_sequence.prepare_pulse_with_amplitude_ramp(
             pulse_duration=b.duration,
             ramp_duration=1*us,
             dds1_amp=b.amp)
-        self.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)
+        pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)
 
     def subsequence(self):
         b = BichroExcitation
