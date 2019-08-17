@@ -89,8 +89,8 @@ class MolmerSorensenGate(PulseSequence):
             self.MolmerSorensen_line_selection, 
             detuning=self.ms.detuning_carrier_1,
             dds="729G")
-        if self.MolmerSorensen_bichro_enable:
-            self.ms.setup_ramping()
+        #if self.MolmerSorensen_bichro_enable:
+            #self.ms.setup_ramping()
 
     @kernel
     def MolmerSorensen(self):
