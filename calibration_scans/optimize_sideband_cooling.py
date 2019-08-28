@@ -26,9 +26,9 @@ class OptimizeSidebandCooling(PulseSequence):
     }
 
     PulseSequence.scan_params["krun"] = [
-        ("Current", ("SidebandCooling.amplitude_854", 0., 1., 25)),
         ("Current", ("SidebandCooling.att_854", 5., 32.5, 15, "dB")),
-        ("Current", ("SidebandCooling.stark_shift", -60*kHz, 60*kHz, 20, "kHz"))   
+        ("Current", ("SidebandCooling.att_729", 5., 32.5, 12, "dB")),
+        ("Current", ("SidebandCooling.stark_shift", -60*kHz, 60*kHz, 20, "kHz"))
     ]
 
     def run_initially(self):
@@ -40,8 +40,8 @@ class OptimizeSidebandCooling(PulseSequence):
     @kernel
     def set_subsequence_krun(self):
         self.rabi.duration = self.RabiFlopping_duration
-        self.rabi.amp_729 = self.RabiFlopping_amplitude_729
-        self.rabi.att_729 = self.RabiFlopping_att_729
+        self.rabi.amp_729 = self.SidebandCooling_amplitude_729
+        self.rabi.att_729 = self.get_variable_parameter("SidebandCooling_att_729")
         self.rabi.freq_729 = self.calc_frequency(
             self.RabiFlopping_line_selection, 
             detuning=0.,
@@ -49,7 +49,7 @@ class OptimizeSidebandCooling(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        self.stateprep.sbc.amp_854 = self.get_variable_parameter("SidebandCooling_amplitude_854")
+        self.stateprep.sbc.amp_854 = self.SidebandCooling_amplitude_854
         self.stateprep.sbc.att_854 = self.get_variable_parameter("SidebandCooling_att_854")
         self.stateprep.sbc.stark_shift = self.get_variable_parameter("SidebandCooling_stark_shift")
     
