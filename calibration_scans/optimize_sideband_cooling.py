@@ -3,6 +3,7 @@ from subsequences.rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
+
 class OptimizeSidebandCooling(PulseSequence):
     PulseSequence.accessed_params = {
         "SidebandCooling.amplitude_854",
