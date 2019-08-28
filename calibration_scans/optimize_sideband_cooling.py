@@ -3,7 +3,6 @@ from subsequences.rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
-
 class OptimizeSidebandCooling(PulseSequence):
     PulseSequence.accessed_params = {
         "SidebandCooling.amplitude_854",
@@ -41,8 +40,8 @@ class OptimizeSidebandCooling(PulseSequence):
     @kernel
     def set_subsequence_krun(self):
         self.rabi.duration = self.RabiFlopping_duration
-        self.rabi.amp_729 = self.SidebandCooling_amplitude_729
-        self.rabi.att_729 = self.get_variable_parameter("SidebandCooling_att_729")
+        self.rabi.amp_729 = self.RabiFlopping_amplitude_729
+        self.rabi.att_729 = self.RabiFlopping_att_729
         self.rabi.freq_729 = self.calc_frequency(
             self.RabiFlopping_line_selection, 
             detuning=0.,
@@ -50,7 +49,7 @@ class OptimizeSidebandCooling(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        self.stateprep.sbc.amp_854 = self.SidebandCooling_amplitude_854
+        self.stateprep.sbc.att_729 = self.get_variable_parameter("SidebandCooling_att_729")
         self.stateprep.sbc.att_854 = self.get_variable_parameter("SidebandCooling_att_854")
         self.stateprep.sbc.stark_shift = self.get_variable_parameter("SidebandCooling_stark_shift")
     
