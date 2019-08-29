@@ -25,7 +25,7 @@ class OptimizeOpticalPumping(PulseSequence):
         "OpticalPumping.amplitude_729",
         "OpticalPumping.att_729",
         "OpticalPumpingContinuous.optical_pumping_continuous_duration",
-        "DopplerCooling.doppler_cooling_amplitude_866"
+        # "DopplerCooling.doppler_cooling_amplitude_866"
     }
 
     PulseSequence.scan_params["krun"] = [
@@ -61,7 +61,7 @@ class OptimizeOpticalPumping(PulseSequence):
         self.stateprep.op.opp.amplitude_854 = self.get_variable_parameter("OpticalPumping_optical_pumping_amplitude_854")
         self.stateprep.op.opp.amplitude_729 = self.get_variable_parameter("StatePreparation_pulsed_amplitude")
         self.stateprep.op.opp.duration_854 = self.get_variable_parameter("StatePreparation_pulsed_854_duration")
-        self.stateprep.op.opp.amplitude_866 = self.get_variable_parameter("DopplerCooling_doppler_cooling_amplitude_866")
+        # self.stateprep.op.opp.amplitude_866 = self.get_variable_parameter("DopplerCooling_doppler_cooling_amplitude_866")
         self.stateprep.op.opc.amplitude_729 = self.get_variable_parameter("OpticalPumping_amplitude_729")
         self.stateprep.op.opc.duration = self.get_variable_parameter("OpticalPumpingContinuous_optical_pumping_continuous_duration")
 
