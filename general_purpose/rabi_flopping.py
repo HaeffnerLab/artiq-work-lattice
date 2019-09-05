@@ -45,6 +45,6 @@ class RabiFlopping(PulseSequence):
     @kernel
     def RabiFlopping(self):
         self.stateprep.run(self)
-        delay(100*us)
+        delay(200*us)
         self.rabi.run(self)
         
