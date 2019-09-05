@@ -73,7 +73,7 @@ class SidebandCooling:
             delay(s.duration)
             with parallel:
                 self.dds_854.sw.off()
-                self.dds_866.sw.off()
+                #self.dds_866.sw.off()
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
             s.op.run(self)
@@ -116,4 +116,4 @@ class SidebandCooling:
         delay(3 * s.repump_additional)
         with parallel:
             self.dds_854.sw.off()
-            self.dds_866.sw.off()
+            #self.dds_866.sw.off()
