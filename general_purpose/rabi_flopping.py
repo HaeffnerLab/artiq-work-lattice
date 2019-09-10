@@ -42,6 +42,7 @@ class RabiFlopping(PulseSequence):
         )
         if self.rabi.duration > 0:
             self.rabi.setup_ramping(self)
+        self.stateprep.post_delay=self.get_variable_parameter("StatePreparation_post_delay")
 
     @kernel
     def RabiFlopping(self):
