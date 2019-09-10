@@ -13,7 +13,6 @@ class RabiFlopping(PulseSequence):
         "RabiFlopping.duration",
         "RabiFlopping.selection_sideband",
         "RabiFlopping.order",
-        "RabiFlopping.sp_delay",
         "RabiFlopping.detuning",
     }
 
