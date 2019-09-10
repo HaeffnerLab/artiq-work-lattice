@@ -37,3 +37,4 @@ class StatePreparation:
         if s.enable_sideband_cooling:
             s.sbc.run(self)
         delay(s.post_delay)
+        self.dds_866.sw.off()
