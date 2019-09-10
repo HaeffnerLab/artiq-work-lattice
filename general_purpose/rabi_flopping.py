@@ -13,12 +13,14 @@ class RabiFlopping(PulseSequence):
         "RabiFlopping.duration",
         "RabiFlopping.selection_sideband",
         "RabiFlopping.order",
+        "RabiFlopping.sp_delay",
         "RabiFlopping.detuning",
     }
 
     PulseSequence.scan_params = dict(
         RabiFlopping=[
-            ("Rabi", ("RabiFlopping.duration", 0., 100e-6, 20, "us"))
+            ("Rabi", ("RabiFlopping.duration", 0., 100e-6, 20, "us")),
+            ("Rabi", ("StatePreparation.post_delay", 0., 10*ms, 20, "ms"))
         ])
 
     def run_initially(self):
@@ -45,8 +47,6 @@ class RabiFlopping(PulseSequence):
     @kernel
     def RabiFlopping(self):
         self.stateprep.run(self)
-        self.dds_866.sw.on()
-        delay(0.5*ms)
         self.rabi.run(self)
         
         

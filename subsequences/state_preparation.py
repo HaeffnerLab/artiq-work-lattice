@@ -6,6 +6,7 @@ from subsequences.sideband_cooling import SidebandCooling
 class StatePreparation:
     enable_optical_pumping="StatePreparation.optical_pumping_enable"
     enable_sideband_cooling="StatePreparation.sideband_cooling_enable"
+    post_delay="StatePreparation.post_delay"
 
     def add_child_subsequences(pulse_sequence):
         s = StatePreparation
@@ -35,3 +36,4 @@ class StatePreparation:
             s.op.run(self)
         if s.enable_sideband_cooling:
             s.sbc.run(self)
+        delay(s.post_delay)
