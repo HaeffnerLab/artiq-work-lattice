@@ -38,6 +38,7 @@ class CalibSideband(PulseSequence):
         self.sideband = self.p.CalibrationScans.selection_sideband
         self.set_subsequence["CalibSideband"] = self.set_subsequence_calibsideband
         rt = self.rcg_tabs
+        assert int(self.p.CalibrationScans.order) == self.p.CalibrationScans.order
         if self.p.CalibrationScans.order < 0:
             rt["CalibSideband"]["Spectrum.sideband_detuning"] = "CalibRed"
         else:
