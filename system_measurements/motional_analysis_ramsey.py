@@ -37,6 +37,7 @@ class MotionalAnalysisRamsey(PulseSequence):
         self.set_subsequence["MotionalRamsey"] = self.set_subsequence_motionalramsey
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
         self.agi_connected = False
+        self.wait_time = 0.
 
     @kernel
     def set_subsequence_motionalramsey(self):
@@ -52,7 +53,8 @@ class MotionalAnalysisRamsey(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        delay(2*ms)
+        self.wait_time = self.get_variable_parameter("MotionalAnalysis_ramsey_time")
+        #delay(2*ms)
 
     @kernel
     def MotionalRamsey(self):
