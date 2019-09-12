@@ -19,7 +19,7 @@ class RabiFlopping(PulseSequence):
     PulseSequence.scan_params = dict(
         RabiFlopping=[
             ("Rabi", ("RabiFlopping.duration", 0., 100e-6, 20, "us")),
-            ("Rabi", ("RabiFlopping.att_729", 0., 30, 1, "dB"))
+            ("Rabi", ("RabiFlopping.att_729", 0, 32, 1.0*dB, "dB"))
             #("Rabi", ("StatePreparation.post_delay", 0., 10*ms, 20, "ms"))
         ])
 
