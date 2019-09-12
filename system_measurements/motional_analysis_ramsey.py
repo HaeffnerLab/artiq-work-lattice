@@ -53,7 +53,7 @@ class MotionalAnalysisRamsey(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        self.wait_time = self.get_variable_parameter("MotionalAnalysis_ramsey_time")
+        self.wait_time = self.get_variable_parameter("MotionAnalysis_ramsey_time")
         #delay(2*ms)
 
     @kernel
