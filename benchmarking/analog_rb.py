@@ -56,9 +56,9 @@ class AnalogRB(PulseSequence):
         # initial_state will be a string: "SS", "SD", "DS", or "DD"
         initial_state = self.initial_states[self.sequence_number]
         if initial_state == "SD" or initial_state == "DD":
-            # TODO: pi pulse with global 729
+            # TODO_RYAN: pi pulse with global 729
         if initial_state == "SD" or initial_state == "DS":
-            # TODO: pi pulse with local 729
+            # TODO_RYAN: pi pulse with local 729
 
         # Run the simulation for each item in the sequence
         analog_rb_sequence = self.sequences[self.sequence_number]
@@ -70,6 +70,6 @@ class AnalogRB(PulseSequence):
 
         # undo the initial_state initialization so that we ideally end up back in SS
         if initial_state == "SD" or initial_state == "DS":
-            # TODO: -pi pulse with local 729
+            # TODO_RYAN: -pi pulse with local 729
         if initial_state == "SD" or initial_state == "DD":
-            # TODO: -pi pulse with global 729
+            # TODO_RYAN: -pi pulse with global 729

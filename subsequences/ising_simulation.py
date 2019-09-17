@@ -42,7 +42,7 @@ class IsingSimulation:
 
     def setup_noisy_single_pass(pulse_sequence):
         s = IsingSimulation
-        # TODO - generate the correct noisy waveform here
+        # TODO_RYAN - generate the correct noisy waveform here
         pulse_sequence.generate_single_pass_noise_waveform(
             mean=s.amp_blue,
             std=s.noise_fraction * s.amp_blue,
@@ -66,7 +66,7 @@ class IsingSimulation:
 
         local1_detuning = s.local1_detuning
         if alternate_basis:
-            # TODO: global z-rotation by pi/2 via AC stark shift
+            # TODO_RYAN: global z-rotation by pi/2 via AC stark shift
 
         trap_frequency = self.get_trap_frequency(s.selection_sideband)
         freq_red = 80*MHz - trap_frequency - s.detuning
@@ -134,5 +134,5 @@ class IsingSimulation:
         self.stop_noisy_single_pass(use_bichro=True)
 
         if alternate_basis:
-            # TODO: global rotation by -pi/2 via AC stark shift
+            # TODO_RYAN: global rotation by -pi/2 via AC stark shift
             pass
