@@ -33,15 +33,15 @@ class AnalogRB(PulseSequence):
         self.phase_ref_time = np.int64(0)
         self.set_subsequence["Benchmarking"] = self.set_subsequence_benchmarking
 
-        # load pickle file with analog RB sequences and initial states
-        filename = "analog_rb_sequences.pickle"
-        self.sequences_and_initial_states = pickle.load(open(filename, "rb"))
+        # load pickle files with analog RB sequences and initial states
+        self.sequences = pickle.load(open("analog_rb_sequences.pickle", "rb"))
+        self.initial_states = pickle.load(open("analog_rb_initial_states.pickle", "rb"))
 
     @kernel
     def set_subsequence_benchmarking(self):
         self.sequence_number = self.get_variable_parameter("Benchmarking_sequence_number")
-        analog_rb_sequence, initial_state = self.sequences_and_initial_states[self.sequence_number]
-        _, t_step, _ = analog_rb_sequence[0][0]
+        analog_rb_sequence = self.sequences[self.sequence_number]
+        _, t_step, _ = analog_rb_sequence[0]
         self.simulation.duration = t_step
         self.simulation.noise_fraction = self.get_variable_parameter("Benchmarking_amplitude_noise_fraction")
         self.simulation.setup_ramping(self)
@@ -53,15 +53,23 @@ class AnalogRB(PulseSequence):
 
         self.stateprep.run(self)
 
-        analog_rb_sequence, initial_state = self.sequences_and_initial_states[self.sequence_number]
-
-        # TODO: initialize to initial_state via pi pulses on global and/or local beams
+        # initial_state will be a string: "SS", "SD", "DS", or "DD"
+        initial_state = self.initial_states[self.sequence_number]
+        if initial_state == "SD" or initial_state == "DD":
+            # TODO: pi pulse with global 729
+        if initial_state == "SD" or initial_state == "DS":
+            # TODO: pi pulse with local 729
 
         # Run the simulation for each item in the sequence
+        analog_rb_sequence = self.sequences[self.sequence_number]
         for selected_h_terms, _, reverse_step in analog_rb_sequence[0]:
             self.simulation.reverse = reverse_step
             self.simulation.disable_global = (0 not in selected_h_terms)
             self.simulation.disable_local = (1 not in selected_h_terms)
             self.simulation.run(self)
 
-        # TODO: undo the initial_state initialization so that we ideally end up back in |SS>
+        # undo the initial_state initialization so that we ideally end up back in SS
+        if initial_state == "SD" or initial_state == "DS":
+            # TODO: -pi pulse with local 729
+        if initial_state == "SD" or initial_state == "DD":
+            # TODO: -pi pulse with global 729
