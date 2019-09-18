@@ -32,7 +32,7 @@ class AnalogMultiBasisBenchmarking(PulseSequence):
         self.simulation = self.add_subsequence(IsingSimulation)
         self.simulation.setup_noisy_single_pass(self)
         self.phase_ref_time = np.int64(0)
-        self.set_subsequence["Benchmarking"] = self.set_subsequence_benchmarking
+        self.set_subsequence["AnalogMultiBasisBenchmarking"] = self.set_subsequence_benchmarking
 
     @kernel
     def set_subsequence_benchmarking(self):
