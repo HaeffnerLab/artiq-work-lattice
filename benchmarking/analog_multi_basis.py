@@ -16,14 +16,22 @@ from artiq.experiment import *
 
 class AnalogMultiBasisBenchmarking(PulseSequence):
     PulseSequence.accessed_params = {
-        "Benchmarking.amplitude_noise_fraction",
         "Benchmarking.simulation_time",
+        "Benchmarking.fast_noise_fraction",
+        "Benchmarking.slow_noise_fraction",
+        "Benchmarking.parameter_miscalibration_fraction",
+        "Benchmarking.crosstalk_fraction",
+        "Benchmarking.control_leakage_fraction",
     }
 
     PulseSequence.scan_params.update(
         AnalogMultiBasisBenchmarking=[
-            ("Benchmarking", ("Benchmarking.amplitude_noise_fraction", 0., 0.5, 11)),
-            ("Benchmarking", ("Benchmarking.simulation_time", 0., 2*ms, 20, "ms")),
+            ("Benchmarking", ("Benchmarking.simulation_time", 0., 2*ms, 21, "ms")),
+            ("Benchmarking", ("Benchmarking.fast_noise_fraction", 0., 0.5, 11)),
+            ("Benchmarking", ("Benchmarking.slow_noise_fraction", 0., 0.5, 11)),
+            ("Benchmarking", ("Benchmarking.parameter_miscalibration_fraction", 0., 0.5, 11)),
+            ("Benchmarking", ("Benchmarking.crosstalk_fraction", 0., 0.5, 11)),
+            ("Benchmarking", ("Benchmarking.control_leakage_fraction", 0., 0.5, 11)),
         ]
     )
 
@@ -37,7 +45,11 @@ class AnalogMultiBasisBenchmarking(PulseSequence):
     @kernel
     def set_subsequence_benchmarking(self):
         self.simulation.duration = self.get_variable_parameter("Benchmarking_simulation_time")
-        self.simulation.noise_fraction = self.get_variable_parameter("Benchmarking_amplitude_noise_fraction")
+        self.simulation.fast_noise_fraction = self.get_variable_parameter("Benchmarking_fast_noise_fraction")
+        self.simulation.slow_noise_fraction = self.get_variable_parameter("Benchmarking_slow_noise_fraction")
+        self.simulation.parameter_miscalibration_fraction = self.get_variable_parameter("Benchmarking_parameter_miscalibration_fraction")
+        self.simulation.crosstalk_fraction = self.get_variable_parameter("Benchmarking_crosstalk_fraction")
+        self.simulation.control_leakage_fraction = self.get_variable_parameter("Benchmarking_control_leakage_fraction")
         self.simulation.setup_ramping(self)
 
     @kernel

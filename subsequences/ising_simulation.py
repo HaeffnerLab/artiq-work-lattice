@@ -18,34 +18,34 @@ class IsingSimulation:
     detuning_carrier_1="MolmerSorensen.detuning_carrier_1"
     detuning_carrier_2="MolmerSorensen.detuning_carrier_2"
 
-    local1_amp = "Benchmarking.local1_amp"
-    local1_att = "Benchmarking.local1_att"
-    local1_phase = "Benchmarking.local1_phase"
-    local1_detuning = "Benchmarking.local1_detuning"
-    local1_line_selection = "Benchmarking.local1_line_selection"
+    ac_stark_detuning = "Benchmarking.ac_stark_detuning"
 
     default_sp_amp_729="Excitation_729.single_pass_amplitude"
     default_sp_att_729="Excitation_729.single_pass_att"
 
     duration="Benchmarking.simulation_time"
-    noise_fraction="Benchmarking.amplitude_noise_fraction"
+    fast_noise_fraction="Benchmarking.fast_noise_fraction"
+    slow_noise_fraction="Benchmarking.slow_noise_fraction"
+    parameter_miscalibration_fraction="Benchmarking.parameter_miscalibration_fraction"
+    crosstalk_fraction="Benchmarking.crosstalk_fraction"
+    control_leakage_fraction="Benchmarking.control_leakage_fraction"
 
     phase_ref_time=np.int64(-1)
     use_ramping=False
     reverse=False
     alternate_basis=False
-    disable_global=False
-    disable_local=False
+    disable_coupling_term=False
+    disable_transverse_term=False
 
     def add_child_subsequences(pulse_sequence):
         s = IsingSimulation
 
     def setup_noisy_single_pass(pulse_sequence):
         s = IsingSimulation
-        # TODO_RYAN - generate the correct noisy waveform here
+        # TODO_RYAN: Generate the correct type of noisy waveform here
         pulse_sequence.generate_single_pass_noise_waveform(
             mean=s.amp_blue,
-            std=s.noise_fraction * s.amp_blue,
+            std=s.fast_noise_fraction * s.amp_blue,
             freq_noise=False)
 
     @kernel
@@ -53,85 +53,87 @@ class IsingSimulation:
         s = IsingSimulation
         s.use_ramping = True
         self.get_729_dds("729G")
-        self.get_729_dds("729L1", id=1)
         pulse_sequence.prepare_pulse_with_amplitude_ramp(
             pulse_duration=s.duration,
             ramp_duration=1*us,
-            dds1_amp=s.amp,
-            use_dds2=True, dds2_amp=s.local1_amp)
+            dds1_amp=s.amp)
         pulse_sequence.prepare_noisy_single_pass(freq_noise=False)
 
     def subsequence(self):
         s = IsingSimulation
 
-        local1_detuning = s.local1_detuning
+        if not s.use_ramping:
+            raise AssertionError("Must call setup_ramping before running subsequence")
+
+        # TODO_RYAN: Implement s.slow_noise_fraction
+        # TODO_RYAN: Implement s.parameter_miscalibration_fraction
+        # TODO_RYAN: Implement s.crosstalk_fraction
+        # TODO_RYAN: Implement s.control_leakage_fraction
+
+        ac_stark_detuning = s.ac_stark_detuning
         if alternate_basis:
             # TODO_RYAN: global z-rotation by pi/2 via AC stark shift
 
-        trap_frequency = self.get_trap_frequency(s.selection_sideband)
-        freq_red = 80*MHz - trap_frequency - s.detuning
-        freq_blue = 80*MHz + trap_frequency + s.detuning
+        ms_detuning = s.detuning
+        ac_stark_detuning = s.ac_stark_detuning
+        if s.reverse:
+            ms_detuning = -ms_detuning
+            ac_stark_detuning = -ac_stark_detuning
 
-        self.get_729_dds("729G")
-        self.get_729_dds("729L1", id=1)
-        offset = self.get_offset_frequency("729G")
-        freq_blue += offset
-        freq_red += offset
+        if s.disable_transverse_term:
+            ac_stark_detuning = 0.
 
-        phase_offset = 180. if s.reverse else 0.
+        phase_blue = 0.
+        if s.alternate_basis:
+            phase_blue = 180.
 
-        # Set double-pass to correct frequency and phase,
-        # and set amplitude to zero for now.
-        dp_freq = self.calc_frequency(
-            s.line_selection,
-            detuning=s.detuning_carrier_1,
-            dds="729G"
-        )
-        local1_dp_freq = self.calc_frequency(
-            s.local1_line_selection,
-            detuning=local1_detuning,
-            dds="729L1"
-        )
-        self.dds_729.set(dp_freq, amplitude=0., phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
-        self.dds_7291.set(local1_dp_freq, amplitude=0., phase=(s.local1_phase + phase_offset) / 360, ref_time_mu=s.phase_ref_time)
+        if not s.disable_coupling_term:
+            trap_frequency = self.get_trap_frequency(s.selection_sideband)
+            freq_red = 80*MHz - trap_frequency - ms_detuning
+            freq_blue = 80*MHz + trap_frequency + ms_detuning + ac_stark_detuning # TODO_RYAN: Is adding ac_stark_detuning here correct?
 
-        self.dds_729_SP.set(freq_blue, amplitude=0., phase=phase_offset, ref_time_mu=s.phase_ref_time)
-        self.dds_729_SP.set_att(s.att_blue)
-        self.dds_729_SP_bichro.set(freq_red, amplitude=0., phase=phase_offset, ref_time_mu=s.phase_ref_time)
-        self.dds_729_SP_bichro.set_att(s.att_red)
+            self.get_729_dds("729G")
+            offset = self.get_offset_frequency("729G")
+            freq_blue += offset
+            freq_red += offset
 
-        phase_blue = 180. if s.alternate_basis else 0.
-        self.start_noisy_single_pass(s.phase_ref_time,
-            freq_sp=freq_blue, amp_sp=s.amp_blue, att_sp=s.att_blue, phase_sp=phase_blue / 360,
-            use_bichro=True,
-            freq_sp_bichro=freq_red, amp_sp_bichro=s.amp_red, att_sp_bichro=s.att_red)
+            # Set double-pass to correct frequency and phase,
+            # and set amplitude to zero for now.
+            dp_freq = self.calc_frequency(
+                s.line_selection,
+                detuning=s.detuning_carrier_1,
+                dds="729G"
+            )
+            self.dds_729.set(dp_freq, amplitude=0., phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
 
-        local1_sp_freq = 80*MHz + self.get_offset_frequency("729L1")
-        self.start_noisy_single_pass(s.phase_ref_time,
-            freq_sp=local1_sp_freq, amp_sp=s.default_sp_amp_729, att_sp=s.default_sp_att_729, id=1)
+            self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=s.phase_ref_time)
+            self.dds_729_SP.set_att(s.att_blue)
+            self.dds_729_SP_bichro.set(freq_red, amplitude=0., ref_time_mu=s.phase_ref_time)
+            self.dds_729_SP_bichro.set_att(s.att_red)
 
-        if s.use_ramping and not s.disable_global:
-            self.execute_pulse_with_amplitude_ramp(
-                dds1_att=s.att, dds1_freq=dp_freq,
-                use_dds2=not s.disable_local,
-                dds2_att=s.local1_att, dds2_freq=local1_dp_freq)
-        else:
-            self.dds_729.set(dp_freq, amplitude=s.amp, phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
+            self.start_noisy_single_pass(s.phase_ref_time,
+                freq_sp=freq_blue, amp_sp=s.amp_blue, att_sp=s.att_blue, phase_sp=phase_blue / 360,
+                use_bichro=True,
+                freq_sp_bichro=freq_red, amp_sp_bichro=s.amp_red, att_sp_bichro=s.att_red)
+
+            self.execute_pulse_with_amplitude_ramp(dds1_att=s.att, dds1_freq=dp_freq)
+
+            self.stop_noisy_single_pass(use_bichro=True)
+
+        else if not s.disable_transverse_term:
+            # Implement only the ac stark shift here
+            self.dds_729.set(dp_freq + ac_stark_detuning, amplitude=s.amp, phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
             self.dds_729.set_att(s.att)
-            self.dds_7291.set(local1_dp_freq, amplitude=s.local1_amp, phase=s.local1_phase / 360, ref_time_mu=s.phase_ref_time)
-            self.dds_7291.set_att(s.local1_att)
 
-            with parallel:
-                if not s.disable_global:
-                    self.dds_729.sw.on()
-                if not s.disable_local:
-                    self.dds_7291.sw.on()
+            sp_freq_729 = 80*MHz + self.get_offset_frequency("729G")
+            self.start_noisy_single_pass(s.phase_ref_time,
+                freq_sp=sp_freq_729, amp_sp=s.default_sp_amp_729, att_sp=s.default_sp_att_729)
+
+            self.dds_729.sw.on()
             delay(s.duration)
-            with parallel:
-                self.dds_729.sw.off()
-                self.dds_7291.sw.off()
+            self.dds_729.sw.off()
 
-        self.stop_noisy_single_pass(use_bichro=True)
+            self.stop_noisy_single_pass()
 
         if alternate_basis:
             # TODO_RYAN: global rotation by -pi/2 via AC stark shift
