@@ -18,7 +18,11 @@ class IsingSimulation:
     detuning_carrier_1="MolmerSorensen.detuning_carrier_1"
     detuning_carrier_2="MolmerSorensen.detuning_carrier_2"
 
-    ac_stark_detuning = "Benchmarking.ac_stark_detuning"
+    ac_stark_detuning="Benchmarking.ac_stark_detuning"
+    ac_stark_pi_time="Benchmarking.ac_stark_pi_time"
+    ac_stark_amp="Benchmarking.global_amp"
+    ac_stark_att="Benchmarking.global_att"
+    ac_stark_line_selection="Benchmarking.global_line_selection"
 
     default_sp_amp_729="Excitation_729.single_pass_amplitude"
     default_sp_att_729="Excitation_729.single_pass_att"
@@ -39,6 +43,7 @@ class IsingSimulation:
 
     def add_child_subsequences(pulse_sequence):
         s = IsingSimulation
+        s.rabi = pulse_sequence.add_subsequence(RabiExcitation)
 
     def setup_noisy_single_pass(pulse_sequence):
         s = IsingSimulation
@@ -59,6 +64,21 @@ class IsingSimulation:
             dds1_amp=s.amp)
         pulse_sequence.prepare_noisy_single_pass(freq_noise=False)
 
+    @kernel
+    def ac_stark_pi_2_pulse(self, phase=0.):
+        s = IsingSimulation
+        s.rabi.channel_729 = "729G"
+        s.rabi.duration = s.ac_stark_pi_time/2
+        s.rabi.amp_729 = s.ac_stark_amp
+        s.rabi.att_729 = s.ac_stark_att
+        s.rabi.freq_729 = self.calc_frequency(
+            s.ac_stark_line_selection,
+            detuning=s.ac_stark_detuning,
+            dds=s.rabi.channel_729
+        )
+        s.rabi.phase_729 = phase
+        s.rabi.run()
+
     def subsequence(self):
         s = IsingSimulation
 
@@ -70,9 +90,9 @@ class IsingSimulation:
         # TODO_RYAN: Implement s.crosstalk_fraction
         # TODO_RYAN: Implement s.control_leakage_fraction
 
-        ac_stark_detuning = s.ac_stark_detuning
         if alternate_basis:
-            # TODO_RYAN: global z-rotation by pi/2 via AC stark shift
+            # global z-rotation by pi/2 via AC stark shift
+            ac_stark_pi_2_pulse(self)
 
         ms_detuning = s.detuning
         ac_stark_detuning = s.ac_stark_detuning
@@ -85,12 +105,13 @@ class IsingSimulation:
 
         phase_blue = 0.
         if s.alternate_basis:
+            # implement sigma_y sigma_y instead of sigma_x sigma_x
             phase_blue = 180.
 
         if not s.disable_coupling_term:
             trap_frequency = self.get_trap_frequency(s.selection_sideband)
-            freq_red = 80*MHz - trap_frequency - ms_detuning
-            freq_blue = 80*MHz + trap_frequency + ms_detuning + ac_stark_detuning # TODO_RYAN: Is adding ac_stark_detuning here correct?
+            freq_red = 80*MHz - trap_frequency - ms_detuning + ac_stark_detuning
+            freq_blue = 80*MHz + trap_frequency + ms_detuning + ac_stark_detuning
 
             self.get_729_dds("729G")
             offset = self.get_offset_frequency("729G")
@@ -136,5 +157,5 @@ class IsingSimulation:
             self.stop_noisy_single_pass()
 
         if alternate_basis:
-            # TODO_RYAN: global rotation by -pi/2 via AC stark shift
-            pass
+            # global z-rotation by -pi/2 via AC stark shift
+            ac_stark_pi_2_pulse(self, phase=180.)

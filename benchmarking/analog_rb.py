@@ -1,5 +1,6 @@
 from pulse_sequence import PulseSequence
 from subsequences.state_preparation import StatePreparation
+from subsequences.rabi_excitation import RabiExcitation
 from subsequences.ising_simulation import IsingSimulation
 import numpy as np
 import pickle
@@ -21,6 +22,14 @@ class AnalogRB(PulseSequence):
         "Benchmarking.parameter_miscalibration_fraction",
         "Benchmarking.crosstalk_fraction",
         "Benchmarking.control_leakage_fraction",
+        "Benchmarking.global_pi_time",
+        "Benchmarking.global_amp",
+        "Benchmarking.global_att",
+        "Benchmarking.global_line_selection",
+        "Benchmarking.local_pi_time",
+        "Benchmarking.local_amp",
+        "Benchmarking.local_att",
+        "Benchmarking.local_line_selection",
     }
 
     PulseSequence.scan_params.update(
@@ -36,6 +45,7 @@ class AnalogRB(PulseSequence):
 
     def run_initially(self):
         self.stateprep = self.add_subsequence(StatePreparation)
+        self.rabi = self.add_subsequence(RabiExcitation)
         self.simulation = self.add_subsequence(IsingSimulation)
         self.simulation.setup_noisy_single_pass(self)
         self.phase_ref_time = np.int64(0)
@@ -60,6 +70,32 @@ class AnalogRB(PulseSequence):
         self.simulation.setup_ramping(self)
 
     @kernel
+    def global_pi_pulse(self, phase=0.):
+        self.rabi.channel_729 = "729G"
+        self.rabi.duration = self.Benchmarking_global_pi_time
+        self.rabi.amp_729 = self.Benchmarking_global_amp
+        self.rabi.att_729 = self.Benchmarking_global_att
+        self.rabi.freq_729 = self.calc_frequency(
+            self.Benchmarking_global_line_selection,
+            dds=self.rabi.channel_729
+        )
+        self.rabi.phase_729 = phase
+        self.rabi.run()
+
+    @kernel
+    def local_pi_pulse(self, phase=0.):
+        self.rabi.channel_729 = "729L1"
+        self.rabi.duration = self.Benchmarking_local_pi_time
+        self.rabi.amp_729 = self.Benchmarking_local_amp
+        self.rabi.att_729 = self.Benchmarking_local_att
+        self.rabi.freq_729 = self.calc_frequency(
+            self.Benchmarking_local_line_selection,
+            dds=self.rabi.channel_729
+        )
+        self.rabi.phase_729 = phase
+        self.rabi.run()
+
+    @kernel
     def AnalogRB(self):
         self.phase_ref_time = now_mu()
         self.simulation.phase_ref_time = self.phase_ref_time
@@ -69,9 +105,9 @@ class AnalogRB(PulseSequence):
         # initial_state will be a string: "SS", "SD", "DS", or "DD"
         initial_state = self.initial_states[self.sequence_number]
         if initial_state == "SD" or initial_state == "DD":
-            # TODO_RYAN: pi pulse with global 729
+            self.global_pi_pulse()
         if initial_state == "SD" or initial_state == "DS":
-            # TODO_RYAN: pi pulse with local 729
+            self.local_pi_pulse()
 
         def is_term_selected(term_index, selected_terms):
             for term in selected_terms:
@@ -89,7 +125,7 @@ class AnalogRB(PulseSequence):
 
         # adjust for the final_state so that we ideally end up back in SS
         final_state = self.final_states[self.sequence_number]
-        if final_state == "SD" or final_state == "DS":
-            # TODO_RYAN: -pi pulse with local 729
-        if final_state == "SD" or final_state == "DD":
-            # TODO_RYAN: -pi pulse with global 729
+        if initial_state == "SD" or initial_state == "DS":
+            self.local_pi_pulse(phase=180.)
+        if initial_state == "SD" or initial_state == "DD":
+            self.global_pi_pulse(phase=180.)

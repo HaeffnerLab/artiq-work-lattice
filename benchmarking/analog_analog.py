@@ -1,5 +1,6 @@
 from pulse_sequence import PulseSequence
 from subsequences.state_preparation import StatePreparation
+from subsequences.rabi_excitation import RabiExcitation
 from subsequences.ising_simulation import IsingSimulation
 import numpy as np
 from artiq.experiment import *
@@ -21,6 +22,15 @@ class AnalogAnalogBenchmarking(PulseSequence):
         "Benchmarking.parameter_miscalibration_fraction",
         "Benchmarking.crosstalk_fraction",
         "Benchmarking.control_leakage_fraction",
+        "Benchmarking.initial_state",
+        "Benchmarking.global_pi_time",
+        "Benchmarking.global_amp",
+        "Benchmarking.global_att",
+        "Benchmarking.global_line_selection",
+        "Benchmarking.local_pi_time",
+        "Benchmarking.local_amp",
+        "Benchmarking.local_att",
+        "Benchmarking.local_line_selection",
     }
 
     PulseSequence.scan_params.update(
@@ -36,6 +46,7 @@ class AnalogAnalogBenchmarking(PulseSequence):
 
     def run_initially(self):
         self.stateprep = self.add_subsequence(StatePreparation)
+        self.rabi = self.add_subsequence(RabiExcitation)
         self.simulation = self.add_subsequence(IsingSimulation)
         self.simulation.setup_noisy_single_pass(self)
         self.phase_ref_time = np.int64(0)
@@ -52,14 +63,56 @@ class AnalogAnalogBenchmarking(PulseSequence):
         self.simulation.setup_ramping(self)
 
     @kernel
+    def global_pi_pulse(self, phase=0.):
+        self.rabi.channel_729 = "729G"
+        self.rabi.duration = self.Benchmarking_global_pi_time
+        self.rabi.amp_729 = self.Benchmarking_global_amp
+        self.rabi.att_729 = self.Benchmarking_global_att
+        self.rabi.freq_729 = self.calc_frequency(
+            self.Benchmarking_global_line_selection,
+            dds=self.rabi.channel_729
+        )
+        self.rabi.phase_729 = phase
+        self.rabi.run()
+
+    @kernel
+    def local_pi_pulse(self, phase=0.):
+        self.rabi.channel_729 = "729L1"
+        self.rabi.duration = self.Benchmarking_local_pi_time
+        self.rabi.amp_729 = self.Benchmarking_local_amp
+        self.rabi.att_729 = self.Benchmarking_local_att
+        self.rabi.freq_729 = self.calc_frequency(
+            self.Benchmarking_local_line_selection,
+            dds=self.rabi.channel_729
+        )
+        self.rabi.phase_729 = phase
+        self.rabi.run()
+
+    @kernel
     def AnalogAnalogBenchmarking(self):
         self.phase_ref_time = now_mu()
         self.simulation.phase_ref_time = self.phase_ref_time
+        self.rabi.phase_ref_time = self.phase_ref_time
 
         self.stateprep.run(self)
+
+        # initial_state will be a string: "SS", "SD", "DS", or "DD"
+        initial_state = self.Benchmarking_initial_state
+        if initial_state == "SD" or initial_state == "DD":
+            self.global_pi_pulse()
+        if initial_state == "SD" or initial_state == "DS":
+            self.local_pi_pulse()
+
         # run the simulation forward
         self.simulation.reverse = False
         self.simulation.run(self)
+
         # run the simulation backward
         self.simulation.reverse = True
         self.simulation.run(self)
+
+        # undo the initial_state preparation so that we ideally end up back in SS
+        if initial_state == "SD" or initial_state == "DS":
+            self.local_pi_pulse(phase=180.)
+        if initial_state == "SD" or initial_state == "DD":
+            self.global_pi_pulse(phase=180.)
