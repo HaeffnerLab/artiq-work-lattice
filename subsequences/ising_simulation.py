@@ -68,7 +68,7 @@ class IsingSimulation:
     def ac_stark_pi_2_pulse(self, phase=0.):
         s = IsingSimulation
         s.rabi.channel_729 = "729G"
-        s.rabi.duration = s.ac_stark_pi_time/2
+        s.rabi.duration = s.ac_stark_pi_time / 2.
         s.rabi.amp_729 = s.ac_stark_amp
         s.rabi.att_729 = s.ac_stark_att
         s.rabi.freq_729 = self.calc_frequency(
