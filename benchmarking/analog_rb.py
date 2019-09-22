@@ -16,30 +16,30 @@ from artiq.experiment import *
 
 class AnalogRB(PulseSequence):
     PulseSequence.accessed_params = {
-        "Benchmarking.sequence_number",
-        "Benchmarking.fast_noise_fraction",
-        "Benchmarking.slow_noise_fraction",
-        "Benchmarking.parameter_miscalibration_fraction",
-        "Benchmarking.crosstalk_fraction",
-        "Benchmarking.control_leakage_fraction",
-        "Benchmarking.global_pi_time",
-        "Benchmarking.global_amp",
-        "Benchmarking.global_att",
-        "Benchmarking.global_line_selection",
-        "Benchmarking.local_pi_time",
-        "Benchmarking.local_amp",
-        "Benchmarking.local_att",
-        "Benchmarking.local_line_selection",
+        "AnalogBenchmarking.sequence_number",
+        "AnalogBenchmarking.fast_noise_fraction",
+        "AnalogBenchmarking.slow_noise_fraction",
+        "AnalogBenchmarking.parameter_miscalibration_fraction",
+        "AnalogBenchmarking.crosstalk_fraction",
+        "AnalogBenchmarking.control_leakage_fraction",
+        "AnalogBenchmarking.global_pi_time",
+        "AnalogBenchmarking.global_amp",
+        "AnalogBenchmarking.global_att",
+        "AnalogBenchmarking.global_line_selection",
+        "AnalogBenchmarking.local_pi_time",
+        "AnalogBenchmarking.local_amp",
+        "AnalogBenchmarking.local_att",
+        "AnalogBenchmarking.local_line_selection",
     }
 
     PulseSequence.scan_params.update(
         AnalogRB=[
-            ("Benchmarking", ("Benchmarking.sequence_number", 1, 1, 200)),
-            ("Benchmarking", ("Benchmarking.fast_noise_fraction", 0., 0.5, 11)),
-            ("Benchmarking", ("Benchmarking.slow_noise_fraction", 0., 0.5, 11)),
-            ("Benchmarking", ("Benchmarking.parameter_miscalibration_fraction", 0., 0.5, 11)),
-            ("Benchmarking", ("Benchmarking.crosstalk_fraction", 0., 0.5, 11)),
-            ("Benchmarking", ("Benchmarking.control_leakage_fraction", 0., 0.5, 11)),
+            ("Benchmarking", ("AnalogBenchmarking.sequence_number", 1, 1, 200)),
+            ("Benchmarking", ("AnalogBenchmarking.fast_noise_fraction", 0., 0.5, 11)),
+            ("Benchmarking", ("AnalogBenchmarking.slow_noise_fraction", 0., 0.5, 11)),
+            ("Benchmarking", ("AnalogBenchmarking.parameter_miscalibration_fraction", 0., 0.5, 11)),
+            ("Benchmarking", ("AnalogBenchmarking.crosstalk_fraction", 0., 0.5, 11)),
+            ("Benchmarking", ("AnalogBenchmarking.control_leakage_fraction", 0., 0.5, 11)),
         ]
     )
 
@@ -58,25 +58,25 @@ class AnalogRB(PulseSequence):
 
     @kernel
     def set_subsequence_benchmarking(self):
-        self.sequence_number = self.get_variable_parameter("Benchmarking_sequence_number")
+        self.sequence_number = self.get_variable_parameter("AnalogBenchmarking_sequence_number")
         analog_rb_sequence = self.sequences[self.sequence_number]
         _, t_step, _ = analog_rb_sequence[0]
         self.simulation.duration = t_step
-        self.simulation.fast_noise_fraction = self.get_variable_parameter("Benchmarking_fast_noise_fraction")
-        self.simulation.slow_noise_fraction = self.get_variable_parameter("Benchmarking_slow_noise_fraction")
-        self.simulation.parameter_miscalibration_fraction = self.get_variable_parameter("Benchmarking_parameter_miscalibration_fraction")
-        self.simulation.crosstalk_fraction = self.get_variable_parameter("Benchmarking_crosstalk_fraction")
-        self.simulation.control_leakage_fraction = self.get_variable_parameter("Benchmarking_control_leakage_fraction")
+        self.simulation.fast_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_fast_noise_fraction")
+        self.simulation.slow_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_slow_noise_fraction")
+        self.simulation.parameter_miscalibration_fraction = self.get_variable_parameter("AnalogBenchmarking_parameter_miscalibration_fraction")
+        self.simulation.crosstalk_fraction = self.get_variable_parameter("AnalogBenchmarking_crosstalk_fraction")
+        self.simulation.control_leakage_fraction = self.get_variable_parameter("AnalogBenchmarking_control_leakage_fraction")
         self.simulation.setup_ramping(self)
 
     @kernel
     def global_pi_pulse(self, phase=0.):
         self.rabi.channel_729 = "729G"
-        self.rabi.duration = self.Benchmarking_global_pi_time
-        self.rabi.amp_729 = self.Benchmarking_global_amp
-        self.rabi.att_729 = self.Benchmarking_global_att
+        self.rabi.duration = self.AnalogBenchmarking_global_pi_time
+        self.rabi.amp_729 = self.AnalogBenchmarking_global_amp
+        self.rabi.att_729 = self.AnalogBenchmarking_global_att
         self.rabi.freq_729 = self.calc_frequency(
-            self.Benchmarking_global_line_selection,
+            self.AnalogBenchmarking_global_line_selection,
             dds=self.rabi.channel_729
         )
         self.rabi.phase_729 = phase
@@ -85,11 +85,11 @@ class AnalogRB(PulseSequence):
     @kernel
     def local_pi_pulse(self, phase=0.):
         self.rabi.channel_729 = "729L1"
-        self.rabi.duration = self.Benchmarking_local_pi_time
-        self.rabi.amp_729 = self.Benchmarking_local_amp
-        self.rabi.att_729 = self.Benchmarking_local_att
+        self.rabi.duration = self.AnalogBenchmarking_local_pi_time
+        self.rabi.amp_729 = self.AnalogBenchmarking_local_amp
+        self.rabi.att_729 = self.AnalogBenchmarking_local_att
         self.rabi.freq_729 = self.calc_frequency(
-            self.Benchmarking_local_line_selection,
+            self.AnalogBenchmarking_local_line_selection,
             dds=self.rabi.channel_729
         )
         self.rabi.phase_729 = phase

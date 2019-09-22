@@ -18,21 +18,21 @@ class IsingSimulation:
     detuning_carrier_1="MolmerSorensen.detuning_carrier_1"
     detuning_carrier_2="MolmerSorensen.detuning_carrier_2"
 
-    ac_stark_detuning="Benchmarking.ac_stark_detuning"
-    ac_stark_pi_time="Benchmarking.ac_stark_pi_time"
-    ac_stark_amp="Benchmarking.global_amp"
-    ac_stark_att="Benchmarking.global_att"
-    ac_stark_line_selection="Benchmarking.global_line_selection"
+    ac_stark_detuning="AnalogBenchmarking.ac_stark_detuning"
+    ac_stark_pi_time="AnalogBenchmarking.ac_stark_pi_time"
+    ac_stark_amp="AnalogBenchmarking.global_amp"
+    ac_stark_att="AnalogBenchmarking.global_att"
+    ac_stark_line_selection="AnalogBenchmarking.global_line_selection"
 
     default_sp_amp_729="Excitation_729.single_pass_amplitude"
     default_sp_att_729="Excitation_729.single_pass_att"
 
-    duration="Benchmarking.simulation_time"
-    fast_noise_fraction="Benchmarking.fast_noise_fraction"
-    slow_noise_fraction="Benchmarking.slow_noise_fraction"
-    parameter_miscalibration_fraction="Benchmarking.parameter_miscalibration_fraction"
-    crosstalk_fraction="Benchmarking.crosstalk_fraction"
-    control_leakage_fraction="Benchmarking.control_leakage_fraction"
+    duration="AnalogBenchmarking.simulation_time"
+    fast_noise_fraction="AnalogBenchmarking.fast_noise_fraction"
+    slow_noise_fraction="AnalogBenchmarking.slow_noise_fraction"
+    parameter_miscalibration_fraction="AnalogBenchmarking.parameter_miscalibration_fraction"
+    crosstalk_fraction="AnalogBenchmarking.crosstalk_fraction"
+    control_leakage_fraction="AnalogBenchmarking.control_leakage_fraction"
 
     phase_ref_time=np.int64(-1)
     use_ramping=False
