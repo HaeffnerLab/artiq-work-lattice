@@ -109,6 +109,12 @@ class IsingSimulation:
             # implement sigma_y sigma_y instead of sigma_x sigma_x
             phase_blue = 180.
 
+        dp_freq = self.calc_frequency(
+            s.line_selection,
+            detuning=s.detuning_carrier_1,
+            dds="729G"
+        )
+
         if not s.disable_coupling_term:
             trap_frequency = self.get_trap_frequency(s.selection_sideband)
             freq_red = 80*MHz - trap_frequency - ms_detuning + ac_stark_detuning
@@ -121,11 +127,6 @@ class IsingSimulation:
 
             # Set double-pass to correct frequency and phase,
             # and set amplitude to zero for now.
-            dp_freq = self.calc_frequency(
-                s.line_selection,
-                detuning=s.detuning_carrier_1,
-                dds="729G"
-            )
             self.dds_729.set(dp_freq, amplitude=0., phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
 
             self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=s.phase_ref_time)
