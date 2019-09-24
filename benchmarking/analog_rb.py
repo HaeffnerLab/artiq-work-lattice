@@ -52,9 +52,9 @@ class AnalogRB(PulseSequence):
         self.set_subsequence["AnalogRB"] = self.set_subsequence_benchmarking
 
         # load pickle files with analog RB sequences, initial states, and final states
-        self.sequences = pickle.load(open("analog_rb_sequences.pickle", "rb"))
-        self.initial_states = pickle.load(open("analog_rb_initial_states.pickle", "rb"))
-        self.final_states = pickle.load(open("analog_rb_final_states.pickle", "rb"))
+        self.sequences = pickle.load(open("benchmarking/analog_rb_sequences.pickle", "rb"))
+        self.initial_states = pickle.load(open("benchmarking/analog_rb_initial_states.pickle", "rb"))
+        self.final_states = pickle.load(open("benchmarking/analog_rb_final_states.pickle", "rb"))
 
     @kernel
     def set_subsequence_benchmarking(self):
