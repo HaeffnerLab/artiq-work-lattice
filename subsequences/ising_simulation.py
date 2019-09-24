@@ -78,7 +78,7 @@ class IsingSimulation:
             dds=s.rabi.channel_729
         )
         s.rabi.phase_729 = phase
-        s.rabi.run()
+        s.rabi.run(self)
 
     def subsequence(self):
         s = IsingSimulation
