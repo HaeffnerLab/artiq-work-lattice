@@ -60,7 +60,7 @@ class AnalogRB(PulseSequence):
 
     @kernel
     def set_subsequence_benchmarking(self):
-        self.sequence_number = self.get_variable_parameter("AnalogBenchmarking_sequence_number")
+        self.sequence_number = int(self.get_variable_parameter("AnalogBenchmarking_sequence_number"))
         analog_rb_sequence = self.sequences[self.sequence_number]
         _, t_step, _ = analog_rb_sequence[0]
         self.simulation.duration = t_step
