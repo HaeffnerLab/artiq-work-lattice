@@ -157,6 +157,6 @@ class IsingSimulation:
 
             self.stop_noisy_single_pass()
 
-        if alternate_basis:
+        if s.alternate_basis:
             # global z-rotation by -pi/2 via AC stark shift
             s.ac_stark_pi_2_pulse(self, phase=180.)
