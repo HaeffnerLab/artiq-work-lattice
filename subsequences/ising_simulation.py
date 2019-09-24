@@ -58,7 +58,7 @@ class IsingSimulation:
     def setup_ramping(pulse_sequence):
         s = IsingSimulation
         s.use_ramping = True
-        self.get_729_dds("729G")
+        pulse_sequence.get_729_dds("729G")
         pulse_sequence.prepare_pulse_with_amplitude_ramp(
             pulse_duration=s.duration,
             ramp_duration=1*us,
