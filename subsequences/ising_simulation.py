@@ -91,7 +91,7 @@ class IsingSimulation:
         # TODO_RYAN: Implement s.crosstalk_fraction
         # TODO_RYAN: Implement s.control_leakage_fraction
 
-        if alternate_basis:
+        if s.alternate_basis:
             # global z-rotation by pi/2 via AC stark shift
             ac_stark_pi_2_pulse(self)
 
