@@ -141,7 +141,7 @@ class IsingSimulation:
 
             self.stop_noisy_single_pass(use_bichro=True)
 
-        else if not s.disable_transverse_term:
+        elif not s.disable_transverse_term:
             # Implement only the ac stark shift here
             self.dds_729.set(dp_freq + ac_stark_detuning, amplitude=s.amp, phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
             self.dds_729.set_att(s.att)
