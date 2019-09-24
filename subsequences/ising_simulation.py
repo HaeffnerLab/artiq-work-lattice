@@ -93,7 +93,7 @@ class IsingSimulation:
 
         if s.alternate_basis:
             # global z-rotation by pi/2 via AC stark shift
-            ac_stark_pi_2_pulse(self)
+            s.ac_stark_pi_2_pulse(self)
 
         ms_detuning = s.detuning
         ac_stark_detuning = s.ac_stark_detuning
@@ -159,4 +159,4 @@ class IsingSimulation:
 
         if alternate_basis:
             # global z-rotation by -pi/2 via AC stark shift
-            ac_stark_pi_2_pulse(self, phase=180.)
+            s.ac_stark_pi_2_pulse(self, phase=180.)
