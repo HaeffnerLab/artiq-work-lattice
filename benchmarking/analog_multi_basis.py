@@ -74,7 +74,7 @@ class AnalogMultiBasisBenchmarking(PulseSequence):
             dds=self.rabi.channel_729
         )
         self.rabi.phase_729 = phase
-        self.rabi.run()
+        self.rabi.run(self)
 
     @kernel
     def local_pi_pulse(self, phase=0.):
@@ -87,7 +87,7 @@ class AnalogMultiBasisBenchmarking(PulseSequence):
             dds=self.rabi.channel_729
         )
         self.rabi.phase_729 = phase
-        self.rabi.run()
+        self.rabi.run(self)
 
     @kernel
     def AnalogMultiBasisBenchmarking(self):
