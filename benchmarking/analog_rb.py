@@ -34,7 +34,7 @@ class AnalogRB(PulseSequence):
 
     PulseSequence.scan_params.update(
         AnalogRB=[
-            ("Benchmarking", ("AnalogBenchmarking.sequence_number", 1, 1, 200)),
+            ("Benchmarking", ("AnalogBenchmarking.sequence_number", 1, 200, 200)),
             ("Benchmarking", ("AnalogBenchmarking.fast_noise_fraction", 0., 0.5, 11)),
             ("Benchmarking", ("AnalogBenchmarking.slow_noise_fraction", 0., 0.5, 11)),
             ("Benchmarking", ("AnalogBenchmarking.parameter_miscalibration_fraction", 0., 0.5, 11)),
@@ -120,8 +120,8 @@ class AnalogRB(PulseSequence):
         analog_rb_sequence = self.sequences[self.sequence_number]
         for selected_h_terms, _, reverse_step in analog_rb_sequence[0]:
             self.simulation.reverse = reverse_step
-            self.simulation.disable_coupling_term = not is_term_selected(0)
-            self.simulation.disable_transverse_term = not is_term_selected(1)
+            self.simulation.disable_coupling_term = not is_term_selected(0, selected_h_terms)
+            self.simulation.disable_transverse_term = not is_term_selected(1, selected_h_terms)
             self.simulation.run(self)
 
         # adjust for the final_state so that we ideally end up back in SS
