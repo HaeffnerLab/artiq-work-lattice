@@ -62,7 +62,7 @@ class AnalogRB(PulseSequence):
     def set_subsequence_benchmarking(self):
         self.sequence_number = int(self.get_variable_parameter("AnalogBenchmarking_sequence_number"))
         analog_rb_sequence = self.sequences[self.sequence_number]
-        _, t_step, reverse_step = analog_rb_sequence[0]
+        selected_h_terms, t_step, reverse_step = analog_rb_sequence[0]
         self.simulation.duration = t_step
         self.simulation.fast_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_fast_noise_fraction")
         self.simulation.slow_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_slow_noise_fraction")
@@ -119,7 +119,7 @@ class AnalogRB(PulseSequence):
 
         # Run the simulation for each item in the sequence
         analog_rb_sequence = self.sequences[self.sequence_number]
-        for selected_h_terms, _, reverse_step in analog_rb_sequence:
+        for selected_h_terms, t_step, reverse_step in analog_rb_sequence:
             self.simulation.reverse = reverse_step
             self.simulation.disable_coupling_term = not is_term_selected(0, selected_h_terms)
             self.simulation.disable_transverse_term = not is_term_selected(1, selected_h_terms)
