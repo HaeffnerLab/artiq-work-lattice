@@ -119,7 +119,7 @@ class AnalogRB(PulseSequence):
 
         # Run the simulation for each item in the sequence
         analog_rb_sequence = self.sequences[self.sequence_number]
-        for selected_h_terms, _, reverse_step in analog_rb_sequence[0]:
+        for selected_h_terms, _, reverse_step in analog_rb_sequence:
             self.simulation.reverse = reverse_step
             self.simulation.disable_coupling_term = not is_term_selected(0, selected_h_terms)
             self.simulation.disable_transverse_term = not is_term_selected(1, selected_h_terms)
