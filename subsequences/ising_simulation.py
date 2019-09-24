@@ -84,7 +84,7 @@ class IsingSimulation:
         s = IsingSimulation
 
         if not s.use_ramping:
-            raise AssertionError("Must call setup_ramping before running subsequence")
+            raise Exception("Must call setup_ramping before running subsequence")
 
         # TODO_RYAN: Implement s.slow_noise_fraction
         # TODO_RYAN: Implement s.parameter_miscalibration_fraction
