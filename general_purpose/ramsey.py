@@ -103,7 +103,6 @@ class Ramsey(PulseSequence):
     def Ramsey(self):
         self.rabi.phase_ref_time = now_mu()
         self.bsb_rabi.phase_ref_time = self.rabi.phase_ref_time
-        print("pi_time:", self.rabi.duration)
         self.stateprep.run(self)
         self.rabi.phase_729 = 0.
         if not self.Ramsey_echo:
