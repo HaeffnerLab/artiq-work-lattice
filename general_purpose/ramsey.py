@@ -93,7 +93,7 @@ class Ramsey(PulseSequence):
             self.line_selection, 
             detuning=self.Ramsey_detuning,
             sideband=self.Ramsey_selection_sideband,
-            order=1, 
+            order=1.0, 
             dds=self.Ramsey_channel_729
         )
         self.wait_time = self.get_variable_parameter("Ramsey_wait_time")
@@ -101,7 +101,7 @@ class Ramsey(PulseSequence):
     @kernel
     def Ramsey(self):
         self.rabi.phase_ref_time = now_mu()
-        self.bsb_rabi.phase_ref_time = now_mu()
+        self.bsb_rabi.phase_ref_time = self.rabi.phase_ref_time
         
         self.stateprep.run(self)
         self.rabi.phase_729 = 0.
