@@ -1,5 +1,6 @@
 from pulse_sequence import PulseSequence
 from subsequences.rabi_excitation import RabiExcitation
+from subsequences.rabi_excitation2 import RabiExcitation2  #Fix this later
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
@@ -40,7 +41,7 @@ class Ramsey(PulseSequence):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.Ramsey.channel_729  
-        self.bsb_rabi = self.add_subsequence(RabiExcitation)
+        self.bsb_rabi = self.add_subsequence(RabiExcitation2)
         self.bsb_rabi.channel_729 = self.p.Ramsey.channel_729
         self.set_subsequence["Ramsey"] = self.set_subsequence_ramsey
         if self.p.Ramsey.channel_729 == "729L1":
