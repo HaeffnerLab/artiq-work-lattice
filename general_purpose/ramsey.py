@@ -45,6 +45,7 @@ class Ramsey(PulseSequence):
         self.set_subsequence["Ramsey"] = self.set_subsequence_ramsey
         if self.p.Ramsey.channel_729 == "729L1":
             self.pi_time = self.p.Rotation729L1.pi_time
+            print("pi_time: ", self.pi_time)
             self.line_selection = self.p.Rotation729L1.line_selection
             self.amplitude = self.p.Rotation729L1.amplitude
             self.att = self.p.Rotation729L1.att
