@@ -45,7 +45,6 @@ class Ramsey(PulseSequence):
         self.set_subsequence["Ramsey"] = self.set_subsequence_ramsey
         if self.p.Ramsey.channel_729 == "729L1":
             self.pi_time = self.p.Rotation729L1.pi_time
-            print("pi_time: ", self.pi_time)
             self.line_selection = self.p.Rotation729L1.line_selection
             self.amplitude = self.p.Rotation729L1.amplitude
             self.att = self.p.Rotation729L1.att
@@ -103,7 +102,7 @@ class Ramsey(PulseSequence):
     def Ramsey(self):
         self.rabi.phase_ref_time = now_mu()
         self.bsb_rabi.phase_ref_time = self.rabi.phase_ref_time
-        
+        print("pi_time:", self.rabi.duration)
         self.stateprep.run(self)
         self.rabi.phase_729 = 0.
         if not self.Ramsey_echo:
