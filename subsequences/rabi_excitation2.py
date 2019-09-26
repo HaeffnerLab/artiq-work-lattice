@@ -17,7 +17,7 @@ class RabiExcitation2:
 
     @kernel
     def setup_ramping(self):
-        r = RabiExcitation        
+        r = RabiExcitation2        
         self.get_729_dds(r.channel_729)
         self.prepare_pulse_with_amplitude_ramp(
             pulse_duration=r.duration,
@@ -26,7 +26,7 @@ class RabiExcitation2:
         r.use_ramping = True
 
     def subsequence(self):
-        r = RabiExcitation
+        r = RabiExcitation2
         self.get_729_dds(r.channel_729)
 
         if r.use_ramping:
