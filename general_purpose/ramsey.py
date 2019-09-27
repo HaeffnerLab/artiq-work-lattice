@@ -13,6 +13,7 @@ class Ramsey(PulseSequence):
         "Ramsey.channel_729",
         "Ramsey.detuning",
         "Ramsey.echo",
+        "Ramsey.no_return",
         "Ramsey.bsb_pulse",
         "Rotation729L1.pi_time",
         "Rotation729L1.line_selection",
@@ -113,9 +114,10 @@ class Ramsey(PulseSequence):
                 self.bsb_rabi.run(self)
             delay_mu(self.core.seconds_to_mu(self.wait_time))
             self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase")
-            if self.Ramsey_bsb_pulse:
-                self.bsb_rabi.run(self)
-            self.rabi.run(self)
+            if not self.Ramse_no_return:
+                if self.Ramsey_bsb_pulse:
+                    self.bsb_rabi.run(self)
+                self.rabi.run(self)
         else:
             self.rabi.run(self)
             if self.Ramsey_bsb_pulse:
