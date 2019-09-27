@@ -29,6 +29,7 @@ class Ramsey(PulseSequence):
         "Rotation729G.line_selection",
         "Rotation729G.amplitude",
         "Rotation729G.att",
+        "RabiFlopping.detuning"
     }
 
     PulseSequence.scan_params = dict(
@@ -97,6 +98,7 @@ class Ramsey(PulseSequence):
             order=1.0, 
             dds=self.Ramsey_channel_729
         )
+        self.bsb_rabi.freq_729 += self.RabiFlopping_detuning
         self.wait_time = self.get_variable_parameter("Ramsey_wait_time")
 
     @kernel
