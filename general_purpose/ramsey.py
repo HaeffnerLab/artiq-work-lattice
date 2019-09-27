@@ -99,7 +99,7 @@ class Ramsey(PulseSequence):
         )
         self.bsb_rabi.freq_729 += self.RabiFlopping_detuning
         self.wait_time = self.get_variable_parameter("Ramsey_wait_time")
-        print("bsb_duration: ", self.bsb_rabi.duration)
+        print("bsb_pulse: ", self.Ramsey_bsb_pulse)
 
     @kernel
     def Ramsey(self):
