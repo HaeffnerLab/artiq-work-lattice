@@ -75,6 +75,7 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.amp_729 = self.DriftTrackerRamsey_line1_amplitude
         self.rabi.att_729 = self.DriftTrackerRamsey_line_1_att
         self.rabi.freq_729 = self.calc_frequency(
+                    detuning=0.0,
                     self.DriftTracker_line_selection_1, 
                     dds=self.DriftTrackerRamsey_channel_729
                 )
@@ -140,6 +141,7 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.amp_729 = self.DriftTrackerRamsey_line_2_amplitude
         self.rabi.att_729 = self.DriftTrackerRamsey_line_2_att
         self.rabi.freq_729 = self.calc_frequency(
+                    detuning=0.0,
                     self.DriftTracker_line_selection_2, 
                     dds=self.DriftTrackerRamsey_channel_729
                 )
