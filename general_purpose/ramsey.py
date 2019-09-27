@@ -95,7 +95,7 @@ class Ramsey(PulseSequence):
             self.line_selection, 
             detuning=self.RabiFlopping_detuning,
             sideband=self.Ramsey_selection_sideband,
-            order=1.0, 
+            order=0.0, 
             dds=self.Ramsey_channel_729
         )
         print("freqbsb: ", self.bsb_rabi.freq_729)
