@@ -92,14 +92,13 @@ class Ramsey(PulseSequence):
         self.bsb_rabi.att_729 = self.att
         self.bsb_rabi.freq_729 = self.calc_frequency(
             self.line_selection, 
-            detuning=self.Ramsey_detuning,
+            detuning=self.RabiFlopping_detuning,
             sideband=self.Ramsey_selection_sideband,
             order=1.0, 
             dds=self.Ramsey_channel_729
         )
-        self.bsb_rabi.freq_729 += self.RabiFlopping_detuning
         self.wait_time = self.get_variable_parameter("Ramsey_wait_time")
-        print("bsb_pulse: ", self.Ramsey_bsb_pulse)
+        print("bsb_pulse: ", self.Ramsey_bsb_pulset)
 
     @kernel
     def Ramsey(self):
