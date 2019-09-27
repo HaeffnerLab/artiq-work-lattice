@@ -116,10 +116,14 @@ class Ramsey(PulseSequence):
             self.rabi.run(self)
         else:
             self.rabi.run(self)
+            if self.Ramsey_bsb_pulse:
+                self.bsb_rabi.run(self)
             delay(self.wait_time / 2)
             self.rabi.duration = self.pi_time
             self.rabi.run(self)
             delay(self.wait_time / 2)
+            if self.Ramsey_bsb_pulse:
+                self.bsb_rabi.run(self)
             self.rabi.duration = self.pi_time / 2
             if self.selected_scan_name == "Ramsey_phase":
                 self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase")
