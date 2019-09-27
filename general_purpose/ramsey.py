@@ -89,8 +89,8 @@ class Ramsey(PulseSequence):
         )
         print("freq: ", self.rabi.freq_729)
         self.bsb_rabi.duration = self.bsb_pi_time
-        self.bsb_rabi.amp_729 = self.amplitude
-        self.bsb_rabi.att_729 = self.att
+        self.bsb_rabi.amp_729 = self.bsb_amplitude
+        self.bsb_rabi.att_729 = self.bsb_att
         self.bsb_rabi.freq_729 = self.calc_frequency(
             self.line_selection, 
             detuning=self.RabiFlopping_detuning,
