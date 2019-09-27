@@ -98,7 +98,6 @@ class Ramsey(PulseSequence):
             dds=self.Ramsey_channel_729
         )
         self.wait_time = self.get_variable_parameter("Ramsey_wait_time")
-        print("bsb_pulse: ", self.Ramsey_bsb_pulset)
 
     @kernel
     def Ramsey(self):
