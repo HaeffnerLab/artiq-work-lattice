@@ -57,14 +57,13 @@ class AnalogRB(PulseSequence):
         self.sequences = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_sequences.pickle"), "rb"))
         self.initial_states = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_initial_states.pickle"), "rb"))
         self.final_states = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_final_states.pickle"), "rb"))
-        print(self.sequences)
 
     @kernel
     def set_subsequence_benchmarking(self):
         self.sequence_number = int(self.get_variable_parameter("AnalogBenchmarking_sequence_number") - 1)
-        #analog_rb_sequence = self.sequences[self.sequence_number]
-        #selected_h_terms, t_step, reverse_step = analog_rb_sequence[0]
-        #self.simulation.duration = t_step
+        analog_rb_sequence = self.sequences[self.sequence_number]
+        selected_term_0, selected_term_1, t_step, reverse_step = analog_rb_sequence
+        self.simulation.duration = t_step
         self.simulation.fast_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_fast_noise_fraction")
         self.simulation.slow_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_slow_noise_fraction")
         self.simulation.parameter_miscalibration_fraction = self.get_variable_parameter("AnalogBenchmarking_parameter_miscalibration_fraction")
@@ -99,13 +98,6 @@ class AnalogRB(PulseSequence):
         self.rabi.run(self)
 
     @kernel
-    def is_term_selected(self, term_index, selected_terms):
-        for term in selected_terms:
-            if term_index == term:
-                return True
-        return False
-
-    @kernel
     def AnalogRB(self):
         self.phase_ref_time = now_mu()
         self.simulation.phase_ref_time = self.phase_ref_time
@@ -120,12 +112,12 @@ class AnalogRB(PulseSequence):
             self.local_pi_pulse()
 
         # Run the simulation for each item in the sequence
-        # analog_rb_sequence = self.sequences[self.sequence_number]
-        # for selected_h_terms, t_step, reverse_step in analog_rb_sequence:
-        #     self.simulation.reverse = reverse_step
-        #     self.simulation.disable_coupling_term = not self.is_term_selected(0, selected_h_terms)
-        #     self.simulation.disable_transverse_term = not self.is_term_selected(1, selected_h_terms)
-        #     self.simulation.run(self)
+        analog_rb_sequence = self.sequences[self.sequence_number]
+        for selected_term_0, selected_term_1, t_step, reverse_step in analog_rb_sequence:
+            self.simulation.reverse = reverse_step
+            self.simulation.disable_coupling_term = not selected_term_0
+            self.simulation.disable_transverse_term = not selected_term_1
+            self.simulation.run(self)
 
         # adjust for the final_state so that we ideally end up back in SS
         final_state = self.final_states[self.sequence_number]
