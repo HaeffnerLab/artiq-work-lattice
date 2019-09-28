@@ -112,23 +112,23 @@ class AnalogRB(PulseSequence):
         self.stateprep.run(self)
 
         # initial_state will be a string: "SS", "SD", "DS", or "DD"
-        # initial_state = self.initial_states[self.sequence_number]
-        # if initial_state == "SD" or initial_state == "DD":
-        #     self.global_pi_pulse()
-        # if initial_state == "SD" or initial_state == "DS":
-        #     self.local_pi_pulse()
+        initial_state = self.initial_states[self.sequence_number]
+        if initial_state == "SD" or initial_state == "DD":
+            self.global_pi_pulse()
+        if initial_state == "SD" or initial_state == "DS":
+            self.local_pi_pulse()
 
         # Run the simulation for each item in the sequence
-        # analog_rb_sequence = self.sequences[self.sequence_number]
-        # for selected_h_terms, t_step, reverse_step in analog_rb_sequence:
-        #     self.simulation.reverse = reverse_step
-        #     self.simulation.disable_coupling_term = not self.is_term_selected(0, selected_h_terms)
-        #     self.simulation.disable_transverse_term = not self.is_term_selected(1, selected_h_terms)
-        #     self.simulation.run(self)
+        analog_rb_sequence = self.sequences[self.sequence_number]
+        for selected_h_terms, t_step, reverse_step in analog_rb_sequence:
+            self.simulation.reverse = reverse_step
+            self.simulation.disable_coupling_term = not self.is_term_selected(0, selected_h_terms)
+            self.simulation.disable_transverse_term = not self.is_term_selected(1, selected_h_terms)
+            self.simulation.run(self)
 
         # adjust for the final_state so that we ideally end up back in SS
-        # final_state = self.final_states[self.sequence_number]
-        # if initial_state == "SD" or initial_state == "DS":
-        #     self.local_pi_pulse(phase=180.)
-        # if initial_state == "SD" or initial_state == "DD":
-        #     self.global_pi_pulse(phase=180.)
+        final_state = self.final_states[self.sequence_number]
+        if initial_state == "SD" or initial_state == "DS":
+            self.local_pi_pulse(phase=180.)
+        if initial_state == "SD" or initial_state == "DD":
+            self.global_pi_pulse(phase=180.)
