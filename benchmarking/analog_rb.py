@@ -62,7 +62,6 @@ class AnalogRB(PulseSequence):
     def set_subsequence_benchmarking(self):
         self.sequence_number = int(self.get_variable_parameter("AnalogBenchmarking_sequence_number") - 1)
         analog_rb_sequence = self.sequences[self.sequence_number]
-        print(self.sequence_number)
         print(analog_rb_sequence)
         self.core.break_realtime()
         #selected_h_terms, t_step, reverse_step = analog_rb_sequence[0]
