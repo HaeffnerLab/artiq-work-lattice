@@ -44,6 +44,7 @@ class HeatingRate(PulseSequence):
         self.run_after["CalibRed"] = self.analyze_calibred
         self.run_after["CalibBlue"] = self.analyze_calibblue
         self.plotname = "HeatingRate-" + str(datetime.now().strftime("%H%M_%S"))
+        assert int(self.p.CalibrationScans.order) == self.p.CalibrationScans.order, "SB order needs to be int"
 
     @kernel
     def set_subsequence_calibred(self):

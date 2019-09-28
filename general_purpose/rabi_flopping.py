@@ -18,7 +18,9 @@ class RabiFlopping(PulseSequence):
 
     PulseSequence.scan_params = dict(
         RabiFlopping=[
-            ("Rabi", ("RabiFlopping.duration", 0., 100e-6, 20, "us"))
+            ("Rabi", ("RabiFlopping.duration", 0., 100e-6, 20, "us")),
+            ("Rabi", ("RabiFlopping.att_729", 0*dB, 32*dB, 1*dB, "dB"))
+            #("Rabi", ("StatePreparation.post_delay", 0., 10*ms, 20, "ms"))
         ])
 
     def run_initially(self):
@@ -31,7 +33,7 @@ class RabiFlopping(PulseSequence):
     def set_subsequence_rabiflopping(self):
         self.rabi.duration = self.get_variable_parameter("RabiFlopping_duration")
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
-        self.rabi.att_729 = self.RabiFlopping_att_729
+        #self.rabi.att_729 = self.RabiFlopping_att_729
         self.rabi.freq_729 = self.calc_frequency(
             self.RabiFlopping_line_selection, 
             detuning=self.RabiFlopping_detuning,
@@ -41,9 +43,12 @@ class RabiFlopping(PulseSequence):
         )
         if self.rabi.duration > 0:
             self.rabi.setup_ramping(self)
+        self.rabi.att_729=self.get_variable_parameter("RabiFlopping_att_729")
+        #self.stateprep.post_delay=self.get_variable_parameter("StatePreparation_post_delay")
 
     @kernel
     def RabiFlopping(self):
         self.stateprep.run(self)
         self.rabi.run(self)
+        
         

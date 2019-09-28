@@ -34,7 +34,7 @@ class AnalogRB(PulseSequence):
 
     PulseSequence.scan_params.update(
         AnalogRB=[
-            ("Benchmarking", ("AnalogBenchmarking.sequence_number", 1, 1, 200)),
+            ("Benchmarking", ("AnalogBenchmarking.sequence_number", 1, 200, 200)),
             ("Benchmarking", ("AnalogBenchmarking.fast_noise_fraction", 0., 0.5, 11)),
             ("Benchmarking", ("AnalogBenchmarking.slow_noise_fraction", 0., 0.5, 11)),
             ("Benchmarking", ("AnalogBenchmarking.parameter_miscalibration_fraction", 0., 0.5, 11)),
@@ -49,18 +49,20 @@ class AnalogRB(PulseSequence):
         self.simulation = self.add_subsequence(IsingSimulation)
         self.simulation.setup_noisy_single_pass(self)
         self.phase_ref_time = np.int64(0)
+        self.sequence_number = 1
         self.set_subsequence["AnalogRB"] = self.set_subsequence_benchmarking
 
         # load pickle files with analog RB sequences, initial states, and final states
-        self.sequences = pickle.load(open("analog_rb_sequences.pickle", "rb"))
-        self.initial_states = pickle.load(open("analog_rb_initial_states.pickle", "rb"))
-        self.final_states = pickle.load(open("analog_rb_final_states.pickle", "rb"))
+        benchmarking_dir = os.path.join(os.path.expanduser("~"), "artiq-work", "benchmarking")
+        self.sequences = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_sequences.pickle"), "rb"))
+        self.initial_states = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_initial_states.pickle"), "rb"))
+        self.final_states = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_final_states.pickle"), "rb"))
 
     @kernel
     def set_subsequence_benchmarking(self):
-        self.sequence_number = self.get_variable_parameter("AnalogBenchmarking_sequence_number")
+        self.sequence_number = int(self.get_variable_parameter("AnalogBenchmarking_sequence_number"))
         analog_rb_sequence = self.sequences[self.sequence_number]
-        _, t_step, _ = analog_rb_sequence[0]
+        selected_h_terms, t_step, reverse_step = analog_rb_sequence[0]
         self.simulation.duration = t_step
         self.simulation.fast_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_fast_noise_fraction")
         self.simulation.slow_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_slow_noise_fraction")
@@ -80,7 +82,7 @@ class AnalogRB(PulseSequence):
             dds=self.rabi.channel_729
         )
         self.rabi.phase_729 = phase
-        self.rabi.run()
+        self.rabi.run(self)
 
     @kernel
     def local_pi_pulse(self, phase=0.):
@@ -93,7 +95,14 @@ class AnalogRB(PulseSequence):
             dds=self.rabi.channel_729
         )
         self.rabi.phase_729 = phase
-        self.rabi.run()
+        self.rabi.run(self)
+
+    @kernel
+    def is_term_selected(self, term_index, selected_terms):
+        for term in selected_terms:
+            if term_index == term:
+                return True
+        return False
 
     @kernel
     def AnalogRB(self):
@@ -109,18 +118,12 @@ class AnalogRB(PulseSequence):
         if initial_state == "SD" or initial_state == "DS":
             self.local_pi_pulse()
 
-        def is_term_selected(term_index, selected_terms):
-            for term in selected_terms:
-                if term_index == term:
-                    return True
-            return False
-
         # Run the simulation for each item in the sequence
         analog_rb_sequence = self.sequences[self.sequence_number]
-        for selected_h_terms, _, reverse_step in analog_rb_sequence[0]:
+        for selected_h_terms, t_step, reverse_step in analog_rb_sequence:
             self.simulation.reverse = reverse_step
-            self.simulation.disable_coupling_term = not is_term_selected(0)
-            self.simulation.disable_transverse_term = not is_term_selected(1)
+            self.simulation.disable_coupling_term = not self.is_term_selected(0, selected_h_terms)
+            self.simulation.disable_transverse_term = not self.is_term_selected(1, selected_h_terms)
             self.simulation.run(self)
 
         # adjust for the final_state so that we ideally end up back in SS

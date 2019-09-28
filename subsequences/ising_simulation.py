@@ -1,6 +1,7 @@
 from artiq.experiment import *
 from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP, RAM_DEST_ASF
 from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
+from subsequences.rabi_excitation import RabiExcitation
 import numpy as np
 
 
@@ -57,7 +58,7 @@ class IsingSimulation:
     def setup_ramping(pulse_sequence):
         s = IsingSimulation
         s.use_ramping = True
-        self.get_729_dds("729G")
+        pulse_sequence.get_729_dds("729G")
         pulse_sequence.prepare_pulse_with_amplitude_ramp(
             pulse_duration=s.duration,
             ramp_duration=1*us,
@@ -77,22 +78,22 @@ class IsingSimulation:
             dds=s.rabi.channel_729
         )
         s.rabi.phase_729 = phase
-        s.rabi.run()
+        s.rabi.run(self)
 
     def subsequence(self):
         s = IsingSimulation
 
         if not s.use_ramping:
-            raise AssertionError("Must call setup_ramping before running subsequence")
+            raise Exception("Must call setup_ramping before running subsequence")
 
         # TODO_RYAN: Implement s.slow_noise_fraction
         # TODO_RYAN: Implement s.parameter_miscalibration_fraction
         # TODO_RYAN: Implement s.crosstalk_fraction
         # TODO_RYAN: Implement s.control_leakage_fraction
 
-        if alternate_basis:
+        if s.alternate_basis:
             # global z-rotation by pi/2 via AC stark shift
-            ac_stark_pi_2_pulse(self)
+            s.ac_stark_pi_2_pulse(self)
 
         ms_detuning = s.detuning
         ac_stark_detuning = s.ac_stark_detuning
@@ -108,6 +109,12 @@ class IsingSimulation:
             # implement sigma_y sigma_y instead of sigma_x sigma_x
             phase_blue = 180.
 
+        dp_freq = self.calc_frequency(
+            s.line_selection,
+            detuning=s.detuning_carrier_1,
+            dds="729G"
+        )
+
         if not s.disable_coupling_term:
             trap_frequency = self.get_trap_frequency(s.selection_sideband)
             freq_red = 80*MHz - trap_frequency - ms_detuning + ac_stark_detuning
@@ -120,11 +127,6 @@ class IsingSimulation:
 
             # Set double-pass to correct frequency and phase,
             # and set amplitude to zero for now.
-            dp_freq = self.calc_frequency(
-                s.line_selection,
-                detuning=s.detuning_carrier_1,
-                dds="729G"
-            )
             self.dds_729.set(dp_freq, amplitude=0., phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
 
             self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=s.phase_ref_time)
@@ -141,7 +143,7 @@ class IsingSimulation:
 
             self.stop_noisy_single_pass(use_bichro=True)
 
-        else if not s.disable_transverse_term:
+        elif not s.disable_transverse_term:
             # Implement only the ac stark shift here
             self.dds_729.set(dp_freq + ac_stark_detuning, amplitude=s.amp, phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
             self.dds_729.set_att(s.att)
@@ -156,6 +158,6 @@ class IsingSimulation:
 
             self.stop_noisy_single_pass()
 
-        if alternate_basis:
+        if s.alternate_basis:
             # global z-rotation by -pi/2 via AC stark shift
-            ac_stark_pi_2_pulse(self, phase=180.)
+            s.ac_stark_pi_2_pulse(self, phase=180.)
