@@ -61,7 +61,11 @@ class AnalogRB(PulseSequence):
     @kernel
     def set_subsequence_benchmarking(self):
         self.sequence_number = int(self.get_variable_parameter("AnalogBenchmarking_sequence_number"))
-        #analog_rb_sequence = self.sequences[self.sequence_number]
+        print(self.sequence_number)
+        self.core.break_realtime()
+        analog_rb_sequence = self.sequences[self.sequence_number]
+        print(analog_rb_sequence)
+        self.core.break_realtime()
         #selected_h_terms, t_step, reverse_step = analog_rb_sequence[0]
         #self.simulation.duration = t_step
         self.simulation.fast_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_fast_noise_fraction")
@@ -119,12 +123,12 @@ class AnalogRB(PulseSequence):
             self.local_pi_pulse()
 
         # Run the simulation for each item in the sequence
-        analog_rb_sequence = self.sequences[self.sequence_number]
-        for selected_h_terms, t_step, reverse_step in analog_rb_sequence:
-            self.simulation.reverse = reverse_step
-            self.simulation.disable_coupling_term = not self.is_term_selected(0, selected_h_terms)
-            self.simulation.disable_transverse_term = not self.is_term_selected(1, selected_h_terms)
-            self.simulation.run(self)
+        # analog_rb_sequence = self.sequences[self.sequence_number]
+        # for selected_h_terms, t_step, reverse_step in analog_rb_sequence:
+        #     self.simulation.reverse = reverse_step
+        #     self.simulation.disable_coupling_term = not self.is_term_selected(0, selected_h_terms)
+        #     self.simulation.disable_transverse_term = not self.is_term_selected(1, selected_h_terms)
+        #     self.simulation.run(self)
 
         # adjust for the final_state so that we ideally end up back in SS
         final_state = self.final_states[self.sequence_number]
