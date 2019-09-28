@@ -53,23 +53,23 @@ class AnalogRB(PulseSequence):
         self.set_subsequence["AnalogRB"] = self.set_subsequence_benchmarking
 
         # load pickle files with analog RB sequences, initial states, and final states
-        #benchmarking_dir = os.path.join(os.path.expanduser("~"), "artiq-work", "benchmarking")
-        #self.sequences = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_sequences.pickle"), "rb"))
-        #self.initial_states = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_initial_states.pickle"), "rb"))
-        #self.final_states = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_final_states.pickle"), "rb"))
+        # benchmarking_dir = os.path.join(os.path.expanduser("~"), "artiq-work", "benchmarking")
+        # self.sequences = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_sequences.pickle"), "rb"))
+        # self.initial_states = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_initial_states.pickle"), "rb"))
+        # self.final_states = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_final_states.pickle"), "rb"))
 
     @kernel
     def set_subsequence_benchmarking(self):
         self.sequence_number = int(self.get_variable_parameter("AnalogBenchmarking_sequence_number"))
-        analog_rb_sequence = self.sequences[self.sequence_number]
-        selected_h_terms, t_step, reverse_step = analog_rb_sequence[0]
-        self.simulation.duration = t_step
-        self.simulation.fast_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_fast_noise_fraction")
-        self.simulation.slow_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_slow_noise_fraction")
-        self.simulation.parameter_miscalibration_fraction = self.get_variable_parameter("AnalogBenchmarking_parameter_miscalibration_fraction")
-        self.simulation.crosstalk_fraction = self.get_variable_parameter("AnalogBenchmarking_crosstalk_fraction")
-        self.simulation.control_leakage_fraction = self.get_variable_parameter("AnalogBenchmarking_control_leakage_fraction")
-        self.simulation.setup_ramping(self)
+        # analog_rb_sequence = self.sequences[self.sequence_number]
+        # selected_h_terms, t_step, reverse_step = analog_rb_sequence[0]
+        # self.simulation.duration = t_step
+        # self.simulation.fast_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_fast_noise_fraction")
+        # self.simulation.slow_noise_fraction = self.get_variable_parameter("AnalogBenchmarking_slow_noise_fraction")
+        # self.simulation.parameter_miscalibration_fraction = self.get_variable_parameter("AnalogBenchmarking_parameter_miscalibration_fraction")
+        # self.simulation.crosstalk_fraction = self.get_variable_parameter("AnalogBenchmarking_crosstalk_fraction")
+        # self.simulation.control_leakage_fraction = self.get_variable_parameter("AnalogBenchmarking_control_leakage_fraction")
+        # self.simulation.setup_ramping(self)
 
     @kernel
     def global_pi_pulse(self, phase=0.):
