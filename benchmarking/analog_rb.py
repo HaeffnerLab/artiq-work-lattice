@@ -114,6 +114,7 @@ class AnalogRB(PulseSequence):
 
         # Run the simulation for each item in the sequence
         for i in range(len(self.sequences_reverse_step[self.sequence_number])):
+            # TODO_RYAN: Optimize or move this delay so it doesn't interrupt the pulse sequence
             delay(1*ms)
             self.simulation.reverse = self.sequences_reverse_step[self.sequence_number][i]
             self.simulation.disable_coupling_term = not self.sequences_enable_0[self.sequence_number][i]
