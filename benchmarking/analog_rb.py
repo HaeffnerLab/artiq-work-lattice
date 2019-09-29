@@ -2,7 +2,7 @@ from pulse_sequence import PulseSequence
 from subsequences.state_preparation import StatePreparation
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.ising_simulation import IsingSimulation
-from artiq.coredevice.dma import DMA
+from artiq.coredevice.dma import CoreDMA
 import numpy as np
 import pickle
 import os
@@ -104,8 +104,8 @@ class AnalogRB(PulseSequence):
         self.phase_ref_time = now_mu()
         self.simulation.phase_ref_time = self.phase_ref_time
 
-        dma_pulse_sequence = DMA("AnalogRB")
-        with dma_pulse_sequence:
+        dma = CoreDMA()
+        with CoreDMA.record("AnalogRB"):
             self.stateprep.run(self)
 
             # initial_state will be a string: "SS", "SD", "DS", or "DD"
@@ -132,4 +132,4 @@ class AnalogRB(PulseSequence):
             if initial_state == "SD" or initial_state == "DD":
                 self.global_pi_pulse(phase=180.)
         
-        dma_pulse_sequence.play()
+        dma.playback("AnalogRB")
