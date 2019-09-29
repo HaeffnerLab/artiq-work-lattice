@@ -105,7 +105,7 @@ class AnalogRB(PulseSequence):
         self.simulation.phase_ref_time = self.phase_ref_time
 
         dma = CoreDMA()
-        with CoreDMA.record("AnalogRB"):
+        with dma.record("AnalogRB"):
             self.stateprep.run(self)
 
             # initial_state will be a string: "SS", "SD", "DS", or "DD"
