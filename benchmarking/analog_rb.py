@@ -103,31 +103,32 @@ class AnalogRB(PulseSequence):
         self.phase_ref_time = now_mu()
         self.simulation.phase_ref_time = self.phase_ref_time
 
-        with self.core_dma.record("AnalogRB"):
-            self.stateprep.run(self)
+        #with self.core_dma.record("AnalogRB"):
 
-            # initial_state will be a string: "SS", "SD", "DS", or "DD"
-            initial_state = self.initial_states[self.sequence_number]
-            if initial_state == "SD" or initial_state == "DD":
-                self.global_pi_pulse()
-            if initial_state == "SD" or initial_state == "DS":
-                self.local_pi_pulse()
+        self.stateprep.run(self)
 
-            # Run the simulation for each item in the sequence
-            sequence_length = len(self.sequences_reverse_step[self.sequence_number])
-            for i in range(sequence_length):
-                # TODO_RYAN: Optimize or move this delay so it doesn't interrupt the pulse sequence
-                delay(3*ms)
-                self.simulation.reverse = self.sequences_reverse_step[self.sequence_number][i]
-                self.simulation.disable_coupling_term = not self.sequences_enable_0[self.sequence_number][i]
-                self.simulation.disable_transverse_term = not self.sequences_enable_1[self.sequence_number][i]
-                self.simulation.run(self)
+        # initial_state will be a string: "SS", "SD", "DS", or "DD"
+        initial_state = self.initial_states[self.sequence_number]
+        if initial_state == "SD" or initial_state == "DD":
+            self.global_pi_pulse()
+        if initial_state == "SD" or initial_state == "DS":
+            self.local_pi_pulse()
 
-            # adjust for the final_state so that we ideally end up back in SS
-            final_state = self.final_states[self.sequence_number]
-            if initial_state == "SD" or initial_state == "DS":
-                self.local_pi_pulse(phase=180.)
-            if initial_state == "SD" or initial_state == "DD":
-                self.global_pi_pulse(phase=180.)
+        # Run the simulation for each item in the sequence
+        sequence_length = len(self.sequences_reverse_step[self.sequence_number])
+        for i in range(sequence_length):
+            # TODO_RYAN: Optimize or move this delay so it doesn't interrupt the pulse sequence
+            delay(1*ms)
+            self.simulation.reverse = self.sequences_reverse_step[self.sequence_number][i]
+            self.simulation.disable_coupling_term = not self.sequences_enable_0[self.sequence_number][i]
+            self.simulation.disable_transverse_term = not self.sequences_enable_1[self.sequence_number][i]
+            self.simulation.run(self)
+
+        # adjust for the final_state so that we ideally end up back in SS
+        final_state = self.final_states[self.sequence_number]
+        if initial_state == "SD" or initial_state == "DS":
+            self.local_pi_pulse(phase=180.)
+        if initial_state == "SD" or initial_state == "DD":
+            self.global_pi_pulse(phase=180.)
         
-        self.core_dma.playback("AnalogRB")
+        #self.core_dma.playback("AnalogRB")
