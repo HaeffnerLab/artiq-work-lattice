@@ -114,7 +114,7 @@ class AnalogRB(PulseSequence):
 
         # Run the simulation for each item in the sequence
         for i in range(len(self.sequences_reverse_step[self.sequence_number])):
-            delay(100*us)
+            delay(500*us)
             self.simulation.reverse = self.sequences_reverse_step[self.sequence_number][i]
             self.simulation.disable_coupling_term = not self.sequences_enable_0[self.sequence_number][i]
             self.simulation.disable_transverse_term = not self.sequences_enable_1[self.sequence_number][i]
