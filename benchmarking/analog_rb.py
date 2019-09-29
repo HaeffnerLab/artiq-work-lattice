@@ -2,6 +2,7 @@ from pulse_sequence import PulseSequence
 from subsequences.state_preparation import StatePreparation
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.ising_simulation import IsingSimulation
+from artiq.coredevice.dma import DMA
 import numpy as np
 import pickle
 import os
