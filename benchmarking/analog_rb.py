@@ -2,7 +2,6 @@ from pulse_sequence import PulseSequence
 from subsequences.state_preparation import StatePreparation
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.ising_simulation import IsingSimulation
-from artiq.coredevice.dma import CoreDMA
 import numpy as np
 import pickle
 import os
@@ -52,8 +51,6 @@ class AnalogRB(PulseSequence):
         self.phase_ref_time = np.int64(0)
         self.sequence_number = 1
         self.set_subsequence["AnalogRB"] = self.set_subsequence_benchmarking
-
-        self.dma = CoreDMA()
 
         # load pickle files with analog RB sequences, initial states, and final states
         benchmarking_dir = os.path.join(os.path.expanduser("~"), "artiq-work", "benchmarking")
@@ -106,7 +103,7 @@ class AnalogRB(PulseSequence):
         self.phase_ref_time = now_mu()
         self.simulation.phase_ref_time = self.phase_ref_time
 
-        with self.dma.record("AnalogRB"):
+        with self.core_dma.record("AnalogRB"):
             self.stateprep.run(self)
 
             # initial_state will be a string: "SS", "SD", "DS", or "DD"
@@ -133,4 +130,4 @@ class AnalogRB(PulseSequence):
             if initial_state == "SD" or initial_state == "DD":
                 self.global_pi_pulse(phase=180.)
         
-        self.dma.playback("AnalogRB")
+        self.core_dma.playback("AnalogRB")
