@@ -113,12 +113,11 @@ class AnalogRB(PulseSequence):
             self.local_pi_pulse()
 
         # Run the simulation for each item in the sequence
-        # analog_rb_sequence = self.sequences[self.sequence_number]
-        # for selected_term_0, selected_term_1, t_step, reverse_step in analog_rb_sequence:
-        #     self.simulation.reverse = reverse_step
-        #     self.simulation.disable_coupling_term = not selected_term_0
-        #     self.simulation.disable_transverse_term = not selected_term_1
-        #     self.simulation.run(self)
+        for i in range(len(self.sequences_reverse_step)):
+            self.simulation.reverse = self.sequences_reverse_step[self.sequence_number][i]
+            self.simulation.disable_coupling_term = not self.sequences_enable_0[self.sequence_number][i]
+            self.simulation.disable_transverse_term = not self.sequences_enable_1[self.sequence_number][i]
+            self.simulation.run(self)
 
         # adjust for the final_state so that we ideally end up back in SS
         final_state = self.final_states[self.sequence_number]
