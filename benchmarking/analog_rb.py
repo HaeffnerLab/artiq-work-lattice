@@ -105,9 +105,6 @@ class AnalogRB(PulseSequence):
 
         trace_name = "AnalogRB"
         with self.core_dma.record(trace_name):
-            sequence_length = len(self.sequences_reverse_step[self.sequence_number])
-            delay(sequence_length*100*us)
-
             self.stateprep.run(self)
 
             # initial_state will be a string: "SS", "SD", "DS", or "DD"
@@ -118,9 +115,10 @@ class AnalogRB(PulseSequence):
                 self.local_pi_pulse()
 
             # Run the simulation for each item in the sequence
+            sequence_length = len(self.sequences_reverse_step[self.sequence_number])
             for i in range(sequence_length):
                 # TODO_RYAN: Optimize or move this delay so it doesn't interrupt the pulse sequence
-                #delay(100*us)
+                delay(5*us)
                 self.simulation.reverse = self.sequences_reverse_step[self.sequence_number][i]
                 self.simulation.disable_coupling_term = not self.sequences_enable_0[self.sequence_number][i]
                 self.simulation.disable_transverse_term = not self.sequences_enable_1[self.sequence_number][i]
