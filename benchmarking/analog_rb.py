@@ -103,8 +103,6 @@ class AnalogRB(PulseSequence):
         self.phase_ref_time = now_mu()
         self.simulation.phase_ref_time = self.phase_ref_time
 
-        delay(100*ms)
-
         self.stateprep.run(self)
 
         # initial_state will be a string: "SS", "SD", "DS", or "DD"
@@ -116,6 +114,7 @@ class AnalogRB(PulseSequence):
 
         # Run the simulation for each item in the sequence
         for i in range(len(self.sequences_reverse_step)):
+            delay(10*ms)
             self.simulation.reverse = self.sequences_reverse_step[self.sequence_number][i]
             self.simulation.disable_coupling_term = not self.sequences_enable_0[self.sequence_number][i]
             self.simulation.disable_transverse_term = not self.sequences_enable_1[self.sequence_number][i]
