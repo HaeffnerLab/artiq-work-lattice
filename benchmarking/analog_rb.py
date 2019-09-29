@@ -103,6 +103,8 @@ class AnalogRB(PulseSequence):
         self.phase_ref_time = now_mu()
         self.simulation.phase_ref_time = self.phase_ref_time
 
+        delay(5*ms)
+
         self.stateprep.run(self)
 
         # initial_state will be a string: "SS", "SD", "DS", or "DD"
