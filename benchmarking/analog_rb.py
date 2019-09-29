@@ -53,6 +53,8 @@ class AnalogRB(PulseSequence):
         self.sequence_number = 1
         self.set_subsequence["AnalogRB"] = self.set_subsequence_benchmarking
 
+        self.dma = CoreDMA()
+
         # load pickle files with analog RB sequences, initial states, and final states
         benchmarking_dir = os.path.join(os.path.expanduser("~"), "artiq-work", "benchmarking")
         self.sequences_enable_0 = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_sequences_enable_0.pickle"), "rb"))
@@ -104,8 +106,7 @@ class AnalogRB(PulseSequence):
         self.phase_ref_time = now_mu()
         self.simulation.phase_ref_time = self.phase_ref_time
 
-        dma = CoreDMA()
-        with dma.record("AnalogRB"):
+        with self.dma.record("AnalogRB"):
             self.stateprep.run(self)
 
             # initial_state will be a string: "SS", "SD", "DS", or "DD"
@@ -132,4 +133,4 @@ class AnalogRB(PulseSequence):
             if initial_state == "SD" or initial_state == "DD":
                 self.global_pi_pulse(phase=180.)
         
-        dma.playback("AnalogRB")
+        self.dma.playback("AnalogRB")
