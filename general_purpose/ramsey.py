@@ -116,6 +116,7 @@ class Ramsey(PulseSequence):
             self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase")
             if not self.Ramsey_no_return:
                 if self.Ramsey_bsb_pulse:
+                    self.bsb_rabi.phase_729 = 90.0
                     self.bsb_rabi.run(self)
                 self.rabi.run(self)
         else:
@@ -127,6 +128,7 @@ class Ramsey(PulseSequence):
             self.rabi.run(self)
             delay(self.wait_time / 2)
             if self.Ramsey_bsb_pulse:
+                self.bsb_rabi.phase_729 = 90.0
                 self.bsb_rabi.run(self)
             self.rabi.duration = self.pi_time / 2
             if self.selected_scan_name == "Ramsey_phase":
