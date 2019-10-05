@@ -75,4 +75,4 @@ class MotionalAnalysisRamsey(PulseSequence):
             self.agi = rm.open_resource(u'USB0::2391::1031::MY44013736::0::INSTR')
             self.agi.write("SYST:BEEP: STAT OFF")
             self.agi_connected = True
-        self.agi.write("APPL:SQU {} HZ, 5.0 VPP".format(detuning))
+        self.agi.write("APPL:SQU {} HZ, 5.0 VPP, 2.5V".format(detuning))
