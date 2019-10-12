@@ -53,10 +53,10 @@ class IsingSimulation:
     def setup_noisy_single_pass(pulse_sequence):
         s = IsingSimulation
         # TODO_RYAN: Generate the correct type of noisy waveform here
-        pulse_sequence.generate_single_pass_noise_waveform(
-            mean=s.amp_blue,
-            std=s.fast_noise_fraction * s.amp_blue,
-            freq_noise=False)
+        # pulse_sequence.generate_single_pass_noise_waveform(
+        #     mean=s.amp_blue,
+        #     std=s.fast_noise_fraction * s.amp_blue,
+        #     freq_noise=False)
 
     @kernel
     def setup_ramping(pulse_sequence):
@@ -131,17 +131,27 @@ class IsingSimulation:
         # and set amplitude to zero for now.
         self.dds_729.set(dp_freq, amplitude=0., phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
 
-        self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=s.phase_ref_time)
-        self.dds_729_SP.set_att(s.att_blue)
-        self.dds_729_SP_bichro.set(freq_red, amplitude=0., ref_time_mu=s.phase_ref_time)
-        self.dds_729_SP_bichro.set_att(s.att_red)
-
         if not s.disable_coupling_term:
             # Enable the blue and red DDS for the MS term
-            self.start_noisy_single_pass(s.phase_ref_time,
-                freq_sp=freq_blue, amp_sp=s.amp_blue, att_sp=s.att_blue, phase_sp=phase_blue / 360,
-                use_bichro=True,
-                freq_sp_bichro=freq_red, amp_sp_bichro=s.amp_red, att_sp_bichro=s.att_red)
+            
+            # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
+            #            instead of turning them on manually.
+            # self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=s.phase_ref_time)
+            # self.dds_729_SP.set_att(s.att_blue)
+            # self.dds_729_SP_bichro.set(freq_red, amplitude=0., ref_time_mu=s.phase_ref_time)
+            # self.dds_729_SP_bichro.set_att(s.att_red)
+            # self.start_noisy_single_pass(s.phase_ref_time,
+            #     freq_sp=freq_blue, amp_sp=s.amp_blue, att_sp=s.att_blue, phase_sp=phase_blue / 360,
+            #     use_bichro=True,
+            #     freq_sp_bichro=freq_red, amp_sp_bichro=s.amp_red, att_sp_bichro=s.att_red)
+            
+            self.dds_729_SP.set(freq_blue, amplitude=s.amp_blue, phase=phase_blue / 360)
+            self.dds_729_SP.set_att(s.att_blue)
+            self.dds_729_SP_bichro.set(freq_red, amplitude=s.amp_red)
+            self.dds_729_SP.set_att(s.att_red)
+            with parallel:
+                self.dds_729_SP.sw.on()
+                self.dds_729_SP_bichro.sw.on()
 
         if not s.disable_transverse_term:
             # Enable the carrier DDS for the transverse field term
@@ -156,8 +166,15 @@ class IsingSimulation:
         # Pulse the double-pass DDS for the appropriate duration
         self.execute_pulse_with_amplitude_ramp(dds1_att=s.att, dds1_freq=dp_freq)
 
-        self.stop_noisy_single_pass(use_bichro=True)
-        self.dds_SP_729L2.sw.off()
+        # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this
+        #            instead of turning them off manually.
+        #self.stop_noisy_single_pass(use_bichro=True)
+
+        with parallel:
+            self.dds_729_SP.sw.on()
+            self.dds_729_SP_bichro.sw.on()
+            self.dds_SP_729L2.sw.off()
+
 
         if s.alternate_basis:
             # global z-rotation by -pi/2 via AC stark shift
