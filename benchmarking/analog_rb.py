@@ -105,7 +105,7 @@ class AnalogRB(PulseSequence):
 
         # trace_name = "AnalogRB"
         # with self.core_dma.record(trace_name):
-        
+
         self.stateprep.run(self)
 
         # initial_state will be a string: "SS", "SD", "DS", or "DD"
@@ -127,9 +127,9 @@ class AnalogRB(PulseSequence):
 
         # adjust for the final_state so that we ideally end up back in SS
         final_state = self.final_states[self.sequence_number]
-        if initial_state == "SD" or initial_state == "DS":
+        if final_state == "SD" or final_state == "DS":
             self.local_pi_pulse(phase=180.)
-        if initial_state == "SD" or initial_state == "DD":
+        if final_state == "SD" or final_state == "DD":
             self.global_pi_pulse(phase=180.)
 
         # handle = self.core_dma.get_handle(trace_name)
