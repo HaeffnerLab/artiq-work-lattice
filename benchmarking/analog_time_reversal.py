@@ -22,6 +22,8 @@ class AnalogTimeReversalBenchmarking(PulseSequence):
         "IsingSimulation.parameter_miscalibration_fraction",
         "IsingSimulation.active_crosstalk_fraction",
         "IsingSimulation.idle_crosstalk_fraction",
+        "IsingSimulation.disable_coupling_term",
+        "IsingSimulation.disable_transverse_term",
         "AnalogBenchmarking.initial_state",
         "AnalogBenchmarking.global_pi_time",
         "AnalogBenchmarking.global_amp",
