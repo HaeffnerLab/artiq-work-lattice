@@ -70,7 +70,7 @@ class AnalogRB(PulseSequence):
         self.simulation.parameter_miscalibration_fraction = self.get_variable_parameter("IsingSimulation_parameter_miscalibration_fraction")
         self.simulation.active_crosstalk_fraction = self.get_variable_parameter("IsingSimulation_active_crosstalk_fraction")
         self.simulation.idle_crosstalk_fraction = self.get_variable_parameter("IsingSimulation_idle_crosstalk_fraction")
-        #self.simulation.setup_ramping(self)
+        self.simulation.setup_ramping(self)
 
     @kernel
     def global_pi_pulse(self, phase=0.):

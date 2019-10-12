@@ -52,7 +52,8 @@ class IsingSimulation:
 
     def setup_noisy_single_pass(pulse_sequence):
         s = IsingSimulation
-        # TODO_RYAN: Generate the correct type of noisy waveform here
+        # TODO_RYAN: Implement s.fast_noise_fraction by generating
+        #            the correct type of noisy waveform here.
         # pulse_sequence.generate_single_pass_noise_waveform(
         #     mean=s.amp_blue,
         #     std=s.fast_noise_fraction * s.amp_blue,
