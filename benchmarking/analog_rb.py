@@ -120,8 +120,8 @@ class AnalogRB(PulseSequence):
                 # TODO_RYAN: Optimize or move this delay so it doesn't interrupt the pulse sequence
                 delay(80*us)
                 self.simulation.reverse = self.sequences_reverse_step[self.sequence_number][i]
-                self.simulation.disable_coupling_term = int(not self.sequences_enable_0[self.sequence_number][i])
-                self.simulation.disable_transverse_term = int(not self.sequences_enable_1[self.sequence_number][i])
+                self.simulation.disable_coupling_term = 0 if self.sequences_enable_0[self.sequence_number][i] else 1
+                self.simulation.disable_transverse_term = 0 if self.sequences_enable_1[self.sequence_number][i] else 1
                 self.simulation.run(self)
 
             # adjust for the final_state so that we ideally end up back in SS
