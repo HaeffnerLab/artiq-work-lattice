@@ -148,7 +148,8 @@ class IsingSimulation:
             # NOTE: This requires the SP_729L2 channel to be mixed with the SP_729G and SP_729G_bichro channels
             #       with all three channels going to the single-pass AOM for the global 729 beam.
             sp_freq_729_carrier = 80*MHz + self.get_offset_frequency("729G")
-            self.dds_SP_729L2.set(sp_freq_729_carrier, s.transverse_field_sp_amp_729, phase=phase_transverse / 360, ref_time_mu=phase_ref_time)
+            self.dds_SP_729L2.set(sp_freq_729_carrier, s.transverse_field_sp_amp_729,
+                phase=phase_transverse / 360, ref_time_mu=s.phase_ref_time)
             self.dds_SP_729L2.set_att(s.transverse_field_sp_att_729)
             self.dds_SP_729L2.sw.on()
 
