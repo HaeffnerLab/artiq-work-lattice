@@ -46,9 +46,9 @@ class IsingSimulation:
     reverse=False
     alternate_basis=False
 
-    amps_primary=[0.0]
-    amps_alternate=[0.0]
-    amps_index=0
+    noise_primary_db=[0.0]
+    noise_alternate_db=[0.0]
+    noise_index=0
 
     def add_child_subsequences(pulse_sequence):
         s = IsingSimulation
@@ -56,10 +56,12 @@ class IsingSimulation:
 
     def setup_noise(pulse_sequence):
         s = IsingSimulation
-        amp_miscalibrated = s.amp * (1.0 - s.parameter_miscalibration_fraction)
-        amp_std = s.slow_noise_fraction * amp_miscalibrated
-        s.amps_primary = pulse_sequence.make_random_amplitudes(pulse_sequence.N, amp_miscalibrated, amp_std)
-        s.amps_alternate = pulse_sequence.make_random_amplitudes(pulse_sequence.N, amp_miscalibrated, amp_std)
+        noise_mean = 1.0 - s.parameter_miscalibration_fraction
+        noise_std = s.slow_noise_fraction * noise_mean
+        noise_primary = pulse_sequence.make_random_list(pulse_sequence.N * 20, noise_mean, noise_std, min=0.0)
+        noise_alternate = pulse_sequence.make_random_list(pulse_sequence.N * 20, noise_mean, noise_std, min=0.0)
+        s.noise_primary_db = [10 * np.log10(noise) for noise in noise_primary]
+        s.noise_alternate_db = [10 * np.log10(noise) for noise in noise_alternate]
 
         # TODO_RYAN: Implement s.active_crosstalk_fraction
         # TODO_RYAN: Implement s.idle_crosstalk_fraction
@@ -75,15 +77,11 @@ class IsingSimulation:
     def setup_ramping(pulse_sequence):
         s = IsingSimulation
         s.use_ramping = True
-
-        amp = s.amps_alternate[s.amps_index] if s.alternate_basis else s.amps_primary[s.amps_index]
-        s.amps_index = (s.amps_index + 1) % len(s.amps_index)
-
         pulse_sequence.get_729_dds("729G")
         pulse_sequence.prepare_pulse_with_amplitude_ramp(
             pulse_duration=s.duration,
             ramp_duration=1*us,
-            dds1_amp=amp)
+            dds1_amp=s.amp)
         pulse_sequence.prepare_noisy_single_pass(freq_noise=False)
 
     @kernel
@@ -172,12 +170,17 @@ class IsingSimulation:
             self.dds_SP_729L2.set_att(s.transverse_field_sp_att_729)
             self.dds_SP_729L2.sw.on()
 
+        # Calculate the desired attenuation after applying the noise
+        noise_factor_db = s.noise_alternate_db[s.noise_index] if s.alternate_basis else s.noise_primary_db[s.noise_index]
+        att_with_noise = max(5.0, min(32.5, s.att + noise_factor_db))
+        s.noise_index = (s.noise_index + 1) % len(s.noise_index)
+
         # Pulse the double-pass DDS for the appropriate duration
         if s.use_ramping:
-            self.execute_pulse_with_amplitude_ramp(dds1_att=s.att, dds1_freq=dp_freq)
+            self.execute_pulse_with_amplitude_ramp(dds1_att=att_with_noise, dds1_freq=dp_freq)
         else:
             self.dds_729.set(dp_freq, amplitude=s.amp, phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
-            self.dds_729.set_att(s.att)
+            self.dds_729.set_att(att_with_noise)
             self.dds_729.sw.on()
             delay(s.duration)
             self.dds_729.sw.off()
