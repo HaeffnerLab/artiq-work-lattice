@@ -46,12 +46,24 @@ class IsingSimulation:
     reverse=False
     alternate_basis=False
 
+    amps_primary=[0.0]
+    amps_alternate=[0.0]
+    amps_index=0
+
     def add_child_subsequences(pulse_sequence):
         s = IsingSimulation
         s.rabi = pulse_sequence.add_subsequence(RabiExcitation)
 
-    def setup_noisy_single_pass(pulse_sequence):
+    def setup_noise(pulse_sequence):
         s = IsingSimulation
+        amp_miscalibrated = s.amp * (1.0 - s.parameter_miscalibration_fraction)
+        amp_std = s.slow_noise_fraction * amp_miscalibrated
+        s.amps_primary = pulse_sequence.make_random_amplitudes(pulse_sequence.N, amp_miscalibrated, amp_std)
+        s.amps_alternate = pulse_sequence.make_random_amplitudes(pulse_sequence.N, amp_miscalibrated, amp_std)
+
+        # TODO_RYAN: Implement s.active_crosstalk_fraction
+        # TODO_RYAN: Implement s.idle_crosstalk_fraction
+
         # TODO_RYAN: Implement s.fast_noise_fraction by generating
         #            the correct type of noisy waveform here.
         # pulse_sequence.generate_single_pass_noise_waveform(
@@ -63,11 +75,15 @@ class IsingSimulation:
     def setup_ramping(pulse_sequence):
         s = IsingSimulation
         s.use_ramping = True
+
+        amp = s.amps_alternate[s.amps_index] if s.alternate_basis else s.amps_primary[s.amps_index]
+        s.amps_index = (s.amps_index + 1) % len(s.amps_index)
+
         pulse_sequence.get_729_dds("729G")
         pulse_sequence.prepare_pulse_with_amplitude_ramp(
             pulse_duration=s.duration,
             ramp_duration=1*us,
-            dds1_amp=s.amp)
+            dds1_amp=amp)
         pulse_sequence.prepare_noisy_single_pass(freq_noise=False)
 
     @kernel
@@ -88,11 +104,6 @@ class IsingSimulation:
 
     def subsequence(self):
         s = IsingSimulation
-
-        # TODO_RYAN: Implement s.slow_noise_fraction
-        # TODO_RYAN: Implement s.parameter_miscalibration_fraction
-        # TODO_RYAN: Implement s.active_crosstalk_fraction
-        # TODO_RYAN: Implement s.idle_crosstalk_fraction
 
         if s.alternate_basis:
             # global z-rotation by pi/2 via AC stark shift
@@ -131,7 +142,7 @@ class IsingSimulation:
 
         if not s.disable_coupling_term:
             # Enable the blue and red DDS for the MS term
-            
+
             # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
             #            instead of turning them on manually.
             # self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=s.phase_ref_time)

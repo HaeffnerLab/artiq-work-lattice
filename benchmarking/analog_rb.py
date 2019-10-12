@@ -47,7 +47,7 @@ class AnalogRB(PulseSequence):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.simulation = self.add_subsequence(IsingSimulation)
-        self.simulation.setup_noisy_single_pass(self)
+        self.simulation.setup_noise(self)
         self.phase_ref_time = np.int64(0)
         self.sequence_number = 1
         self.set_subsequence["AnalogRB"] = self.set_subsequence_benchmarking
