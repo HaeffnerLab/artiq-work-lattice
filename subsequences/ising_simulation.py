@@ -88,9 +88,6 @@ class IsingSimulation:
     def subsequence(self):
         s = IsingSimulation
 
-        if not s.use_ramping:
-            raise Exception("Must call setup_ramping before running subsequence")
-
         # TODO_RYAN: Implement s.slow_noise_fraction
         # TODO_RYAN: Implement s.parameter_miscalibration_fraction
         # TODO_RYAN: Implement s.active_crosstalk_fraction
@@ -144,7 +141,7 @@ class IsingSimulation:
             #     freq_sp=freq_blue, amp_sp=s.amp_blue, att_sp=s.att_blue, phase_sp=phase_blue / 360,
             #     use_bichro=True,
             #     freq_sp_bichro=freq_red, amp_sp_bichro=s.amp_red, att_sp_bichro=s.att_red)
-            
+
             self.dds_729_SP.set(freq_blue, amplitude=s.amp_blue, phase=phase_blue / 360)
             self.dds_729_SP.set_att(s.att_blue)
             self.dds_729_SP_bichro.set(freq_red, amplitude=s.amp_red)
@@ -164,15 +161,22 @@ class IsingSimulation:
             self.dds_SP_729L2.sw.on()
 
         # Pulse the double-pass DDS for the appropriate duration
-        self.execute_pulse_with_amplitude_ramp(dds1_att=s.att, dds1_freq=dp_freq)
+        if s.use_ramping:
+            self.execute_pulse_with_amplitude_ramp(dds1_att=s.att, dds1_freq=dp_freq)
+        else:
+            self.dds_729.set(dp_freq, amplitude=s.amp, phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
+            self.dds_729.set_att(s.att)
+            self.dds_729.sw.on()
+            delay(s.duration)
+            self.dds_729.sw.off()
 
         # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this
         #            instead of turning them off manually.
         #self.stop_noisy_single_pass(use_bichro=True)
 
         with parallel:
-            self.dds_729_SP.sw.on()
-            self.dds_729_SP_bichro.sw.on()
+            self.dds_729_SP.sw.off()
+            self.dds_729_SP_bichro.sw.off()
             self.dds_SP_729L2.sw.off()
 
 
