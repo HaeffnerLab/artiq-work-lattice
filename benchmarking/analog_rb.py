@@ -55,7 +55,7 @@ class AnalogRB(PulseSequence):
         # load pickle files with analog RB sequences, initial states, and final states
         def load_from_pickle(name):
             benchmarking_dir = os.path.join(os.path.expanduser("~"), "artiq-work", "benchmarking")
-            return pickle.load(open(os.path.join(benchmarking_dir, name+".pickle"), "rb"))
+            return pickle.load(open(os.path.join(benchmarking_dir, name + ".pickle"), "rb"))
         self.sequences_enable_0 = load_from_pickle("analog_rb_sequences_enable_0")
         self.sequences_enable_1 = load_from_pickle("analog_rb_sequences_enable_1")
         self.sequences_t_step = load_from_pickle("analog_rb_sequences_t_step")
