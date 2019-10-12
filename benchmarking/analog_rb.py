@@ -53,16 +53,15 @@ class AnalogRB(PulseSequence):
         self.set_subsequence["AnalogRB"] = self.set_subsequence_benchmarking
 
         # load pickle files with analog RB sequences, initial states, and final states
-        benchmarking_dir = os.path.join(os.path.expanduser("~"), "artiq-work", "benchmarking")
-        self.sequences_enable_0 = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_sequences_enable_0.pickle"), "rb"))
-        self.sequences_enable_1 = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_sequences_enable_1.pickle"), "rb"))
-        self.sequences_t_step = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_sequences_t_step.pickle"), "rb"))
-        self.sequences_reverse_step = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_sequences_reverse_step.pickle"), "rb"))
-        self.initial_states = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_initial_states.pickle"), "rb"))
-        self.final_states = pickle.load(open(os.path.join(benchmarking_dir, "analog_rb_final_states.pickle"), "rb"))
-
-        print(self.initial_states)
-        print(self.final_states)
+        def load_from_pickle(name):
+            benchmarking_dir = os.path.join(os.path.expanduser("~"), "artiq-work", "benchmarking")
+            return pickle.load(open(os.path.join(benchmarking_dir, name+".pickle"), "rb"))
+        self.sequences_enable_0 = load_from_pickle("analog_rb_sequences_enable_0")
+        self.sequences_enable_1 = load_from_pickle("analog_rb_sequences_enable_1")
+        self.sequences_t_step = load_from_pickle("analog_rb_sequences_t_step")
+        self.sequences_reverse_step = load_from_pickle("analog_rb_sequences_reverse_step")
+        self.initial_states = load_from_pickle("analog_rb_initial_states")
+        self.final_states = load_from_pickle("analog_rb_final_states")
 
     @kernel
     def set_subsequence_benchmarking(self):
