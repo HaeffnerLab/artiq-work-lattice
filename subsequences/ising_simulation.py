@@ -174,12 +174,10 @@ class IsingSimulation:
         # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this
         #            instead of turning them off manually.
         #self.stop_noisy_single_pass(use_bichro=True)
-
         with parallel:
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
             self.dds_SP_729L2.sw.off()
-
 
         if s.alternate_basis:
             # global z-rotation by -pi/2 via AC stark shift
