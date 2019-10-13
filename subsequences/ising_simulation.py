@@ -82,7 +82,9 @@ class IsingSimulation:
             pulse_duration=s.duration,
             ramp_duration=1*us,
             dds1_amp=s.amp)
-        pulse_sequence.prepare_noisy_single_pass(freq_noise=False)
+
+        # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
+        #pulse_sequence.prepare_noisy_single_pass(freq_noise=False)
 
     @kernel
     def rz_pi_2_pulse(self, phase=0.):
