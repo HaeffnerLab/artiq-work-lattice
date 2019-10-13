@@ -58,8 +58,8 @@ class IsingSimulation:
         s = IsingSimulation
         noise_mean = 1.0 - s.parameter_miscalibration_fraction
         noise_std = s.slow_noise_fraction * noise_mean
-        noise_primary = pulse_sequence.make_random_list(pulse_sequence.N * 20, noise_mean, noise_std, min=0.0)
-        noise_alternate = pulse_sequence.make_random_list(pulse_sequence.N * 20, noise_mean, noise_std, min=0.0)
+        noise_primary = pulse_sequence.make_random_list(pulse_sequence.N, noise_mean, noise_std, min=0.0)
+        noise_alternate = pulse_sequence.make_random_list(pulse_sequence.N, noise_mean, noise_std, min=0.0)
         s.noise_primary_db = [10 * np.log10(noise) for noise in noise_primary]
         s.noise_alternate_db = [10 * np.log10(noise) for noise in noise_alternate]
 
@@ -173,7 +173,6 @@ class IsingSimulation:
         # Calculate the desired attenuation after applying the noise
         noise_factor_db = s.noise_alternate_db[s.noise_index] if s.alternate_basis else s.noise_primary_db[s.noise_index]
         att_with_noise = max(5.0, min(32.5, s.att + noise_factor_db))
-        s.noise_index = (s.noise_index + 1) % len(s.noise_index)
 
         # Pulse the double-pass DDS for the appropriate duration
         if s.use_ramping:

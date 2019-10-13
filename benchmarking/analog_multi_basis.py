@@ -116,6 +116,9 @@ class AnalogMultiBasisBenchmarking(PulseSequence):
         self.simulation.alternate_basis = True
         self.simulation.run(self)
 
+        # use the next value from the random noise for the next shot
+        self.simulation.noise_index = (self.simulation.noise_index + 1) % len(self.simulation.noise_index)
+
         # undo the initial_state preparation so that we ideally end up back in SS
         if initial_state == "SD" or initial_state == "DS":
             self.local_pi_pulse(phase=180.)

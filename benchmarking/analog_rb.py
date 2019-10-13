@@ -122,6 +122,9 @@ class AnalogRB(PulseSequence):
             self.simulation.disable_transverse_term = 0. if self.sequences_enable_1[self.sequence_number][i] else 1.
             self.simulation.run(self)
 
+        # use the next value from the random noise for the next shot
+        self.simulation.noise_index = (self.simulation.noise_index + 1) % len(self.simulation.noise_index)
+
         # adjust for the final_state so that we ideally end up back in SS
         final_state = self.final_states[self.sequence_number]
         if final_state == "SD" or final_state == "DS":

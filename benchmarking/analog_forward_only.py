@@ -104,3 +104,6 @@ class AnalogForwardOnly(PulseSequence):
         # run the simulation forward
         self.simulation.reverse = False
         self.simulation.run(self)
+
+        # use the next value from the random noise for the next shot
+        self.simulation.noise_index = (self.simulation.noise_index + 1) % len(self.simulation.noise_index)
