@@ -17,11 +17,11 @@ from artiq.experiment import *
 class AnalogRB(PulseSequence):
     PulseSequence.accessed_params = {
         "AnalogBenchmarking.sequence_number",
-        "IsingSimulation.fast_noise_fraction",
+        #"IsingSimulation.fast_noise_fraction",
         "IsingSimulation.slow_noise_fraction",
         "IsingSimulation.parameter_miscalibration_fraction",
-        "IsingSimulation.active_crosstalk_fraction",
-        "IsingSimulation.idle_crosstalk_fraction",
+        #"IsingSimulation.active_crosstalk_fraction",
+        #"IsingSimulation.idle_crosstalk_fraction",
         "AnalogBenchmarking.global_pi_time",
         "AnalogBenchmarking.global_amp",
         "AnalogBenchmarking.global_att",
@@ -35,11 +35,11 @@ class AnalogRB(PulseSequence):
     PulseSequence.scan_params.update(
         AnalogRB=[
             ("Benchmarking", ("AnalogBenchmarking.sequence_number", 1, 200, 200)),
-            ("Benchmarking", ("IsingSimulation.fast_noise_fraction", 0., 0.5, 11)),
+            #("Benchmarking", ("IsingSimulation.fast_noise_fraction", 0., 0.5, 11)),
             ("Benchmarking", ("IsingSimulation.slow_noise_fraction", 0., 0.5, 11)),
             ("Benchmarking", ("IsingSimulation.parameter_miscalibration_fraction", 0., 0.5, 11)),
-            ("Benchmarking", ("IsingSimulation.active_crosstalk_fraction", 0., 0.5, 11)),
-            ("Benchmarking", ("IsingSimulation.idle_crosstalk_fraction", 0., 0.5, 11)),
+            #("Benchmarking", ("IsingSimulation.active_crosstalk_fraction", 0., 0.5, 11)),
+            #("Benchmarking", ("IsingSimulation.idle_crosstalk_fraction", 0., 0.5, 11)),
         ]
     )
 

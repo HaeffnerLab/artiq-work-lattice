@@ -18,11 +18,11 @@ from artiq.experiment import *
 class AnalogMultiBasisBenchmarking(PulseSequence):
     PulseSequence.accessed_params = {
         "IsingSimulation.simulation_time",
-        "IsingSimulation.fast_noise_fraction",
+        #"IsingSimulation.fast_noise_fraction",
         "IsingSimulation.slow_noise_fraction",
         "IsingSimulation.parameter_miscalibration_fraction",
-        "IsingSimulation.active_crosstalk_fraction",
-        "IsingSimulation.idle_crosstalk_fraction",
+        #"IsingSimulation.active_crosstalk_fraction",
+        #"IsingSimulation.idle_crosstalk_fraction",
         "IsingSimulation.disable_coupling_term",
         "IsingSimulation.disable_transverse_term",
         "AnalogBenchmarking.initial_state",
@@ -39,11 +39,11 @@ class AnalogMultiBasisBenchmarking(PulseSequence):
     PulseSequence.scan_params.update(
         AnalogMultiBasisBenchmarking=[
             ("Benchmarking", ("IsingSimulation.simulation_time", 0., 2*ms, 21, "ms")),
-            ("Benchmarking", ("IsingSimulation.fast_noise_fraction", 0., 0.5, 11)),
+            #("Benchmarking", ("IsingSimulation.fast_noise_fraction", 0., 0.5, 11)),
             ("Benchmarking", ("IsingSimulation.slow_noise_fraction", 0., 0.5, 11)),
             ("Benchmarking", ("IsingSimulation.parameter_miscalibration_fraction", 0., 0.5, 11)),
-            ("Benchmarking", ("IsingSimulation.active_crosstalk_fraction", 0., 0.5, 11)),
-            ("Benchmarking", ("IsingSimulation.idle_crosstalk_fraction", 0., 0.5, 11)),
+            #("Benchmarking", ("IsingSimulation.active_crosstalk_fraction", 0., 0.5, 11)),
+            #("Benchmarking", ("IsingSimulation.idle_crosstalk_fraction", 0., 0.5, 11)),
         ]
     )
 

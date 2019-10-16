@@ -32,11 +32,11 @@ class IsingSimulation:
     default_sp_att_729="Excitation_729.single_pass_att"
 
     duration="IsingSimulation.simulation_time"
-    fast_noise_fraction="IsingSimulation.fast_noise_fraction"
+    #fast_noise_fraction="IsingSimulation.fast_noise_fraction"
     slow_noise_fraction="IsingSimulation.slow_noise_fraction"
     parameter_miscalibration_fraction="IsingSimulation.parameter_miscalibration_fraction"
-    active_crosstalk_fraction="IsingSimulation.active_crosstalk_fraction"
-    idle_crosstalk_fraction="IsingSimulation.idle_crosstalk_fraction"
+    #active_crosstalk_fraction="IsingSimulation.active_crosstalk_fraction"
+    #idle_crosstalk_fraction="IsingSimulation.idle_crosstalk_fraction"
 
     disable_coupling_term="IsingSimulation.disable_coupling_term"
     disable_transverse_term="IsingSimulation.disable_transverse_term"
