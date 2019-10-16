@@ -28,9 +28,9 @@ class StatePreparation:
                 num_modes += 1
             if s.sbc.sequential2_enable:
                 num_modes += 1
-            delay(delay_per_cycle*num_cycles*num_modes)
+            #delay(delay_per_cycle*num_cycles*num_modes)
 
-        delay(3*ms)
+        #delay(3*ms)
         s.dopplerCooling.run(self)
         if s.enable_optical_pumping:
             s.op.run(self)
