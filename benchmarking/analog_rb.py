@@ -123,7 +123,7 @@ class AnalogRB(PulseSequence):
             self.simulation.run(self)
 
         # use the next value from the random noise for the next shot
-        self.simulation.noise_index = (self.simulation.noise_index + 1) % len(self.simulation.noise_index)
+        self.simulation.noise_index = (self.simulation.noise_index + 1) % len(self.simulation.noise_primary_db)
 
         # adjust for the final_state so that we ideally end up back in SS
         final_state = self.final_states[self.sequence_number]
