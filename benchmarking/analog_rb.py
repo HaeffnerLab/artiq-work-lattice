@@ -67,11 +67,11 @@ class AnalogRB(PulseSequence):
     def set_subsequence_benchmarking(self):
         self.sequence_number = int(self.get_variable_parameter("AnalogBenchmarking_sequence_number") - 1)
         self.simulation.duration = self.sequences_t_step[self.sequence_number][0]
-        self.simulation.fast_noise_fraction = self.get_variable_parameter("IsingSimulation_fast_noise_fraction")
+        #self.simulation.fast_noise_fraction = self.get_variable_parameter("IsingSimulation_fast_noise_fraction")
         self.simulation.slow_noise_fraction = self.get_variable_parameter("IsingSimulation_slow_noise_fraction")
         self.simulation.parameter_miscalibration_fraction = self.get_variable_parameter("IsingSimulation_parameter_miscalibration_fraction")
-        self.simulation.active_crosstalk_fraction = self.get_variable_parameter("IsingSimulation_active_crosstalk_fraction")
-        self.simulation.idle_crosstalk_fraction = self.get_variable_parameter("IsingSimulation_idle_crosstalk_fraction")
+        #self.simulation.active_crosstalk_fraction = self.get_variable_parameter("IsingSimulation_active_crosstalk_fraction")
+        #self.simulation.idle_crosstalk_fraction = self.get_variable_parameter("IsingSimulation_idle_crosstalk_fraction")
         self.simulation.setup_ramping(self)
 
     @kernel

@@ -53,11 +53,11 @@ class AnalogForwardOnly(PulseSequence):
     @kernel
     def set_subsequence_benchmarking(self):
         self.simulation.duration = self.get_variable_parameter("IsingSimulation_simulation_time")
-        self.simulation.fast_noise_fraction = self.get_variable_parameter("IsingSimulation_fast_noise_fraction")
+        #self.simulation.fast_noise_fraction = self.get_variable_parameter("IsingSimulation_fast_noise_fraction")
         self.simulation.slow_noise_fraction = self.get_variable_parameter("IsingSimulation_slow_noise_fraction")
         self.simulation.parameter_miscalibration_fraction = self.get_variable_parameter("IsingSimulation_parameter_miscalibration_fraction")
-        self.simulation.active_crosstalk_fraction = self.get_variable_parameter("IsingSimulation_active_crosstalk_fraction")
-        self.simulation.idle_crosstalk_fraction = self.get_variable_parameter("IsingSimulation_idle_crosstalk_fraction")
+        #self.simulation.active_crosstalk_fraction = self.get_variable_parameter("IsingSimulation_active_crosstalk_fraction")
+        #self.simulation.idle_crosstalk_fraction = self.get_variable_parameter("IsingSimulation_idle_crosstalk_fraction")
         self.simulation.setup_ramping(self)
 
     @kernel
