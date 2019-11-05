@@ -50,13 +50,7 @@ class ReferenceImage(EnvExperiment):
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
 
-        self.images = []
-        self.num_images_acquired = 0
-
-    @rpc(flags={"async"})
-    def acquire_image(self):
-        self.images.extend(self.camera.get_acquired_data(1))
-        self.num_images_acquired += 1
+        self.images = list()
 
     @kernel
     def run(self):
@@ -75,8 +69,8 @@ class ReferenceImage(EnvExperiment):
         self.core.break_realtime()
         for i in range(self.N): # * 2):
             self.camera_ttl.pulse(self.duration)
-            self.acquire_image()
-            delay(self.duration + 5*ms)
+            self.images.extend(self.camera.get_acquired_data(1))
+            delay(1*ms)
         self.reset_cw_settings()
         self.camera_ttl.off()
 
@@ -128,18 +122,25 @@ class ReferenceImage(EnvExperiment):
 
     def analyze(self):
         camera_dock = Client("::1", 3288, "camera_reference_image")
+        #done = self.camera.wait_for_kinetic()
 
-        if self.num_images_acquired == self.N:
-            image_region = self.image_region
-            x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
-            y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
-            self.images = np.reshape(self.images, (self.N, y_pixels, x_pixels))
-            image = np.average(self.images, axis=0)
-            camera_dock.plot(image, image_region)
-        else:
-            print("Failed to acquire", self.N, "images. Acquisition count:", self.num_images_acquired)
+        images = None
+        try:
+            images = self.camera.get_acquired_data(int(self.N))
+        except Exception as e:
+            logger.error("Camera acquisition failed:", e)
+            camera_dock.enable_button()
+            camera_dock.close_rpc()
+            self.close_camera()
+            return
 
+        image_region = self.image_region
+        x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
+        y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
+        images = np.reshape(images, (self.N, y_pixels, x_pixels))
+        image = np.average(images, axis=0)
         self.close_camera()
+        camera_dock.plot(image, image_region)
         camera_dock.enable_button()
         camera_dock.close_rpc()
 
