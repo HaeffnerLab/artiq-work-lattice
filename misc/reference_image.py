@@ -53,6 +53,10 @@ class ReferenceImage(EnvExperiment):
         self.images = [[] for i in range(self.N)]
 
     @kernel
+    def acquire_image(self) -> TList(TInt32):
+        return self.camera.get_acquired_data(1)
+
+    @kernel
     def run(self):
         self.initialize_camera()
         self.core.reset()
@@ -69,7 +73,7 @@ class ReferenceImage(EnvExperiment):
         self.core.break_realtime()
         for i in range(self.N): # * 2):
             self.camera_ttl.pulse(self.duration)
-            self.images[i] = self.camera.get_acquired_data(1)
+            self.images[i] = self.acquire_image()
             delay(1*ms)
         self.reset_cw_settings()
         self.camera_ttl.off()
