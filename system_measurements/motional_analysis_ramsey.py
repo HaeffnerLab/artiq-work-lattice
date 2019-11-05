@@ -1,10 +1,7 @@
 import visa
 from pulse_sequence import PulseSequence
-from subsequences.doppler_cooling import DopplerCooling
-from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
-from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
-from subsequences.sideband_cooling import SidebandCooling
+from subsequences.state_preparation import StatePreparation
 from subsequences.motional_analysis import MotionalAnalysis
 from artiq.experiment import *
 
@@ -23,7 +20,6 @@ class MotionalAnalysisRamsey(PulseSequence):
         "RabiFlopping.att_729",
         "RabiFlopping.order",
         "RabiFlopping.channel_729",
-        "StatePreparation.sideband_cooling_enable",
         "DopplerCooling.doppler_cooling_frequency_397",
         "DopplerCooling.doppler_cooling_frequency_866",
         "DopplerCooling.doppler_cooling_amplitude_866",
@@ -34,16 +30,14 @@ class MotionalAnalysisRamsey(PulseSequence):
     ]
 
     def run_initially(self):
-        self.dopplerCooling = self.add_subsequence(DopplerCooling)
-        self.opp = self.add_subsequence(OpticalPumpingPulsed)
-        self.opc = self.add_subsequence(OpticalPumpingContinuous)
-        self.sbc = self.add_subsequence(SidebandCooling)
+        self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.ma = self.add_subsequence(MotionalAnalysis)
         self.set_subsequence["MotionalRamsey"] = self.set_subsequence_motionalramsey
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
         self.agi_connected = False
+        self.ramsey_time = 0.
 
     @kernel
     def set_subsequence_motionalramsey(self):
@@ -59,27 +53,17 @@ class MotionalAnalysisRamsey(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
-        delay(2*ms)
+        self.ramsey_time = self.get_variable_parameter("MotionAnalysis_ramsey_time")
+        #delay(2*ms)
 
     @kernel
     def MotionalRamsey(self):
-        delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+        self.stateprep.run(self)
         self.ma.run(self)
-        self.opc.run(self)
-        delay(wait_time)
+        self.stateprep.op.opc.run(self)
+        delay(self.ramsey_time)
         self.ma.run(self)
-        self.opc.run(self)
+        self.stateprep.op.opc.run(self)
         self.rabi.run(self)
 
     def run_finally(self):
@@ -91,4 +75,4 @@ class MotionalAnalysisRamsey(PulseSequence):
             self.agi = rm.open_resource(u'USB0::2391::1031::MY44013736::0::INSTR')
             self.agi.write("SYST:BEEP: STAT OFF")
             self.agi_connected = True
-        self.agi.write("APPL:SQU {} HZ, 5.0 VPP".format(detuning))
+        self.agi.write("APPL:SQU {} HZ, 5.0 VPP, 2.5V".format(detuning))

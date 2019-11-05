@@ -2,14 +2,10 @@ import numpy as np
 from datetime import datetime
 from pulse_sequence import PulseSequence, FitError
 from scipy.optimize import curve_fit
-from subsequences.doppler_cooling import DopplerCooling
-from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
-from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
-from subsequences.sideband_cooling import SidebandCooling
+from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 import traceback
-
 
 class HeatingRate(PulseSequence):
     PulseSequence.accessed_params = {
@@ -22,9 +18,7 @@ class HeatingRate(PulseSequence):
         "CalibrationScans.sideband_calibration_line",
         "Display.relative_frequencies",
         "CalibrationScans.readout_mode",
-        "StatePreparation.sideband_cooling_enable",
         "Heating.background_heating_time",
-        "Heating.scan_range"
     }
     
     master_scans = [("Heating.background_heating_time", 0., 100e-3, 20, "ms")]
@@ -35,10 +29,7 @@ class HeatingRate(PulseSequence):
     )
 
     def run_initially(self):
-        self.dopplerCooling = self.add_subsequence(DopplerCooling)
-        self.opp = self.add_subsequence(OpticalPumpingPulsed)
-        self.opc = self.add_subsequence(OpticalPumpingContinuous)
-        self.sbc = self.add_subsequence(SidebandCooling)
+        self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.CalibrationScans.calibration_channel_729
         self.kernel_invariants.update({"sideband"})
@@ -53,6 +44,7 @@ class HeatingRate(PulseSequence):
         self.run_after["CalibRed"] = self.analyze_calibred
         self.run_after["CalibBlue"] = self.analyze_calibblue
         self.plotname = "HeatingRate-" + str(datetime.now().strftime("%H%M_%S"))
+        assert int(self.p.CalibrationScans.order) == self.p.CalibrationScans.order, "SB order needs to be int"
 
     @kernel
     def set_subsequence_calibred(self):
@@ -84,18 +76,7 @@ class HeatingRate(PulseSequence):
 
     @kernel
     def CalibRed(self):
-        delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+        self.stateprep.run(self)
         delay(self.Heating_background_heating_time)
         self.rabi.run(self)
 
@@ -104,15 +85,16 @@ class HeatingRate(PulseSequence):
         x = self.data.CalibRed.x
         global_max = x[np.argmax(y)]
         try:
-            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
+            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 500.0])
             self.red_amps.append(popt[0])
+            print("red_amp:", popt[0])
         except:
             self.red_amps.append(np.nan)
             raise FitError
         if len(self.red_amps) == len(self.blue_amps):
             try:
                 R = self.red_amps[-1] / self.blue_amps[-1]
-                nbar = R / (1 - R)
+                nbar = R / (1 - R) if R < 1 else -1
                 self.nbars.append(nbar)
                 self.wait_times.append(self.p.Heating.background_heating_time)
                 self.rcg.plot(self.wait_times, self.nbars, tab_name="CalibSidebands",
@@ -126,18 +108,7 @@ class HeatingRate(PulseSequence):
 
     @kernel
     def CalibBlue(self):
-        delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+        self.stateprep.run(self)
         delay(self.Heating_background_heating_time)
         self.rabi.run(self)
 
@@ -148,15 +119,16 @@ class HeatingRate(PulseSequence):
         if np.max(y) < 0.1:
             raise FitError
         try:
-            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 2e-3])
+            popt, pcov = curve_fit(gaussian, x, y, p0=[0.5, global_max, 500.0])
             self.blue_amps.append(popt[0])
+            print("blue_amp:", popt[0])
         except:
             self.blue_amps.append(np.nan)
             raise FitError
         if len(self.red_amps) == len(self.blue_amps):
             try:
                 R = self.red_amps[-1] / self.blue_amps[-1]
-                nbar = R / (1 - R)
+                nbar = R / (1 - R) if R < 1 else -1
                 self.nbars.append(nbar)
                 self.wait_times.append(self.p.Heating.background_heating_time)
                 self.rcg.plot(self.wait_times, self.nbars, tab_name="CalibSidebands",
@@ -168,8 +140,5 @@ class HeatingRate(PulseSequence):
                 print("\n"*10)
                 traceback.print_exc()
 
-
 def gaussian(x, A, x0, sigma):
     return A * np.exp((-(x - x0)**2) / (2*sigma**2))
-
-       

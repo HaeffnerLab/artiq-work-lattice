@@ -14,6 +14,8 @@ class OpticalPumpingContinuous:
     rempump_duration="OpticalPumpingContinuous.optical_pumping_continuous_repump_additional"
     amplitude_729="OpticalPumping.amplitude_729"
     att_729="OpticalPumping.att_729"
+    sp_amp_729="Excitation_729.single_pass_amplitude"
+    sp_att_729="Excitation_729.single_pass_att"
 
     def subsequence(self):
         o = OpticalPumpingContinuous
@@ -31,6 +33,10 @@ class OpticalPumpingContinuous:
         self.dds_729.set(freq_729, 
                          amplitude=o.amplitude_729)
         self.dds_729.set_att(o.att_729)
+        sp_freq_729 = 80*MHz + self.get_offset_frequency(o.channel_729)
+        self.dds_729_SP.set(sp_freq_729, amplitude=o.sp_amp_729)
+        self.dds_729_SP.set_att(o.sp_att_729)
+
         with parallel:
             self.dds_866.sw.on()
             self.dds_854.sw.on()

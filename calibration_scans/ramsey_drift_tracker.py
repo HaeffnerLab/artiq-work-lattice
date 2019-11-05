@@ -5,11 +5,8 @@ import logging
 from labrad.units import WithUnit as U 
 from scipy.optimize import curve_fit
 from pulse_sequence import PulseSequence, FitError
-from subsequences.doppler_cooling import DopplerCooling
-from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
-from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
 from subsequences.rabi_excitation import RabiExcitation
-from subsequences.sideband_cooling import SidebandCooling
+from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
 
@@ -46,17 +43,14 @@ class RamseyDriftTracker(PulseSequence):
     def run_initially(self):
         if "camera" in self.p.StateReadout.readout_mode:
             self.p.StateReadout.readout_mode = "camera"
-        self.dopplerCooling = self.add_subsequence(DopplerCooling)
-        self.opp = self.add_subsequence(OpticalPumpingPulsed)
-        self.opc = self.add_subsequence(OpticalPumpingContinuous)
-        self.sbc = self.add_subsequence(SidebandCooling)
+        self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.DriftTrackerRamsey.channel_729
         self.set_subsequence["TrackLine1"] = self.set_subsequence_trackline1
         self.set_subsequence["TrackLine2"] = self.set_subsequence_trackline2
         self.run_after["TrackLine1"] = self.analyze_trackline1
         self.run_after["TrackLine2"] = self.analyze_trackline2
-        self.max_gap = 500*us
+        self.max_gap = 300*us
         self.min_gap = 25*us
         self.expid = {
             "arguments": {
@@ -82,23 +76,15 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.att_729 = self.DriftTrackerRamsey_line_1_att
         self.rabi.freq_729 = self.calc_frequency(
                     self.DriftTracker_line_selection_1, 
-                    dds=self.DriftTrackerRamsey_channel_729
+                    dds=self.DriftTrackerRamsey_channel_729,
+                    detuning=0.0
                 )
 
     @kernel
     def TrackLine1(self):
-        delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+        self.rabi.phase_ref_time = now_mu()
+
+        self.stateprep.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
         delay(self.DriftTrackerRamsey_gap_time_1)
@@ -121,7 +107,7 @@ class RamseyDriftTracker(PulseSequence):
         pstar =  abs((p1 - p2) / (p1 + p2))  
         if pstar > .8:
             new_ramsey_time = ramsey_time / 2
-            if new_ramsey_time >= self.min_gap:
+            if new_ramsey_time >= self.min_gap:##
                 pv.set_parameter("DriftTrackerRamsey", "gap_time_1", U(new_ramsey_time, "s"))
                 logger.info("Halving gap_time_1.")
             if self.p.DriftTrackerRamsey.auto_schedule:
@@ -145,7 +131,7 @@ class RamseyDriftTracker(PulseSequence):
                 pv.set_parameter("DriftTrackerRamsey", "gap_time_1", U(self.max_gap, "s"))
                 logger.info("Increasing gap_time_1 to maximum, as specified.")
 
-        detuning = np.arcsin(pstar) / (2 * np.pi * ramsey_time + 4 * duration) / 1000
+        detuning = np.arcsin((p1 - p2) / (p1 + p2)) / (2 * np.pi * ramsey_time + 4 * duration)
         self.detuning_1_global = detuning
         cxn.disconnect()
     
@@ -156,23 +142,15 @@ class RamseyDriftTracker(PulseSequence):
         self.rabi.att_729 = self.DriftTrackerRamsey_line_2_att
         self.rabi.freq_729 = self.calc_frequency(
                     self.DriftTracker_line_selection_2, 
-                    dds=self.DriftTrackerRamsey_channel_729
+                    dds=self.DriftTrackerRamsey_channel_729,
+                    detuning=0.0
                 )
 
     @kernel
     def TrackLine2(self):
-        delay(1*ms)
-        self.dopplerCooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        elif self.StatePreparation_optical_pumping_enable:
-            self.opc.run(self)
-        if self.StatePreparation_sideband_cooling_enable:
-            self.sbc.run(self)
-            if self.StatePreparation_pulsed_optical_pumping:
-                self.opp.run(self)
-            elif self.StatePreparation_optical_pumping_enable:
-                self.opc.run(self)
+        self.rabi.phase_ref_time = now_mu()
+
+        self.stateprep.run(self)
         self.rabi.phase_729 = 0.
         self.rabi.run(self)
         delay(self.DriftTrackerRamsey_gap_time_2)
@@ -219,7 +197,7 @@ class RamseyDriftTracker(PulseSequence):
                 pv.set_parameter("DriftTrackerRamsey", "gap_time_2", U(self.max_gap, "s"))
                 logger.info("Increasing gap_time_2 to maximum, as specified.")
 
-        detuning = np.arcsin(pstar) / (2 * np.pi * ramsey_time + 4 * duration) / 1000
+        detuning = np.arcsin((p1 - p2) / (p1 + p2)) / (2 * np.pi * ramsey_time + 4 * duration)
         self.detuning_2_global = detuning
         cxn.disconnect()
 
@@ -228,13 +206,16 @@ class RamseyDriftTracker(PulseSequence):
         line1 = self.p.DriftTracker.line_selection_1
         line2 = self.p.DriftTracker.line_selection_2
 
-        old_carr1 = self.carrier_values[self.carrier_dict[line1]] * 1e-6
-        old_carr2 = self.carrier_values[self.carrier_dict[line2]] * 1e-6
+        old_carr1 = self.carrier_values[self.carrier_dict[line1]] 
+        old_carr2 = self.carrier_values[self.carrier_dict[line2]]
 
-        carr1 = self.detuning_1_global * 1e-6 + old_carr1
-        carr2 = self.detuning_2_global * 1e-6 + old_carr2
+        carr1 = old_carr1 - self.detuning_1_global
+        carr2 = old_carr2 - self.detuning_2_global
 
-        submission = [(line1, U(carr1, "MHz")), (line2, U(carr2, "MHz"))]
+        print("RamseyDriftTracker detuning_1_global =", self.detuning_1_global, "Hz")
+        print("RamseyDriftTracker detuning_2_global =", self.detuning_2_global, "Hz")
+
+        submission = [(line1, U(carr1 * 1e-6, "MHz")), (line2, U(carr2 * 1e-6, "MHz"))]
 
         try:
             global_cxn = labrad.connect(cl.global_address, password=cl.global_password,
