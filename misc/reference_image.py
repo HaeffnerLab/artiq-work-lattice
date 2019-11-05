@@ -50,7 +50,7 @@ class ReferenceImage(EnvExperiment):
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
 
-        self.images = list(self.N)
+        self.images = [[] for i in range(self.N)]
 
     @kernel
     def run(self):
