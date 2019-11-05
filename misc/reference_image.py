@@ -137,7 +137,7 @@ class ReferenceImage(EnvExperiment):
             image = np.average(self.images, axis=0)
             camera_dock.plot(image, image_region)
         else:
-            print("Failed to acquire", self.N, "images. Acquisition count:" self.num_images_acquired)
+            print("Failed to acquire", self.N, "images. Acquisition count:", self.num_images_acquired)
 
         self.close_camera()
         camera_dock.enable_button()
