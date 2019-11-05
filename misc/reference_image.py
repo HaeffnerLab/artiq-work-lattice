@@ -66,8 +66,8 @@ class ReferenceImage(EnvExperiment):
         self.prepare_camera()
         self.core.break_realtime()
         for i in range(self.N * 2):
-            self.camera_ttl.pulse(self.duration)
-            delay(3*ms)
+            self.camera_ttl.pulse(100*us)
+            delay(self.duration + 20*ms)
         self.reset_cw_settings()
         self.camera_ttl.off()
 
@@ -98,7 +98,6 @@ class ReferenceImage(EnvExperiment):
         horizontal_max = self.p.get_parameter("IonsOnCamera", "horizontal_max")
         vertical_min = self.p.get_parameter("IonsOnCamera", "vertical_min")
         vertical_max = self.p.get_parameter("IonsOnCamera", "vertical_max")
-        camera.set_exposure_time(exposure)
         self.image_region = [int(horizontal_bin),
                              int(vertical_bin),
                              int(horizontal_min),
@@ -106,6 +105,7 @@ class ReferenceImage(EnvExperiment):
                              int(vertical_min),
                              int(vertical_max)]
         camera.set_image_region(*self.image_region)
+        camera.set_exposure_time(exposure)
         camera.set_acquisition_mode("Kinetics")
         self.initial_trigger_mode = camera.get_trigger_mode()
         camera.set_trigger_mode("EXT_LOW_HIGH")
