@@ -50,8 +50,6 @@ class ReferenceImage(EnvExperiment):
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
 
-        self.images = list()
-
     @kernel
     def run(self):
         self.initialize_camera()
@@ -67,10 +65,9 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N): # * 2):
+        for i in range(self.N * 2):
             self.camera_ttl.pulse(self.duration)
-            self.images.extend(self.camera.get_acquired_data(1))
-            delay(1*ms)
+            delay(3*ms)
         self.reset_cw_settings()
         self.camera_ttl.off()
 
