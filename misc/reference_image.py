@@ -22,7 +22,7 @@ class ReferenceImage(EnvExperiment):
         self.cxn = cxn
         p = cxn.parametervault
         self.p = p
-        self.camera = cxn.andor_server
+        self.camera = cxn.nuvu_camera_server
         self.N = 200
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.ctw = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
@@ -108,7 +108,7 @@ class ReferenceImage(EnvExperiment):
         camera.set_image_region(*self.image_region)
         camera.set_acquisition_mode("Kinetics")
         self.initial_trigger_mode = camera.get_trigger_mode()
-        camera.set_trigger_mode("External")
+        camera.set_trigger_mode("EXT_HIGH_LOW")
         camera.set_number_kinetics(self.N)
         camera.start_acquisition()
 
@@ -142,7 +142,7 @@ class ReferenceImage(EnvExperiment):
         self.camera.abort_acquisition()
         self.camera.set_trigger_mode(self.initial_trigger_mode)
         self.camera.set_exposure_time(self.initial_exposure)
-        self.camera.set_image_region(1, 1, 1, 658, 1, 496)
+        self.camera.set_image_region(1, 1, 1, 512, 1, 512)
         self.camera.start_live_display()
         self.cxn.disconnect()
 
