@@ -50,7 +50,7 @@ class ReferenceImage(EnvExperiment):
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
 
-        self.images = list()
+        self.images = list(self.N)
 
     @kernel
     def run(self):
@@ -69,7 +69,7 @@ class ReferenceImage(EnvExperiment):
         self.core.break_realtime()
         for i in range(self.N): # * 2):
             self.camera_ttl.pulse(self.duration)
-            self.images.append(self.camera.get_acquired_data(1))
+            self.images[i] = self.camera.get_acquired_data(1)
             delay(1*ms)
         self.reset_cw_settings()
         self.camera_ttl.off()
