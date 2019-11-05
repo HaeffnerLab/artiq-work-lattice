@@ -119,15 +119,18 @@ class ReferenceImage(EnvExperiment):
 
     def analyze(self):
         camera_dock = Client("::1", 3288, "camera_reference_image")
-        done = self.camera.wait_for_kinetic()
-        if not done:
-            logger.error("Failed to get all Kinetic images from the camera.")
+        #done = self.camera.wait_for_kinetic()
+
+        images = None
+        try:
+            images = self.camera.get_acquired_data(int(self.N))
+        except Exception as e:
+            logger.error("Camera acquisition failed:", e)
             camera_dock.enable_button()
             camera_dock.close_rpc()
             self.close_camera()
             return
 
-        images = self.camera.get_acquired_data(1) #int(self.N))
         image_region = self.image_region
         x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
         y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
