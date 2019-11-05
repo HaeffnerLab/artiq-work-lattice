@@ -23,7 +23,7 @@ class ReferenceImage(EnvExperiment):
         p = cxn.parametervault
         self.p = p
         self.camera = cxn.nuvu_camera_server
-        self.N = 5 #TEMP - 
+        self.N = 5 #TEMP - change back to 200
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.ctw = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
         self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
@@ -108,7 +108,7 @@ class ReferenceImage(EnvExperiment):
         camera.set_image_region(*self.image_region)
         camera.set_acquisition_mode("Kinetics")
         self.initial_trigger_mode = camera.get_trigger_mode()
-        camera.set_trigger_mode("EXT_HIGH_LOW")
+        camera.set_trigger_mode("EXT_LOW_HIGH")
         camera.set_number_kinetics(self.N)
         camera.start_acquisition()
 
