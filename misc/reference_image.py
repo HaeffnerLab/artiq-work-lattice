@@ -127,7 +127,7 @@ class ReferenceImage(EnvExperiment):
             self.close_camera()
             return
 
-        images = self.camera.get_acquired_data(int(self.N))
+        images = self.camera.get_acquired_data(1) #int(self.N))
         image_region = self.image_region
         x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
         y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
