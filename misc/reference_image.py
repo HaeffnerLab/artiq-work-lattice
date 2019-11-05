@@ -119,7 +119,7 @@ class ReferenceImage(EnvExperiment):
 
     def analyze(self):
         camera_dock = Client("::1", 3288, "camera_reference_image")
-        done = self.camera.wait_for_kinetic()
+        done = self.camera.wait_for_acquisition()
         if not done:
             logger.error("Failed to get all Kinetic images from the camera.")
             camera_dock.enable_button()
