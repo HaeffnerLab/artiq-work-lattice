@@ -23,7 +23,7 @@ class ReferenceImage(EnvExperiment):
         p = cxn.parametervault
         self.p = p
         self.camera = cxn.nuvu_camera_server
-        self.N = 1 #TEMP - change back to 200
+        self.N = 2 #TEMP - change back to 200
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.ctw = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
         self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
