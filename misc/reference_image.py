@@ -49,6 +49,8 @@ class ReferenceImage(EnvExperiment):
             self.amp_list.append(float(settings[1]))
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
+        
+        self.acquired_images = []
 
     @kernel
     def run(self):
@@ -65,9 +67,11 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N * 2):
+        for i in range(self.N): #* 2):
+            self.camera.start_acquisition()
             self.camera_ttl.pulse(self.camera_trigger_width)
-            delay(self.duration + 50*ms)
+            self.acquired_images.extend(self.camera.get_acquired_data(1))
+            #delay(self.duration + 50*ms)
         self.reset_cw_settings()
         self.camera_ttl.off()
 
@@ -110,28 +114,28 @@ class ReferenceImage(EnvExperiment):
         camera.set_trigger_mode("EXT_LOW_HIGH")
 
     def prepare_camera(self):
-        self.camera.set_number_images_to_acquire(self.N)
+        self.camera.set_number_images_to_acquire(1) #self.N)
         self.camera.start_acquisition()
 
     def analyze(self):
         camera_dock = Client("::1", 3288, "camera_reference_image")
-        images = []
-        try:
-            for i in range(int(self.N)):
-                image = self.camera.get_acquired_data(1)
-                #images = self.camera.get_acquired_data(int(self.N))
-                images.extend(image)
-        except Exception as e:
-            logger.error("Camera acquisition failed:", e)
-            camera_dock.enable_button()
-            camera_dock.close_rpc()
-            self.close_camera()
-            return
+        # images = []
+        # try:
+        #     for i in range(int(self.N)):
+        #         image = self.camera.get_acquired_data(1)
+        #         #images = self.camera.get_acquired_data(int(self.N))
+        #         images.extend(image)
+        # except Exception as e:
+        #     logger.error("Camera acquisition failed:", e)
+        #     camera_dock.enable_button()
+        #     camera_dock.close_rpc()
+        #     self.close_camera()
+        #     return
 
         image_region = self.image_region
         x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
         y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
-        images = np.reshape(images, (self.N, y_pixels, x_pixels))
+        images = np.reshape(self.acquired_images, (self.N, y_pixels, x_pixels))
         image = np.average(images, axis=0)
         self.close_camera()
         camera_dock.plot(image, image_region)
