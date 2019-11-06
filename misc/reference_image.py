@@ -128,10 +128,12 @@ class ReferenceImage(EnvExperiment):
             self.close_camera()
             return
 
+        width, height = self.camera.get_detector_dimensions()
+        images = np.reshape(images, (self.N, height, width))
+        
         image_region = self.image_region
         x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
         y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
-        images = np.reshape(images, (self.N, y_pixels, x_pixels))
         image = np.average(images, axis=0)
         self.close_camera()
         camera_dock.plot(image, image_region)
