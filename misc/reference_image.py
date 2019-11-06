@@ -106,12 +106,11 @@ class ReferenceImage(EnvExperiment):
                              int(vertical_max)]
         camera.set_image_region(*self.image_region)
         camera.set_exposure_time(exposure)
-        camera.set_acquisition_mode("Kinetics")
         self.initial_trigger_mode = camera.get_trigger_mode()
         camera.set_trigger_mode("EXT_LOW_HIGH")
 
     def prepare_camera(self):
-        self.camera.set_number_kinetics(self.N)
+        self.camera.set_number_images_to_acquire(self.N)
         self.camera.start_acquisition()
 
     def analyze(self):
