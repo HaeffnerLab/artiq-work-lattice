@@ -68,7 +68,8 @@ class ReferenceImage(EnvExperiment):
         self.prepare_camera()
         self.core.break_realtime()
         for i in range(self.N): #* 2):
-            self.camera.start_acquisition()
+            self.prepare_camera() #TEMP
+            self.core.break_realtime() #TEMP
             self.camera_ttl.pulse(self.camera_trigger_width)
             self.acquired_images.extend(self.camera.get_acquired_data(1))
             #delay(self.duration + 50*ms)
