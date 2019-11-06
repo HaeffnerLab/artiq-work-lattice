@@ -115,9 +115,12 @@ class ReferenceImage(EnvExperiment):
 
     def analyze(self):
         camera_dock = Client("::1", 3288, "camera_reference_image")
-        images = None
+        images = []
         try:
-            images = self.camera.get_acquired_data(int(self.N))
+            for i in range(int(self.N)):
+                image = self.camera.get_acquired_data(1)
+                #images = self.camera.get_acquired_data(int(self.N))
+                images.extend(image)
         except Exception as e:
             logger.error("Camera acquisition failed:", e)
             camera_dock.enable_button()
