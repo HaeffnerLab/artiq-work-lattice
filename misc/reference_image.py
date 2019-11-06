@@ -65,7 +65,7 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N * 100):
+        for i in range(self.N * 2):
             self.camera_ttl.pulse(100*us)
             delay(self.duration + 20*ms)
         self.reset_cw_settings()
