@@ -23,7 +23,7 @@ class ReferenceImage(EnvExperiment):
         p = cxn.parametervault
         self.p = p
         self.camera = cxn.nuvu_camera_server
-        self.N = 5 #TEMP - change back to 200
+        self.N = 1 #TEMP - change back to 200
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.ctw = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
         self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
@@ -65,7 +65,7 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N * 2):
+        for i in range(self.N * 100):
             self.camera_ttl.pulse(100*us)
             delay(self.duration + 20*ms)
         self.reset_cw_settings()
@@ -109,11 +109,8 @@ class ReferenceImage(EnvExperiment):
         camera.set_acquisition_mode("Kinetics")
         self.initial_trigger_mode = camera.get_trigger_mode()
         camera.set_trigger_mode("EXT_LOW_HIGH")
-        camera.set_number_kinetics(self.N)
-        camera.start_acquisition()
 
     def prepare_camera(self):
-        self.camera.abort_acquisition()
         self.camera.set_number_kinetics(self.N)
         self.camera.start_acquisition()
 
