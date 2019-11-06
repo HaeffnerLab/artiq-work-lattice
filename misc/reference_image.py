@@ -68,8 +68,6 @@ class ReferenceImage(EnvExperiment):
         self.prepare_camera()
         self.core.break_realtime()
         for i in range(self.N): #* 2):
-            self.prepare_camera() #TEMP
-            self.core.break_realtime() #TEMP
             self.camera_ttl.pulse(self.camera_trigger_width)
             self.read_camera() #TEMP
             self.core.break_realtime() #TEMP
@@ -79,6 +77,7 @@ class ReferenceImage(EnvExperiment):
 
     def read_camera(self):
         self.acquired_images.extend(self.camera.get_acquired_data(1))
+        self.prepare_camera()
 
     @kernel
     def reset_cw_settings(self):
