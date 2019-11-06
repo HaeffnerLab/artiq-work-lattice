@@ -25,8 +25,8 @@ class ReferenceImage(EnvExperiment):
         self.camera = cxn.nuvu_camera_server
         self.N = 2 #TEMP - change back to 200
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
-        self.ctw = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
-        self.cta = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
+        self.camera_trigger_width = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
+        self.camera_transfer_additional = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
         self.freq_397 = p.get_parameter("StateReadout", "frequency_397")["Hz"]
         self.freq_866 = p.get_parameter("StateReadout", "frequency_866")["Hz"]
         self.amp_397 = p.get_parameter("StateReadout", "amplitude_397")[""]
@@ -66,8 +66,8 @@ class ReferenceImage(EnvExperiment):
         self.prepare_camera()
         self.core.break_realtime()
         for i in range(self.N * 2):
-            self.camera_ttl.pulse(100*us)
-            delay(self.duration + 20*ms)
+            self.camera_ttl.pulse(self.camera_trigger_width)
+            delay(self.duration + 50*ms)
         self.reset_cw_settings()
         self.camera_ttl.off()
 
