@@ -130,7 +130,7 @@ class ReferenceImage(EnvExperiment):
     def analyze(self):
         camera_dock = Client("::1", 3288, "camera_reference_image")
 
-        timeout_in_seconds = 2
+        timeout_in_seconds = 5
         if not self.acquired_images_event.wait(timeout_in_seconds):
              logger.error("Camera acquisition timed out")
              camera_dock.enable_button()
