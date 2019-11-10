@@ -25,7 +25,7 @@ class ReferenceImage(EnvExperiment):
         p = cxn.parametervault
         self.p = p
         self.camera = cxn.nuvu_camera_server
-        self.N = 2 #TEMP - change back to 200
+        self.N = 200
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.camera_trigger_width = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
         self.camera_transfer_additional = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
@@ -70,9 +70,9 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N): #* 2):
+        for i in range(self.N * 2):
             self.camera_ttl.pulse(self.camera_trigger_width)
-            delay(self.duration + 50*ms)
+            delay(self.duration + 20*ms)
         self.reset_cw_settings()
         self.camera_ttl.off()
 
@@ -129,18 +129,6 @@ class ReferenceImage(EnvExperiment):
 
     def analyze(self):
         camera_dock = Client("::1", 3288, "camera_reference_image")
-        # images = []
-        # try:
-        #     for i in range(int(self.N)):
-        #         image = self.camera.get_acquired_data(1)
-        #         #images = self.camera.get_acquired_data(int(self.N))
-        #         images.extend(image)
-        # except Exception as e:
-        #     logger.error("Camera acquisition failed:", e)
-        #     camera_dock.enable_button()
-        #     camera_dock.close_rpc()
-        #     self.close_camera()
-        #     return
 
         timeout_in_seconds = 2
         if not self.acquired_images_event.wait(timeout_in_seconds):
@@ -148,7 +136,7 @@ class ReferenceImage(EnvExperiment):
              camera_dock.enable_button()
              camera_dock.close_rpc()
              self.close_camera()
-             return            
+             return
 
         image_region = self.image_region
         x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
