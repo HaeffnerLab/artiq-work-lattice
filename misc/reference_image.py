@@ -23,7 +23,7 @@ class ReferenceImage(EnvExperiment):
         p = cxn.parametervault
         self.p = p
         self.camera = cxn.nuvu_camera_server
-        self.N = 1 #TEMP - change back to 200
+        self.N = 2 #TEMP - change back to 200
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.camera_trigger_width = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
         self.camera_transfer_additional = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
@@ -68,16 +68,13 @@ class ReferenceImage(EnvExperiment):
         self.prepare_camera()
         self.core.break_realtime()
         for i in range(self.N): #* 2):
-            self.camera_ttl.pulse(self.camera_trigger_width)
-            self.read_camera() #TEMP
+            self.prepare_camera() #TEMP
             self.core.break_realtime() #TEMP
+            self.camera_ttl.pulse(self.camera_trigger_width)
+            self.acquired_images.extend(self.camera.get_acquired_data(1))
             #delay(self.duration + 50*ms)
         self.reset_cw_settings()
         self.camera_ttl.off()
-
-    def read_camera(self):
-        self.acquired_images.extend(self.camera.get_acquired_data(1))
-        self.prepare_camera()
 
     @kernel
     def reset_cw_settings(self):
