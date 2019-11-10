@@ -124,7 +124,7 @@ class ReferenceImage(EnvExperiment):
             self.acquired_images = self.camera.get_acquired_data(self.N)
             self.acquired_images_event.set()
 
-        thread = threading.Thread(name='acquire', target='acquire_worker', args=(self,))
+        thread = threading.Thread(name='acquire', target=acquire_worker, args=(self,))
         thread.start()
 
     def analyze(self):
