@@ -2,6 +2,8 @@ import labrad
 import numpy as np
 import matplotlib.pyplot as plt
 import logging
+import threading
+import time
 from artiq.experiment import *
 from artiq.protocols.pc_rpc import Client
 
@@ -50,7 +52,8 @@ class ReferenceImage(EnvExperiment):
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
         
-        self.acquired_images = []
+        self.acquired_images = None
+        self.acquired_images_event = threading.Event()
 
     @kernel
     def run(self):
@@ -65,14 +68,11 @@ class ReferenceImage(EnvExperiment):
         self.dds_866.sw.on()
         self.dds_397.sw.on()
         self.dds_854.sw.pulse(200*us)
-        #self.prepare_camera()
-        #self.core.break_realtime()
+        self.prepare_camera()
+        self.core.break_realtime()
         for i in range(self.N): #* 2):
-            self.prepare_camera() #TEMP
-            self.core.break_realtime() #TEMP
             self.camera_ttl.pulse(self.camera_trigger_width)
-            self.acquired_images.extend(self.camera.get_acquired_data(1))
-            #delay(self.duration + 50*ms)
+            delay(self.duration + 50*ms)
         self.reset_cw_settings()
         self.camera_ttl.off()
 
@@ -115,8 +115,17 @@ class ReferenceImage(EnvExperiment):
         camera.set_trigger_mode("EXT_LOW_HIGH")
 
     def prepare_camera(self):
-        self.camera.set_number_images_to_acquire(1) #self.N)
+        self.camera.set_number_images_to_acquire(self.N)
         self.camera.start_acquisition()
+        self.acquire_images_async()
+
+    def acquire_images_async(self):
+        def acquire_worker(self):
+            self.acquired_images = self.camera.get_acquired_data(self.N)
+            self.acquired_images_event.set()
+
+        thread = threading.Thread(name='acquire', target='acquire_worker', args=(self,))
+        thread.start()
 
     def analyze(self):
         camera_dock = Client("::1", 3288, "camera_reference_image")
@@ -132,6 +141,14 @@ class ReferenceImage(EnvExperiment):
         #     camera_dock.close_rpc()
         #     self.close_camera()
         #     return
+
+        timeout_in_seconds = 2
+        if not self.acquired_images_event.wait(timeout_in_seconds):
+             logger.error("Camera acquisition timed out")
+             camera_dock.enable_button()
+             camera_dock.close_rpc()
+             self.close_camera()
+             return            
 
         image_region = self.image_region
         x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
