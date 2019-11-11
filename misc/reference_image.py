@@ -51,9 +51,6 @@ class ReferenceImage(EnvExperiment):
             self.amp_list.append(float(settings[1]))
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
-        
-        self.acquired_images = None
-        self.acquired_images_event = threading.Event()
 
     @kernel
     def run(self):
@@ -117,21 +114,14 @@ class ReferenceImage(EnvExperiment):
     def prepare_camera(self):
         self.camera.set_number_images_to_acquire(self.N)
         self.camera.start_acquisition()
-        self.acquire_images_async()
-
-    def acquire_images_async(self):
-        def acquire_worker(self):
-            self.acquired_images = self.camera.get_acquired_data(self.N)
-            self.acquired_images_event.set()
-
-        thread = threading.Thread(name='acquire', target=acquire_worker, args=(self,))
-        thread.start()
 
     def analyze(self):
         camera_dock = Client("::1", 3288, "camera_reference_image")
 
-        timeout_in_seconds = 60
-        if not self.acquired_images_event.wait(timeout_in_seconds):
+        acquired_images = []
+        try:
+            acquired_images = self.camera.get_acquired_data(timeout_in_seconds=60)
+        except:
              logger.error("Camera acquisition timed out")
              camera_dock.enable_button()
              camera_dock.close_rpc()
@@ -141,7 +131,7 @@ class ReferenceImage(EnvExperiment):
         image_region = self.image_region
         x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
         y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
-        images = np.reshape(self.acquired_images, (self.N, y_pixels, x_pixels))
+        images = np.reshape(acquired_images, (self.N, y_pixels, x_pixels))
         image = np.average(images, axis=0)
         self.close_camera()
         camera_dock.plot(image, image_region)
