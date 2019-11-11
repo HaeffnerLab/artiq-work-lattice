@@ -120,7 +120,8 @@ class ReferenceImage(EnvExperiment):
 
         acquired_images = []
         try:
-            acquired_images = self.camera.get_acquired_data(timeout_in_seconds=60)
+            timeout_in_seconds = 60
+            acquired_images = self.camera.get_acquired_data(timeout_in_seconds)
         except Exception as e:
              logger.error(e)
              logger.error("Camera acquisition timed out")
