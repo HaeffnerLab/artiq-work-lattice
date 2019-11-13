@@ -38,12 +38,13 @@ class MotionalAnalysisRamsey(PulseSequence):
         self.sideband = self.p.TrapFrequencies[self.p.RabiFlopping.selection_sideband]
         self.agi_connected = False
         self.ramsey_time = 0.
+        # trying this
+        detuning = self.sideband + self.MotionAnalysis_ramsey_detuning
+        self.set_frequency(detuning)
 
     @kernel
     def set_subsequence_motionalramsey(self):
         self.ma.pulse_width = self.MotionAnalysis_pulse_width_397
-        detuning = self.sideband + self.MotionAnalysis_ramsey_detuning
-        self.set_frequency(detuning)
         self.rabi.duration = self.RabiFlopping_duration
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
         self.rabi.att_729 = self.RabiFlopping_att_729
