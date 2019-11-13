@@ -39,7 +39,7 @@ class MotionalAnalysisRamsey(PulseSequence):
         self.agi_connected = False
         self.ramsey_time = 0.
         # trying this
-        detuning = self.sideband + self.MotionAnalysis_ramsey_detuning
+        detuning = self.sideband + self.p.MotionAnalysis.ramsey_detuning
         self.set_frequency(detuning)
 
     @kernel
