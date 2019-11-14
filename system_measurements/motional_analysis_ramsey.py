@@ -61,7 +61,7 @@ class MotionalAnalysisRamsey(PulseSequence):
     def MotionalRamsey(self):
         self.stateprep.run(self)
         self.ma.run(self)
-        self.stateprep.op.opc.run(self)
+        # self.stateprep.op.opc.run(self)
         delay(self.ramsey_time)
         self.ma.run(self)
         self.stateprep.op.opc.run(self)
