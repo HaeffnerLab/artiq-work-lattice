@@ -116,6 +116,7 @@ class ReferenceImage(EnvExperiment):
         self.camera.start_acquisition()
 
     def analyze(self):
+        print("here1")
         camera_dock = Client("::1", 3288, "camera_reference_image")
 
         acquired_images = []
