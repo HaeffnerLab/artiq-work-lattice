@@ -119,6 +119,7 @@ class ReferenceImage(EnvExperiment):
         print("here1")
         camera_dock = Client("::1", 3288, "camera_reference_image")
 
+        print("here2")
         acquired_images = []
         try:
             timeout_in_seconds = 60
@@ -131,6 +132,7 @@ class ReferenceImage(EnvExperiment):
              self.close_camera()
              return
 
+        print("here3")
         image_region = self.image_region
         x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
         y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
