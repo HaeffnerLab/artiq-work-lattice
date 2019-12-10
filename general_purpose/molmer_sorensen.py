@@ -114,6 +114,8 @@ class MolmerSorensenGate(PulseSequence):
         if self.MolmerSorensen_SDDS_enable:
             self.rotate_in.run(self)
         self.ms.run(self)
+        if self.MolmerSorensen_SDDS_rotate_out:
+            self.rotate_in.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
             delay(self.get_variable_parameter("MolmerSorensen_ramsey_duration"))
             self.rabi.run(self)
