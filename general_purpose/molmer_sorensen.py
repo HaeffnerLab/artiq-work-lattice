@@ -1,5 +1,6 @@
 from pulse_sequence import PulseSequence
 from subsequences.rabi_excitation import RabiExcitation
+from subsequences.rabi_excitation2 import RabiExcitation2 #fix later
 from subsequences.state_preparation import StatePreparation
 from subsequences.bichro_excitation import BichroExcitation
 from subsequences.szx import SZX
@@ -39,7 +40,10 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.channel_729",
         "MolmerSorensen.ramsey_duration",
         "MolmerSorensen.override_readout",
-        "MolmerSorensen.ms_phase"
+        "MolmerSorensen.ms_phase",
+        "Rotation729L1.amplitude",
+        "Rotation729L1.att",
+        "Rotation729L1.pi_time"
     }
 
     PulseSequence.scan_params.update(
@@ -58,7 +62,9 @@ class MolmerSorensenGate(PulseSequence):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.ms = self.add_subsequence(BichroExcitation)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.rotate_in = self.add_subsequence(RabiExcitation2)
         self.rabi.channel_729 = "729G"
+        self.rotate_in.channel_729 = "729L1"
         self.phase_ref_time = np.int64(0)
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
@@ -89,6 +95,12 @@ class MolmerSorensenGate(PulseSequence):
             self.MolmerSorensen_line_selection, 
             detuning=self.ms.detuning_carrier_1,
             dds="729G")
+        self.rotate_in.amp_729 = self.Rotation729L1_amplitude
+        self.rotate_in.att_729 = self.Rotation729L1_att
+        self.rotate_in.duration = self.Rotation729L1_pi_time
+        self.rotate_in.freq_729 = self.calc_frequency(
+            self.MolmerSorensen_line_selection, 
+            dds="729L1")
         if self.MolmerSorensen_bichro_enable:
             self.ms.setup_ramping(self)
 
@@ -99,6 +111,8 @@ class MolmerSorensenGate(PulseSequence):
         self.rabi.phase_ref_time = self.phase_ref_time
 
         self.stateprep.run(self)
+        if self.MolmerSorensen_SDDS_enable:
+            self.rotate_in.run(self)
         self.ms.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
             delay(self.get_variable_parameter("MolmerSorensen_ramsey_duration"))
