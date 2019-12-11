@@ -159,8 +159,8 @@ class IsingSimulation:
             self.dds_729_SP.set(freq_blue, amplitude=s.amp_blue, phase=phase_blue / 360)
             self.dds_729_SP_bichro.set(freq_red, amplitude=s.amp_red)
         else:
-            self.dds_729_SP.set(84*MHz, amplitude=s.amp_blue, phase=phase_blue / 360)
-            self.dds_729_SP_bichro.set(84*MHz, amplitude=s.amp_red)
+            self.dds_729_SP.set(100*MHz, amplitude=s.amp_blue, phase=phase_blue / 360)
+            self.dds_729_SP_bichro.set(100*MHz, amplitude=s.amp_red)
             
         with parallel:
             self.dds_729_SP.sw.on()
@@ -171,7 +171,7 @@ class IsingSimulation:
         # NOTE: This requires the SP_729L2 channel to be mixed with the SP_729G and SP_729G_bichro channels
         #       with all three channels going to the single-pass AOM for the global 729 beam.
         if s.disable_transverse_term:
-            sp_freq_729_carrier = 84*MHz
+            sp_freq_729_carrier = 100*MHz
         else:
             sp_freq_729_carrier = 80*MHz + self.get_offset_frequency("729G")
         self.dds_SP_729L2.set(sp_freq_729_carrier, amplitude=s.transverse_field_sp_amp_729,
