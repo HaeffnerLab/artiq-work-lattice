@@ -105,9 +105,9 @@ class IsingSimulation:
     def subsequence(self):
         s = IsingSimulation
 
-        if s.alternate_basis:
+        #if s.alternate_basis:
             # global z-rotation by pi/2 via AC stark shift
-            s.rz_pi_2_pulse(self)
+        #    s.rz_pi_2_pulse(self)
 
         ms_detuning = s.detuning
         if s.reverse:
@@ -115,11 +115,11 @@ class IsingSimulation:
 
         phase_blue = 0.
         phase_transverse = 90.
-        if s.alternate_basis:
+        #if s.alternate_basis:
             # MS term: implement sigma_y sigma_y instead of sigma_x sigma_x
-            phase_blue = 180.
+            #phase_blue = 180.
             # transverse field term: implement sigma_x instead of sigma_y
-            phase_transverse = 180.
+            #phase_transverse = 180.
 
         if s.reverse:
             phase_transverse += 180.
@@ -207,6 +207,6 @@ class IsingSimulation:
             self.dds_729_SP_bichro.sw.off()
             self.dds_SP_729L2.sw.off()
 
-        if s.alternate_basis:
+        #if s.alternate_basis:
             # global z-rotation by -pi/2 via AC stark shift
-            s.rz_pi_2_pulse(self, phase=180.)
+            #s.rz_pi_2_pulse(self, phase=180.)
