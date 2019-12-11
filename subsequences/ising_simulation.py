@@ -63,10 +63,10 @@ class IsingSimulation:
         s.noise_primary_db = [10 * np.log10(noise) for noise in noise_primary]
         s.noise_alternate_db = [10 * np.log10(noise) for noise in noise_alternate]
 
-        # TODO_RYAN: Implement s.active_crosstalk_fraction
-        # TODO_RYAN: Implement s.idle_crosstalk_fraction
+        # SHOO_RYAN: Implement s.active_crosstalk_fraction
+        # SHOO_RYAN: Implement s.idle_crosstalk_fraction
 
-        # TODO_RYAN: Implement s.fast_noise_fraction by generating
+        # SHOO_RYAN: Implement s.fast_noise_fraction by generating
         #            the correct type of noisy waveform here.
         # pulse_sequence.generate_single_pass_noise_waveform(
         #     mean=s.amp_blue,
@@ -83,7 +83,7 @@ class IsingSimulation:
             ramp_duration=1*us,
             dds1_amp=s.amp)
 
-        # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
+        # SHOO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
         #pulse_sequence.prepare_noisy_single_pass(freq_noise=False)
 
     @kernel
@@ -121,8 +121,8 @@ class IsingSimulation:
             # transverse field term: implement sigma_x instead of sigma_y
             #phase_transverse = 180.
 
-        if s.reverse:
-            phase_transverse += 180.
+        #if s.reverse:
+            #phase_transverse += 180.
 
         dp_freq = self.calc_frequency(
             s.line_selection,
@@ -145,7 +145,7 @@ class IsingSimulation:
 
         # Enable the blue and red DDS for the MS term
 
-        # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
+        # SHOO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
         #            instead of turning them on manually.
         # self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=s.phase_ref_time)
         # self.dds_729_SP.set_att(s.att_blue)
@@ -199,7 +199,7 @@ class IsingSimulation:
             delay(s.duration)
             self.dds_729.sw.off()
 
-        # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this
+        # SHOO_RYAN: Once fast_noise_fraction is implemented, uncomment this
         #            instead of turning them off manually.
         #self.stop_noisy_single_pass(use_bichro=True)
         with parallel:
