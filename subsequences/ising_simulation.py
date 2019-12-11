@@ -140,37 +140,47 @@ class IsingSimulation:
         # and set amplitude to zero for now.
         self.dds_729.set(dp_freq, amplitude=0., phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
 
+        # Enable the blue and red DDS for the MS term
+
+        # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
+        #            instead of turning them on manually.
+        # self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=s.phase_ref_time)
+        # self.dds_729_SP.set_att(s.att_blue)
+        # self.dds_729_SP_bichro.set(freq_red, amplitude=0., ref_time_mu=s.phase_ref_time)
+        # self.dds_729_SP_bichro.set_att(s.att_red)
+        # self.start_noisy_single_pass(s.phase_ref_time,
+        #     freq_sp=freq_blue, amp_sp=s.amp_blue, att_sp=s.att_blue, phase_sp=phase_blue / 360,
+        #     use_bichro=True,
+        #     freq_sp_bichro=freq_red, amp_sp_bichro=s.amp_red, att_sp_bichro=s.att_red)
+
+        self.dds_729_SP.set_att(s.att_blue)
+        self.dds_729_SP.set_att(s.att_red)
         if not s.disable_coupling_term:
-            # Enable the blue and red DDS for the MS term
-
-            # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
-            #            instead of turning them on manually.
-            # self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=s.phase_ref_time)
-            # self.dds_729_SP.set_att(s.att_blue)
-            # self.dds_729_SP_bichro.set(freq_red, amplitude=0., ref_time_mu=s.phase_ref_time)
-            # self.dds_729_SP_bichro.set_att(s.att_red)
-            # self.start_noisy_single_pass(s.phase_ref_time,
-            #     freq_sp=freq_blue, amp_sp=s.amp_blue, att_sp=s.att_blue, phase_sp=phase_blue / 360,
-            #     use_bichro=True,
-            #     freq_sp_bichro=freq_red, amp_sp_bichro=s.amp_red, att_sp_bichro=s.att_red)
-
             self.dds_729_SP.set(freq_blue, amplitude=s.amp_blue, phase=phase_blue / 360)
-            self.dds_729_SP.set_att(s.att_blue)
             self.dds_729_SP_bichro.set(freq_red, amplitude=s.amp_red)
-            self.dds_729_SP.set_att(s.att_red)
-            with parallel:
-                self.dds_729_SP.sw.on()
-                self.dds_729_SP_bichro.sw.on()
+        else:
+            self.dds_729_SP.set(84*MHz, amplitude=s.amp_blue, phase=phase_blue / 360)
+            self.dds_729_SP_bichro.set(84*MHz, amplitude=s.amp_red)
+            
+        with parallel:
+            self.dds_729_SP.sw.on()
+            self.dds_729_SP_bichro.sw.on()
+            
 
-        if not s.disable_transverse_term:
-            # Enable the carrier DDS for the transverse field term
-            # NOTE: This requires the SP_729L2 channel to be mixed with the SP_729G and SP_729G_bichro channels
-            #       with all three channels going to the single-pass AOM for the global 729 beam.
+        # Enable the carrier DDS for the transverse field term
+        # NOTE: This requires the SP_729L2 channel to be mixed with the SP_729G and SP_729G_bichro channels
+        #       with all three channels going to the single-pass AOM for the global 729 beam.
+        if s.disable_transverse_term:
+            sp_freq_729_carrier = 84*MHz
+        else:
             sp_freq_729_carrier = 80*MHz + self.get_offset_frequency("729G")
-            self.dds_SP_729L2.set(sp_freq_729_carrier, amplitude=s.transverse_field_sp_amp_729,
-                phase=phase_transverse / 360, ref_time_mu=s.phase_ref_time)
-            self.dds_SP_729L2.set_att(s.transverse_field_sp_att_729)
-            self.dds_SP_729L2.sw.on()
+        self.dds_SP_729L2.set(sp_freq_729_carrier, amplitude=s.transverse_field_sp_amp_729,
+            phase=phase_transverse / 360, ref_time_mu=s.phase_ref_time)
+        self.dds_SP_729L2.set_att(s.transverse_field_sp_att_729)
+        self.dds_SP_729L2.sw.on()
+        
+        
+            
 
         # Calculate the desired attenuation after applying the noise
         noise_factor_db = s.noise_alternate_db[s.noise_index] if s.alternate_basis else s.noise_primary_db[s.noise_index]
