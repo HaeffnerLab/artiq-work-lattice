@@ -121,6 +121,9 @@ class IsingSimulation:
             # transverse field term: implement sigma_x instead of sigma_y
             phase_transverse = 180.
 
+        if s.reverse:
+            phase_transverse = (phase_transverse + 180.) % 360.
+
         dp_freq = self.calc_frequency(
             s.line_selection,
             detuning=s.detuning_carrier_1,
