@@ -114,12 +114,12 @@ class IsingSimulation:
             ms_detuning = -ms_detuning
 
         phase_blue = 0.
-        phase_transverse = 0.
+        phase_transverse = 90.
         if s.alternate_basis:
             # MS term: implement sigma_y sigma_y instead of sigma_x sigma_x
             phase_blue = 180.
             # transverse field term: implement sigma_x instead of sigma_y
-            phase_transverse = 90.
+            phase_transverse = 180.
 
         dp_freq = self.calc_frequency(
             s.line_selection,
