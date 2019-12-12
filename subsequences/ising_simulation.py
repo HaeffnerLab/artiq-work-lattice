@@ -110,7 +110,7 @@ class IsingSimulation:
         #    s.rz_pi_2_pulse(self)
 
         ms_detuning = s.detuning
-        if s.reverse:
+        # if s.reverse:
             # ms_detuning = (-ms_detuning) * 1.05 # TEMP calibrated
 
         phase_blue = 0.
