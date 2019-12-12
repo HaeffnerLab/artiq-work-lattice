@@ -111,7 +111,7 @@ class IsingSimulation:
 
         ms_detuning = s.detuning
         if s.reverse:
-            ms_detuning = (-ms_detuning) * 1.05 # TEMP calibrated
+            # ms_detuning = (-ms_detuning) * 1.05 # TEMP calibrated
 
         phase_blue = 0.
         phase_transverse = 90.
@@ -141,7 +141,7 @@ class IsingSimulation:
 
         # Set double-pass to correct frequency and phase,
         # and set amplitude to zero for now.
-        self.dds_729.set(dp_freq, amplitude=0., phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
+        self.dds_729.set(dp_freq, amplitude=0., phase=(s.phase + 180) / 360, ref_time_mu=s.phase_ref_time)
 
         # Enable the blue and red DDS for the MS term
 
