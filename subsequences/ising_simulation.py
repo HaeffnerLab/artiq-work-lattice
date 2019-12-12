@@ -123,7 +123,8 @@ class IsingSimulation:
 
         if s.reverse:
             phase_transverse += 180.
-
+            s.phase += 180
+            
         dp_freq = self.calc_frequency(
             s.line_selection,
             detuning=s.detuning_carrier_1,
@@ -141,7 +142,7 @@ class IsingSimulation:
 
         # Set double-pass to correct frequency and phase,
         # and set amplitude to zero for now.
-        self.dds_729.set(dp_freq, amplitude=0., phase=(s.phase + 180) / 360, ref_time_mu=s.phase_ref_time)
+        self.dds_729.set(dp_freq, amplitude=0., phase=s.phase / 360, ref_time_mu=s.phase_ref_time)
 
         # Enable the blue and red DDS for the MS term
 
