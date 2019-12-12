@@ -111,7 +111,7 @@ class IsingSimulation:
 
         ms_detuning = s.detuning
         if s.reverse:
-            ms_detuning = (-ms_detuning) * 1.1 # TEMP calibrated
+            ms_detuning = (-ms_detuning) * 1.05 # TEMP calibrated
 
         phase_blue = 0.
         phase_transverse = 90.
