@@ -123,7 +123,6 @@ class IsingSimulation:
 
         if s.reverse:
             phase_transverse += 180.
-            s.phase += 180
 
         dp_freq = self.calc_frequency(
             s.line_selection,
