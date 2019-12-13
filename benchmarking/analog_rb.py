@@ -127,7 +127,7 @@ class AnalogRB(PulseSequence):
             self.simulation.reverse = self.sequences_reverse_step[self.sequence_number][i]
             self.simulation.disable_coupling_term = 0. if self.sequences_enable_0[self.sequence_number][i] else 1.
             self.simulation.disable_transverse_term = 0. if self.sequences_enable_1[self.sequence_number][i] else 1.
-            #self.simulation.run(self)
+            self.simulation.run(self)
 
         # use the next value from the random noise for the next shot
         self.simulation.noise_index = (self.simulation.noise_index + 1) % len(self.simulation.noise_primary_db)
