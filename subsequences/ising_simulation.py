@@ -90,24 +90,43 @@ class IsingSimulation:
     def rz_pi_2_pulse(self, phase=0.):
         s = IsingSimulation
         s.rabi.channel_729 = "729G"
-        s.rabi.duration = s.ac_stark_pi_time / 2.
-        s.rabi.amp_729 = s.ac_stark_amp
-        s.rabi.att_729 = s.ac_stark_att
-        s.rabi.freq_729 = self.calc_frequency(
-            s.ac_stark_line_selection,
-            detuning=s.ac_stark_detuning,
-            dds=s.rabi.channel_729
-        )
-        s.rabi.phase_729 = phase
         s.rabi.phase_ref_time = s.phase_ref_time
+        s.rabi.duration = self.AnalogBenchmarking_global_pi_time / 2.
+        s.rabi.amp_729 = self.AnalogBenchmarking_global_amp
+        s.rabi.att_729 = self.AnalogBenchmarking_global_att
+        s.rabi.freq_729 = self.calc_frequency(
+            self.AnalogBenchmarking_global_line_selection,
+            dds=self.rabi.channel_729
+        )
+
+        # s.rabi.duration = s.ac_stark_pi_time / 2.
+        # s.rabi.amp_729 = s.ac_stark_amp
+        # s.rabi.att_729 = s.ac_stark_att
+        # s.rabi.freq_729 = self.calc_frequency(
+        #     s.ac_stark_line_selection,
+        #     detuning=s.ac_stark_detuning,
+        #     dds=s.rabi.channel_729
+        # )
+        # s.rabi.phase_729 = phase
+
+        #ry(pi/2)
+        s.rabi.phase_729 = 90. + phase
+        s.rabi.run(self)
+
+        #rx(pi/2)
+        s.rabi.phase_729 = 0. + phase
+        s.rabi.run(self)
+
+        #ry(-pi/2)
+        s.rabi.phase_729 = 270. + phase
         s.rabi.run(self)
 
     def subsequence(self):
         s = IsingSimulation
 
-        #if s.alternate_basis:
+        if s.alternate_basis:
             # global z-rotation by pi/2 via AC stark shift
-        #    s.rz_pi_2_pulse(self)
+           s.rz_pi_2_pulse(self)
 
         ms_detuning = s.detuning
         if s.reverse:
@@ -115,11 +134,11 @@ class IsingSimulation:
 
         phase_blue = 0.
         phase_transverse = 90.
-        #if s.alternate_basis:
+        if s.alternate_basis:
             # MS term: implement sigma_y sigma_y instead of sigma_x sigma_x
-            #phase_blue = 180.
-            # transverse field term: implement sigma_x instead of sigma_y
-            #phase_transverse = 180.
+            phase_blue = 180.
+            # # transverse field term: implement sigma_x instead of sigma_y
+            phase_transverse = 0.
 
         if s.reverse:
             phase_transverse += 180.
