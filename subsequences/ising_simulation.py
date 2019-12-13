@@ -63,10 +63,10 @@ class IsingSimulation:
         s.noise_primary_db = [10 * np.log10(noise) for noise in noise_primary]
         s.noise_alternate_db = [10 * np.log10(noise) for noise in noise_alternate]
 
-        # SHOO_RYAN: Implement s.active_crosstalk_fraction
-        # SHOO_RYAN: Implement s.idle_crosstalk_fraction
+        # TODO_RYAN: Implement s.active_crosstalk_fraction
+        # TODO_RYAN: Implement s.idle_crosstalk_fraction
 
-        # SHOO_RYAN: Implement s.fast_noise_fraction by generating
+        # TODO_RYAN: Implement s.fast_noise_fraction by generating
         #            the correct type of noisy waveform here.
         # pulse_sequence.generate_single_pass_noise_waveform(
         #     mean=s.amp_blue,
@@ -83,7 +83,7 @@ class IsingSimulation:
             ramp_duration=1*us,
             dds1_amp=s.amp)
 
-        # SHOO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
+        # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
         #pulse_sequence.prepare_noisy_single_pass(freq_noise=False)
 
     @kernel
@@ -145,7 +145,7 @@ class IsingSimulation:
 
         # Enable the blue and red DDS for the MS term
 
-        # SHOO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
+        # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this.
         #            instead of turning them on manually.
         # self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=s.phase_ref_time)
         # self.dds_729_SP.set_att(s.att_blue)
@@ -162,8 +162,8 @@ class IsingSimulation:
             self.dds_729_SP.set(freq_blue, amplitude=s.amp_blue, phase=phase_blue / 360)
             self.dds_729_SP_bichro.set(freq_red, amplitude=s.amp_red)
         else:
-            self.dds_729_SP.set(100*MHz, amplitude=s.amp_blue, phase=phase_blue / 360)
-            self.dds_729_SP_bichro.set(60*MHz, amplitude=s.amp_red)
+            self.dds_729_SP.set(150*MHz, amplitude=s.amp_blue, phase=phase_blue / 360)
+            self.dds_729_SP_bichro.set(10*MHz, amplitude=s.amp_red)
             
         with parallel:
             self.dds_729_SP.sw.on()
@@ -199,7 +199,7 @@ class IsingSimulation:
             delay(s.duration)
             self.dds_729.sw.off()
 
-        # SHOO_RYAN: Once fast_noise_fraction is implemented, uncomment this
+        # TODO_RYAN: Once fast_noise_fraction is implemented, uncomment this
         #            instead of turning them off manually.
         #self.stop_noisy_single_pass(use_bichro=True)
         with parallel:
