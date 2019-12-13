@@ -162,8 +162,8 @@ class IsingSimulation:
             self.dds_729_SP.set(freq_blue, amplitude=s.amp_blue, phase=phase_blue / 360)
             self.dds_729_SP_bichro.set(freq_red, amplitude=s.amp_red)
         else:
-            self.dds_729_SP.set(150*MHz, amplitude=s.amp_blue, phase=phase_blue / 360)
-            self.dds_729_SP_bichro.set(10*MHz, amplitude=s.amp_red)
+            self.dds_729_SP.set(81.5*MHz + offset, amplitude=s.amp_blue, phase=phase_blue / 360)
+            self.dds_729_SP_bichro.set(78.5*MHz + offset, amplitude=s.amp_red)
             
         with parallel:
             self.dds_729_SP.sw.on()
