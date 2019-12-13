@@ -59,7 +59,9 @@ class IsingSimulation:
         noise_mean = 1.0 - s.parameter_miscalibration_fraction
         noise_std = s.slow_noise_fraction * noise_mean
         noise_primary = pulse_sequence.make_random_list(pulse_sequence.N, noise_mean, noise_std, min=0.0)
+        print("noise_primary: \n", noise_primary)
         noise_alternate = pulse_sequence.make_random_list(pulse_sequence.N, noise_mean, noise_std, min=0.0)
+        print("noise_alternate: \n", noise_alternate)
         s.noise_primary_db = [10 * np.log10(noise) for noise in noise_primary]
         s.noise_alternate_db = [10 * np.log10(noise) for noise in noise_alternate]
 
