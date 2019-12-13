@@ -133,8 +133,8 @@ class AnalogRB(PulseSequence):
         self.simulation.noise_index = (self.simulation.noise_index + 1) % len(self.simulation.noise_primary_db)
 
         # adjust for the final_state so that we ideally end up back in SS
-        final_state = self.final_states[self.sequence_number]
-        if final_state == "SD" or final_state == "DS":
-            self.local_pi_pulse(phase=180.)
-        if final_state == "SD" or final_state == "DD":
-            self.global_pi_pulse(phase=180.)
+        # final_state = self.final_states[self.sequence_number]
+        # if final_state == "SD" or final_state == "DS":
+        #     self.local_pi_pulse(phase=180.)
+        # if final_state == "SD" or final_state == "DD":
+        #     self.global_pi_pulse(phase=180.)
