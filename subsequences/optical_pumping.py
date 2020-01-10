@@ -20,4 +20,5 @@ class OpticalPumping:
         else:
             o.opc.run(self)
         if o.enable_aux:
+            print("someting")
             o.aux_opc.run(self)
