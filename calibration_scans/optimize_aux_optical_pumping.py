@@ -4,7 +4,7 @@ from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
 
-class OptimizeOpticalPumping(PulseSequence):
+class OptimizeAuxOpticalPumping(PulseSequence):
     PulseSequence.accessed_params = {
         "RabiFlopping.amplitude_729",
         "RabiFlopping.att_729",
