@@ -45,7 +45,7 @@ class OptimizeAuxOpticalPumping(PulseSequence):
             dds=self.RabiFlopping_channel_729
         )
         self.stateprep.op.aux_opc.amplitude_729 = self.get_variable_parameter("OpticalPumpingAux_duration")
-        # self.stateprep.op.aux_opc.amplitude_854 = self.get_variable_parameter("OpticalPumpingAux_amp_729")
+        self.stateprep.op.aux_opc.amplitude_854 = self.get_variable_parameter("OpticalPumpingAux_amp_729")
         # self.stateprep.op.aux_opc.duration = self.get_variable_parameter("OpticalPumpingAux_amp_854")
 
     @kernel
