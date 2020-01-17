@@ -140,7 +140,7 @@ class BichroExcitation:
                         self.dds_729_SP.sw.off()
             
             elif b.sp_due_enable:
-                self.get_729_dds(id=2)
+                self.get_729_dds(id=0)
                 
                 line1_freq = self.calc_frequency(
                     b.line_selection,
@@ -198,12 +198,12 @@ class BichroExcitation:
                     sp_freq_729_line2 = 80*MHz + sp_line2_freq + offset
                     print("secondly")
                     print(sp_freq_729_line1 , "\n", sp_freq_729_line2)
-                    self.dds_729_SP_line1.set(sp_freq_729_line1, amplitude=b.sp_line1_amp, ref_time_mu=b.phase_ref_time)
-                    #Need to add new parameter sp_amp_729_line1 in MolmerSorenson
-                    self.dds_729_SP_line1.set_att(b.sp_line1_att)# Need to add new parameter att_line1 in MolmerSorenson 
-                    self.dds_729_SP_line2.set(sp_freq_729_line2, amplitude=b.sp_line2_amp, ref_time_mu=b.phase_ref_time)
-                    #Need to add new parameter sp_amp_729_line2 in MolmerSorenson
-                    self.dds_729_SP_line2.set_att(b.sp_line2_att)# Need to add new parameter att_line2 in MolmerSorenson
+                    # self.dds_729_SP_line1.set(sp_freq_729_line1, amplitude=b.sp_line1_amp, ref_time_mu=b.phase_ref_time)
+                    # #Need to add new parameter sp_amp_729_line1 in MolmerSorenson
+                    # self.dds_729_SP_line1.set_att(b.sp_line1_att)# Need to add new parameter att_line1 in MolmerSorenson 
+                    # self.dds_729_SP_line2.set(sp_freq_729_line2, amplitude=b.sp_line2_amp, ref_time_mu=b.phase_ref_time)
+                    # #Need to add new parameter sp_amp_729_line2 in MolmerSorenson
+                    # self.dds_729_SP_line2.set_att(b.sp_line2_att)# Need to add new parameter att_line2 in MolmerSorenson
                     
                     with parallel:
                         self.dds_729.sw.on()
