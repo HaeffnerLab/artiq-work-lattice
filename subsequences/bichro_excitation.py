@@ -15,7 +15,7 @@ class BichroExcitation:
     channel="MolmerSorensen.channel_729"
     shape_profile="MolmerSorensen.shape_profile"
     amp_blue="MolmerSorensen.amp_blue"
-    amp_blue_noise_std="MolmerSorensen.amp_blue_noise_std"f
+    amp_blue_noise_std="MolmerSorensen.amp_blue_noise_std"
     att_blue="MolmerSorensen.att_blue"
     amp_blue_ion2="MolmerSorensen.amp_blue_ion2"
     att_blue_ion2="MolmerSorensen.att_blue_ion2"
