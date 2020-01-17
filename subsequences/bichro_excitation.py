@@ -82,6 +82,7 @@ class BichroExcitation:
             freq_red += offset
             
             if not b.sp_due_enable:
+                self.get_729_dds("729G", id=2)
                 self.get_729_dds("729G", id=0)
                 
                 # Set double-pass to correct frequency and phase,
