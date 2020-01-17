@@ -194,8 +194,8 @@ class BichroExcitation:
                     self.dds_729.set_att(b.att)
                     print("firstly")
                     print(sp_line1_freq , "\n", sp_line2_freq)
-                    sp_freq_729_line1 = 80*MHz + sp_line1_freq - offset
-                    sp_freq_729_line2 = 80*MHz + sp_line2_freq - offset
+                    sp_freq_729_line1 = 80*MHz + sp_line1_freq + offset
+                    sp_freq_729_line2 = 80*MHz + sp_line2_freq + offset
                     print("secondly")
                     print(sp_freq_729_line1 , "\n", sp_freq_729_line2)
                     self.dds_729_SP_line1.set(sp_freq_729_line1, amplitude=b.sp_line1_amp, ref_time_mu=b.phase_ref_time)
@@ -210,10 +210,10 @@ class BichroExcitation:
                         self.dds_729_SP_line1.sw.on()
                         self.dds_729_SP_line2.sw.on()
                     delay(b.duration)
-                    with parallel:
-                        self.dds_729.sw.off()
-                        self.dds_729_SP_line1.sw.off()
-                        self.dds_729_SP_line2.sw.off()
+                    # with parallel:
+                    #     self.dds_729.sw.off()
+                    #     self.dds_729_SP_line1.sw.off()
+                    #     self.dds_729_SP_line2.sw.off()
                 
                 if b.bichro_enable:
                     self.dds_729.set_amplitude(b.amp)
