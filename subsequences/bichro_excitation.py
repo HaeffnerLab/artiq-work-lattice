@@ -179,7 +179,7 @@ class BichroExcitation:
                 print("dp_freq_actual")
                 print(dp_freq_actual)
                 self.dds_729.set(dp_freq_actual,
-                    amplitude=1.0,
+                    amplitude=b.amp,
                     phase=b.phase / 360,
                     ref_time_mu=b.phase_ref_time)
 
@@ -190,7 +190,7 @@ class BichroExcitation:
 
                 if not b.bichro_enable:
                     #I guess we want two carrier tone come out from the SP if we disable the bichro
-                    self.dds_729.set_amplitude(b.amp)
+                    # self.dds_729.set_amplitude(b.amp)
                     self.dds_729.set_att(b.att)
                     print("firstly")
                     print(sp_line1_freq , "\n", sp_line2_freq)
