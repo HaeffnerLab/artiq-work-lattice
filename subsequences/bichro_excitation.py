@@ -207,13 +207,13 @@ class BichroExcitation:
                     
                     with parallel:
                         self.dds_729.sw.on()
-                        self.dds_729_SP_line1.sw.on()
-                        self.dds_729_SP_line2.sw.on()
+                        # self.dds_729_SP_line1.sw.on()
+                        # self.dds_729_SP_line2.sw.on()
                     delay(b.duration)
                     with parallel:
                         self.dds_729.sw.off()
-                        self.dds_729_SP_line1.sw.off()
-                        self.dds_729_SP_line2.sw.off()
+                        # self.dds_729_SP_line1.sw.off()
+                        # self.dds_729_SP_line2.sw.off()
                 
                 if b.bichro_enable:
                     self.dds_729.set_amplitude(b.amp)
