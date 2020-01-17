@@ -44,7 +44,7 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.sp_line1_amp",
         "MolmerSorensen.sp_line2_amp",
         "MolmerSorensen.sp_line1_att",
-        "MolmerSorensen.sp_line2_att',
+        "MolmerSorensen.sp_line2_att",
         "MolmerSorensen.sp_line1_blue_amp",
         "MolmerSorensen.sp_line2_blue_amp",
         "MolmerSorensen.sp_line1_blue_att",
