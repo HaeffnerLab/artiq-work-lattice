@@ -139,7 +139,7 @@ class BichroExcitation:
                         self.dds_729.sw.off()
                         self.dds_729_SP.sw.off()
             
-            elif sp_due_enable:
+            elif b.sp_due_enable:
                 self.get_729_dds(id=2)
                 
                 line1_freq = self.calc_frequency(
