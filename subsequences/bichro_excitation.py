@@ -232,6 +232,8 @@ class BichroExcitation:
                     delay(b.duration)
                     with parallel:
                         self.dds_729.sw.off()
+                        self.dds_729_SP_line1.sw.off()
+                        self.dds_729_SP_line2.sw.off()
                         self.dds_729_SP_line1_bichro.sw.off()
                         self.dds_729_SP_line2_bichro.sw.off()
 
