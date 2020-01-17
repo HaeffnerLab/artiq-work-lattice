@@ -76,8 +76,6 @@ class BichroExcitation:
         trap_frequency = self.get_trap_frequency(b.selection_sideband)
         freq_red = 80*MHz - trap_frequency - b.detuning
         freq_blue = 80*MHz + trap_frequency + b.detuning
-        sp_line1_freq = 0.
-        sp_line2_freq = 0.
         if b.channel == "global":
             offset = self.get_offset_frequency("729G")
             freq_blue += offset
@@ -192,10 +190,12 @@ class BichroExcitation:
                     #I guess we want two carrier tone come out from the SP if we disable the bichro
                     self.dds_729.set_amplitude(b.amp)
                     self.dds_729.set_att(b.att)
-                    print("firstly" + "\n\n\n\n\n", sp_freq_729_line1 , "\n", sp_line2_freq)
+                    print("firstly\n\n\n\n\n")
+                    print(sp_freq_729_line1 , "\n", sp_line2_freq)
                     sp_freq_729_line1 = 80*MHz + offset + sp_line1_freq
                     sp_freq_729_line2 = 80*MHz + offset + sp_line2_freq
-                    print("secondly" + "\n\n\n\n\n", sp_freq_729_line1 , "\n", sp_line2_freq)
+                    print("secondly\n\n\n\n\n")
+                    print(sp_freq_729_line1 , "\n", sp_line2_freq)
                     self.dds_729_SP_line1.set(sp_freq_729_line1, amplitude=b.sp_line1_amp, ref_time_mu=b.phase_ref_time)
                     #Need to add new parameter sp_amp_729_line1 in MolmerSorenson
                     self.dds_729_SP_line1.set_att(b.sp_line1_att)# Need to add new parameter att_line1 in MolmerSorenson 
