@@ -82,7 +82,6 @@ class BichroExcitation:
             freq_red += offset
             
             if not b.sp_due_enable:
-                self.get_729_dds("729G", id=2)
                 self.get_729_dds("729G", id=0)
                 
                 # Set double-pass to correct frequency and phase,
@@ -193,10 +192,10 @@ class BichroExcitation:
                     self.dds_729.set_att(b.att)
                     sp_freq_729_line1 = 80*MHz + offset + sp_line1_freq
                     sp_freq_729_line2 = 80*MHz + offset + sp_line2_freq
-                    self.dds_729_SP_line1.set(sp_freq_729_line1, amplitude=b.sp_line1_amp, ref_time_mu=b.phase_ref_time)
+                    self.dds_729_SP_line1.set(b.sp_freq_729_line1, amplitude=b.sp_line1_amp, ref_time_mu=b.phase_ref_time)
                     #Need to add new parameter sp_amp_729_line1 in MolmerSorenson
                     self.dds_729_SP_line1.set_att(b.sp_line1_att)# Need to add new parameter att_line1 in MolmerSorenson 
-                    self.dds_729_SP_line2.set(sp_freq_729_line2, amplitude=b.sp_line2_amp, ref_time_mu=b.phase_ref_time)
+                    self.dds_729_SP_line2.set(b.sp_freq_729_line2, amplitude=b.sp_line2_amp, ref_time_mu=b.phase_ref_time)
                     #Need to add new parameter sp_amp_729_line2 in MolmerSorenson
                     self.dds_729_SP_line2.set_att(b.sp_line2_att)# Need to add new parameter att_line2 in MolmerSorenson
                     
