@@ -41,6 +41,8 @@ class RabiFlopping(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )
+        print()
+        print(self.rabi.freq_729)
         if self.rabi.duration > 0:
             self.rabi.setup_ramping(self)
         self.rabi.att_729=self.get_variable_parameter("RabiFlopping_att_729")
