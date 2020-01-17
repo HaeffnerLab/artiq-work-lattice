@@ -76,6 +76,8 @@ class BichroExcitation:
         trap_frequency = self.get_trap_frequency(b.selection_sideband)
         freq_red = 80*MHz - trap_frequency - b.detuning
         freq_blue = 80*MHz + trap_frequency + b.detuning
+        sp_freq_729_line2 = 0.
+        sp_freq_729_line1 = 0.
         if b.channel == "global":
             offset = self.get_offset_frequency("729G")
             freq_blue += offset
