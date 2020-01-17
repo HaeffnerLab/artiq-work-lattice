@@ -215,7 +215,7 @@ class BichroExcitation:
                     self.dds_729_SP_line2_bichro.set(freq_red_line2, amplitude=b.sp_line2_red_amp, ref_time_mu=b.phase_ref_time)
                     self.dds_729_SP_line2.set_att(b.sp_line2_red_att)
 
-                     with parallel:
+                    with parallel:
                         self.dds_729.sw.on()
                         self.dds_729_SP_line1.sw.on()
                         self.dds_729_SP_line2.sw.on()
