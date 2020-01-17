@@ -12,6 +12,14 @@ class BichroExcitation:
     sp_line2_amp="MolmerSorensen.sp_line2_amp"
     sp_line1_att="MolmerSorensen.sp_line1_att"
     sp_line2_att="MolmerSorensen.sp_line2_att"
+    sp_line1_blue_amp="MolmerSorensen.sp_line1_blue_amp"
+    sp_line2_blue_amp="MolmerSorensen.sp_line2_blue_amp"
+    sp_line1_blue_att="MolmerSorensen.sp_line1_blue_att"
+    sp_line2_blue_att="MolmerSorensen.sp_line2_blue_att"
+    sp_line1_blue_amp="MolmerSorensen.sp_line1_red_amp"
+    sp_line2_blue_amp="MolmerSorensen.sp_line2_red_amp"
+    sp_line1_blue_att="MolmerSorensen.sp_line1_red_att"
+    sp_line2_blue_att="MolmerSorensen.sp_line2_red_att"
     channel="MolmerSorensen.channel_729"
     shape_profile="MolmerSorensen.shape_profile"
     amp_blue="MolmerSorensen.amp_blue"
@@ -73,7 +81,7 @@ class BichroExcitation:
             freq_blue += offset
             freq_red += offset
             
-            if not sp_due_enable:
+            if not b.sp_due_enable:
                 self.get_729_dds("729G", id=0)
                 
                 # Set double-pass to correct frequency and phase,
