@@ -7,10 +7,15 @@ import numpy as np
 class BichroExcitation:
     bichro_enable="MolmerSorensen.bichro_enable"
     due_carrier_enable="MolmerSorensen.due_carrier_enable"
+    sp_due_enable="MolmerSorensen.sp_due_enable"
+    sp_line1_amp="MolmerSorensen.sp_line1_amp"
+    sp_line2_amp="MolmerSorensen.sp_line2_amp"
+    sp_line1_att="MolmerSorensen.sp_line1_att"
+    sp_line2_att="MolmerSorensen.sp_line2_att"
     channel="MolmerSorensen.channel_729"
     shape_profile="MolmerSorensen.shape_profile"
     amp_blue="MolmerSorensen.amp_blue"
-    amp_blue_noise_std="MolmerSorensen.amp_blue_noise_std"
+    amp_blue_noise_std="MolmerSorensen.amp_blue_noise_std"f
     att_blue="MolmerSorensen.att_blue"
     amp_blue_ion2="MolmerSorensen.amp_blue_ion2"
     att_blue_ion2="MolmerSorensen.att_blue_ion2"
@@ -55,7 +60,8 @@ class BichroExcitation:
             pulse_duration=b.duration,
             ramp_duration=1*us,
             dds1_amp=b.amp)
-        pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)
+        pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)    
+    
 
     def subsequence(self):
         b = BichroExcitation
@@ -63,66 +69,167 @@ class BichroExcitation:
         freq_red = 80*MHz - trap_frequency - b.detuning
         freq_blue = 80*MHz + trap_frequency + b.detuning
         if b.channel == "global":
-            self.get_729_dds("729G")
             offset = self.get_offset_frequency("729G")
             freq_blue += offset
             freq_red += offset
+            
+            if not sp_due_enable:
+                self.get_729_dds("729G", id=0)
+                
+                # Set double-pass to correct frequency and phase,
+                # and set amplitude to zero for now.
+                dp_freq = self.calc_frequency(
+                    b.line_selection,
+                    detuning=b.detuning_carrier_1,
+                    dds="729G"
+                )
+                self.dds_729.set(dp_freq,
+                    amplitude=0.,
+                    phase=b.phase / 360,
+                    ref_time_mu=b.phase_ref_time)
 
-            # Set double-pass to correct frequency and phase,
-            # and set amplitude to zero for now.
-            dp_freq = self.calc_frequency(
-                b.line_selection,
-                detuning=b.detuning_carrier_1,
-                dds="729G"
-            )
-            self.dds_729.set(dp_freq,
-                amplitude=0.,
-                phase=b.phase / 360,
-                ref_time_mu=b.phase_ref_time)
+                if b.bichro_enable:
+                    self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=b.phase_ref_time)
+                    self.dds_729_SP.set_att(b.att_blue)
+                    self.dds_729_SP_bichro.set(freq_red, amplitude=0., ref_time_mu=b.phase_ref_time)
+                    self.dds_729_SP_bichro.set_att(b.att_red)
 
-            if b.bichro_enable:
-                self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=b.phase_ref_time)
-                self.dds_729_SP.set_att(b.att_blue)
-                self.dds_729_SP_bichro.set(freq_red, amplitude=0., ref_time_mu=b.phase_ref_time)
-                self.dds_729_SP_bichro.set_att(b.att_red)
+                    self.start_noisy_single_pass(b.phase_ref_time,
+                        freq_noise=b.use_single_pass_freq_noise,
+                        freq_sp=freq_blue, amp_sp=b.amp_blue, att_sp=b.att_blue,
+                        use_bichro=True,
+                        freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
 
-                self.start_noisy_single_pass(b.phase_ref_time,
-                    freq_noise=b.use_single_pass_freq_noise,
-                    freq_sp=freq_blue, amp_sp=b.amp_blue, att_sp=b.att_blue,
-                    use_bichro=True,
-                    freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
+                    if b.use_ramping:
+                        self.execute_pulse_with_amplitude_ramp(
+                            dds1_att=b.att,
+                            dds1_freq=dp_freq)
+                    else:
+                        self.dds_729.set(dp_freq,
+                            amplitude=b.amp,
+                            phase=b.phase / 360,
+                            ref_time_mu=b.phase_ref_time)
+                        self.dds_729.set_att(b.att)
+                        self.dds_729.sw.on()
+                        delay(b.duration)
+                        self.dds_729.sw.off()
 
-                if b.use_ramping:
-                    self.execute_pulse_with_amplitude_ramp(
-                        dds1_att=b.att,
-                        dds1_freq=dp_freq)
+                    self.stop_noisy_single_pass(use_bichro=True)
+
                 else:
-                    self.dds_729.set(dp_freq,
-                        amplitude=b.amp,
-                        phase=b.phase / 360,
-                        ref_time_mu=b.phase_ref_time)
+                    # bichro disabled
+                    self.dds_729.set_amplitude(b.amp)
                     self.dds_729.set_att(b.att)
-                    self.dds_729.sw.on()
+                    sp_freq_729 = 80*MHz + offset
+                    self.dds_729_SP.set(sp_freq_729, amplitude=b.default_sp_amp_729, ref_time_mu=b.phase_ref_time)
+                    self.dds_729_SP.set_att(b.default_sp_att_729)
+                    with parallel:
+                        self.dds_729.sw.on()
+                        self.dds_729_SP.sw.on()
                     delay(b.duration)
-                    self.dds_729.sw.off()
+                    with parallel:
+                        self.dds_729.sw.off()
+                        self.dds_729_SP.sw.off()
+            
+            elif sp_due_enable:
+                self.get_729_dds(id=2)
+                
+                line1_freq = self.calc_frequency(
+                    b.line_selection,
+                    detuning=b.detuning_carrier_1,
+                )
 
-                self.stop_noisy_single_pass(use_bichro=True)
+                line2_freq = self.calc_frequency(
+                    b.line_selection_ion2,
+                    detuning=b.detuning_carrier_2,
+                )
 
-            else:
-                # bichro disabled
-                self.dds_729.set_amplitude(b.amp)
-                self.dds_729.set_att(b.att)
-                sp_freq_729 = 80*MHz + offset
-                self.dds_729_SP.set(sp_freq_729, amplitude=b.default_sp_amp_729, ref_time_mu=b.phase_ref_time)
-                self.dds_729_SP.set_att(b.default_sp_att_729)
-                with parallel:
-                    self.dds_729.sw.on()
-                    self.dds_729_SP.sw.on()
-                delay(b.duration)
-                with parallel:
-                    self.dds_729.sw.off()
-                    self.dds_729_SP.sw.off()
+                if line2_freq > line1_freq:
+                    sp_line1_freq = -(line2_freq - line1_freq) / 2
+                    sp_line2_freq = -sp_line1_freq
+                else:
+                    sp_line2_freq = -(line2_freq - line1_freq) / 2
+                    sp_line1_freq = -sp_line2_freq
+                
+                line1_freq_actual = self.calc_frequency(
+                    b.line_selection,
+                    detuning=b.detuning_carrier_1,
+                    dds="729G"
+                )
 
+                line2_freq_actual = self.calc_frequency(
+                    b.line_selection_ion2,
+                    detuning=b.detuning_carrier_2,
+                    dds="729G"
+                )
+
+                if line2_freq_actual > line1_freq_actual:
+                    dp_freq_actual = line2_freq_actual - (line2_freq_actual - line1_freq_actual) / 2
+                else:
+                    dp_freq_actual = line1_freq_actual - (line1_freq_actual - line2_freq_actual) / 2
+
+                self.dds_729.set(dp_freq_actual,
+                    amplitude=0.,
+                    phase=b.phase / 360,
+                    ref_time_mu=b.phase_ref_time)
+
+                freq_blue_line1 = 80*MHz + offset+ sp_line1_freq + trap_frequency + b.detuning # needs to be checked
+                freq_red_line1 = 80*MHz + offset+ sp_line1_freq - trap_frequency - b.detuning # needs to be checked
+                freq_blue_line2 = 80*MHz + offset+ sp_line2_freq + trap_frequency + b.detuning # needs to be checked
+                freq_red_line2 = 80*MHz + offset+ sp_line2_freq - trap_frequency - b.detuning # needs to be checked
+
+                if not b.bichro_enable:
+                    #I guess we want two carrier tone come out from the SP if we disable the bichro
+                    self.dds_729.set_amplitude(b.amp)
+                    self.dds_729.set_att(b.att)
+                    sp_freq_729_line1 = 80*MHz + offset + sp_line1_freq
+                    sp_freq_729_line2 = 80*MHz + offset + sp_line2_freq
+                    self.dds_729_SP_line1.set(sp_freq_729_line1, amplitude=b.sp_line1_amp, ref_time_mu=b.phase_ref_time)
+                    #Need to add new parameter sp_amp_729_line1 in MolmerSorenson
+                    self.dds_729_SP_line1.set_att(b.sp_line1_att)# Need to add new parameter att_line1 in MolmerSorenson 
+                    self.dds_729_SP_line2.set(sp_freq_729_line2, amplitude=b.sp_line2_amp, ref_time_mu=b.phase_ref_time)
+                    #Need to add new parameter sp_amp_729_line2 in MolmerSorenson
+                    self.dds_729_SP_line2.set_att(b.sp_line2_att)# Need to add new parameter att_line2 in MolmerSorenson
+                    
+                    with parallel:
+                        self.dds_729.sw.on()
+                        self.dds_729_SP_line1.sw.on()
+                        self.dds_729_SP_line2.sw.on()
+                    delay(b.duration)
+                    with parallel:
+                        self.dds_729.sw.off()
+                        self.dds_729_SP_line1.sw.off()
+                        self.dds_729_SP_line2.sw.off()
+                
+                if b.bichro_enable:
+                    self.dds_729.set_amplitude(b.amp)
+                    self.dds_729.set_att(b.att)
+                    
+                    self.dds_729_SP_line1.set(freq_blue_line1, amplitude=b.sp_line1_blue_amp, ref_time_mu=b.phase_ref_time)
+                    self.dds_729_SP_line1.set_att(b.sp_line1_blue_att)
+                    self.dds_729_SP_line1_bichro.set(freq_red_line1, amplitude=b.sp_line1_red_amp, ref_time_mu=b.phase_ref_time)
+                    self.dds_729_SP_line1.set_att(b.sp_line1_red_att)
+                    
+                    self.dds_729_SP_line2.set(freq_blue_line2, amplitude=b.sp_line2_blue_amp, ref_time_mu=b.phase_ref_time)
+                    self.dds_729_SP_line2.set_att(b.sp_line2_blue_att) # need to add parameter att_blue_line2
+                    self.dds_729_SP_line2_bichro.set(freq_red_line2, amplitude=b.sp_line2_red_amp, ref_time_mu=b.phase_ref_time)
+                    self.dds_729_SP_line2.set_att(b.sp_line2_red_att)
+
+                     with parallel:
+                        self.dds_729.sw.on()
+                        self.dds_729_SP_line1.sw.on()
+                        self.dds_729_SP_line2.sw.on()
+                        self.dds_729_SP_line1_bichro.sw.on()
+                        self.dds_729_SP_line2_bichro.sw.on()
+                    delay(b.duration)
+                    with parallel:
+                        self.dds_729.sw.off()
+                        self.dds_729_SP_line1_bichro.sw.off()
+                        self.dds_729_SP_line2_bichro.sw.off()
+
+
+
+#############################################################################################################################3
         elif b.channel == "local":
             self.get_729_dds("729L1")
             self.get_729_dds("729L2", id=1)
