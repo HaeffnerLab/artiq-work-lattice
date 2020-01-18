@@ -30,6 +30,7 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.analysis_pulse_enable",
         "MolmerSorensen.SDDS_enable",
         "MolmerSorensen.SDDS_rotate_out",
+        "MolmerSorensen.rotate_in_with_global",
         "MolmerSorensen.shape_profile",
         "MolmerSorensen.bichro_enable",
         "MolmerSorensen.analysis_duration",
@@ -56,7 +57,10 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.sp_due_enable",
         "Rotation729L1.amplitude",
         "Rotation729L1.att",
-        "Rotation729L1.pi_time"
+        "Rotation729L1.pi_time",
+        "Rotation729G.amplitude",
+        "Rotation729G.att",
+        "Rotation729G.pi_time"
     }
 
     PulseSequence.scan_params.update(
@@ -77,7 +81,7 @@ class MolmerSorensenGate(PulseSequence):
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rotate_in = self.add_subsequence(RabiExcitation2)
         self.rabi.channel_729 = "729G"
-        self.rotate_in.channel_729 = "729L1"
+        self.rotate_in.channel_729 = "729L1" if not self.p.MolmerSorensen.rotate_in_with_global else "729G"
         self.phase_ref_time = np.int64(0)
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
@@ -108,12 +112,20 @@ class MolmerSorensenGate(PulseSequence):
             self.MolmerSorensen_line_selection, 
             detuning=self.ms.detuning_carrier_1,
             dds="729G")
-        self.rotate_in.amp_729 = self.Rotation729L1_amplitude
-        self.rotate_in.att_729 = self.Rotation729L1_att
-        self.rotate_in.duration = self.Rotation729L1_pi_time
-        self.rotate_in.freq_729 = self.calc_frequency(
-            self.MolmerSorensen_line_selection, 
-            dds="729L1")
+        if not self.MolmerSorensen_rotate_in_with_global:
+            self.rotate_in.amp_729 = self.Rotation729L1_amplitude
+            self.rotate_in.att_729 = self.Rotation729L1_att
+            self.rotate_in.duration = self.Rotation729L1_pi_time
+            self.rotate_in.freq_729 = self.calc_frequency(
+                self.MolmerSorensen_line_selection, 
+                dds="729L1")
+        else:
+            self.rotate_in.amp_729 = self.Rotation729G_amplitude
+            self.rotate_in.att_729 = self.Rotation729G_att
+            self.rotate_in.duration = self.Rotation729G_pi_time
+            self.rotate_in.freq_729 = self.calc_frequency(
+                self.MolmerSorensen_line_selection, 
+                dds="729G")
         if self.MolmerSorensen_bichro_enable:
             self.ms.setup_ramping(self)
 
