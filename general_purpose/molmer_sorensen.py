@@ -52,6 +52,7 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.sp_line1_red_amp",
         "MolmerSorensen.sp_line2_red_amp",
         "MolmerSorensen.sp_line1_red_att",
+        "MolmerSorensen.sp_line2_red_att",
         "MolmerSorensen.sp_due_enable",
         "Rotation729L1.amplitude",
         "Rotation729L1.att",
