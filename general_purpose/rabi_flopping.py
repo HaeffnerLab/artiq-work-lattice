@@ -40,7 +40,7 @@ class RabiFlopping(PulseSequence):
             sideband=self.RabiFlopping_selection_sideband,
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
-        )+ 1*1.60511*MHz
+        )- 1*1.60511*MHz
         print()
         print(self.rabi.freq_729)
         if self.rabi.duration > 0:
