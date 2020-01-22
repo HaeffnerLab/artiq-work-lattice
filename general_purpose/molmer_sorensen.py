@@ -60,7 +60,8 @@ class MolmerSorensenGate(PulseSequence):
         "Rotation729L1.pi_time",
         "Rotation729G.amplitude",
         "Rotation729G.att",
-        "Rotation729G.pi_time"
+        "Rotation729G.pi_time",
+        "StatePreparation.aux_optical_pumping_enable"
     }
 
     PulseSequence.scan_params.update(
