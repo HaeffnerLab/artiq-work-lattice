@@ -67,7 +67,8 @@ class MolmerSorensenGate(PulseSequence):
         "LocalSpec.att",
         "LocalSpec.amp",
         # "LocalSpec.duration",
-        "LocalSpec.line_selection"
+        "LocalSpec.line_selection",
+        "MolmerSorensen.ac_stark_shift"
     }
 
     PulseSequence.scan_params.update(
@@ -80,6 +81,7 @@ class MolmerSorensenGate(PulseSequence):
             ("Molmer-Sorensen", ("MolmerSorensen.ramsey_duration", 0., 2*ms, 40, "ms")),
             ("Molmer-Sorensen", ("MolmerSorensen.ms_phase", 0., 360., 20, "deg")),
             ("Molmer-Sorensen", ("LocalSpec.detuning", -10*kHz, 10*kHz, 20, "kHz")),
+            ("Molmer-Sorensen", ("MolmerSorensen.ac_stark_shift", -10*kHz, 10*kHz, 20, "kHz")),
         ]
     )
 
@@ -114,6 +116,7 @@ class MolmerSorensenGate(PulseSequence):
         self.ms.amp_ion2 = self.get_variable_parameter("MolmerSorensen_amplitude_ion2")
         self.ms.detuning_carrier_1 = self.get_variable_parameter("MolmerSorensen_detuning_carrier_1")
         self.ms.detuning_carrier_2 = self.get_variable_parameter("MolmerSorensen_detuning_carrier_2")
+        self.ms.ac_stark_shift = self.get_variable_parameter("MolmerSorensen_ac_stark_shift")
         if self.LocalSpec_enable:
             self.ms.local_spec_detuning = self.get_variable_parameter("LocalSpec_detuning")
         self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase")
