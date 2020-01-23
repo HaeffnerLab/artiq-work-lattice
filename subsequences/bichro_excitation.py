@@ -54,6 +54,8 @@ class BichroExcitation:
     local_spec_amp="LocalSpec.amp"
     local_spec_duration="LocalSpec.duration"
     local_spec_line_selection="LocalSpec.line_selection"
+    local_spec_sp_amp_729="Excitation_729.single_pass_amplitude"
+    local_spec_sp_att_729="Excitation_729.single_pass_att"
 
     def add_child_subsequences(pulse_sequence):
         b = BichroExcitation
@@ -252,8 +254,8 @@ class BichroExcitation:
                         self.dds_729L1.set(p_freq, amplitude=b.local_spec_amp, ref_time_mu=b.phase_ref_time)
                         self.dds_729L1.set_att(b.local_spec_att)
                         local_offset_freq = 80*MHz + self.get_offset_frequency("729L1")
-                        self.dds_SP_729L1.set(local_offset_freq, amplitude=1.0, ref_time_mu=b.phase_ref_time)
-                        self.dds_SP_729L1.set_att(5*dB)
+                        self.dds_SP_729L1.set(local_offset_freq, amplitude=b.local_spec_sp_amp_729, ref_time_mu=b.phase_ref_time)
+                        self.dds_SP_729L1.set_att(b.local_spec_sp_att_729)
                         # print("dp: ", p_freq)
                         # print("sp: ", local_offset_freq)
                         with parallel:
