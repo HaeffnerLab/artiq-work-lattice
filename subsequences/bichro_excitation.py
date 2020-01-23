@@ -254,8 +254,8 @@ class BichroExcitation:
                         local_offset_freq = 80*MHz + self.get_offset_frequency("729L1")
                         self.dds_SP_729L1.set(local_offset_freq, amplitude=1.0, ref_time_mu=b.phase_ref_time)
                         self.dds_SP_729L1.set_att(5*dB)
-                        print("dp: ", p_freq)
-                        print("sp: ", local_offset_freq)
+                        # print("dp: ", p_freq)
+                        # print("sp: ", local_offset_freq)
                         with parallel:
                             self.dds_729.sw.on()
                             self.dds_729_SP_line1.sw.on()
