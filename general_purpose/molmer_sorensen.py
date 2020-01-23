@@ -61,7 +61,13 @@ class MolmerSorensenGate(PulseSequence):
         "Rotation729G.amplitude",
         "Rotation729G.att",
         "Rotation729G.pi_time",
-        "StatePreparation.aux_optical_pumping_enable"
+        "StatePreparation.aux_optical_pumping_enable",
+        "LocalSpec.enable",
+        "LocalSpec.detuning",
+        "LocalSpec.att",
+        "LocalSpec.amp",
+        "LocalSpec.duration",
+        "LocalSpec.line_selection"
     }
 
     PulseSequence.scan_params.update(
@@ -73,6 +79,7 @@ class MolmerSorensenGate(PulseSequence):
             ("Molmer-Sorensen", ("MolmerSorensen.detuning_carrier_2", -10*kHz, 10*kHz, 20, "kHz")),
             ("Molmer-Sorensen", ("MolmerSorensen.ramsey_duration", 0., 2*ms, 40, "ms")),
             ("Molmer-Sorensen", ("MolmerSorensen.ms_phase", 0., 360., 20, "deg")),
+            ("Molmer-Sorensen", ("LocalSpec.detuning", -10*kHz, 10*kHz, 20, "kHz")),
         ]
     )
 

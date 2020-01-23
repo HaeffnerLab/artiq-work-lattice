@@ -48,6 +48,12 @@ class BichroExcitation:
     phase_ref_time=np.int64(-1)
     use_ramping=False
     use_single_pass_freq_noise=False
+    local_spec_enable="LocalSpec.enable"
+    local_spec_detuning="LocalSpec.detuning"
+    local_spec_att="LocalSpec.att"
+    local_spec_amp="LocalSpec.amp"
+    local_spec_duration="LocalSpec.duration"
+    local_spec_line_selection="LocalSpec.line_selection"
 
     def add_child_subsequences(pulse_sequence):
         b = BichroExcitation
@@ -223,19 +229,48 @@ class BichroExcitation:
                     self.dds_729_SP_line2_bichro.set(freq_red_line2, amplitude=b.sp_line2_red_amp, ref_time_mu=b.phase_ref_time)
                     self.dds_729_SP_line2.set_att(b.sp_line2_red_att)
 
-                    with parallel:
-                        self.dds_729.sw.on()
-                        self.dds_729_SP_line1.sw.on()
-                        self.dds_729_SP_line2.sw.on()
-                        self.dds_729_SP_line1_bichro.sw.on()
-                        self.dds_729_SP_line2_bichro.sw.on()
-                    delay(b.duration)
-                    with parallel:
-                        self.dds_729.sw.off()
-                        self.dds_729_SP_line1.sw.off()
-                        self.dds_729_SP_line2.sw.off()
-                        self.dds_729_SP_line1_bichro.sw.off()
-                        self.dds_729_SP_line2_bichro.sw.off()
+                    if not b.local_spec_enable:
+                        with parallel:
+                            self.dds_729.sw.on()
+                            self.dds_729_SP_line1.sw.on()
+                            self.dds_729_SP_line2.sw.on()
+                            self.dds_729_SP_line1_bichro.sw.on()
+                            self.dds_729_SP_line2_bichro.sw.on()
+                        delay(b.duration)
+                        with parallel:
+                            self.dds_729.sw.off()
+                            self.dds_729_SP_line1.sw.off()
+                            self.dds_729_SP_line2.sw.off()
+                            self.dds_729_SP_line1_bichro.sw.off()
+                            self.dds_729_SP_line2_bichro.sw.off()
+                    else:
+                        p_freq = self.calc_frequency(
+                            b.local_spec_line_selection,
+                            detuning=b.local_spec_detuning,
+                            dds="729L1"
+                        )
+                        self.dds_729L1.set(p_freq, amplitude=b.local_spec_amp, ref_time_mu=b.phase_ref_time)
+                        self.dds_729L1.set_att(b.local_spec_att)
+                        local_offset_freq = 80*MHz + self.get_offset_frequency("729L1")
+                        self.dds_SP_729L1.set(local_offset_freq, amplitude=1.0, ref_time_mu=b.phase_ref_time)
+                        self.dds_SP_729L1.set_att(5*dB)
+                        with parallel:
+                            self.dds_729.sw.on()
+                            self.dds_729_SP_line1.sw.on()
+                            self.dds_729_SP_line2.sw.on()
+                            self.dds_729_SP_line1_bichro.sw.on()
+                            self.dds_729_SP_line2_bichro.sw.on()
+                            self.dds_729L1.sw.on()
+                            self.dds_SP_729L1.sw.on()
+                        delay(b.duration)
+                        with parallel:
+                            self.dds_729.sw.off()
+                            self.dds_729_SP_line1.sw.off()
+                            self.dds_729_SP_line2.sw.off()
+                            self.dds_729_SP_line1_bichro.sw.off()
+                            self.dds_729_SP_line2_bichro.sw.off()
+                            self.dds_729L1.sw.off()
+                            self.dds_SP_729L1.sw.off()
 
 
 
