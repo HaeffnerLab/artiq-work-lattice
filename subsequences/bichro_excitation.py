@@ -56,6 +56,7 @@ class BichroExcitation:
     local_spec_line_selection="LocalSpec.line_selection"
     local_spec_sp_amp_729="Excitation_729.single_pass_amplitude"
     local_spec_sp_att_729="Excitation_729.single_pass_att"
+    ac_stark_shift="MolmerSorensen.ac_stark_shift"
 
     def add_child_subsequences(pulse_sequence):
         b = BichroExcitation
@@ -191,8 +192,8 @@ class BichroExcitation:
 
                 freq_blue_line1 = 80*MHz + offset + sp_line1_freq + trap_frequency + b.detuning  # needs to be checked
                 freq_red_line1 = 80*MHz + offset + sp_line1_freq - trap_frequency - b.detuning  # needs to be checked
-                freq_blue_line2 = 80*MHz + offset + sp_line2_freq + trap_frequency + b.detuning  # needs to be checked
-                freq_red_line2 = 80*MHz + offset + sp_line2_freq - trap_frequency - b.detuning  # needs to be checked
+                freq_blue_line2 = 80*MHz + offset + sp_line2_freq + trap_frequency + b.detuning + b.ac_stark_shift  # needs to be checked
+                freq_red_line2 = 80*MHz + offset + sp_line2_freq - trap_frequency - b.detuning  - b.ac_stark_shift# needs to be checked
 
                 if not b.bichro_enable:
                     #I guess we want two carrier tone come out from the SP if we disable the bichro
