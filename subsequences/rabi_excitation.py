@@ -44,7 +44,7 @@ class RabiExcitation:
                          phase=r.phase_729 / 360., ref_time_mu=r.phase_ref_time)
         self.dds_729_SP.set_att(r.sp_att_729)
         print("dp: ", r.freq_729)
-        print("sp: ", r.sp_freq_729)
+        print("sp: ", sp_freq_729)
         if r.use_ramping:
             self.dds_729_SP.sw.on()
             self.execute_pulse_with_amplitude_ramp(
