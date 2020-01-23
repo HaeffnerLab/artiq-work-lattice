@@ -105,7 +105,7 @@ class MolmerSorensenGate(PulseSequence):
             else:
                 self.p.StateReadout.readout_mode = "camera"
             if ss == "LocalSpec.detuning":
-                self.p.StateReadout.readout_mode = "pmt"
+                self.p.StateReadout.readout_mode = "camera"
 
     @kernel
     def set_subsequence_ms(self):
