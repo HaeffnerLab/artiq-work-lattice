@@ -114,6 +114,8 @@ class MolmerSorensenGate(PulseSequence):
         self.ms.amp_ion2 = self.get_variable_parameter("MolmerSorensen_amplitude_ion2")
         self.ms.detuning_carrier_1 = self.get_variable_parameter("MolmerSorensen_detuning_carrier_1")
         self.ms.detuning_carrier_2 = self.get_variable_parameter("MolmerSorensen_detuning_carrier_2")
+        if self.LocalSpec_enable:
+            self.ms.local_spec_detuning = self.get_variable_parameter("LocalSpec_detuning")
         self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase")
         self.rabi.amp_729 = self.MolmerSorensen_analysis_amplitude
         self.rabi.att_729 = self.MolmerSorensen_analysis_att
