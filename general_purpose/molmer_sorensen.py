@@ -66,7 +66,7 @@ class MolmerSorensenGate(PulseSequence):
         "LocalSpec.detuning",
         "LocalSpec.att",
         "LocalSpec.amp",
-        "LocalSpec.duration",
+        # "LocalSpec.duration",
         "LocalSpec.line_selection"
     }
 
