@@ -13,14 +13,14 @@ class RabiFlopping(PulseSequence):
         "RabiFlopping.duration",
         "RabiFlopping.selection_sideband",
         "RabiFlopping.order",
-        "RabiFlopping.detuning",
+        "RabiFlopping.detuning"
     }
 
     PulseSequence.scan_params = dict(
         RabiFlopping=[
             ("Rabi", ("RabiFlopping.duration", 0., 100e-6, 20, "us")),
             ("Rabi", ("RabiFlopping.att_729", 0*dB, 32*dB, 1*dB, "dB")),
-            ("Rabi", ("RabiFlopping.detuning", -5, 5, 10, "kHz"))
+            #("Rabi", ("RabiFlopping.detuning", -5, 5, 10, "kHz")),
             #("Rabi", ("StatePreparation.post_delay", 0., 10*ms, 20, "ms"))
         ])
 
