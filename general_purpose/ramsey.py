@@ -123,11 +123,11 @@ class Ramsey(PulseSequence):
             if self.Ramsey_bsb_pulse:
                 self.bsb_rabi.run(self)
             delay(self.wait_time / 2)
-            if self.bsb_rabi.run(self):
+            if self.Ramsey_bsb_pulse:
                 self.bsb_rabi.run(self)
             self.rabi.duration = self.pi_time
             self.rabi.run(self)
-            if self.bsb_rabi.run(self):
+            if self.Ramsey_bsb_pulse:
                 self.bsb_rabi.run(self)
             delay(self.wait_time / 2)
             if self.Ramsey_bsb_pulse:
