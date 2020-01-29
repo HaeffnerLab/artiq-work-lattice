@@ -34,7 +34,6 @@ class RabiFlopping(PulseSequence):
     def set_subsequence_rabiflopping(self):
         self.rabi.duration = self.get_variable_parameter("RabiFlopping_duration")
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
-        self.rabi.detuning = self.RabiFlopping_detuning
         #self.rabi.att_729 = self.RabiFlopping_att_729
         self.rabi.freq_729 = self.calc_frequency(
             self.RabiFlopping_line_selection, 
