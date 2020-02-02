@@ -106,16 +106,16 @@ class BichroExcitation:
                     ref_time_mu=b.phase_ref_time)
 
                 if b.bichro_enable:
-                    self.dds_729_SP.set(freq_blue, amplitude=0., ref_time_mu=b.phase_ref_time)
+                    self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, ref_time_mu=b.phase_ref_time)
                     self.dds_729_SP.set_att(b.att_blue)
-                    self.dds_729_SP_bichro.set(freq_red, amplitude=0., ref_time_mu=b.phase_ref_time)
+                    self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red, ref_time_mu=b.phase_ref_time)
                     self.dds_729_SP_bichro.set_att(b.att_red)
 
-                    self.start_noisy_single_pass(b.phase_ref_time,
-                        freq_noise=b.use_single_pass_freq_noise,
-                        freq_sp=freq_blue, amp_sp=b.amp_blue, att_sp=b.att_blue,
-                        use_bichro=True,
-                        freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
+                    # self.start_noisy_single_pass(b.phase_ref_time,
+                    #     freq_noise=b.use_single_pass_freq_noise,
+                    #     freq_sp=freq_blue, amp_sp=b.amp_blue, att_sp=b.att_blue,
+                    #     use_bichro=True,
+                    #     freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
 
                     if b.use_ramping:
                         self.execute_pulse_with_amplitude_ramp(
@@ -128,6 +128,8 @@ class BichroExcitation:
                             ref_time_mu=b.phase_ref_time)
                         self.dds_729.set_att(b.att)
                         self.dds_729.sw.on()
+                        self.dds_729_SP.sw.on()
+                        self.dds_729_SP_bichro.sw.on()
                         delay(b.duration)
                         self.dds_729.sw.off()
 
