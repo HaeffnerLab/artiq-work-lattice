@@ -27,10 +27,10 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.att",
         "MolmerSorensen.amplitude_ion2",
         "MolmerSorensen.att_ion2",
-        "MolmerSorensen.analysis_pulse_enable",
+        "MolmerSorensen.analysis_pulse_2000
         "MolmerSorensen.SDDS_enable",
-        "MolmerSorensen.SDDS_rotate_out",
-        "MolmerSorensen.rotate_in_with_global",
+        "MolmerSorensen.SDDS_rotate_out2000
+        "MolmerSorensen.rotate_in_with_2000
         "MolmerSorensen.shape_profile",
         "MolmerSorensen.bichro_enable",
         "MolmerSorensen.analysis_duration",
@@ -95,8 +95,8 @@ class MolmerSorensenGate(PulseSequence):
         self.phase_ref_time = np.int64(0)
         self.szx = self.add_subsequence(SZX)
         self.set_subsequence["MolmerSorensen"] = self.set_subsequence_ms
-        if self.p.MolmerSorensen.bichro_enable:
-            self.ms.setup_noisy_single_pass(self, freq_noise=False)
+        # if self.p.MolmerSorensen.bichro_enable:
+        #     self.ms.setup_noisy_single_pass(self, freq_noise=False)
         if not self.p.MolmerSorensen.override_readout:
             ss = self.selected_scan["MolmerSorensen"]
             if self.p.MolmerSorensen.bichro_enable:
@@ -141,8 +141,8 @@ class MolmerSorensenGate(PulseSequence):
             self.rotate_in.freq_729 = self.calc_frequency(
                 self.MolmerSorensen_line_selection, 
                 dds="729G")
-        if self.MolmerSorensen_bichro_enable:
-            self.ms.setup_ramping(self)
+        # if self.MolmerSorensen_bichro_enable:
+        #     self.ms.setup_ramping(self)
 
     @kernel
     def MolmerSorensen(self):
