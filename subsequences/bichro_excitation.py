@@ -152,7 +152,7 @@ class BichroExcitation:
                 self.get_729_dds(id=2)
                 
                 line1_freq = self.calc_frequency(
-                    b.line_selection,5
+                    b.line_selection,
                 )
 
                 line2_freq = self.calc_frequency(
