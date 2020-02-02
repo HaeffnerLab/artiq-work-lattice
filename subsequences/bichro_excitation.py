@@ -61,23 +61,23 @@ class BichroExcitation:
     def add_child_subsequences(pulse_sequence):
         b = BichroExcitation
     
-    def setup_noisy_single_pass(pulse_sequence, freq_noise):
-        b = BichroExcitation
-        b.use_single_pass_freq_noise = freq_noise
-        pulse_sequence.generate_single_pass_noise_waveform(
-            mean=b.amp_blue,
-            std=b.amp_blue_noise_std,
-            freq_noise=freq_noise)
+    # def setup_noisy_single_pass(pulse_sequence, freq_noise):
+    #     b = BichroExcitation
+    #     b.use_single_pass_freq_noise = freq_noise
+    #     pulse_sequence.generate_single_pass_noise_waveform(
+    #         mean=b.amp_blue,
+    #         std=b.amp_blue_noise_std,
+    #         freq_noise=freq_noise)
 
-    @kernel
-    def setup_ramping(pulse_sequence):
-        b = BichroExcitation
-        b.use_ramping = True
-        pulse_sequence.prepare_pulse_with_amplitude_ramp(
-            pulse_duration=b.duration,
-            ramp_duration=1*us,
-            dds1_amp=b.amp)
-        pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)    
+    # @kernel
+    # def setup_ramping(pulse_sequence):
+    #     b = BichroExcitation
+    #     b.use_ramping = True
+    #     pulse_sequence.prepare_pulse_with_amplitude_ramp(
+    #         pulse_duration=b.duration,
+    #         ramp_duration=1*us,
+    #         dds1_amp=b.amp)
+    #     pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)    
     
 
     def subsequence(self):
