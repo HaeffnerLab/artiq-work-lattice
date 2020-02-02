@@ -27,10 +27,10 @@ class MolmerSorensenGate(PulseSequence):
         "MolmerSorensen.att",
         "MolmerSorensen.amplitude_ion2",
         "MolmerSorensen.att_ion2",
-        "MolmerSorensen.analysis_pulse_2000
+        "MolmerSorensen.analysis_pulse_enable
         "MolmerSorensen.SDDS_enable",
-        "MolmerSorensen.SDDS_rotate_out2000
-        "MolmerSorensen.rotate_in_with_2000
+        "MolmerSorensen.SDDS_rotate_out
+        "MolmerSorensen.rotate_in_with_global
         "MolmerSorensen.shape_profile",
         "MolmerSorensen.bichro_enable",
         "MolmerSorensen.analysis_duration",
