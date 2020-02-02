@@ -111,11 +111,11 @@ class BichroExcitation:
                     self.dds_729_SP_bichro.set(freq_red, amplitude=0., ref_time_mu=b.phase_ref_time)
                     self.dds_729_SP_bichro.set_att(b.att_red)
 
-                    self.start_noisy_single_pass(b.phase_ref_time,
-                        freq_noise=b.use_single_pass_freq_noise,
-                        freq_sp=freq_blue, amp_sp=b.amp_blue, att_sp=b.att_blue,
-                        use_bichro=True,
-                        freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
+                    # self.start_noisy_single_pass(b.phase_ref_time,
+                    #     freq_noise=b.use_single_pass_freq_noise,
+                    #     freq_sp=freq_blue, amp_sp=b.amp_blue, att_sp=b.att_blue,
+                    #     use_bichro=True,
+                    #     freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
 
                     if b.use_ramping:
                         self.execute_pulse_with_amplitude_ramp(
@@ -131,7 +131,7 @@ class BichroExcitation:
                         delay(b.duration)
                         self.dds_729.sw.off()
 
-                    self.stop_noisy_single_pass(use_bichro=True)
+                    # self.stop_noisy_single_pass(use_bichro=True)
 
                 else:
                     # bichro disabled
@@ -152,8 +152,7 @@ class BichroExcitation:
                 self.get_729_dds(id=2)
                 
                 line1_freq = self.calc_frequency(
-                    b.line_selection,
-                    detuning=b.detuning_carrier_1,
+                    b.line_selection,5
                 )
 
                 line2_freq = self.calc_frequency(
