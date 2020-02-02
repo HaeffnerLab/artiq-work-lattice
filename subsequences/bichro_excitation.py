@@ -131,7 +131,7 @@ class BichroExcitation:
                         delay(b.duration)
                         self.dds_729.sw.off()
 
-                    # self.stop_noisy_single_pass(use_bichro=True)
+                    self.stop_noisy_single_pass(use_bichro=True)
 
                 else:
                     # bichro disabled
