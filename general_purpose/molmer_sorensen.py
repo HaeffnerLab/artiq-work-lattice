@@ -119,7 +119,7 @@ class MolmerSorensenGate(PulseSequence):
         self.ms.ac_stark_shift = self.get_variable_parameter("MolmerSorensen_ac_stark_shift")
         if self.LocalSpec_enable:
             self.ms.local_spec_detuning = self.get_variable_parameter("LocalSpec_detuning")
-        self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase")
+        # self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase")
         self.rabi.amp_729 = self.MolmerSorensen_analysis_amplitude
         self.rabi.att_729 = self.MolmerSorensen_analysis_att
         self.rabi.duration = self.MolmerSorensen_analysis_duration
@@ -149,6 +149,7 @@ class MolmerSorensenGate(PulseSequence):
         self.phase_ref_time = now_mu()
         self.ms.phase_ref_time = self.phase_ref_time
         self.rabi.phase_ref_time = self.phase_ref_time
+        self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase")
 
         self.stateprep.run(self)
         if self.MolmerSorensen_SDDS_enable:
