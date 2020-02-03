@@ -61,23 +61,23 @@ class BichroExcitation:
     def add_child_subsequences(pulse_sequence):
         b = BichroExcitation
     
-    # def setup_noisy_single_pass(pulse_sequence, freq_noise):
-    #     b = BichroExcitation
-    #     b.use_single_pass_freq_noise = freq_noise
-    #     pulse_sequence.generate_single_pass_noise_waveform(
-    #         mean=b.amp_blue,
-    #         std=b.amp_blue_noise_std,
-    #         freq_noise=freq_noise)
+    def setup_noisy_single_pass(pulse_sequence, freq_noise):
+        b = BichroExcitation
+        b.use_single_pass_freq_noise = freq_noise
+        pulse_sequence.generate_single_pass_noise_waveform(
+            mean=b.amp_blue,
+            std=b.amp_blue_noise_std,
+            freq_noise=freq_noise)
 
-    # @kernel
-    # def setup_ramping(pulse_sequence):
-    #     b = BichroExcitation
-    #     b.use_ramping = True
-    #     pulse_sequence.prepare_pulse_with_amplitude_ramp(
-    #         pulse_duration=b.duration,
-    #         ramp_duration=1*us,
-    #         dds1_amp=b.amp)
-    #     pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)    
+    @kernel
+    def setup_ramping(pulse_sequence):
+        b = BichroExcitation
+        b.use_ramping = True
+        pulse_sequence.prepare_pulse_with_amplitude_ramp(
+            pulse_duration=b.duration,
+            ramp_duration=1*us,
+            dds1_amp=b.amp)
+        pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)    
     
 
     def subsequence(self):
@@ -111,11 +111,11 @@ class BichroExcitation:
                     self.dds_729_SP_bichro.set(freq_red, amplitude=b.amp_red, ref_time_mu=b.phase_ref_time)
                     self.dds_729_SP_bichro.set_att(b.att_red)
 
-                    # self.start_noisy_single_pass(b.phase_ref_time,
-                    #     freq_noise=b.use_single_pass_freq_noise,
-                    #     freq_sp=freq_blue, amp_sp=b.amp_blue, att_sp=b.att_blue,
-                    #     use_bichro=True,
-                    #     freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
+                    self.start_noisy_single_pass(b.phase_ref_time,
+                        freq_noise=b.use_single_pass_freq_noise,
+                        freq_sp=freq_blue, amp_sp=b.amp_blue, att_sp=b.att_blue,
+                        use_bichro=True,
+                        freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
 
                     if b.use_ramping:
                         self.execute_pulse_with_amplitude_ramp(
@@ -128,12 +128,12 @@ class BichroExcitation:
                             ref_time_mu=b.phase_ref_time)
                         self.dds_729.set_att(b.att)
                         self.dds_729.sw.on()
-                        self.dds_729_SP.sw.on()
-                        self.dds_729_SP_bichro.sw.on()
+                        # self.dds_729_SP.sw.on()
+                        # self.dds_729_SP_bichro.sw.on()
                         delay(b.duration)
                         self.dds_729.sw.off()
 
-                    # self.stop_noisy_single_pass(use_bichro=True)
+                    self.stop_noisy_single_pass(use_bichro=True)
 
                 else:
                     # bichro disabled
