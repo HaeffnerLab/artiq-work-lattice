@@ -61,6 +61,7 @@ class MolmerSorensenGate(PulseSequence):
         "Rotation729G.amplitude",
         "Rotation729G.att",
         "Rotation729G.pi_time",
+        "Rotation729G.line_selection",
         "StatePreparation.aux_optical_pumping_enable",
         "LocalSpec.enable",
         "LocalSpec.detuning",
@@ -139,7 +140,7 @@ class MolmerSorensenGate(PulseSequence):
             self.rotate_in.att_729 = self.Rotation729G_att
             self.rotate_in.duration = self.Rotation729G_pi_time
             self.rotate_in.freq_729 = self.calc_frequency(
-                self.MolmerSorensen_line_selection, 
+                self.Rotation729G_line_selection, 
                 dds="729G")
         # if self.MolmerSorensen_bichro_enable:
         #     self.ms.setup_ramping(self)
@@ -149,7 +150,7 @@ class MolmerSorensenGate(PulseSequence):
         self.phase_ref_time = now_mu()
         self.ms.phase_ref_time = self.phase_ref_time
         self.rabi.phase_ref_time = self.phase_ref_time
-        self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase")
+        
 
         self.stateprep.run(self)
         if self.MolmerSorensen_SDDS_enable:
@@ -158,5 +159,6 @@ class MolmerSorensenGate(PulseSequence):
         if self.MolmerSorensen_SDDS_rotate_out:
             self.rotate_in.run(self)
         if self.MolmerSorensen_analysis_pulse_enable:
+            self.rabi.phase_729 = self.get_variable_parameter("MolmerSorensen_ms_phase")
             delay(self.get_variable_parameter("MolmerSorensen_ramsey_duration"))
             self.rabi.run(self)
