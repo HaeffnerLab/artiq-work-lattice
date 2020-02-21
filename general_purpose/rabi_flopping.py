@@ -54,7 +54,7 @@ class RabiFlopping(PulseSequence):
     @kernel
     def RabiFlopping(self):
         self.stateprep.run(self)
-        if self.composite_pi_rotation
+        if self.composite_pi_rotation:
             self.composite.run(self)
         self.rabi.run(self)
         
