@@ -58,10 +58,10 @@ class CompositePi:
             delay(r.duration/2)
             
             #self.dds_729_SP.set_phase(r.phase_729 / 360.+ 90. / 360.)
-            delay(r.duration)
+            #delay(r.duration)
             
             #self.dds_729_SP.set_phase(r.phase_729 / 360.)
-            delay(r.duration/2)
+            #delay(r.duration/2)
             
             with parallel:
                 self.dds_729.sw.off()
