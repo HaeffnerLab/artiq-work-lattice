@@ -57,6 +57,7 @@ class RabiFlopping(PulseSequence):
         self.stateprep.run(self)
         if self.RabiFlopping_composite_pi_rotation:
             self.composite.run(self)
-        self.rabi.run(self)
+        else:    
+            self.rabi.run(self)
         
         
