@@ -1,6 +1,6 @@
 from pulse_sequence import PulseSequence
 from subsequences.rabi_excitation import RabiExcitation
-from subsequences.composite_pi import CompositePi #added for composite_pi 02/20/2020
+#from subsequences.composite_pi import CompositePi #added for composite_pi 02/20/2020
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
