@@ -45,6 +45,7 @@ class RabiFlopping(PulseSequence):
             dds=self.RabiFlopping_channel_729
         )- 0*1.60511*MHz
         print()
+        self.composite.duration = self.get_variable_parameter("RabiFlopping_duration")
         print(self.rabi.freq_729)
         if self.rabi.duration > 0:
             self.rabi.setup_ramping(self)
