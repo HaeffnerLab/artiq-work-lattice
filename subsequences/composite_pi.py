@@ -55,10 +55,13 @@ class CompositePi:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
             delay(r.duration/2)
+            print('first pi/2')
             self.dds_729_SP.set_phase(r.phase_729 / 360.+ 90 / 360.)
             delay(r.duration)
+            print('pi')
             self.dds_729_SP.set_phase(r.phase_729 / 360.)
             delay(r.duration/2)
+            print('second pi/2')
             with parallel:
                 self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()
