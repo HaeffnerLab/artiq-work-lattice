@@ -59,7 +59,7 @@ class MolmerSorensenGate(PulseSequence):
         "Rotation729L1.amplitude",
         "Rotation729L1.att",
         "Rotation729L1.pi_time",
-        "Rotation729L1.composite_pi_rotation" #added for composite_pi 02/20/2020
+        #"Rotation729L1.composite_pi_rotation" #added for composite_pi 02/20/2020
         "Rotation729G.amplitude",
         "Rotation729G.att",
         "Rotation729G.pi_time",
@@ -157,10 +157,10 @@ class MolmerSorensenGate(PulseSequence):
 
         self.stateprep.run(self)
         if self.MolmerSorensen_SDDS_enable:
-            if self.Rotation729L1_composite_pi_rotation: # added for compostie pi
-                self.CompositePi.run(self)
-            else:
-                self.rotate_in.run(self)
+            #if self.Rotation729L1_composite_pi_rotation: # added for compostie pi
+            #    self.CompositePi.run(self)
+            #else:
+            self.rotate_in.run(self)
         self.ms.run(self)
         if self.MolmerSorensen_SDDS_rotate_out:
             self.rotate_in.run(self)
