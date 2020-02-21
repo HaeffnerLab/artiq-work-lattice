@@ -15,7 +15,7 @@ class RabiFlopping(PulseSequence):
         "RabiFlopping.selection_sideband",
         "RabiFlopping.order",
         "RabiFlopping.detuning",
-        #"RabiFlopping.composite_pi_rotation",
+        "RabiFlopping.composite_pi_rotation",
     }
 
     PulseSequence.scan_params = dict(
@@ -28,7 +28,7 @@ class RabiFlopping(PulseSequence):
     def run_initially(self):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
-        #self.composite = self.add_subsequence(CompositePi)
+        self.composite = self.add_subsequence(CompositePi)
         self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.set_subsequence["RabiFlopping"] = self.set_subsequence_rabiflopping
 
@@ -36,7 +36,7 @@ class RabiFlopping(PulseSequence):
     def set_subsequence_rabiflopping(self):
         self.rabi.duration = self.get_variable_parameter("RabiFlopping_duration")
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
-        #self.rabi.att_729 = self.RabiFlopping_att_729
+        self.rabi.att_729 = self.RabiFlopping_att_729
         self.rabi.freq_729 = self.calc_frequency(
             self.RabiFlopping_line_selection, 
             detuning=self.RabiFlopping_detuning,
@@ -54,8 +54,8 @@ class RabiFlopping(PulseSequence):
     @kernel
     def RabiFlopping(self):
         self.stateprep.run(self)
-        #if self.composite_pi_rotation:
-        #    self.composite.run(self)
+        if self.composite_pi_rotation:
+            self.composite.run(self)
         self.rabi.run(self)
         
         
