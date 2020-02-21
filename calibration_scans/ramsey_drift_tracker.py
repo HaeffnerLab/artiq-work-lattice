@@ -214,6 +214,7 @@ class RamseyDriftTracker(PulseSequence):
 
         print("RamseyDriftTracker detuning_1_global =", self.detuning_1_global, "Hz")
         print("RamseyDriftTracker detuning_2_global =", self.detuning_2_global, "Hz")
+    
 
         submission = [(line1, U(carr1 * 1e-6, "MHz")), (line2, U(carr2 * 1e-6, "MHz"))]
 

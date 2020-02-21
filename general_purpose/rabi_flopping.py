@@ -1,5 +1,6 @@
 from pulse_sequence import PulseSequence
 from subsequences.rabi_excitation import RabiExcitation
+from subsequences.composite_pi import CompositePi #added for composite_pi 02/20/2020
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 
@@ -14,6 +15,7 @@ class RabiFlopping(PulseSequence):
         "RabiFlopping.selection_sideband",
         "RabiFlopping.order",
         "RabiFlopping.detuning",
+        "RabiFlopping.composite_pi_rotation",
     }
 
     PulseSequence.scan_params = dict(
@@ -26,6 +28,7 @@ class RabiFlopping(PulseSequence):
     def run_initially(self):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
+        self.composite = self.add_subsequence(CompositePi)
         self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.set_subsequence["RabiFlopping"] = self.set_subsequence_rabiflopping
 
@@ -51,6 +54,8 @@ class RabiFlopping(PulseSequence):
     @kernel
     def RabiFlopping(self):
         self.stateprep.run(self)
+        if self.composite_pi_rotation
+            self.composite.run(self)
         self.rabi.run(self)
         
         

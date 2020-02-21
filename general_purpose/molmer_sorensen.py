@@ -1,6 +1,7 @@
 from pulse_sequence import PulseSequence
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.rabi_excitation2 import RabiExcitation2 #fix later
+from subsequences.composite_pi import CompositePi #added for composite_pi 02/20/2020
 from subsequences.state_preparation import StatePreparation
 from subsequences.bichro_excitation import BichroExcitation
 from subsequences.szx import SZX
@@ -58,6 +59,7 @@ class MolmerSorensenGate(PulseSequence):
         "Rotation729L1.amplitude",
         "Rotation729L1.att",
         "Rotation729L1.pi_time",
+        "Rotation729L1.composite_pi_rotation" #added for composite_pi 02/20/2020
         "Rotation729G.amplitude",
         "Rotation729G.att",
         "Rotation729G.pi_time",
@@ -132,6 +134,7 @@ class MolmerSorensenGate(PulseSequence):
             self.rotate_in.amp_729 = self.Rotation729L1_amplitude
             self.rotate_in.att_729 = self.Rotation729L1_att
             self.rotate_in.duration = self.Rotation729L1_pi_time
+            #self.rotate_in.composite_pi_rotation = self.Rotation729L1_composite_pi_rotation 02/20/2020
             self.rotate_in.freq_729 = self.calc_frequency(
                 self.MolmerSorensen_line_selection, 
                 dds="729L1")
@@ -154,7 +157,10 @@ class MolmerSorensenGate(PulseSequence):
 
         self.stateprep.run(self)
         if self.MolmerSorensen_SDDS_enable:
-            self.rotate_in.run(self)
+            if self.Rotation729L1_composite_pi_rotation: # added for compostie pi
+                self.CompositePi.run(self)
+            else:
+                self.rotate_in.run(self)
         self.ms.run(self)
         if self.MolmerSorensen_SDDS_rotate_out:
             self.rotate_in.run(self)
