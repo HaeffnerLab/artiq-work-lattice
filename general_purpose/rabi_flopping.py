@@ -45,7 +45,7 @@ class RabiFlopping(PulseSequence):
             dds=self.RabiFlopping_channel_729
         )- 0*1.60511*MHz
         print()
-        self.composite.duration = self.get_variable_parameter("RabiFlopping_duration")
+        self.composite.duration = self.RabiFlopping_duration
         self.composite.amp_729 = self.RabiFlopping_amplitude_729
         self.composite.freq_729 = self.calc_frequency(
             self.RabiFlopping_line_selection, 
