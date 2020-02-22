@@ -30,6 +30,7 @@ class RabiFlopping(PulseSequence):
         self.rabi = self.add_subsequence(RabiExcitation)
         self.composite = self.add_subsequence(CompositePi)
         self.rabi.channel_729 = self.p.RabiFlopping.channel_729
+        self.composite.channel_729 = self.p.RabiFlopping.channel_729
         self.set_subsequence["RabiFlopping"] = self.set_subsequence_rabiflopping
 
     @kernel
