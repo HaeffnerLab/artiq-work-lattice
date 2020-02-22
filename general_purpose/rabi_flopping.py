@@ -47,7 +47,7 @@ class RabiFlopping(PulseSequence):
         print()
         self.composite.duration = self.get_variable_parameter("RabiFlopping_duration")
         self.composite.amp_729 = self.RabiFlopping_amplitude_729
-        self.composite.freq_729 = self.calc_frequency(
+        self.rabi.freq_729 = self.calc_frequency(
             self.RabiFlopping_line_selection, 
             detuning=self.RabiFlopping_detuning,
             sideband=self.RabiFlopping_selection_sideband,
@@ -57,7 +57,7 @@ class RabiFlopping(PulseSequence):
         print(self.rabi.freq_729)
         if self.rabi.duration > 0:
             self.rabi.setup_ramping(self)
-        self.rabi.att_729=self.RabiFlopping_duration
+        self.rabi.att_729=self.get_variable_parameter("RabiFlopping_att_729")
         #self.stateprep.post_delay=self.get_variable_parameter("StatePreparation_post_delay")
 
     @kernel
