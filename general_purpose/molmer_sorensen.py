@@ -93,6 +93,7 @@ class MolmerSorensenGate(PulseSequence):
         self.ms = self.add_subsequence(BichroExcitation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rotate_in = self.add_subsequence(RabiExcitation2)
+        self.composite = self.add_subsequence(CompositePi)
         self.rabi.channel_729 = "729G"
         self.rotate_in.channel_729 = "729L1" if not self.p.MolmerSorensen.rotate_in_with_global else "729G"
         self.phase_ref_time = np.int64(0)
@@ -138,6 +139,12 @@ class MolmerSorensenGate(PulseSequence):
             self.rotate_in.freq_729 = self.calc_frequency(
                 self.MolmerSorensen_line_selection, 
                 dds="729L1")
+            self.composite.amp_729 = self.Rotation729L1_amplitude
+            self.composite.att_729 = self.Rotation729L1_att
+            self.composite.duration = self.Rotation729L1_pi_time
+            self.composite.freq_729 = self.calc_frequency(
+                self.MolmerSorensen_line_selection, 
+                dds="729L1")
         else:
             self.rotate_in.amp_729 = self.Rotation729G_amplitude
             self.rotate_in.att_729 = self.Rotation729G_att
@@ -145,6 +152,8 @@ class MolmerSorensenGate(PulseSequence):
             self.rotate_in.freq_729 = self.calc_frequency(
                 self.Rotation729G_line_selection, 
                 dds="729G")
+        
+        
         # if self.MolmerSorensen_bichro_enable:
         #     self.ms.setup_ramping(self)
 
