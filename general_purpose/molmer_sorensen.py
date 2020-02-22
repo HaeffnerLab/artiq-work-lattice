@@ -167,7 +167,7 @@ class MolmerSorensenGate(PulseSequence):
         self.stateprep.run(self)
         if self.MolmerSorensen_SDDS_enable:
             if self.Rotation729L1_composite_pi_rotation: # added for compostie pi
-                self.CompositePi.run(self)
+                self.composite.run(self)
             else:
                 self.rotate_in.run(self)
         self.ms.run(self)
