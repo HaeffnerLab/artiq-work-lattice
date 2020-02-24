@@ -75,7 +75,7 @@ class SidebandCooling:
                 self.dds_854.sw.off()
                 self.dds_866.sw.off()
                 self.dds_729.sw.off()
-                self.dds_729_SP.sw.off()
+                #self.dds_729_SP.sw.off()  keep SP on all the time 2/24/2020
             s.op.run(self)
 
         num_cycles = int(s.sideband_cooling_cycles)
