@@ -1,5 +1,5 @@
 from artiq.experiment import *
-
+import numpy as np
 
 class SZX:
     bichro_enable = "SZX.bichro_enable"
