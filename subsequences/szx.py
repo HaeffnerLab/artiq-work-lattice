@@ -9,9 +9,9 @@ class SZX:
     att_blue = "SZX.att_blue"
     att_red = "SZX.att_red"
     car_amp = "SZX.carrier_amplitude"
-    car_amp_L1 = "SZX.amplitude_L1"
+    car_amp_L1 = "SZX.local_rabi_amp"
     car_att = "SZX.att"
-    car
+    car_att_L1 = "SZX.local_rabi_att"
     sideband = "SZX.sideband_selection"
     line_selection = "SZX.line_selection"
     carrier_detuning = "SZX.carrier_detuning"
@@ -74,6 +74,12 @@ class SZX:
                     
                     self.dds_729L1_SP.set(80*MHz+offset_L1, amplitude=s.sp_amp_729L1, ref_time_mu=s.phase_ref_time)
                     self.dds_729L1_SP.set_att(s.sp_att_729L1)
+                    
+                    self.dds_729.set(dp_freq,
+                            amplitude=s.car_amp,
+                            phase=s.phase / 360,
+                            ref_time_mu=s.phase_ref_time)
+                    self.dds_729.set_att(s.car_att)
 
                     with parallel:
                         self.dds_729.sw.on()
