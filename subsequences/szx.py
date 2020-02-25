@@ -1,7 +1,10 @@
 from artiq.experiment import *
 import numpy as np
+from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP, RAM_DEST_ASF
+from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
 
 class SZX:
+    channel = "SZX.channel_729"
     bichro_enable = "SZX.bichro_enable"
     nu_effective = "SZX.nu_effective"
     amp_blue = "SZX.amp_blue"
@@ -18,10 +21,11 @@ class SZX:
     carrier_detuning_L1 = "SZX.carrier_detuning_L1"
     phase = "SZX.phase"
     phase_ref_time=np.int64(-1)
-    sp_amp_729L1="Excitation_729.single_pass_amplitude"
-    sp_att_729L1="Excitation_729.single_pass_att"
-    AC_stark_local="SZX.AC_stark_local"
-    use_ramping=False
+    sp_amp_729L1 = "Excitation_729.single_pass_amplitude"
+    sp_att_729L1 = "Excitation_729.single_pass_att"
+    AC_stark_local = "SZX.AC_stark_local"
+    use_ramping = False
+    use_single_pass_freq_noise = False
 
     def subsequence(self):
         s = SZX
