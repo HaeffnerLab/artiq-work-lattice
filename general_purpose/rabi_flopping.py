@@ -62,13 +62,13 @@ class RabiFlopping(PulseSequence):
         self.rabi.att_729=self.get_variable_parameter("RabiFlopping_att_729")
         #self.stateprep.post_delay=self.get_variable_parameter("StatePreparation_post_delay")
 
-    @kernel 
+    @kernel
     def RabiFlopping(self):
         self.stateprep.run(self)
         if self.RabiFlopping_composite_pi_rotation:
             self.composite.run(self)
         else:    
-            delay(100*ms)
+            #delay(100*ms)
             self.rabi.run(self)
         
         
