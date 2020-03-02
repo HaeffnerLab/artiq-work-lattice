@@ -68,7 +68,7 @@ class RabiFlopping(PulseSequence):
         if self.RabiFlopping_composite_pi_rotation:
             self.composite.run(self)
         else:    
-            delay(1*ms)
+            #delay(1*ms)
             self.rabi.run(self)
         
         
