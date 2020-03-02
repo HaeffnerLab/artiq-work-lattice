@@ -54,7 +54,6 @@ class RabiExcitation:
                 dds1_freq=r.freq_729)
             # self.dds_729_SP.sw.off()
         else:
-            delay(100*ms)
             with parallel:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
