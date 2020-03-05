@@ -109,7 +109,7 @@ class SidebandCooling:
                     s.sequential2_selection_sideband,
                     s.sequential2_order)
             
-        
+        #
         self.dds_854.set(80*MHz, amplitude=1.0)
         self.dds_854.set_att(5.0)
         self.dds_866.set(80*MHz, amplitude=1.0)
