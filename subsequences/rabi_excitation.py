@@ -1,6 +1,7 @@
 from artiq.experiment import *
 import numpy as np
 from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
+from artiq.coredevice.core import Core
 
 class RabiExcitation:
     freq_729="Excitation_729.rabi_excitation_frequency"
@@ -57,7 +58,7 @@ class RabiExcitation:
             with parallel:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
-            delay_mu(seconds_to_mu(r.duration, self.core))
+            delay_mu(Core.seconds_to_mu(r.duration, self.core))
             with parallel:
                 self.dds_729.sw.off()
                 #self.dds_729_SP.sw.off()
