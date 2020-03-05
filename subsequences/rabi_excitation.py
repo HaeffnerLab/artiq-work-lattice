@@ -1,7 +1,7 @@
 from artiq.experiment import *
 import numpy as np
 from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
-from artiq.coredevice.core import seconds_to_mu
+from artiq.coredevice.core.Core import seconds_to_mu
 
 class RabiExcitation:
     freq_729="Excitation_729.rabi_excitation_frequency"
