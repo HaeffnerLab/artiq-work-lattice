@@ -23,7 +23,7 @@ class RabiExcitation:
         self.get_729_dds(r.channel_729)
         self.prepare_pulse_with_amplitude_ramp(
             pulse_duration=r.duration,
-            ramp_duration=10*us,
+            ramp_duration=100*us,
             dds1_amp=r.amp_729)
         r.use_ramping = True
 
