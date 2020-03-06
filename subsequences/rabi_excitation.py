@@ -15,7 +15,7 @@ class RabiExcitation:
     #detuning = "RabiFlopping.detuning"
     
     phase_ref_time=np.int64(-1)
-    use_ramping=True
+    use_ramping=False
 
     @kernel
     def setup_ramping(self):
