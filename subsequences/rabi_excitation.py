@@ -25,7 +25,7 @@ class RabiExcitation:
             pulse_duration=r.duration,
             ramp_duration=100*us,
             dds1_amp=r.amp_729)
-        r.use_ramping = True
+        r.use_ramping = False
 
     def subsequence(self):
         r = RabiExcitation
