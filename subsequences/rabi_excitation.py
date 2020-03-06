@@ -15,7 +15,7 @@ class RabiExcitation:
     #detuning = "RabiFlopping.detuning"
     
     phase_ref_time=np.int64(-1)
-    use_ramping=False
+    use_ramping= True
 
     @kernel
     def setup_ramping(self):
@@ -23,7 +23,7 @@ class RabiExcitation:
         self.get_729_dds(r.channel_729)
         self.prepare_pulse_with_amplitude_ramp(
             pulse_duration=r.duration,
-            ramp_duration=2*us,
+            ramp_duration=50*us,
             dds1_amp=r.amp_729)
         r.use_ramping = False
 
