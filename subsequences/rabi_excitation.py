@@ -23,7 +23,7 @@ class RabiExcitation:
         self.get_729_dds(r.channel_729)
         self.prepare_pulse_with_amplitude_ramp(
             pulse_duration=r.duration,
-            ramp_duration=100*us,
+            ramp_duration=1000*us,
             dds1_amp=r.amp_729)
         r.use_ramping = False
 
@@ -53,7 +53,7 @@ class RabiExcitation:
                 dds1_att=r.att_729,
                 dds1_freq=r.freq_729)
             
-            self.dds_729_SP.sw.off()
+            #self.dds_729_SP.sw.off()
         else:
             with parallel:
                 self.dds_729.sw.on()
