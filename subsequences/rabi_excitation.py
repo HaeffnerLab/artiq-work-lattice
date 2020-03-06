@@ -52,7 +52,7 @@ class RabiExcitation:
             self.execute_pulse_with_amplitude_ramp(
                 dds1_att=r.att_729,
                 dds1_freq=r.freq_729)
-            
+            print(ramp_duration)
             #self.dds_729_SP.sw.off()
         else:
             with parallel:
