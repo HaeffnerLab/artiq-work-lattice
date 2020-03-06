@@ -53,7 +53,7 @@ class RabiExcitation:
                 dds1_att=r.att_729,
                 dds1_freq=r.freq_729)
             
-            #self.dds_729_SP.sw.off()
+            self.dds_729_SP.sw.off()
         else:
             with parallel:
                 self.dds_729.sw.on()
