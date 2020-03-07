@@ -170,7 +170,7 @@ class SZX:
                         dds1_att=s.car_att,
                         dds1_freq=dp_freq)
                 else:
-                    self.dds_729.set(dp_freq2,
+                    self.dds_729.set(dp_freq,
                         amplitude=s.car_amp,
                         phase=s.phase / 360,
                         ref_time_mu=s.phase_ref_time)
