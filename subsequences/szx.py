@@ -106,7 +106,7 @@ class SZX:
                             phase=s.phase / 360,
                             ref_time_mu=s.phase_ref_time)
                         self.execute_pulse_with_amplitude_ramp(
-                            dds1_att=s.att,
+                            dds1_att=s.car_att,
                             dds1_freq=dp_freq)
                     else:
                         self.dds_729.set(dp_freq,
@@ -125,7 +125,7 @@ class SZX:
             else:
                 # bichro disabled
                 self.dds_729.set_amplitude(s.amp)
-                self.dds_729.set_att(s.att)
+                self.dds_729.set_att(s.car_att)
                 sp_freq_729 = 80*MHz + offset
                 self.dds_729_SP.set(sp_freq_729, amplitude=s.default_sp_amp_729, ref_time_mu=s.phase_ref_time)
                 self.dds_729_SP.set_att(s.default_sp_att_729)
@@ -167,14 +167,14 @@ class SZX:
                         phase=s.phase / 360,
                         ref_time_mu=s.phase_ref_time)
                     self.execute_pulse_with_amplitude_ramp(
-                        dds1_att=s.att,
+                        dds1_att=s.car_att,
                         dds1_freq=dp_freq)
                 else:
                     self.dds_729.set(dp_freq2,
                         amplitude=s.amp,
                         phase=s.phase / 360,
                         ref_time_mu=s.phase_ref_time)
-                    self.dds_729.set_att(s.att)
+                    self.dds_729.set_att(s.car_att)
                     self.dds_729.sw.on()
                     # self.dds_729_SP.sw.on()
                     # self.dds_729_SP_bichro.sw.on()
