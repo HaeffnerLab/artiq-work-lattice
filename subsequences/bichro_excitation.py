@@ -71,6 +71,12 @@ class BichroExcitation:
 
     @kernel
     def setup_ramping(pulse_sequence):
+        # This function programs the appropriate ramp into the DDS memory.
+        #
+        # If a PulseSequence wants to use ramping, call setup_ramping() inside 
+        # its set_subsequence function.
+        # To disable ramping for a PulseSequence, the easiest way to do this is
+        # comment or remove the call to setup_ramping() in the set_subsequence function.
         b = BichroExcitation
         
         pulse_sequence.prepare_pulse_with_amplitude_ramp(

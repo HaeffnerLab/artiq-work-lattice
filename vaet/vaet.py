@@ -6,7 +6,8 @@ from artiq.experiment import *
 
 class VAET(PulseSequence):
     PulseSequence.accessed_params = {
-        "VAET.duration",
+        "VAET.vaet_duration",
+        "VAET.rabi_duration",
         "VAET.rotate_out",
         "VAET.rotate_in",
         "SZX.line_selection",
@@ -72,8 +73,8 @@ class VAET(PulseSequence):
 
     @kernel
     def set_subsequence_vaet(self):
-        self.vaet.duration = self.get_variable_parameter("VAET_vaet_duration")
-        self.vaet.rabi_duration = self.get_variable_parameter("VAET_rabi_duration")
+        self.szx.duration = self.get_variable_parameter("VAET_vaet_duration")
+        self.ms.duration = self.get_variable_parameter("VAET_rabi_duration")
         self.szx.nu_effective = self.get_variable_parameter("SZX_nu_effective")
         self.szx.carrier_detuning = self.get_variable_parameter("SZX_carrier_detuning")
         self.vaet.parity = self.get_variable_parameter("VAET_ramsey_time")
