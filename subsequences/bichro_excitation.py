@@ -76,7 +76,7 @@ class BichroExcitation:
         b.use_ramping = True
         pulse_sequence.prepare_pulse_with_amplitude_ramp(
             pulse_duration=b.duration,
-            ramp_duration=3*us,
+            ramp_duration=3.0*us,
             dds1_amp=b.amp)
         
         pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)    
@@ -120,7 +120,7 @@ class BichroExcitation:
                         freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
 
                     if b.use_ramping:
-                        self.dds_729_SP.sw.on()
+                        
                         self.execute_pulse_with_amplitude_ramp(
                             dds1_att=b.att,
                             dds1_freq=dp_freq)
