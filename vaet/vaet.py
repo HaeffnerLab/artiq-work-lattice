@@ -2,6 +2,7 @@ from pulse_sequence import PulseSequence
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
 from subsequences.bichro_excitation import BichroExcitation
+from subsequences.szx import SZX
 from artiq.experiment import *
 
 class VAET(PulseSequence):
