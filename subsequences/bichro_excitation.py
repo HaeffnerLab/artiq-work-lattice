@@ -72,12 +72,12 @@ class BichroExcitation:
     @kernel
     def setup_ramping(pulse_sequence):
         b = BichroExcitation
-        
+        b.use_ramping = True
         pulse_sequence.prepare_pulse_with_amplitude_ramp(
             pulse_duration=b.duration,
             ramp_duration=3*us,
             dds1_amp=b.amp)
-        b.use_ramping = True
+        
         pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)    
     
 
