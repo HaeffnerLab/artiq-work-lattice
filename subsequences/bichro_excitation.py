@@ -94,8 +94,6 @@ class BichroExcitation:
             if not b.sp_due_enable:
                 self.get_729_dds("729G", id=0)
                 
-                # Set double-pass to correct frequency and phase,
-                # and set amplitude to zero for now.
                 dp_freq = self.calc_frequency(
                     b.line_selection,
                     detuning=b.detuning_carrier_1,
@@ -116,6 +114,8 @@ class BichroExcitation:
 
                     if b.ramp_has_been_programmed:
                         
+                        # Set double-pass to correct frequency and phase,
+                        # and set amplitude to zero before starting the ramp.
                         self.dds_729.set(dp_freq,
                             amplitude=0.,
                             phase=b.phase / 360,
