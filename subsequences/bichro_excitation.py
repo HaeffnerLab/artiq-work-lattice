@@ -77,7 +77,7 @@ class BichroExcitation:
             pulse_duration=b.duration,
             ramp_duration=3*us,
             dds1_amp=b.amp)
-        b.use_ramping = False
+        b.use_ramping = True
         pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)    
     
 
