@@ -101,10 +101,6 @@ class BichroExcitation:
                     detuning=b.detuning_carrier_1,
                     dds="729G"
                 )
-                self.dds_729.set(dp_freq,
-                    amplitude=0.,
-                    phase=b.phase / 360,
-                    ref_time_mu=b.phase_ref_time)
 
                 if b.bichro_enable:
                     self.dds_729_SP.set(freq_blue, amplitude=b.amp_blue, ref_time_mu=b.phase_ref_time)
@@ -120,6 +116,10 @@ class BichroExcitation:
 
                     if b.ramp_has_been_programmed:
                         
+                        self.dds_729.set(dp_freq,
+                            amplitude=0.,
+                            phase=b.phase / 360,
+                            ref_time_mu=b.phase_ref_time)
                         self.execute_pulse_with_amplitude_ramp(
                             dds1_att=b.att,
                             dds1_freq=dp_freq)
@@ -139,7 +139,10 @@ class BichroExcitation:
 
                 else:
                     # bichro disabled
-                    self.dds_729.set_amplitude(b.amp)
+                    self.dds_729.set(dp_freq,
+                        amplitude=b.amp,
+                        phase=b.phase / 360,
+                        ref_time_mu=b.phase_ref_time)
                     self.dds_729.set_att(b.att)
                     sp_freq_729 = 80*MHz + offset
                     self.dds_729_SP.set(sp_freq_729, amplitude=b.default_sp_amp_729, ref_time_mu=b.phase_ref_time)
