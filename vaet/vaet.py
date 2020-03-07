@@ -77,7 +77,7 @@ class VAET(PulseSequence):
         self.ms.duration = self.get_variable_parameter("VAET_rabi_duration")
         self.szx.nu_effective = self.get_variable_parameter("SZX_nu_effective")
         self.szx.carrier_detuning = self.get_variable_parameter("SZX_carrier_detuning")
-        self.vaet.parity = self.get_variable_parameter("VAET_ramsey_time")
+        #self.vaet.parity = self.get_variable_parameter("VAET_ramsey_time")
 
         
         # "SZX.amplitude",
