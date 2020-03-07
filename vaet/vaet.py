@@ -120,5 +120,5 @@ class VAET(PulseSequence):
     @kernel
     def VAET(self):
         self.stateprep.run(self)
-        #self.szx.run(self)
+        self.szx.run(self)
         
