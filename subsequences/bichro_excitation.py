@@ -46,7 +46,7 @@ class BichroExcitation:
     default_sp_amp_729="Excitation_729.single_pass_amplitude"
     default_sp_att_729="Excitation_729.single_pass_att"
     phase_ref_time=np.int64(-1)
-    use_ramping=True
+    use_ramping=False
     use_single_pass_freq_noise=False
     local_spec_enable="LocalSpec.enable"
     local_spec_detuning="LocalSpec.detuning"
@@ -72,12 +72,13 @@ class BichroExcitation:
     @kernel
     def setup_ramping(pulse_sequence):
         b = BichroExcitation
-        b.use_ramping = True
+        
         pulse_sequence.prepare_pulse_with_amplitude_ramp(
             pulse_duration=b.duration,
             ramp_duration=3*us,
             dds1_amp=b.amp)
-        #pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)    
+        b.use_ramping = False
+        pulse_sequence.prepare_noisy_single_pass(freq_noise=b.use_single_pass_freq_noise)    
     
 
     def subsequence(self):
