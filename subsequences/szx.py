@@ -124,7 +124,7 @@ class SZX:
 
             else:
                 # bichro disabled
-                self.dds_729.set_amplitude(s.amp)
+                self.dds_729.set_amplitude(s.car_amp)
                 self.dds_729.set_att(s.car_att)
                 sp_freq_729 = 80*MHz + offset
                 self.dds_729_SP.set(sp_freq_729, amplitude=s.default_sp_amp_729, ref_time_mu=s.phase_ref_time)
@@ -171,7 +171,7 @@ class SZX:
                         dds1_freq=dp_freq)
                 else:
                     self.dds_729.set(dp_freq2,
-                        amplitude=s.amp,
+                        amplitude=s.car_amp,
                         phase=s.phase / 360,
                         ref_time_mu=s.phase_ref_time)
                     self.dds_729.set_att(s.car_att)
