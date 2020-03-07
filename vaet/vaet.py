@@ -14,6 +14,7 @@ class VAET(PulseSequence):
         "SZX.line_selection",
         "SZX.sideband_selection",
         "SZX.bichro_enable",
+        "SZX.AC_stark_local",
         "SZX.amplitude",
         "SZX.att",
         "SZX.amp_blue",
@@ -79,8 +80,10 @@ class VAET(PulseSequence):
         self.szx.nu_effective = self.get_variable_parameter("SZX_nu_effective")
         self.szx.carrier_detuning = self.get_variable_parameter("SZX_carrier_detuning")
         #self.vaet.parity = self.get_variable_parameter("VAET_ramsey_time")
-
         
+        # Comment out this line of code to disable ramping for VAET
+        self.szx.setup_ramping(self)
+
         # "SZX.amplitude",
         # "SZX.att",
         # "SZX.amp_blue",
