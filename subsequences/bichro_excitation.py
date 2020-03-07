@@ -72,6 +72,7 @@ class BichroExcitation:
     @kernel
     def setup_ramping(pulse_sequence):
         b = BichroExcitation
+        self.get_729_dds(b.channel_729)
         b.use_ramping = True
         pulse_sequence.prepare_pulse_with_amplitude_ramp(
             pulse_duration=b.duration,
