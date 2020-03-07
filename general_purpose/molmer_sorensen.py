@@ -153,9 +153,9 @@ class MolmerSorensenGate(PulseSequence):
                 self.Rotation729G_line_selection, 
                 dds="729G")
         
-        
-        # if self.MolmerSorensen_bichro_enable:
-        #     self.ms.setup_ramping(self)
+        # Comment out this block of code to disable ramping for MolmerSorensen bichro
+        if self.MolmerSorensen_bichro_enable:
+            self.ms.setup_ramping(self)
 
     @kernel
     def MolmerSorensen(self):

@@ -57,8 +57,11 @@ class RabiFlopping(PulseSequence):
             dds=self.RabiFlopping_channel_729
         )- 0*1.60511*MHz
         print(self.rabi.freq_729)
-        if self.rabi.duration > 0:
-            self.rabi.setup_ramping(self)
+
+        # Uncomment this to enable ramping for RabiFlopping sequence
+        #if self.rabi.duration > 0:
+        #    self.rabi.setup_ramping(self)
+
         self.rabi.att_729=self.get_variable_parameter("RabiFlopping_att_729")
         #self.stateprep.post_delay=self.get_variable_parameter("StatePreparation_post_delay")
 

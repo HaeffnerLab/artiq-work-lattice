@@ -15,7 +15,7 @@ class RabiExcitation:
     #detuning = "RabiFlopping.detuning"
     
     phase_ref_time=np.int64(-1)
-    use_ramping= False
+    ramp_has_been_programmed= False
 
     @kernel
     def setup_ramping(self):
@@ -25,13 +25,13 @@ class RabiExcitation:
             pulse_duration=r.duration,
             ramp_duration=2.0*us,
             dds1_amp=r.amp_729)
-        r.use_ramping = False
+        r.ramp_has_been_programmed = True
 
     def subsequence(self):
         r = RabiExcitation
         self.get_729_dds(r.channel_729)
 
-        if r.use_ramping:
+        if r.ramp_has_been_programmed:
             self.dds_729.set(r.freq_729,
                             amplitude=0.,
                             ref_time_mu=r.phase_ref_time)
@@ -47,7 +47,7 @@ class RabiExcitation:
         # self.dds_729_SP.set_att(r.sp_att_729)
         # print("dp: ", r.frereq_729)
         # print("sp: ", sp_fq_729)
-        if r.use_ramping:
+        if r.ramp_has_been_programmed:
             self.dds_729_SP.sw.on()
             self.execute_pulse_with_amplitude_ramp(
                 dds1_att=r.att_729,
