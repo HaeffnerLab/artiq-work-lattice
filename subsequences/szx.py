@@ -22,8 +22,8 @@ class SZX:
     carrier_detuning_L1 = "SZX.carrier_detuning_L1"
     phase = "SZX.phase"
     phase_ref_time=np.int64(-1)
-    sp_amp_729L1 = "Excitation_729.single_pass_amplitude"
-    sp_att_729L1 = "Excitation_729.single_pass_att"
+    default_sp_amp_729="Excitation_729.single_pass_amplitude"
+    default_sp_att_729="Excitation_729.single_pass_att"
     AC_stark_local = "SZX.AC_stark_local"
     ramp_has_been_programmed=False  # always initialize to False; gets set to True inside setup_ramping
     use_single_pass_freq_noise = False
@@ -74,8 +74,8 @@ class SZX:
                         phase=s.phase / 360,
                         ref_time_mu=s.phase_ref_time)
                     
-                    self.dds_729L1_SP.set(80*MHz+offset_L1, amplitude=s.sp_amp_729L1, ref_time_mu=s.phase_ref_time)
-                    self.dds_729L1_SP.set_att(s.sp_att_729L1)
+                    self.dds_729L1_SP.set(80*MHz+offset_L1, amplitude=s.default_sp_amp_729, ref_time_mu=s.phase_ref_time)
+                    self.dds_729L1_SP.set_att(s.default_sp_att_729)
                     
                     self.dds_729.set(dp_freq,
                             amplitude=s.car_amp,
