@@ -11,10 +11,13 @@ class VAET(PulseSequence):
         "VAET.rabi_duration",
         "VAET.rotate_out",
         "VAET.rotate_in",
+        "SZX.one_ion_vaet"
         "SZX.line_selection",
         "SZX.sideband_selection",
         "SZX.bichro_enable",
         "SZX.AC_stark_local",
+        "SZX.amplitude_L2",
+        "SZX.att_L2",
         "SZX.amplitude",
         "SZX.att",
         "SZX.amp_blue",
