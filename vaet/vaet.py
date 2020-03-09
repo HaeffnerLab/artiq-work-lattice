@@ -11,7 +11,7 @@ class VAET(PulseSequence):
         "VAET.rabi_duration",
         "VAET.rotate_out",
         "VAET.rotate_in",
-        "SZX.one_ion_vaet"
+        "SZX.one_ion_vaet",
         "SZX.line_selection",
         "SZX.sideband_selection",
         "SZX.bichro_enable",
