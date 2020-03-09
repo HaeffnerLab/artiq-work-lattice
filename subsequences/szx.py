@@ -4,6 +4,7 @@ from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP, RAM_DEST_ASF
 from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
 
 class SZX:
+    one_ion_vaet = "SZX.one_ion_vaet"
     duration = "SZX.duration"
     channel = "SZX.channel_729"
     bichro_enable = "SZX.bichro_enable"
@@ -14,6 +15,8 @@ class SZX:
     att_red = "SZX.att_red"
     car_amp = "SZX.amplitude"
     car_amp_L1 = "SZX.local_rabi_amp"
+    SP_amp_L2 = "SZX.amplitude_L2"
+    SP_att_L2 = "SZX.att_L2"
     car_att = "SZX.att"
     car_att_L1 = "SZX.local_rabi_att"
     sideband_selection = "SZX.sideband_selection"
@@ -102,7 +105,7 @@ class SZX:
 
                     with parallel:
                         self.dds_729.sw.on()
-                        self.dds_729_SP.sw.on()
+                        #self.dds_729_SP.sw.on()
                         self.dds_729L1.sw.on()
                         self.dds_SP_729L1.sw.on()
                     delay(s.duration)
@@ -112,7 +115,20 @@ class SZX:
                         self.dds_729L1.sw.off()
                         self.dds_SP_729L1.sw.off()
 
-
+                if s.one_ion_vaet:
+                    offset_L2 = self.get_offset_frequency("729L2")
+                    self.dds_SP_729L2.set(80*MHz+offset_L2, amplitude=s.SP_amp_L2, ref_time_mu=s.phase_ref_time)
+                    self.dds_SP_729L2.set_att(s.SP_att_L2)
+                    with parallel:
+                        self.dds_729.sw.on()
+                        #self.dds_729_SP.sw.on()
+                        self.dds_SP_729L2.sw.on()
+                    delay(s.duration)
+                    with parallel:
+                        self.dds_729.sw.off()
+                        #self.dds_729.sw.off()
+                        #self.dds_729L1.sw.off()
+                        #self.dds_SP_729L1.sw.off()
                 else:
 
                     if s.ramp_has_been_programmed:
