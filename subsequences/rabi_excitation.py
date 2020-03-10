@@ -32,6 +32,7 @@ class RabiExcitation:
             ramp_duration=2.0*us,
             dds1_amp=r.amp_729)
         r.ramp_has_been_programmed = True
+        print('is ramp set?')
 
     def subsequence(self):
         r = RabiExcitation
