@@ -16,7 +16,7 @@ class SZX:
     car_amp = "SZX.amplitude"
     car_amp_L1 = "SZX.local_rabi_amp"
     SP_amp_L2 = "SZX.amplitude_L2"
-    SP_att_L2 = "SZX.att_L2"
+    SP_att_L2 = "SZX.att_SP_L2"
     car_att = "SZX.att"
     car_att_L1 = "SZX.local_rabi_att"
     sideband_selection = "SZX.sideband_selection"
@@ -93,7 +93,8 @@ class SZX:
                         amplitude=s.car_amp_L1,
                         phase=s.phase / 360,
                         ref_time_mu=s.phase_ref_time)
-                    
+                    self.dds_729L1.set_att(s.car_att_L1)
+
                     self.dds_SP_729L1.set(80*MHz+offset_L1, amplitude=s.default_sp_amp_729, ref_time_mu=s.phase_ref_time)
                     self.dds_SP_729L1.set_att(s.default_sp_att_729)
                     
