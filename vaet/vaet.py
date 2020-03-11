@@ -17,7 +17,7 @@ class VAET(PulseSequence):
         "SZX.bichro_enable",
         "SZX.AC_stark_local",
         "SZX.amplitude_L2",
-        "SZX.att_L2",
+        "SZX.att_SP_L2",
         "SZX.amplitude",
         "SZX.att",
         "SZX.amp_blue",
