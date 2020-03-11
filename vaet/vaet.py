@@ -85,7 +85,7 @@ class VAET(PulseSequence):
         #self.vaet.parity = self.get_variable_parameter("VAET_ramsey_time")
         
         # Comment out this line of code to disable ramping for VAET
-        self.szx.setup_ramping(self)
+        #self.szx.setup_ramping(self)
 
         # "SZX.amplitude",
         # "SZX.att",
