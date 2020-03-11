@@ -120,6 +120,12 @@ class SZX:
                     offset_L2 = self.get_offset_frequency("729L2")
                     self.dds_SP_729L2.set(80*MHz+offset_L2, amplitude=s.SP_amp_L2, ref_time_mu=s.phase_ref_time)
                     self.dds_SP_729L2.set_att(s.SP_att_L2)
+                    self.dds_729.set(dp_freq,
+                            amplitude=s.car_amp,
+                            phase=s.phase / 360,
+                            ref_time_mu=s.phase_ref_time)
+                    self.dds_729.set_att(s.car_att)
+
                     with parallel:
                         self.dds_729.sw.on()
                         #self.dds_729_SP.sw.on()
