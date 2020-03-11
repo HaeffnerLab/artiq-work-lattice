@@ -129,7 +129,7 @@ class SZX:
                         self.dds_729.sw.off()
                         #self.dds_729.sw.off()
                         #self.dds_729L1.sw.off()
-                        #self.dds_SP_729L1.sw.off()
+                        self.dds_SP_729L2.sw.off()
                 else:
 
                     if s.ramp_has_been_programmed:
