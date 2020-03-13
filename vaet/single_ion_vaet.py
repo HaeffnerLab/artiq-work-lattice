@@ -40,6 +40,7 @@ class SingleIonVAET(PulseSequence):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.basis_rotation = self.add_subsequence(RabiExcitation)
         self.vaet = self.add_subsequence(SetupSingleIonVAET)
+        self.set_subsequence["SingleIonVAET"] = self.set_subsequence_single_ion_vaet
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
