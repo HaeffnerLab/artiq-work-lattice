@@ -7,15 +7,15 @@ class SetupSingleIonVAET:
     DP_att="SingleIonVAET.DP_att"
     J_amp="SingleIonVAET.J_amp"
     J_att="SingleIonVAET.J_att"
-    Δ_amp="SingleIonVAET.Δ_amp"
-    Δ_att="SingleIonVAET.Δ_att"
+    delta_amp="SingleIonVAET.delta_amp"
+    delta_att="SingleIonVAET.delta_att"
     RSB_amp="SingleIonVAET.RSB_amp"
     RSB_att="SingleIonVAET.RSB_att"
     BSB_amp="SingleIonVAET.BSB_amp"
     BSB_att="SingleIonVAET.BSB_att"
     line_selection="SingleIonVAET.line_selection"
     selection_sideband="SingleIonVAET.selection_sideband"
-    ν_eff="SingleIonVAET.ν_eff"
+    nu_eff="SingleIonVAET.nu_eff"
     duration="SingleIonVAET.duration"
     phase_ref_time=np.int64(-1)
 
@@ -24,8 +24,8 @@ class SetupSingleIonVAET:
         s = SetupSingleIonVAET
         trap_frequency = self.get_trap_frequency(s.selection_sideband)
         offset = self.get_offset_frequency("729G")
-        freq_blue = 80*MHz + trap_frequency - s.ν_eff/2 + offset
-        freq_red = 80*MHz - trap_frequency + s.ν_eff/2 + offset
+        freq_blue = 80*MHz + trap_frequency - s.nu_eff/2 + offset
+        freq_red = 80*MHz - trap_frequency + s.nu_eff/2 + offset
         freq_carr = 80*MHz + offset
         dp_freq = self.calc_frequency(
             s.line_selection,
@@ -49,7 +49,7 @@ class SetupSingleIonVAET:
         # Hard-coded to SP_729G_bichro
         self.dds_729_SP_bichro.set(
             freq_carr,
-            amplitude=s.Δ_amp,
+            amplitude=s.delta_amp,
             ref_time_mu=s.phase_ref_time,
             phase=0.25  # sigma_y
         )
@@ -72,7 +72,7 @@ class SetupSingleIonVAET:
 
         self.dds_729.set_att(s.DP_att)
         self.dds_729_SP.set_att(s.J_att)
-        self.dds_729_SP_bichro.set_att(s.Δ_att)
+        self.dds_729_SP_bichro.set_att(s.delta_att)
         self.dds_729_SP_line1_bichro.set_att(s.BSB_att)
         self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
 
