@@ -76,7 +76,6 @@ class SetupSingleIonVAET:
         self.dds_729_SP_line1_bichro.set_att(s.BSB_att)
         self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
 
-        print("duration: ", s.duration)
         with parallel:
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
