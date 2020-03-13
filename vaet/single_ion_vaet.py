@@ -47,7 +47,7 @@ class SingleIonVAET(PulseSequence):
         self.basis_rotation.amp_729 = self.Rotation729G_amplitude
         self.basis_rotation.att_729 = self.Rotation729G_att
         self.basis_rotation.duration = self.Rotation729G_pi_time / 2
-        self.basis_rotation.freq_729 = self.calc_freq(
+        self.basis_rotation.freq_729 = self.calc_frequency(
             self.Rotation729G_line_selection,
             dds="729G"
         )
