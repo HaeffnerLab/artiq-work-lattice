@@ -32,7 +32,7 @@ class SingleIonVAET(PulseSequence):
 
     PulseSequence.scan_params.update(
         SingleIonVAET=[
-            ("VAET", ("SingleIonVAET.duration", 0., 1000*ms, 20, "ms"))
+            ("vaet_time", ("SingleIonVAET.duration", 0., 1000*ms, 20, "ms"))
         ]
     )
 
