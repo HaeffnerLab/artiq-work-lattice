@@ -73,8 +73,8 @@ class SetupSingleIonVAET:
         self.dds_729.set_att(s.DP_att)
         self.dds_729_SP.set_att(s.J_att)
         self.dds_729_SP_bichro.set_att(s.Δ_att)
-        self.dds_729_SP_line1_bichro.set_att(BSB_att)
-        self.dds_729_SP_line2_bichro.set_att(RSB_att)
+        self.dds_729_SP_line1_bichro.set_att(s.BSB_att)
+        self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
 
         with parallel:
             self.dds_729.sw.on()
