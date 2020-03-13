@@ -27,7 +27,7 @@ class SetupSingleIonVAET:
         freq_blue = 80*MHz + trap_frequency - s.ν_eff/2 + offset
         freq_red = 80*MHz - trap_frequency + s.ν_eff/2 + offset
         freq_carr = 80*MHz + offset
-        dp_freq = self.calc_frequeny(
+        dp_freq = self.calc_frequency(
             s.line_selection,
             dds="729G"
         )
