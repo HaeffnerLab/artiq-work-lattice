@@ -4,7 +4,7 @@ from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
 import numpy as np
 
 
-class BichroExcitation:
+class VAET:
     bichro_enable="MolmerSorensen.bichro_enable"
     due_carrier_enable="MolmerSorensen.due_carrier_enable"
     sp_due_enable="MolmerSorensen.sp_due_enable"
@@ -57,6 +57,27 @@ class BichroExcitation:
     local_spec_sp_amp_729="Excitation_729.single_pass_amplitude"
     local_spec_sp_att_729="Excitation_729.single_pass_att"
     ac_stark_shift="MolmerSorensen.ac_stark_shift"
+
+    szx_channel = "SZX.channel_729"
+    szx_bichro_enable = "SZX.bichro_enable"
+    nu_effective = "SZX.nu_effective"
+    amp_blue = "SZX.amp_blue"
+    amp_red = "SZX.amp_red"
+    att_blue = "SZX.att_blue"
+    att_red = "SZX.att_red"
+    car_amp = "SZX.amplitude"
+    car_amp_L1 = "SZX.local_rabi_amp"
+    car_att = "SZX.att"
+    car_att_L1 = "SZX.local_rabi_att"
+    sideband_selection = "SZX.sideband_selection"
+    line_selection = "SZX.line_selection"
+    carrier_detuning = "SZX.carrier_detuning"
+    carrier_detuning_L1 = "SZX.carrier_detuning_L1"
+    phase = "SZX.phase"
+    phase_ref_time=np.int64(-1)
+    default_sp_amp_729="Excitation_729.single_pass_amplitude"
+    default_sp_att_729="Excitation_729.single_pass_att"
+    AC_stark_local = "SZX.AC_stark_local"
 
     def add_child_subsequences(pulse_sequence):
         b = BichroExcitation
