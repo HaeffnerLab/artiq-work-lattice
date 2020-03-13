@@ -61,10 +61,11 @@ class SingleIonVAET(PulseSequence):
 
         self.stateprep.run(self)
         if self.SingleIonVAET_rotate_in_y:
+            self.basis_rotation.phase_729 = 0.
             self.basis_rotation.run(self)
         self.vaet.run(self)
         if self.SingleIonVAET_rotate_out_y:
-            self.basis_rotation.phase_729 = 0.
+            self.basis_rotation.phase_729 = 180.
             self.basis_rotation.run(self)
 
     
