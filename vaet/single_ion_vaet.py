@@ -54,8 +54,7 @@ class SingleIonVAET(PulseSequence):
 
     @kernel
     def SingleIonVAET(self):
-        pass
-        # phase_ref_time = now_mu()
+        phase_ref_time = now_mu()
         # self.basis_rotation.phase_ref_time = phase_ref_time
         # self.vaet.phase_ref_time = phase_ref_time
 
