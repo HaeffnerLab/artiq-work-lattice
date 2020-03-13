@@ -26,7 +26,8 @@ class SingleIonVAET(PulseSequence):
         "SingleIonVAET.line_selection",
         "Rotation729G.amplitude",
         "Rotation729G.att",
-        "Rotation729G.pi_time"
+        "Rotation729G.pi_time",
+        "Rotation729G.line_selection"
     }
 
 
