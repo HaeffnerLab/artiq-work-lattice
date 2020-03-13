@@ -44,7 +44,6 @@ class SingleIonVAET(PulseSequence):
     @kernel
     def set_subsequence_single_ion_vaet(self):
         self.vaet.duration = self.get_variable_parameter("SingleIonVAET_duration")
-        print(self.vaet.duration)
         self.basis_rotation.amp_729 = self.Rotation729G_amplitude
         self.basis_rotation.att_729 = self.Rotation729G_att
         self.basis_rotation.duration = self.Rotation729G_pi_time / 2
