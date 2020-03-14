@@ -59,10 +59,9 @@ class SetupSingleIonVAET:
                 phase=0.25  # sigma_y
             )
         else:
-            print("implemented phase: ", s.implemented_phase)
             self.dds_729_SP.set(
                 freq_carr,
-                amplitude=s.J_amp,
+                amplitude=sqrt(s.J_amp**2 + s.delta_amp**2),
                 ref_time_mu=s.phase_ref_time,
                 phase=s.implemented_phase
             )
