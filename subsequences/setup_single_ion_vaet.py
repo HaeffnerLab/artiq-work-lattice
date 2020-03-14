@@ -61,7 +61,7 @@ class SetupSingleIonVAET:
         else:
             self.dds_729_SP_bichro.set(
                 freq_carr,
-                amplitude=s.J_amp,
+                amplitude=0.,#s.J_amp,
                 ref_time_mu=s.phase_ref_time,
                 phase=s.implemented_phase
             )
