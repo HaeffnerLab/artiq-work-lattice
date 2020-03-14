@@ -22,6 +22,7 @@ class SetupSingleIonVAET:
     delta="SingleIonVAET.phase_implemented_delta"
     phase_ref_time=np.int64(-1)
     implemented_phase=0.
+    implemented_amp=0.
 
 
     def subsequence(self):
@@ -61,7 +62,7 @@ class SetupSingleIonVAET:
         else:
             self.dds_729_SP.set(
                 freq_carr,
-                amplitude=np.sqrt(s.J_amp**2 + s.delta_amp**2),
+                amplitude=s.implemented_amp,
                 ref_time_mu=s.phase_ref_time,
                 phase=s.implemented_phase
             )
