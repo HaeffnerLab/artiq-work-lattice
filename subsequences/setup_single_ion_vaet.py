@@ -59,18 +59,17 @@ class SetupSingleIonVAET:
                 phase=0.25  # sigma_y
             )
         else:
-            self.dds_729_SP.set(
+            self.dds_729_SP_bichro.set(
                 freq_carr,
                 amplitude=s.J_amp,
                 ref_time_mu=s.phase_ref_time,
                 phase=s.implemented_phase
             )
 
-            self.dds_729_SP_bichro.set(
+            self.dds_729_SP.set(
                 freq_carr,
                 amplitude=0.0,
                 ref_time_mu=s.phase_ref_time,
-                phase=0.25
             )
 
         # Hard-coded to SP_729L2
