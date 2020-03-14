@@ -21,7 +21,7 @@ class SetupSingleIonVAET:
     J="SingleIonVAET.measured_J"
     delta="SingleIonVAET.phase_implemented_delta"
     phase_ref_time=np.int64(-1)
-    implemented_phase=np.int64(-1)
+    implemented_phase=0.
 
 
     def subsequence(self):
