@@ -3,6 +3,7 @@ from subsequences.rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
 from subsequences.setup_single_ion_vaet import SetupSingleIonVAET
 from artiq.experiment import *
+import numpy as np
 
 
 class SingleIonVAET(PulseSequence):
@@ -24,10 +25,13 @@ class SingleIonVAET(PulseSequence):
         "SingleIonVAET.duration",
         "SingleIonVAET.selection_sideband",
         "SingleIonVAET.line_selection",
+        "SingleIonVAET.phase_implemented_sigmay",
+        "SingleIonVAET.measured_J",
+        "SingleIonVAET.phase_implemented_delta",
         "Rotation729G.amplitude",
         "Rotation729G.att",
         "Rotation729G.pi_time",
-        "Rotation729G.line_selection"
+        "Rotation729G.line_selection",
     }
 
 
@@ -42,10 +46,13 @@ class SingleIonVAET(PulseSequence):
         self.basis_rotation = self.add_subsequence(RabiExcitation)
         self.vaet = self.add_subsequence(SetupSingleIonVAET)
         self.set_subsequence["SingleIonVAET"] = self.set_subsequence_single_ion_vaet
+        implemented_phase = np.arctan(s.delta / s.J) / (2 * np.pi)
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
         self.vaet.duration = self.get_variable_parameter("SingleIonVAET_duration")
+        if self.SingleIonVAET_phase_implemented_sigmay:
+            self.vaet.implemented_phase = np.arctan(s.delta / s.J) / (2 * np.pi)
         self.basis_rotation.amp_729 = self.Rotation729G_amplitude
         self.basis_rotation.att_729 = self.Rotation729G_att
         self.basis_rotation.duration = self.Rotation729G_pi_time / 2

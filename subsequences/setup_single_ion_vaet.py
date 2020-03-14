@@ -1,5 +1,4 @@
 from artiq.experiment import *
-import numpy as np
 
 
 class SetupSingleIonVAET:
@@ -17,7 +16,11 @@ class SetupSingleIonVAET:
     selection_sideband="SingleIonVAET.selection_sideband"
     nu_eff="SingleIonVAET.nu_eff"
     duration="SingleIonVAET.duration"
+    phase_implemented_sigmay="SingleIonVAET.phase_implemented_sigmay"
+    J="SingleIonVAET.measured_J"
+    delta="SingleIonVAET.phase_implemented_delta"
     phase_ref_time=np.int64(-1)
+    implemented_phase=np.int64(-1)
 
 
     def subsequence(self):
@@ -39,20 +42,28 @@ class SetupSingleIonVAET:
             ref_time_mu=s.phase_ref_time
         )
 
-        # Hard-coded to SP_729G
-        self.dds_729_SP.set(
-            freq_carr,
-            amplitude=s.J_amp,
-            ref_time_mu=s.phase_ref_time
-        )
+        if not s.phase_implemented_sigmay:
+            # Hard-coded to SP_729G
+            self.dds_729_SP.set(
+                freq_carr,
+                amplitude=s.J_amp,
+                ref_time_mu=s.phase_ref_time
+            )
 
-        # Hard-coded to SP_729G_bichro
-        self.dds_729_SP_bichro.set(
-            freq_carr,
-            amplitude=s.delta_amp,
-            ref_time_mu=s.phase_ref_time,
-            phase=0.25  # sigma_y
-        )
+            # Hard-coded to SP_729G_bichro
+            self.dds_729_SP_bichro.set(
+                freq_carr,
+                amplitude=s.delta_amp,
+                ref_time_mu=s.phase_ref_time,
+                phase=0.25  # sigma_y
+            )
+        else:
+            self.dds_729_SP.set(
+                freq_carr,
+                amplitude=s.J_amp,
+                ref_time_mu=s.phase_ref_time,
+                phase=s.implemented_phase
+            )
 
         # Hard-coded to SP_729L2
         self.dds_729_SP_line1_bichro.set(
