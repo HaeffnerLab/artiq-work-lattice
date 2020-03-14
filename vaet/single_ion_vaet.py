@@ -49,7 +49,6 @@ class SingleIonVAET(PulseSequence):
         delta = self.p.SingleIonVAET.phase_implemented_delta
         J = self.p.SingleIonVAET.measured_J
         self.implemented_phase = np.arctan(delta / J) / (2 * np.pi)
-        print("implemented phase: ", self.implemented_phase)
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
@@ -75,7 +74,7 @@ class SingleIonVAET(PulseSequence):
             self.basis_rotation.run(self)
         self.vaet.run(self)
         if self.SingleIonVAET_rotate_out_y:
-            self.basis_rotation.phase_729 = 180.
+            self.basis_rotation.phase_729 = 180. + self.implemented_phase
             self.basis_rotation.run(self)
 
     
