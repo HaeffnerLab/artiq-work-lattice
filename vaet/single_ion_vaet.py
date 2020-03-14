@@ -49,6 +49,7 @@ class SingleIonVAET(PulseSequence):
         delta = self.p.SingleIonVAET.phase_implemented_delta
         J = self.p.SingleIonVAET.measured_J
         self.implemented_phase = np.arctan(delta / J) / (2 * np.pi)
+        print("implemented phase: ", self.implemented_phase)
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
