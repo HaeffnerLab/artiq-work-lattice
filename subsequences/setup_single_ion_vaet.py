@@ -1,4 +1,5 @@
 from artiq.experiment import *
+import numpy as np
 
 
 class SetupSingleIonVAET:
