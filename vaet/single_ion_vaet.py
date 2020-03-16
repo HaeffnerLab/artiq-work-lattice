@@ -53,7 +53,7 @@ class SingleIonVAET(PulseSequence):
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
-        self.vaet.duration = self.get_variable_parameter("SingleIonVAET_duration"
+        self.vaet.duration = self.get_variable_parameter("SingleIonVAET_duration")
         self.vaet.nu_eff = self.get_variable_parameter("SingleIonVAET_nu_eff")
         if self.SingleIonVAET_phase_implemented_sigmay:
             self.vaet.implemented_phase = self.implemented_phase
