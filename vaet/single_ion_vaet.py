@@ -37,7 +37,7 @@ class SingleIonVAET(PulseSequence):
     PulseSequence.scan_params = dict(
         SingleIonVAET=[
             ("vaet_time", ("SingleIonVAET.duration", 0., 1000*us, 20, "us")),
-            ("scan_nu_eff", ("SingleIonVAET.nu_eff", 0., 1000*kHz, "kHz"))
+            ("scan_nu_eff", ("SingleIonVAET.nu_eff", 0., 1000*kHz, 20, "kHz"))
         ]
     )
 
