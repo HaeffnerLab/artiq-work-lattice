@@ -51,6 +51,9 @@ class SingleIonVAET(PulseSequence):
             J = self.p.SingleIonVAET.J_amp
             self.implemented_phase = np.arctan(2 * delta / J) / (2 * np.pi)
             self.implemented_amp = np.sqrt(J**2 + delta**2)
+        else:
+            self.implemented_amp = 0.
+            self.implemented_phase = 0.
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
