@@ -1,4 +1,7 @@
-from pulse_sequence import PulseSequence
+import numpy as np
+import labrad
+from scipy.optimize import curve_fit
+from pulse_sequence import PulseSequence, FitError
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
