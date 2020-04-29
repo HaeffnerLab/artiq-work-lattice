@@ -1,10 +1,14 @@
 import numpy as np
 import labrad
+from labrad.units import WithUnit as U 
 from scipy.optimize import curve_fit
 from pulse_sequence import PulseSequence, FitError
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
+import logging
+
+logger = logging.getLogger(__name__)
 
 class CalibPiTime(PulseSequence):
     PulseSequence.accessed_params = {
@@ -60,7 +64,7 @@ class CalibPiTime(PulseSequence):
         global_max = x[np.argmax(y)]
         try:
             # p0 is initial guesses for A, tau, tpi, phi, B
-            p0 = [0.5, global_max, y, 0.0, 0.0]
+            p0 = np.array([0.5, np.max(y), global_max, 0.0, 0.0])
             popt, pcov = curve_fit(gaussian_sinesquare, x, y, p0)
             A, tau, tpi, phi, B = popt
         except:
@@ -69,9 +73,11 @@ class CalibPiTime(PulseSequence):
         cxn = labrad.connect()
         p = cxn.parametervault
         p.set_parameter(
-            "Rotation729G", "pi_time", U(tpi * 1e-6, "s")
+            "Rotation729G", "pi_time", U(tpi, "s")
         )
         cxn.disconnect() 
+
+        logger.info("Successfully updated Rotation729G.pi_time = " + str(tpi))
 
 def gaussian_sinesquare(x, A, tau, tpi, phi, B):
     return 0.5 * A * (1 - np.exp(-(x**2)/2/(tau*1e-6)**2) * np.sin(2*2 * np.pi * (1/(4*tpi)) * 1e6 * x + phi)**2) + B
