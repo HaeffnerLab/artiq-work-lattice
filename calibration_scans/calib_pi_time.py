@@ -56,10 +56,10 @@ class CalibPiTime(PulseSequence):
         print("x: ", x)
         global_max = x[np.argmax(y)]
         try:
-            # p0 is initial guesses for A, tao, tpi, phi, B
+            # p0 is initial guesses for A, tau, tpi, phi, B
             p0 = [0.5, global_max, y, 0.0, 0.0]
             popt, pcov = curve_fit(gaussian_sinesquare, x, y, p0)
-            A, tao, tpi, phi, B = popt
+            A, tau, tpi, phi, B = popt
         except:
             raise FitError
 
@@ -71,5 +71,5 @@ class CalibPiTime(PulseSequence):
         cxn.disconnect() 
 
 def gaussian_sinesquare(x, A, tau, tpi, phi, B):
-    return 0.5 * A * (1 - np.exp(-(x**2)/2/(tau*1e-6)**2) * np.cos(2*2 * np.pi * (1/(4*tpi)) * 1e6 * x + phi)) + B
+    return 0.5 * A * (1 - np.exp(-(x**2)/2/(tau*1e-6)**2) * np.sin(2*2 * np.pi * (1/(4*tpi)) * 1e6 * x + phi)**2) + B
         
