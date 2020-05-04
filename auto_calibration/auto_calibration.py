@@ -23,6 +23,9 @@ class AutoCalibration(PulseSequence):
             ("Current", ("IonsOnCamera.ion_number", 1., 1., 1, "")),
         ])
 
+    def range_scan_args(self, start, stop, npoints):
+        return { "ty": "RangeScan", "start": start, "stop": stop, "npoints": npoints, "randomize": False, "seed": None }
+
     def run_initially(self):
         self.set_subsequence["AutoCalibration"] = self.set_subsequence_autocalibration
 
@@ -31,7 +34,7 @@ class AutoCalibration(PulseSequence):
             calibpitime_expid = {
                 "arguments": {
                     "CalibPiTime-Scan_Selection": "RabiFlopping.duration",
-                    "CalibPiTime:RabiFlopping.duration": { "ty": "RangeScan", "start": 0.0, "stop": 10.0e-6, "npoints": 20 }
+                    "CalibPiTime:RabiFlopping.duration": self.range_scan_args(start=0.0, stop=10.0e-6, npoints=20)
                     },
                 "class_name": "CalibPiTime",
                 "file": "calibration_scans/calib_pi_time.py",
