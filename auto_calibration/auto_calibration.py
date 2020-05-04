@@ -11,19 +11,15 @@ logger = logging.getLogger(__name__)
 
 class AutoCalibration(PulseSequence):
     PulseSequence.accessed_params = {
-        "RabiFlopping.line_selection",
-        "RabiFlopping.amplitude_729",
-        "RabiFlopping.att_729",
-        "RabiFlopping.channel_729",
-        "RabiFlopping.duration",
-        "RabiFlopping.selection_sideband",
-        "RabiFlopping.order",
-        "RabiFlopping.detuning",
+        "CalibrationScans.calibrate_sidebands",
+        "CalibrationScans.do_rabi_flop_carrier",
+        "CalibrationScans.do_rabi_flop_radial1",
+        "CalibrationScans.do_rabi_flop_radial2"
     }
 
     PulseSequence.scan_params = dict(
         AutoCalibration=[
-            #("Rabi", ("RabiFlopping.duration", 0., 100e-6, 20, "us")),
+            ("Current", ("IonsOnCamera.ion_number", 1., 1., 1, "")),
         ])
 
     def run_initially(self):
