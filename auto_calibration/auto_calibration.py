@@ -52,7 +52,7 @@ class AutoCalibration(PulseSequence):
                 pass
 
             if self.p.CalibrationScans.do_rabi_flop_radial2:
-                # TODO - run CalibPiTime for radial sideband 1
+                # TODO - run CalibPiTime for radial sideband 2
                 pass
 
     @kernel
