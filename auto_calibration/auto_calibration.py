@@ -30,8 +30,8 @@ class AutoCalibration(PulseSequence):
             # Run CalibPiTime for carrier
             calibpitime_expid = {
                 "arguments": {
-                        "CalibPiTime-Scan_Selection": "RabiFlopping.duration",
-                        "CalibPiTime:RabiFlopping.duration": { "ty": "RangeScan", "start": 0.0, "stop": 10.0e-6, "npoints": 20 }
+                    "CalibPiTime-Scan_Selection": "RabiFlopping.duration",
+                    "CalibPiTime:RabiFlopping.duration": { "ty": "RangeScan", "start": 0.0, "stop": 10.0e-6, "npoints": 20 }
                     },
                 "class_name": "CalibPiTime",
                 "file": "calibration_scans/calib_pi_time.py",
