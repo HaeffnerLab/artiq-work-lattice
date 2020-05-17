@@ -2,12 +2,15 @@
 # Define curve fits
 #
 # Syntax:
-#  fit: MyFitName                       # can be referenced from jobs.
-#     fit-function: fit_function_name   # must be a Python function name.
+#  fit: MyFitName             # Fit name to be referenced from jobs.
+#     parameters:             # Defines the fit parameters.
 #        - param_name_1       # These are names given to the fit parameters
-#        - param_name_2       #   that can be referenced from job.
-#        - param_name_3       # The number of these must match the number of
-#        - param_name_4       #   fit params in the specified fit function.
+#        - param_name_2       #   that can be referenced from job and are
+#        - param_name_3       #   also referenced in the Python code.
+#     python: >
+#        (param_name_1 * x    # Some arbitrary Python expression implementing the
+#          + param_name_2)    #   fit function. `x` is reserved as the name of the
+#        ** param_name_3      #   fit data. Parameter names are as listed above.
 
 fit: Gaussian
    parameters:
@@ -15,7 +18,7 @@ fit: Gaussian
       - center
       - standard_deviation
    python: >
-      return amplitude * np.exp((-(x - center)**2) / (2*standard_deviation**2))
+      amplitude * np.exp((-(x - center)**2) / (2*standard_deviation**2))
 
 fit: RabiDecay
    parameters:
