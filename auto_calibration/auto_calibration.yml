@@ -2,137 +2,146 @@
 # Define curve fits
 #
 # Syntax:
-#  fit: MyFitName             # Fit name to be referenced from jobs.
-#     parameters:             # Defines the fit parameters.
-#        - param_name_1       # These are names given to the fit parameters
-#        - param_name_2       #   that can be referenced from job and are
-#        - param_name_3       #   also referenced in the Python code.
-#     python: >
-#        (param_name_1 * x    # Some arbitrary Python expression implementing the
-#          + param_name_2)    #   fit function. `x` is reserved as the name of the
-#        ** param_name_3      #   fit data. Parameter names are as listed above.
+#  fits:
+#     MyFitName:                 # Fit name to be referenced from jobs.
+#        parameters:             # Defines the fit parameters.
+#           - param_name_1       # These are names given to the fit parameters
+#           - param_name_2       #   that can be referenced from job and are
+#           - param_name_3       #   also referenced in the Python code.
+#        python: >
+#           (param_name_1 * x    # Some arbitrary Python expression implementing the
+#             + param_name_2)    #   fit function. `x` is reserved as the name of the
+#           ** param_name_3      #   fit data. Parameter names are as listed above.
 
-fit: Gaussian
-   parameters:
-      - amplitude
-      - center
-      - standard_deviation
-   python: >
-      amplitude * np.exp((-(x - center)**2) / (2*standard_deviation**2))
+fits:
 
-fit: RabiDecay
-   parameters:
-      - amplitude
-      - decay_time
-      - pi_time
-      - phase_offset
-      - amplitude_offset
-   python: >
-      0.5 * amplitude
-          * (1 - np.exp(-(x**2)/2/(decay_time*1e-6)**2)
-                 * np.sin(2*2 * np.pi * (1/(4*pi_time)) * 1e6 * x + phase_offset)**2)
-          + amplitude_offset
+   Gaussian:
+      parameters:
+         - amplitude
+         - center
+         - standard_deviation
+      python: >-
+         amplitude * np.exp((-(x - center)**2) / (2*standard_deviation**2))
+
+   RabiDecay:
+      parameters:
+         - amplitude
+         - decay_time
+         - pi_time
+         - phase_offset
+         - amplitude_offset
+      python: >-
+         0.5 * amplitude
+            * (1 - np.exp(-(x**2)/2/(decay_time*1e-6)**2)
+                  * np.sin(2*2 * np.pi * (1/(4*pi_time)) * 1e6 * x + phase_offset)**2)
+            + amplitude_offset
       
 ###############################################
 # Define calibration jobs
 #
 # Syntax:
-#  job: &MyJobName                        # <<*MyJobName can be used to inherit from this job.
-#     <<* AnotherJobName                  # Inherits from another job with &AnotherJobName.
-#     name: MyJobName                     # Name for the job. Should be the same as &MyJobName.
-#     description: Blah blah.             # Some useful description of the purpose of this job.
-#     depends-on:                         # Specifies job dependencies.
-#        - MyOtherJobName1                #   Ensures that any jobs listed here have valid
-#        - MyOtherJobName2                #   results before proceeding with this job.
-#     valid-time: 15                      # time in minutes that the job result is valid.
-#     scan: ScanName                      # name of the ARTIQ pulse sequence to run.
-#        grapher-tab: TabName             # tab in grapher to display results.
-#        parameter: Category.param_name   # ParameterVault parameter to be scanned.
-#        start: 0                         # Start point of the scan.
-#        stop: 10e-6                      # End point of the scan.
-#        n-points: 20                     # Number of scan points.
-#     parameters:                         # Any fixed parameters to use for the scan.
-#        Category.param_name_1: 2e3       #   Overrides the value in ParameterVault.
-#        Category.param_name_2: 0.8       #   Overrides the value in ParameterVault.
-#     fit: MyFitName                             # Name of the fit defined elsewhere in this file.
-#        parameter-name: Category.param_name     # ParameterVault parameter to be updated.
-#        parameter-value: param_name_3           # Must match one of the fit params in the fit definition.
+#  jobs:
+#     MyJobName:                             # Name of the job.
+#        description: Does something nice.   # Some useful description of the purpose of this job.
+#        inherits-from: AnotherJobName       # Inherits from another job with AnotherJobName.
+#        prerequisites:                      # Specifies job prerequisites.
+#           - MyOtherJobName1                #   Ensures that any jobs listed here have valid
+#           - MyOtherJobName2                #   results before proceeding with this job.
+#        valid-time: 15                      # Time in minutes that the job result is valid. (default: 0)
+#        scan:                               # Specifies the scan to be run for this job.
+#           name: ScanName                   #   Name of the ARTIQ pulse sequence to run.
+#           grapher-tab: TabName             #   Tab in grapher to display results.
+#           parameter: Category.param_name   #   ParameterVault parameter to be scanned.
+#           start: 0                         #   Start point of the scan.
+#           stop: 10e-6                      #   End point of the scan.
+#           n-points: 20                     #   Number of scan points.
+#        parameters:                         # Any fixed parameters to use for the scan.
+#           Category.param_name_1: 2e3       #   Overrides the value in ParameterVault.
+#           Category.param_name_2: 0.8       #   Overrides the value in ParameterVault.
+#        fit:                                # Specifies the fit function to run after the scan completes.
+#           name; MyFitName                  #   Name of the fit defined elsewhere in this file.
+#           parameter-source: SourceName     #   Parameter source, e.g. ParameterVault or DriftTrackerGlobal.
+#           parameter-name: param_name       #   Name of parameter to be updated.
+#           parameter-value: param_value     #   Must match one of the fit params in the fit definition.
 
-job: &CalibLinesSpectrum-Line1
-   name: CalibLinesSpectrum-Line1
-   description: Calibrating Line 1 using spectrum scan.
-   valid-time: 30
-   scan: Spectrum
-      grapher-tab: CalibLine1
-      parameter: Spectrum.carrier_detuning
-      start: -5e3
-      stop: 5e3
-      n-points: 15
-   parameters:
-      Excitation_729.line_selection: S-1/2 D-1/2
-      Excitation_729.channel_729: 729G
-   fit: Gaussian
-      parameter-name: DriftTrackerGlobal.line1
-      parameter-value: center
+jobs:
 
-job: &CalibLinesSpectrum-Line2
-   <<: *CalibLinesSpectrum-Line1
-   name: CalibLinesSpectrum-Line2
-   description: Calibrating Line 2 using spectrum scan.
-   scan: Spectrum
-      grapher-tab: CalibLine2
-   parameters:
-      Excitation_729.line_selection: S-1/2 D-5/2
-   fit: Gaussian
-      parameter-name: DriftTrackerGlobal.line2
+   CalibLinesSpectrum-Line1:
+      description: Calibrating Line 1 using spectrum scan.
+      valid-time: 30
+      scan:
+         name: Spectrum
+         grapher-tab: CalibLine1
+         parameter: Spectrum.carrier_detuning
+         start: -5e3
+         stop: 5e3
+         n-points: 15
+      parameters:
+         Excitation_729.line_selection: S-1/2 D-1/2
+         Excitation_729.channel_729: 729G
+      fit:
+         name: Gaussian
+         parameter-source: DriftTrackerGlobal
+         parameter-name: line1
+         parameter-value: center
 
-job: &CalibLinesSpectrum
-   name: CalibLinesSpectrum
-   depends-on:
-      - CalibLinesSpectrum-Line1
-      - CalibLinesSpectrum-Line2
+   CalibLinesSpectrum-Line2:
+      description: Calibrating Line 2 using spectrum scan.
+      inherits-from: CalibLinesSpectrum-Line1
+      scan:
+         name: Spectrum
+         grapher-tab: CalibLine2
+      parameters:
+         Excitation_729.line_selection: S-1/2 D-5/2
+      fit:
+         parameter-name: line2
 
-job: &CalibPiTime729G-Line1
-   name: CalibPiTime729G-Line1
-   description: Calibrates the 729G pi time on S-1/2 D-1/2 carrier.
-   valid-time: 60
-   depends-on:
-      - CalibLinesSpectrum
-   scan: RabiFlopping
-      grapher-tab: Rabi
-      parameter: RabiFlopping.duration
-      start: 0
-      stop: 15e-6
-      n-points: 20
-   parameters:
-      RabiFlopping.line_selection: S-1/2 D-1/2
-      RabiFlopping.detuning: 0
-      RabiFlopping.order: 0
-      RabiFlopping.channel_729: 729G
-   fit: RabiDecay
-      parameter-name: DriftTrackerRamsey.line_1_pi_time
-      parameter-value: pi_time
+   CalibLinesSpectrum:
+      prerequisites:
+         - CalibLinesSpectrum-Line1
+         - CalibLinesSpectrum-Line2
 
-job: &CalibPiTime729G-Line2
-   <<: *CalibPiTime729G-Line1
-   name: CalibPiTime729G-Line2
-   description: Calibrates the 729G pi time on S-1/2 D-5/2 carrier.
-   parameters:
-      RabiFlopping.line_selection: S-1/2 D-5/2
-   fit: RabiDecay
-      parameter-name: DriftTrackerRamsey.line_2_pi_time
+   CalibPiTime729G-Line1:
+      description: Calibrates the 729G pi time on S-1/2 D-1/2 carrier.
+      valid-time: 60
+      prerequisites:
+         - CalibLinesSpectrum
+      scan:
+         name: RabiFlopping
+         grapher-tab: Rabi
+         parameter: RabiFlopping.duration
+         start: 0
+         stop: 15e-6
+         n-points: 20
+      parameters:
+         RabiFlopping.line_selection: S-1/2 D-1/2
+         RabiFlopping.detuning: 0
+         RabiFlopping.order: 0
+         RabiFlopping.channel_729: 729G
+      fit:
+         name: RabiDecay
+         parameter-source: ParameterVault
+         parameter-name: DriftTrackerRamsey.line_1_pi_time
+         parameter-value: pi_time
 
-job: &CalibPiTime729G
-   name: CalibPiTime729G
-   depends-on:
-      - CalibPiTime729G-Line1
-      - CalibPiTime729G-Line2
-   
-job: &CalibLinesRamsey
-   name: CalibLinesRamsey
-   description: Calibrating lines using Ramsey drift tracker.
-   valid-time: 5
-   depends-on:
-      - CalibLinesSpectrum
-      - CalibPiTime729G
-   scan: DriftTrackerRamsey
+   CalibPiTime729G-Line2:
+      description: Calibrates the 729G pi time on S-1/2 D-5/2 carrier.
+      inherits-from: CalibPiTime729G-Line1
+      parameters:
+         RabiFlopping.line_selection: S-1/2 D-5/2
+      fit:
+         parameter-name: DriftTrackerRamsey.line_2_pi_time
+
+   CalibPiTime729G:
+      prerequisites:
+         - CalibPiTime729G-Line1
+         - CalibPiTime729G-Line2
+
+   CalibLinesRamsey:
+      description: Calibrating lines using Ramsey drift tracker.
+      valid-time: 5
+      prerequisites:
+         - CalibLinesSpectrum
+         - CalibPiTime729G
+      scan:
+         name: DriftTrackerRamsey
