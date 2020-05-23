@@ -155,6 +155,86 @@ class TestParseYaml:
         with pytest.raises(CircularJobPrerequisiteError):
             validate_yaml(config_yaml)
 
+    def test_incomplete_job_fit(self):
+        yaml_contents = '''
+            fits:
+                MyFitName:
+                    parameters:
+                        - param_name_1
+                    python: >
+                        param_name_1 * x
+            jobs:
+                MyJobName:
+                    description: Something.
+                    fit:
+                        name: MyFitName
+        '''
+        config_yaml = yaml.safe_load(yaml_contents)
+        with pytest.raises(Exception):
+            validate_yaml(config_yaml)
+
+    def test_valid_job_fit(self):
+        yaml_contents = '''
+            fits:
+                MyFitName:
+                    parameters:
+                        - param_name_1
+                    python: >
+                        param_name_1 * x
+            jobs:
+                MyJobName:
+                    description: Something.
+                    fit:
+                        name: MyFitName
+                        parameter-source: ParameterVault
+                        parameter-name: Category.name
+                        parameter-value: param_name_1
+        '''
+        config_yaml = yaml.safe_load(yaml_contents)
+        validate_yaml(config_yaml)
+
+    def test_invalid_job_fit_name(self):
+        yaml_contents = '''
+            fits:
+                MyFitName:
+                    parameters:
+                        - param_name_1
+                    python: >
+                        param_name_1 * x
+            jobs:
+                MyJobName:
+                    description: Something.
+                    fit:
+                        name: SomeOtherFitName
+                        parameter-source: ParameterVault
+                        parameter-name: Category.name
+                        parameter-value: param_name_1
+        '''
+        config_yaml = yaml.safe_load(yaml_contents)
+        with pytest.raises(Exception):
+            validate_yaml(config_yaml)
+
+    def test_invalid_job_fit_parameter(self):
+        yaml_contents = '''
+            fits:
+                MyFitName:
+                    parameters:
+                        - param_name_1
+                    python: >
+                        param_name_1 * x
+            jobs:
+                MyJobName:
+                    description: Something.
+                    fit:
+                        name: MyFitName
+                        parameter-source: ParameterVault
+                        parameter-name: Category.name
+                        parameter-value: some_other_param_name
+        '''
+        config_yaml = yaml.safe_load(yaml_contents)
+        with pytest.raises(Exception):
+            validate_yaml(config_yaml)
+
     def test_auto_calibration_yaml(self):
         yaml_filename = "auto_calibration.yml"
         with open(yaml_filename, "r") as yaml_file:
