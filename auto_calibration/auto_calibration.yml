@@ -59,7 +59,7 @@ fits:
 #           Category.param_name_1: 2e3       #   Overrides the value in ParameterVault.
 #           Category.param_name_2: 0.8       #   Overrides the value in ParameterVault.
 #        fit:                                # Specifies the fit function to run after the scan completes.
-#           name; MyFitName                  #   Name of the fit defined elsewhere in this file.
+#           name: MyFitName                  #   Name of the fit defined elsewhere in this file.
 #           parameter-source: SourceName     #   Parameter source, e.g. ParameterVault or DriftTrackerGlobal.
 #           parameter-name: param_name       #   Name of parameter to be updated.
 #           parameter-value: param_value     #   Must match one of the fit params in the fit definition.

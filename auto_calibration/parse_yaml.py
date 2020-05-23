@@ -72,9 +72,8 @@ def collect_prerequisites(existing_prerequisites, prerequisites_to_add, all_jobs
     for prerequisite_job_name in reversed(prerequisites_to_add):
         if not prerequisite_job_name in prerequisites:
             prerequisites.insert(0, prerequisite_job_name)
-        if "prerequisites" in all_jobs[prerequisite_job_name]:
-            # TODO: Fix infinite recursion in some cases
-            prerequisites = collect_prerequisites(prerequisites, all_jobs[prerequisite_job_name]["prerequisites"], all_jobs)
+            if "prerequisites" in all_jobs[prerequisite_job_name]:
+                prerequisites = collect_prerequisites(prerequisites, all_jobs[prerequisite_job_name]["prerequisites"], all_jobs)
 
     return prerequisites
 
@@ -85,8 +84,9 @@ def resolve_prerequisites(original_job_name, prerequisites, all_jobs):
 
     # ensure we don't have a blatant circular dependency
     if original_job_name in prerequisites:
-        logger.error("{0} has itself as a prerequisite. Full list of prerequisites: {1}".format(original_job_name, prerequisites))
-        raise CircularJobPrerequisiteError()
+        message = "{0} has itself as a prerequisite. Full list of prerequisites: {1}".format(original_job_name, prerequisites)
+        logger.error(message)
+        raise CircularJobPrerequisiteError(message)
 
     # don't modify the original list
     prerequisites = copy.deepcopy(prerequisites)
@@ -99,8 +99,9 @@ def resolve_prerequisites(original_job_name, prerequisites, all_jobs):
 
         # Unless we have an enormous number of job definitions, we should never have to make this many passes.
         if pass_count > 1000:
-            logger.error("Unable to resolve prerequisites for {0}. Possible circular dependency? Full list of prerequisites: {1}".format(original_job_name, prerequisites))
-            raise CircularJobPrerequisiteError()
+            message = "Unable to resolve prerequisites for {0}. Possible circular dependency? Full list of prerequisites: {1}".format(original_job_name, prerequisites)
+            logger.error(message)
+            raise CircularJobPrerequisiteError(message)
 
         # Find any job that is listed before its prerequisites.
         move_to_end = []
@@ -164,8 +165,9 @@ def validate_yaml(y):
         while "inherits-from" in properties:
             inherits_from = properties.pop("inherits-from")
             if inherits_from == job_name:
-                logger.error("{0} inherits from itself".format(job_name))
-                raise CircularJobInheritanceError()
+                message = "{0} inherits from itself".format(job_name)
+                logger.error(message)
+                raise CircularJobInheritanceError(message)
             logger.info("Resolving inheritance: {0} <- {1}".format(job_name, inherits_from))
             properties = merged_dict(properties, jobs[inherits_from])
         jobs[job_name] = properties
