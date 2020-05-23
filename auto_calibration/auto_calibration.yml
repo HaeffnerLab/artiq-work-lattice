@@ -97,6 +97,7 @@ jobs:
          parameter-name: line2
 
    CalibLinesSpectrum:
+      description: Calibrates carrier spectrum.
       prerequisites:
          - CalibLinesSpectrum-Line1
          - CalibLinesSpectrum-Line2
@@ -133,6 +134,7 @@ jobs:
          parameter-name: DriftTrackerRamsey.line_2_pi_time
 
    CalibPiTime729G:
+      description: Calibrates 729G pi time on two carriers.
       prerequisites:
          - CalibPiTime729G-Line1
          - CalibPiTime729G-Line2
@@ -143,5 +145,5 @@ jobs:
       prerequisites:
          - CalibLinesSpectrum
          - CalibPiTime729G
-      scan:
-         name: DriftTrackerRamsey
+      #scan:
+      #   name: DriftTrackerRamsey
