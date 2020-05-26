@@ -18,7 +18,8 @@ class Spectrum(AutoCalibrationSequence):
         "Excitation_729.rabi_excitation_duration",
         "Excitation_729.line_selection",
     }
-    PulseSequence.scan_params.update(
+    
+    PulseSequence.scan_params = dict(
         spectrum=[
             ("Spectrum", ("Spectrum.carrier_detuning", -150*kHz, 150*kHz, 100, "kHz"))
         ])
