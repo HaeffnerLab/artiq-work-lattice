@@ -236,7 +236,4 @@ class TestParseYaml:
             validate_yaml(config_yaml)
 
     def test_auto_calibration_yaml(self):
-        yaml_filename = "auto_calibration.yml"
-        with open(yaml_filename, "r") as yaml_file:
-            config_yaml = yaml.load(yaml_file)
-        validate_yaml(config_yaml)
+        load_configuration()

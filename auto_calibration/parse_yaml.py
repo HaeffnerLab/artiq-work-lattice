@@ -15,33 +15,6 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 console.setFormatter(formatter)
 logger.addHandler(console)
 
-################################################
-# copied from https://gist.github.com/pypt/94d747fe5180851196eb
-# to throw an error if the YAML file defines duplicate keys
-from yaml.constructor import ConstructorError
-
-try:
-    from yaml import CLoader as Loader
-except ImportError:
-    from yaml import Loader
-
-def no_duplicates_constructor(loader, node, deep=False):
-    """Check for duplicate keys."""
-
-    mapping = {}
-    for key_node, value_node in node.value:
-        key = loader.construct_object(key_node, deep=deep)
-        value = loader.construct_object(value_node, deep=deep)
-        if key in mapping:
-            raise ConstructorError("while constructing a mapping", node.start_mark,
-                                   "found duplicate key (%s)" % key, key_node.start_mark)
-        mapping[key] = value
-
-    return loader.construct_mapping(node, deep)
-
-yaml.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, no_duplicates_constructor)
-################################################
-
 class YamlKeys:
     fits = "fits"
     fit_parameters = "parameters"
@@ -323,18 +296,23 @@ def validate_yaml(y):
     for name, properties in jobs.items():
         validate_job(name, properties, fits)
 
-if __name__ == "__main__":
+def load_configuration():
     try:
         yaml_filename = "auto_calibration.yml"
         logger.info("Loading YAML file: {0}".format(yaml_filename))
         with open(yaml_filename, "r") as yaml_file:
-            config_yaml = yaml.load(yaml_file)
+            config_yaml = yaml.safe_load(yaml_file)
     except:
         logger.error("Failed to load YAML file.\n" + traceback.format_exc())
-        exit()
+        raise
 
     try:
-        validate_yaml(config_yaml)
+        validated_yaml = validate_yaml(config_yaml)
     except:
         logger.error("Failed to validate YAML file.\n" + traceback.format_exc())
-        exit()
+        raise
+
+    return validated_yaml
+
+if __name__ == "__main__":
+    load_configuration()
