@@ -16,3 +16,4 @@ class AutoCalibrationSequence(PulseSequence):
         y = self.data[scan_name].y[-1]
         logger.info("x: {0}".format(x))
         logger.info("y: {0}".format(y))
+        # TODO: write the results to the auto calibration manager.

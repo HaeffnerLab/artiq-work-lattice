@@ -20,14 +20,14 @@ class Spectrum(AutoCalibrationSequence):
     }
     
     PulseSequence.scan_params = dict(
-        spectrum=[
+        Spectrum=[
             ("Spectrum", ("Spectrum.carrier_detuning", -150*kHz, 150*kHz, 100, "kHz"))
         ])
 
     def run_initially(self):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
-        self.set_subsequence["spectrum"] = self.set_subsequence_spectrum
+        self.set_subsequence["Spectrum"] = self.set_subsequence_spectrum
 
     @kernel
     def set_subsequence_spectrum(self):
@@ -38,6 +38,6 @@ class Spectrum(AutoCalibrationSequence):
                 bound_param="Spectrum_carrier_detuning")
   
     @kernel
-    def spectrum(self):
+    def Spectrum(self):
         self.stateprep.run(self)
         self.rabi.run(self)

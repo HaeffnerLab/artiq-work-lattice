@@ -2,6 +2,7 @@ import copy
 import logging
 from numbers import Number
 import numpy as np
+import os
 import traceback
 import yaml
 
@@ -296,9 +297,11 @@ def validate_yaml(y):
     for name, properties in jobs.items():
         validate_job(name, properties, fits)
 
+    return y
+
 def load_configuration():
     try:
-        yaml_filename = "auto_calibration.yml"
+        yaml_filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), "auto_calibration.yml")
         logger.info("Loading YAML file: {0}".format(yaml_filename))
         with open(yaml_filename, "r") as yaml_file:
             config_yaml = yaml.safe_load(yaml_file)

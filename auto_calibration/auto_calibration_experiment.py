@@ -4,6 +4,7 @@ import labrad
 from labrad.units import WithUnit as U
 from artiq.experiment import *
 import logging
+from auto_calibration.parse_yaml import *
 
 logger = logging.getLogger(__name__)
 
@@ -33,11 +34,63 @@ class AutoCalibration(EnvExperiment):
         self.analyze()
 
     def prepare(self):
-        pass
+        self.yaml = load_configuration()
+
+    def run_yaml_job(self, job_name):
+        job = self.yaml[YamlKeys.jobs][job_name]
+
+        # first check if the job has existing valid results, and if so, skip it
+        # TODO - check valid_for against last job success time
+        valid_for = job[YamlKeys.job_valid_time]
+        
+        # TODO: set any parameters that need to be overridden for this job
+        cxn = labrad.connect()
+        p = cxn.parametervault
+        #old_val = p.get_parameter("RabiFlopping", "detuning")
+        #p.set_parameter(["RabiFlopping", "detuning", U(200, 'kHz')])
+        cxn.disconnect() 
+
+        scan = job[YamlKeys.job_scan]
+        expid = self.get_expid(
+            experiment_name=scan[YamlKeys.job_scan_name],
+            scan_param_name=scan[YamlKeys.job_scan_parameter],
+            start=scan[YamlKeys.job_scan_start],
+            stop=scan[YamlKeys.job_scan_stop],
+            npoints=scan[YamlKeys.job_scan_n_points])
+        self.scheduler.submit("main", expid, priority=100)
+
+        # wait for the job to complete
+        while len(self.scheduler.get_status()) > 0:
+            time.sleep(1)
+
+        # TODO: reset any parameters that were overridden for this job   
+        cxn = labrad.connect()
+        p = cxn.parametervault
+        #p.set_parameter(["RabiFlopping", "detuning", old_val])
+        cxn.disconnect()
 
     def run(self):
-        expid = self.get_expid("RabiFlopping", "RabiFlopping.duration", start=0.0, stop=10.0e-6, npoints=3)
-        self.scheduler.submit("main", expid, priority=100)
+        # TODO: get the job name from some kind of user-supplied parameter
+        job_name = "CalibLinesSpectrum-Line1"
+
+        job = self.yaml[YamlKeys.jobs][job_name]
+        print("Starting AutoCalibration for job {0}: {1}".format(job_name, job[YamlKeys.job_description]))
+
+        for prerequisite_job_name in job[YamlKeys.job_prerequisites]:
+            print("Running job prerequisite {0}".format(prerequisite_job_name))
+            self.run_yaml_job(prerequisite)
+
+            # TODO: run the fit for the last run, if it has results, and update auto calibration parameters.
+
+            # TODO: determine the success value from the fit just performed.
+            last_run_succeeded = True
+            print("last_run_succeeded =", last_run_succeeded)
+            if not last_run_succeeded:
+                logger.error("Aborting AutoCalibration sequence due to failure in prerequisite job {0}".format(prerequisite_job_name))
+                return
+
+        print("Prerequisites completed, running job {0}".format(job_name))
+        self.run_yaml_job(job_name)
 
     def analyze(self):
         pass
@@ -49,7 +102,6 @@ class AutoCalibration(EnvExperiment):
             "arguments": {
                 class_name + "-Scan_Selection": scan_param_name,
                 class_name + ":" + scan_param_name: self.range_scan_args(start, stop, npoints),
-                "auto_calibration_manager": self,
             },
             "class_name": class_name,
             "file": experiment_file,
