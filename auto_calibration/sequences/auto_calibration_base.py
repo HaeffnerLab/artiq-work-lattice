@@ -1,6 +1,8 @@
-from pulse_sequence import PulseSequence
-from artiq.experiment import *
 import logging
+
+from artiq.experiment import *
+from auto_calibration.auto_calibration_experiment import AutoCalibrationManager
+from pulse_sequence import PulseSequence
 
 logger = logging.getLogger(__name__)
 
@@ -16,4 +18,5 @@ class AutoCalibrationSequence(PulseSequence):
         y = self.data[scan_name].y[-1]
         logger.info("x: {0}".format(x))
         logger.info("y: {0}".format(y))
-        # TODO: write the results to the auto calibration manager.
+
+        AutoCalibrationManager().save(scan_name, x, y, self.start_time)

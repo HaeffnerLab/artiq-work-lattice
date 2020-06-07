@@ -176,6 +176,12 @@ def optional(properties, name, expected_type):
     assert isinstance(expected_type, type)
 
     return validate_type(properties, name, expected_type, required=False)
+    
+def get_python_fit_code(fit_name, fit_code, fit_parameters):
+    return "def {0}(x,{1}):\n\treturn {2}".format(
+        fit_name,
+        ",".join(fit_parameters),
+        fit_code.replace("\n", " ").replace("\r", " "))
 
 def validate_fit(fit_name, fit_properties):
     assert isinstance(fit_name, str)
@@ -189,15 +195,12 @@ def validate_fit(fit_name, fit_properties):
     # validate Python fit function
     fit_parameters = fit_properties[YamlKeys.fit_parameters]
     fit_code = fit_properties[YamlKeys.fit_python]
-    python_function = "def {0}(x,{1}):\n\treturn {2}".format(
-        fit_name,
-        ",".join(fit_parameters),
-        fit_code.replace("\n", " ").replace("\r", " "))
 
+    test_guesses = ["1.0"] * len(fit_parameters)
     python_test_code = "{0}\n{1}(1.0,{2})".format(
-        python_function,
+        get_python_fit_code(fit_name, fit_code, fit_parameters),
         fit_name,
-        ",".join(["1.0"] * len(fit_parameters)))
+        ",".join(test_guesses))
 
     try:
         exec(python_test_code)

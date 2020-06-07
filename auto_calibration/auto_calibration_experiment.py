@@ -1,9 +1,15 @@
-import numpy as np
-import sys
-import labrad
-from labrad.units import WithUnit as U
-from artiq.experiment import *
 import logging
+import os
+import sys
+from datetime import datetime
+
+import labrad
+import numpy as np
+from labrad.units import WithUnit as U
+from scipy.optimize import curve_fit
+from tinydb import TinyDB, where
+
+from artiq.experiment import *
 from auto_calibration.parse_yaml import *
 
 logger = logging.getLogger(__name__)
@@ -18,6 +24,29 @@ auto_calibration_sequences = {
         "class_name": "Spectrum",
     },
 }
+
+class AutoCalibrationManager:
+    def __init__(self):
+        db_dir = os.path.join(os.path.expanduser("~"), "data", "calibration")
+        os.makedirs(db_dir, exist_ok=True)
+        self.db_path = os.path.join(db_dir, "db.json")
+
+    def save(self, scan, x, y, timestamp):
+        with TinyDB(self.db_path) as db:
+            db.insert({"scan": scan, "x": list(x), "y": list(y), "timestamp": timestamp.timestamp()})
+    
+    def from_timestamp(self, timestamp):
+        with TinyDB(self.db_path) as db:
+            return db.search(where("timestamp") == timestamp.timestamp())
+
+    def most_recent(self):
+        with TinyDB(self.db_path) as db:
+            *_, last = iter(db)
+            return last
+    
+    def update(self, item):
+        with TinyDB(self.db_path) as db:
+            db.update(item, where("timestamp") == item["timestamp"])
 
 class AutoCalibration(EnvExperiment):
     accessed_params = {
@@ -35,6 +64,30 @@ class AutoCalibration(EnvExperiment):
 
     def prepare(self):
         self.yaml = load_configuration()
+
+    def run(self):
+        # TODO: get the job name from some kind of user-supplied parameter
+        job_name = "CalibLinesSpectrum-Line1"
+
+        job = self.yaml[YamlKeys.jobs][job_name]
+        print("Starting AutoCalibration for job {0}: {1}".format(job_name, job[YamlKeys.job_description]))
+
+        # Run the prerequisites. The YAML parser has already put them in the correct order.
+        for prerequisite_job_name in job[YamlKeys.job_prerequisites]:
+            print("Running job prerequisite {0}".format(prerequisite_job_name))
+            if not self.run_and_fit(prerequisite_job_name):
+                logger.error("Aborting AutoCalibration sequence due to failure in prerequisite job {0}".format(prerequisite_job_name))
+                return
+
+        # Now run the job itself.
+        print("Prerequisites completed, running job {0}".format(job_name))
+        if not self.run_and_fit(job_name):
+            logger.error("AutoCalibration sequence failed due to failure in job {0}".format(job_name))
+        
+        print("AutoCalibration completed successfully for job {0}".format(job_name))
+
+    def analyze(self):
+        pass
 
     def run_yaml_job(self, job_name):
         job = self.yaml[YamlKeys.jobs][job_name]
@@ -62,6 +115,13 @@ class AutoCalibration(EnvExperiment):
         # wait for the job to complete
         while len(self.scheduler.get_status()) > 0:
             time.sleep(1)
+        
+        # validate that all the data points were obtained
+        succeeded = True
+        result = AutoCalibrationManager().most_recent()
+        print("result obtained inside run_yaml_job:", result)
+        if result["scan"] != scan[YamlKeys.job_scan_name] or len(result["x"]) != scan[YamlKeys.job_scan_n_points]:
+            succeeded = False
 
         # TODO: reset any parameters that were overridden for this job   
         cxn = labrad.connect()
@@ -69,31 +129,44 @@ class AutoCalibration(EnvExperiment):
         #p.set_parameter(["RabiFlopping", "detuning", old_val])
         cxn.disconnect()
 
-    def run(self):
-        # TODO: get the job name from some kind of user-supplied parameter
-        job_name = "CalibLinesSpectrum-Line1"
+        return succeeded
 
-        job = self.yaml[YamlKeys.jobs][job_name]
-        print("Starting AutoCalibration for job {0}: {1}".format(job_name, job[YamlKeys.job_description]))
+    def run_and_fit(self, job_name):
+        if not self.run_yaml_job(job_name):
+            return False
 
-        for prerequisite_job_name in job[YamlKeys.job_prerequisites]:
-            print("Running job prerequisite {0}".format(prerequisite_job_name))
-            self.run_yaml_job(prerequisite)
+        fit_name = self.yaml[YamlKeys.jobs][job_name][YamlKeys.job_fit][YamlKeys.job_fit_name]
+        fit = self.yaml[YamlKeys.fits][fit_name]
+        fit_parameters = fit[YamlKeys.fit_parameters]
+        fit_code = fit[YamlKeys.fit_python]
 
-            # TODO: run the fit for the last run, if it has results, and update auto calibration parameters.
+        result = AutoCalibrationManager().most_recent()
+        try:
+            python_fit_code = get_python_fit_code(fit_name, fit_code, fit_parameters)
+            print(python_fit_code)
+            exec(python_fit_code)
+            fit_function = locals()[fit_name]
 
-            # TODO: determine the success value from the fit just performed.
-            last_run_succeeded = True
-            print("last_run_succeeded =", last_run_succeeded)
-            if not last_run_succeeded:
-                logger.error("Aborting AutoCalibration sequence due to failure in prerequisite job {0}".format(prerequisite_job_name))
-                return
+            guesses = ["1.0"] * len(fit_parameters) # TODO: make better guesses; maybe define these in the YAML?
+            popt, pcov = curve_fit(fit_function, result["x"], result["y"], p0=guesses)
+            print(popt, pcov)
+        except:
+            fit_succeeded = False
+            logger.error("{0} fit failed for {1}".format(fit_name, job_name), exc_info=True)
+            return False
 
-        print("Prerequisites completed, running job {0}".format(job_name))
-        self.run_yaml_job(job_name)
+        # TODO: Update the appropriate parameters using popt, pcov
+        fit_parameter_source = fit[YamlKeys.job_fit][YamlKeys.job_fit_parameter_source]
+        fit_parameter_name = fit[YamlKeys.job_fit][YamlKeys.job_fit_parameter_name]
+        fit_parameter_value = fit[YamlKeys.job_fit][YamlKeys.job_fit_parameter_value]
 
-    def analyze(self):
-        pass
+        # Save the fit results in the AutoCalibrationManager
+        result["popt"] = list(popt)
+        result["pcov"] = list(pcov)
+        # TODO: also include the value that was actually written out to the parameter source
+        AutoCalibrationManager().update(result)
+
+        return True
 
     def get_expid(self, experiment_name, scan_param_name, start, stop, npoints):
         class_name = auto_calibration_sequences[experiment_name]["class_name"]
