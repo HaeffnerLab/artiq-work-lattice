@@ -147,7 +147,7 @@ class AutoCalibration(EnvExperiment):
             exec(python_fit_code)
             fit_function = locals()[fit_name]
 
-            guesses = [1.0] * len(fit_parameters) # TODO: make better guesses; maybe define these in the YAML?
+            guesses = [1.0] * len(fit_parameters) # TODO: need to define guesses in the YAML
             popt, pcov = curve_fit(fit_function, result["x"], result["y"], p0=guesses)
             print(popt, pcov)
         except:
@@ -155,11 +155,21 @@ class AutoCalibration(EnvExperiment):
             logger.error("{0} fit failed for {1}".format(fit_name, job_name), exc_info=True)
             return False
 
-        job_fit_parameter_source = job_fit[YamlKeys.job_fit_parameter_source]
-        job_fit_parameter_name = job_fit[YamlKeys.job_fit_parameter_name]
-        job_fit_parameter_value = job_fit[YamlKeys.job_fit_parameter_value]
-        print("Updating {0}.{1} with fit parameter '{2}'".format(job_fit_parameter_source, job_fit_parameter_name, job_fit_parameter_value))
-        # TODO: Update the appropriate parameters using popt, pcov
+        parameter_source = job_fit[YamlKeys.job_fit_parameter_source]
+        parameter_name = job_fit[YamlKeys.job_fit_parameter_name]
+        parameter_index = fit_parameters.index(job_fit[YamlKeys.job_fit_parameter_value])
+        parameter_value = popt[parameter_index]
+        print("Updating {0} with fit parameter {1}={2}".format(
+            parameter_source, parameter_name, parameter_value))
+        if parameter_source == "DriftTrackerGlobal":
+            # TODO: Update DriftTrackerGlobal with specified value
+            pass
+        elif parameter_source == "ParameterVault":
+            # TODO: Update ParameterVault parameter with specified value
+            pass
+        else:
+            logger.error("Unknown fit parameter source: {0}".format(parameter_source))
+            return False
 
         # Save the fit results in the AutoCalibrationManager
         result["job"] = job_name
