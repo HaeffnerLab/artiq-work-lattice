@@ -135,7 +135,8 @@ class AutoCalibration(EnvExperiment):
         if not self.run_yaml_job(job_name):
             return False
 
-        fit_name = self.yaml[YamlKeys.jobs][job_name][YamlKeys.job_fit][YamlKeys.job_fit_name]
+        job_fit = self.yaml[YamlKeys.jobs][job_name][YamlKeys.job_fit]
+        fit_name = job_fit[YamlKeys.job_fit_name]
         fit = self.yaml[YamlKeys.fits][fit_name]
         fit_parameters = fit[YamlKeys.fit_parameters]
         fit_code = fit[YamlKeys.fit_python]
@@ -143,11 +144,10 @@ class AutoCalibration(EnvExperiment):
         result = AutoCalibrationManager().most_recent()
         try:
             python_fit_code = get_python_fit_code(fit_name, fit_code, fit_parameters)
-            print(python_fit_code)
             exec(python_fit_code)
             fit_function = locals()[fit_name]
 
-            guesses = ["1.0"] * len(fit_parameters) # TODO: make better guesses; maybe define these in the YAML?
+            guesses = [1.0] * len(fit_parameters) # TODO: make better guesses; maybe define these in the YAML?
             popt, pcov = curve_fit(fit_function, result["x"], result["y"], p0=guesses)
             print(popt, pcov)
         except:
@@ -155,14 +155,17 @@ class AutoCalibration(EnvExperiment):
             logger.error("{0} fit failed for {1}".format(fit_name, job_name), exc_info=True)
             return False
 
+        job_fit_parameter_source = job_fit[YamlKeys.job_fit_parameter_source]
+        job_fit_parameter_name = job_fit[YamlKeys.job_fit_parameter_name]
+        job_fit_parameter_value = job_fit[YamlKeys.job_fit_parameter_value]
+        print("Updating {0}.{1} with fit parameter '{2}'".format(job_fit_parameter_source, job_fit_parameter_name, job_fit_parameter_value))
         # TODO: Update the appropriate parameters using popt, pcov
-        fit_parameter_source = fit[YamlKeys.job_fit][YamlKeys.job_fit_parameter_source]
-        fit_parameter_name = fit[YamlKeys.job_fit][YamlKeys.job_fit_parameter_name]
-        fit_parameter_value = fit[YamlKeys.job_fit][YamlKeys.job_fit_parameter_value]
 
         # Save the fit results in the AutoCalibrationManager
-        result["popt"] = list(popt)
-        result["pcov"] = list(pcov)
+        result["job"] = job_name
+        result["fit"] = fit_name
+        result["fit_values"] = list(popt)
+        result["fit_covariance"] = [list(row) for row in pcov]
         # TODO: also include the value that was actually written out to the parameter source
         AutoCalibrationManager().update(result)
 
