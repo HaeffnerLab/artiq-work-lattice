@@ -75,12 +75,12 @@ jobs:
          stop: 5e3
          n-points: 5
       parameters:
-         Excitation_729.line_selection: S-1/2 D-1/2
+         Excitation_729.line_selection: S-1/2D-1/2
          Excitation_729.channel_729: 729G
       fit:
          name: Gaussian
          parameter-source: DriftTrackerGlobal
-         parameter-name: line1
+         parameter-name: S-1/2D-1/2
          parameter-value: center
 
    CalibLinesSpectrum-Line2:
@@ -89,9 +89,9 @@ jobs:
       scan:
          name: Spectrum
       parameters:
-         Excitation_729.line_selection: S-1/2 D-5/2
+         Excitation_729.line_selection: S-1/2D-5/2
       fit:
-         parameter-name: line2
+         parameter-name: S-1/2D-5/2
 
    CalibLinesSpectrum:
       description: Calibrates carrier spectrum.

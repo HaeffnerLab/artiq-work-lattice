@@ -9,6 +9,7 @@ from labrad.units import WithUnit as U
 from scipy.optimize import curve_fit
 from tinydb import TinyDB, where
 
+import artiq.dashboard.drift_tracker.client_config as cl
 from artiq.experiment import *
 from auto_calibration.parse_yaml import *
 
@@ -83,25 +84,44 @@ class AutoCalibration(EnvExperiment):
         print("Prerequisites completed, running job {0}".format(job_name))
         if not self.run_and_fit(job_name):
             logger.error("AutoCalibration sequence failed due to failure in job {0}".format(job_name))
+            return
         
         print("AutoCalibration completed successfully for job {0}".format(job_name))
 
     def analyze(self):
         pass
 
+    def update_parameter_vault(self, cxn, key, value):
+        p = cxn.parametervault
+        r = cxn.registry
+        collection, parameter = key.split(".")
+        old_parameter_value = p.get_parameter(collection, parameter)
+        if isinstance(old_parameter_value, labrad.units.Value):
+            units = old_parameter_value.units
+            value = U(value, units)
+        r.cd("", "Servers", "Parameter Vault", collection)
+        parameter_type, current_registry_value = r.get(parameter)
+        new_registry_value = value
+        if parameter_type in ["line_selection", "selection_simple"]:
+            new_registry_value = (value, current_registry_value[1])
+        r.set(parameter, (parameter_type, new_registry_value))
+        p.set_parameter([collection, parameter, new_registry_value])        
+
+        return old_parameter_value
+
     def run_yaml_job(self, job_name):
         job = self.yaml[YamlKeys.jobs][job_name]
 
         # first check if the job has existing valid results, and if so, skip it
-        # TODO - check valid_for against last job success time
+        # TODO - check valid_for against last job in database where valid=True
         valid_for = job[YamlKeys.job_valid_time]
         
-        # TODO: set any parameters that need to be overridden for this job
+        # set any parameters that need to be overridden for this job
         cxn = labrad.connect()
-        p = cxn.parametervault
-        #old_val = p.get_parameter("RabiFlopping", "detuning")
-        #p.set_parameter(["RabiFlopping", "detuning", U(200, 'kHz')])
-        cxn.disconnect() 
+        old_parameter_values = {}
+        for key, value in job[YamlKeys.job_parameters].items():
+            old_parameter_values[key] = self.update_parameter_vault(cxn, key, value)
+        cxn.disconnect()
 
         scan = job[YamlKeys.job_scan]
         expid = self.get_expid(
@@ -123,10 +143,10 @@ class AutoCalibration(EnvExperiment):
         if result["scan"] != scan[YamlKeys.job_scan_name] or len(result["x"]) != scan[YamlKeys.job_scan_n_points]:
             succeeded = False
 
-        # TODO: reset any parameters that were overridden for this job   
+        # reset any parameters that were overridden for this job   
         cxn = labrad.connect()
-        p = cxn.parametervault
-        #p.set_parameter(["RabiFlopping", "detuning", old_val])
+        for key, value in old_parameter_values.items():
+            self.update_parameter_vault(cxn, key, value)
         cxn.disconnect()
 
         return succeeded
@@ -155,6 +175,7 @@ class AutoCalibration(EnvExperiment):
             logger.error("{0} fit failed for {1}".format(fit_name, job_name), exc_info=True)
             return False
 
+        # Update the appropriate parameter source (ParameterVault or DriftTrackerGlobal) with the fit value
         parameter_source = job_fit[YamlKeys.job_fit_parameter_source]
         parameter_name = job_fit[YamlKeys.job_fit_parameter_name]
         parameter_index = fit_parameters.index(job_fit[YamlKeys.job_fit_parameter_value])
@@ -162,11 +183,23 @@ class AutoCalibration(EnvExperiment):
         print("Updating {0} with fit parameter {1}={2}".format(
             parameter_source, parameter_name, parameter_value))
         if parameter_source == "DriftTrackerGlobal":
-            # TODO: Update DriftTrackerGlobal with specified value
-            pass
+            try:
+                global_cxn = labrad.connect(cl.global_address, password=cl.global_password, tls_mode="off")
+                submission = [(parameter_name, U(parameter_value, "MHz"))]
+                global_cxn.sd_tracker_global.set_measurements_with_one_line(submission, cl.client_name)
+            except:
+                logger.error("Failed to connect to SD tracker global to update line {0}".format(parameter_name), exc_info=True)
+                return False
+            finally:
+                if global_cxn: global_cxn.disconnect()
         elif parameter_source == "ParameterVault":
-            # TODO: Update ParameterVault parameter with specified value
-            pass
+            try:
+                cxn = labrad.connect()
+                self.update_parameter_vault(cxn, parameter_name, parameter_value)
+            except:
+                logger.error("Failed to connect to Parameter Vault to update {0}".format(parameter_name), exc_info=True)
+            finally:
+                if cxn: cxn.disconnect()
         else:
             logger.error("Unknown fit parameter source: {0}".format(parameter_source))
             return False
@@ -176,7 +209,8 @@ class AutoCalibration(EnvExperiment):
         result["fit"] = fit_name
         result["fit_values"] = list(popt)
         result["fit_covariance"] = [list(row) for row in pcov]
-        # TODO: also include the value that was actually written out to the parameter source
+        result["fit_result"] = parameter_value
+        result["valid"] = True
         AutoCalibrationManager().update(result)
 
         return True
