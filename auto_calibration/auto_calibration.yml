@@ -50,7 +50,6 @@ fits:
 #        valid-time: 15                      # Time in minutes that the job result is valid. (default: 0)
 #        scan:                               # Specifies the scan to be run for this job.
 #           name: ScanName                   #   Name of the ARTIQ pulse sequence to run.
-#           grapher-tab: TabName             #   Tab in grapher to display results.
 #           parameter: Category.param_name   #   ParameterVault parameter to be scanned.
 #           start: 0                         #   Start point of the scan.
 #           stop: 10e-6                      #   End point of the scan.
@@ -71,11 +70,10 @@ jobs:
       valid-time: 30
       scan:
          name: Spectrum
-         grapher-tab: CalibLine1
          parameter: Spectrum.carrier_detuning
          start: -5e3
          stop: 5e3
-         n-points: 15
+         n-points: 5
       parameters:
          Excitation_729.line_selection: S-1/2 D-1/2
          Excitation_729.channel_729: 729G
@@ -90,7 +88,6 @@ jobs:
       inherits-from: CalibLinesSpectrum-Line1
       scan:
          name: Spectrum
-         grapher-tab: CalibLine2
       parameters:
          Excitation_729.line_selection: S-1/2 D-5/2
       fit:
@@ -109,7 +106,6 @@ jobs:
          - CalibLinesSpectrum
       scan:
          name: RabiFlopping
-         grapher-tab: Rabi
          parameter: RabiFlopping.duration
          start: 0
          stop: 15e-6

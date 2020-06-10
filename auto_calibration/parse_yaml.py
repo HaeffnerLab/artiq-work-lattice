@@ -28,7 +28,6 @@ class YamlKeys:
     job_valid_time = "valid-time"
     job_scan = "scan"
     job_scan_name = "name"
-    job_scan_grapher_tab = "grapher-tab"
     job_scan_parameter = "parameter"
     job_scan_start = "start"
     job_scan_stop = "stop"
@@ -241,7 +240,6 @@ def validate_job(job_name, job_properties, available_fits):
 
         # validate scan parameters and types
         assert required(job_scan, YamlKeys.job_scan_name, str), error_message
-        assert required(job_scan, YamlKeys.job_scan_grapher_tab, str), error_message
         assert required(job_scan, YamlKeys.job_scan_parameter, str), error_message
         assert required(job_scan, YamlKeys.job_scan_start, float), error_message
         assert required(job_scan, YamlKeys.job_scan_stop, float), error_message
