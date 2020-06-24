@@ -118,7 +118,7 @@ jobs:
          stop: 15e-6
          n-points: 20
       parameters:
-         RabiFlopping.line_selection: S-1/2 D-1/2
+         RabiFlopping.line_selection: S-1/2D-1/2
          RabiFlopping.detuning: 0
          RabiFlopping.order: 0
          RabiFlopping.channel_729: 729G
@@ -132,7 +132,7 @@ jobs:
       description: Calibrates the 729G pi time on S-1/2 D-5/2 carrier.
       inherits-from: CalibPiTime729G-Line1
       parameters:
-         RabiFlopping.line_selection: S-1/2 D-5/2
+         RabiFlopping.line_selection: S-1/2D-5/2
       fit:
          parameter-name: DriftTrackerRamsey.line_2_pi_time
 

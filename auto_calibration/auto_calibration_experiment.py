@@ -68,7 +68,7 @@ class AutoCalibration(EnvExperiment):
 
     def run(self):
         # TODO: get the job name from some kind of user-supplied parameter
-        job_name = "CalibLinesSpectrum"
+        job_name = "CalibPiTime729G"
 
         job = self.yaml[YamlKeys.jobs][job_name]
         print("Starting AutoCalibration for job {0}: {1}".format(job_name, job[YamlKeys.job_description]))
@@ -96,16 +96,30 @@ class AutoCalibration(EnvExperiment):
         r = cxn.registry
         collection, parameter = key.split(".")
         old_parameter_value = p.get_parameter(collection, parameter)
-        if isinstance(old_parameter_value, labrad.units.Value):
+        if isinstance(old_parameter_value, labrad.units.Value) and not isinstance(value, labrad.units.Value):
             units = old_parameter_value.units
             value = U(value, units)
         r.cd("", "Servers", "Parameter Vault", collection)
         parameter_type, current_registry_value = r.get(parameter)
         new_registry_value = value
         if parameter_type in ["line_selection", "selection_simple"]:
+            valid_values = []
+            if parameter_type == "line_selection":
+                valid_values = [valid_value[0] for valid_value in current_registry_value[1]]
+            elif parameter_type == "selection_simple":
+                valid_values = current_registry_value[1]
+            if not value in valid_values:
+                raise Exception("{0} is not a valid value for parameter {1}. Valid values are: {2}".format(value, key, valid_values))
             new_registry_value = (value, current_registry_value[1])
+        elif parameter_type == "parameter" and isinstance(current_registry_value, tuple):
+            min_value, max_value, current_value = current_registry_value[1]
+            new_value = U(value, current_value.units)
+            if new_value < min_value or new_value > max_value:
+                raise Exception("{0} is not a valid value for parameter {1}. Valid values are between {2} and {3}.".format(new_value, key, min_value, max_value))
+            new_registry_value = current_registry_value
+            new_registry_value[1][2] = new_value
         r.set(parameter, (parameter_type, new_registry_value))
-        p.set_parameter([collection, parameter, new_registry_value])        
+        p.set_parameter([collection, parameter, new_registry_value])
 
         return old_parameter_value
 
