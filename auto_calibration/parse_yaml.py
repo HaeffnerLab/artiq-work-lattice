@@ -3,6 +3,7 @@ import logging
 from numbers import Number
 import numpy as np
 import os
+from scipy.optimize import curve_fit
 import traceback
 import yaml
 
@@ -20,6 +21,7 @@ class YamlKeys:
     fits = "fits"
     fit_parameters = "parameters"
     fit_python = "python"
+    fit_guess = "guess"
 
     jobs = "jobs"
     job_description = "description"
@@ -190,21 +192,29 @@ def validate_fit(fit_name, fit_properties):
     error_message = "Unexpected or missing property in fit {0}".format(fit_name)
     assert required(fit_properties, YamlKeys.fit_parameters, list), error_message
     assert required(fit_properties, YamlKeys.fit_python, str), error_message
+    assert required(fit_properties, YamlKeys.fit_guess, str), error_message
 
     # validate Python fit function
     fit_parameters = fit_properties[YamlKeys.fit_parameters]
     fit_code = fit_properties[YamlKeys.fit_python]
-
-    test_guesses = ["1.0"] * len(fit_parameters)
-    python_test_code = "{0}\n{1}(1.0,{2})".format(
-        get_python_fit_code(fit_name, fit_code, fit_parameters),
-        fit_name,
-        ",".join(test_guesses))
+    fit_guess_code = fit_properties[YamlKeys.fit_guess]
+    
+    try:
+        x = list(range(len(fit_parameters)))
+        y = list(range(len(fit_parameters)))
+        guesses = eval(fit_guess_code)
+    except:
+        message = "Invalid guesses in Python fit code {0}".format(fit_name)
+        logger.error(message)
+        raise InvalidFitPythonCode(message)
 
     try:
-        exec(python_test_code)
+        python_fit_code = get_python_fit_code(fit_name, fit_code, fit_parameters)
+        exec(python_fit_code)
+        fit_function = locals()[fit_name]
+        popt, pcov = curve_fit(fit_function, x, y, p0=guesses)
     except:
-        message = "Invalid Python code in {0}".format(fit_name)
+        message = "Invalid Python fit code in {0}".format(fit_name)
         logger.error(message)
         raise InvalidFitPythonCode(message)
 

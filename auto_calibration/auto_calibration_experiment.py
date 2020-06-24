@@ -68,7 +68,7 @@ class AutoCalibration(EnvExperiment):
 
     def run(self):
         # TODO: get the job name from some kind of user-supplied parameter
-        job_name = "CalibLinesSpectrum-Line1"
+        job_name = "CalibLinesSpectrum"
 
         job = self.yaml[YamlKeys.jobs][job_name]
         print("Starting AutoCalibration for job {0}: {1}".format(job_name, job[YamlKeys.job_description]))
@@ -117,31 +117,33 @@ class AutoCalibration(EnvExperiment):
         valid_for = job[YamlKeys.job_valid_time]
         
         # set any parameters that need to be overridden for this job
-        cxn = labrad.connect()
         old_parameter_values = {}
-        for key, value in job[YamlKeys.job_parameters].items():
-            old_parameter_values[key] = self.update_parameter_vault(cxn, key, value)
-        cxn.disconnect()
-
-        scan = job[YamlKeys.job_scan]
-        expid = self.get_expid(
-            experiment_name=scan[YamlKeys.job_scan_name],
-            scan_param_name=scan[YamlKeys.job_scan_parameter],
-            start=scan[YamlKeys.job_scan_start],
-            stop=scan[YamlKeys.job_scan_stop],
-            npoints=scan[YamlKeys.job_scan_n_points])
-        self.scheduler.submit("main", expid, priority=100)
-
-        # wait for the job to complete
-        while len(self.scheduler.get_status()) > 0:
-            time.sleep(1)
+        if YamlKeys.job_parameters in job:
+            cxn = labrad.connect()
+            for key, value in job[YamlKeys.job_parameters].items():
+                old_parameter_values[key] = self.update_parameter_vault(cxn, key, value)
+            cxn.disconnect()
         
-        # validate that all the data points were obtained
         succeeded = True
-        result = AutoCalibrationManager().most_recent()
-        print("result obtained inside run_yaml_job:", result)
-        if result["scan"] != scan[YamlKeys.job_scan_name] or len(result["x"]) != scan[YamlKeys.job_scan_n_points]:
-            succeeded = False
+        if YamlKeys.job_scan in job:
+            scan = job[YamlKeys.job_scan]
+            expid = self.get_expid(
+                experiment_name=scan[YamlKeys.job_scan_name],
+                scan_param_name=scan[YamlKeys.job_scan_parameter],
+                start=scan[YamlKeys.job_scan_start],
+                stop=scan[YamlKeys.job_scan_stop],
+                npoints=scan[YamlKeys.job_scan_n_points])
+            self.scheduler.submit("main", expid, priority=100)
+
+            # wait for the job to complete
+            while len(self.scheduler.get_status()) > 0:
+                time.sleep(1)
+        
+            # validate that all the data points were obtained            
+            result = AutoCalibrationManager().most_recent()
+            print("result obtained inside run_yaml_job:", result)
+            if result["scan"] != scan[YamlKeys.job_scan_name] or len(result["x"]) != scan[YamlKeys.job_scan_n_points]:
+                succeeded = False
 
         # reset any parameters that were overridden for this job   
         cxn = labrad.connect()
@@ -155,11 +157,15 @@ class AutoCalibration(EnvExperiment):
         if not self.run_yaml_job(job_name):
             return False
 
+        if YamlKeys.job_fit not in self.yaml[YamlKeys.jobs][job_name]:
+            return True
+
         job_fit = self.yaml[YamlKeys.jobs][job_name][YamlKeys.job_fit]
         fit_name = job_fit[YamlKeys.job_fit_name]
         fit = self.yaml[YamlKeys.fits][fit_name]
         fit_parameters = fit[YamlKeys.fit_parameters]
         fit_code = fit[YamlKeys.fit_python]
+        fit_guess_code = fit[YamlKeys.fit_guess]
 
         result = AutoCalibrationManager().most_recent()
         try:
@@ -167,8 +173,10 @@ class AutoCalibration(EnvExperiment):
             exec(python_fit_code)
             fit_function = locals()[fit_name]
 
-            guesses = [1.0] * len(fit_parameters) # TODO: need to define guesses in the YAML
-            popt, pcov = curve_fit(fit_function, result["x"], result["y"], p0=guesses)
+            x = result["x"]
+            y = result["y"]
+            guesses = eval(fit_guess_code)
+            popt, pcov = curve_fit(fit_function, x, y, p0=guesses)
             print(popt, pcov)
         except:
             fit_succeeded = False

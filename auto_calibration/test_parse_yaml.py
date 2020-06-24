@@ -29,6 +29,8 @@ class TestParseYaml:
                         - param_name_1
                     python: >
                         param_name_1 * x
+                    guess: >
+                        np.max(y)
             jobs:
                 MyJobName:
                     description: Something.
@@ -44,6 +46,44 @@ class TestParseYaml:
                         - param_name_1
                     python: >
                         bad_param_name * x
+                    guess: >
+                        np.max(y)
+            jobs:
+                MyJobName:
+                    description: Something.
+        '''
+        config_yaml = yaml.safe_load(yaml_contents)
+        with pytest.raises(InvalidFitPythonCode):
+            validate_yaml(config_yaml)
+
+    def test_invalid_fit_guess(self):
+        yaml_contents = '''
+            fits:
+                MyFitName:
+                    parameters:
+                        - param_name_1
+                    python: >
+                        param_name_1 * x
+                    guess: >
+                        [not_valid]
+            jobs:
+                MyJobName:
+                    description: Something.
+        '''
+        config_yaml = yaml.safe_load(yaml_contents)
+        with pytest.raises(InvalidFitPythonCode):
+            validate_yaml(config_yaml)
+
+    def test_invalid_fit_guess_parameter_count(self):
+        yaml_contents = '''
+            fits:
+                MyFitName:
+                    parameters:
+                        - param_name_1
+                    python: >
+                        param_name_1 * x
+                    guess: >
+                        [0.1, 0.2]
             jobs:
                 MyJobName:
                     description: Something.
@@ -60,6 +100,8 @@ class TestParseYaml:
                         - param_name_1
                     python: >
                         param_name_1 * x
+                    guess: >
+                        np.max(y)
             jobs:
                 MyJobName:
                     description: Something.
@@ -77,6 +119,8 @@ class TestParseYaml:
                         - param_name_1
                     python: >
                         param_name_1 * x
+                    guess: >
+                        np.max(y)
             jobs:
                 MyJobName:
                     description: Something.
@@ -97,6 +141,8 @@ class TestParseYaml:
                         - param_name_1
                     python: >
                         param_name_1 * x
+                    guess: >
+                        np.max(y)
             jobs:
                 MyJobName:
                     description: Something.
@@ -115,6 +161,8 @@ class TestParseYaml:
                         - param_name_1
                     python: >
                         param_name_1 * x
+                    guess: >
+                        np.max(y)
             jobs:
                 MyJobName:
                     description: Something.
@@ -137,6 +185,8 @@ class TestParseYaml:
                         - param_name_1
                     python: >
                         param_name_1 * x
+                    guess: >
+                        np.max(y)
             jobs:
                 MyJobName:
                     description: Something.
@@ -163,6 +213,8 @@ class TestParseYaml:
                         - param_name_1
                     python: >
                         param_name_1 * x
+                    guess: >
+                        np.max(y)
             jobs:
                 MyJobName:
                     description: Something.
@@ -181,6 +233,8 @@ class TestParseYaml:
                         - param_name_1
                     python: >
                         param_name_1 * x
+                    guess: >
+                        np.max(y)
             jobs:
                 MyJobName:
                     description: Something.
@@ -201,6 +255,8 @@ class TestParseYaml:
                         - param_name_1
                     python: >
                         param_name_1 * x
+                    guess: >
+                        np.max(y)
             jobs:
                 MyJobName:
                     description: Something.
@@ -222,6 +278,8 @@ class TestParseYaml:
                         - param_name_1
                     python: >
                         param_name_1 * x
+                    guess: >
+                        np.max(y)
             jobs:
                 MyJobName:
                     description: Something.

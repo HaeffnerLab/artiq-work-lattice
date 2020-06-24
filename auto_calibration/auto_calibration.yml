@@ -8,10 +8,13 @@
 #           - param_name_1       # These are names given to the fit parameters
 #           - param_name_2       #   that can be referenced from job and are
 #           - param_name_3       #   also referenced in the Python code.
-#        python: >
+#        python: >-
 #           (param_name_1 * x    # Some arbitrary Python expression implementing the
 #             + param_name_2)    #   fit function. `x` is reserved as the name of the
 #           ** param_name_3      #   fit data. Parameter names are as listed above.
+#        guess: >-
+#           [0.5, np.max(y), 0.1]   # Python list with the initial guesses for each of
+#                                   # the fit parameters. Can use `x` and `y`.
 
 fits:
 
@@ -22,6 +25,8 @@ fits:
          - standard_deviation
       python: >-
          amplitude * np.exp((-(x - center)**2) / (2*standard_deviation**2))
+      guess: >- 
+         [0.5, x[np.argmax(y)], 2e-3]
 
    RabiDecay:
       parameters:
@@ -35,6 +40,8 @@ fits:
             * (1 - np.exp(-(x**2)/2/(decay_time*1e-6)**2)
                   * np.sin(2*2 * np.pi * (1/(4*pi_time)) * 1e6 * x + phase_offset)**2)
             + amplitude_offset
+      guess: >-
+         [0.5, np.max(y), x[np.argmax(y)], 0.0, 0.0]
       
 ###############################################
 # Define calibration jobs
@@ -71,9 +78,9 @@ jobs:
       scan:
          name: Spectrum
          parameter: Spectrum.carrier_detuning
-         start: -5e3
-         stop: 5e3
-         n-points: 5
+         start: -7e3
+         stop: 7e3
+         n-points: 15
       parameters:
          Excitation_729.line_selection: S-1/2D-1/2
          Excitation_729.channel_729: 729G
