@@ -51,6 +51,7 @@ class AutoCalibrationManager:
 
 class AutoCalibration(EnvExperiment):
     accessed_params = {
+        "AutoCalibration.calibration_job",
         "IonsOnCamera.ion_number",
     }
     
@@ -67,8 +68,10 @@ class AutoCalibration(EnvExperiment):
         self.yaml = load_configuration()
 
     def run(self):
-        # TODO: get the job name from some kind of user-supplied parameter
-        job_name = "CalibPiTime729G"
+        cxn = labrad.connect()
+        p = cxn.parametervault
+        job_name = p.get_parameter("AutoCalibration", "calibration_job")
+        cxn.disconnect()
 
         job = self.yaml[YamlKeys.jobs][job_name]
         print("Starting AutoCalibration for job {0}: {1}".format(job_name, job[YamlKeys.job_description]))
