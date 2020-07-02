@@ -77,6 +77,7 @@ class AutoCalibration(EnvExperiment):
         print("Starting AutoCalibration for job {0}: {1}".format(job_name, job[YamlKeys.job_description]))
 
         # Run the prerequisites. The YAML parser has already put them in the correct order.
+        # TODO - skip prerequisites if the user has chosen to do so
         for prerequisite_job_name in job[YamlKeys.job_prerequisites]:
             print("Running job prerequisite {0}".format(prerequisite_job_name))
             if not self.run_and_fit(prerequisite_job_name):
@@ -121,8 +122,13 @@ class AutoCalibration(EnvExperiment):
                 raise Exception("{0} is not a valid value for parameter {1}. Valid values are between {2} and {3}.".format(new_value, key, min_value, max_value))
             new_registry_value = current_registry_value
             new_registry_value[1][2] = new_value
-        r.set(parameter, (parameter_type, new_registry_value))
+        elif parameter_type == "parameter" and isinstance(current_registry_value, labrad.units.DimensionlessArray):
+            min_value, max_value, current_value = current_registry_value
+            if value < min_value or value > max_value:
+                raise Exception("{0} is not a valid value for parameter {1}. Valid values are between {2} and {3}.".format(value, key, min_value, max_value))
+            new_registry_value = value
         p.set_parameter([collection, parameter, new_registry_value])
+        p.save_parameters_to_registry()
 
         return old_parameter_value
 
@@ -131,6 +137,7 @@ class AutoCalibration(EnvExperiment):
 
         # first check if the job has existing valid results, and if so, skip it
         # TODO - check valid_for against last job in database where valid=True
+        # TODO - don't check this in the case that the user has chosen to force all dependencies to run
         valid_for = job[YamlKeys.job_valid_time]
         
         # set any parameters that need to be overridden for this job
