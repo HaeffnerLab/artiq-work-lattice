@@ -217,9 +217,13 @@ class AutoCalibration(EnvExperiment):
         if parameter_source == "DriftTrackerGlobal":
             try:
                 global_cxn = labrad.connect(cl.global_address, password=cl.global_password, tls_mode="off")
-                submission = [(parameter_name, U(parameter_value, "MHz"))]
-                # TODO - always submit two lines together. submitting one line at a time doesn't track line center drift.
-                global_cxn.sd_tracker_global.set_measurements_with_one_line(submission, cl.client_name)
+                if parameter_name == "S-1/2D-5/2":
+                    submission = [(parameter_name, U(parameter_value, "MHz"))]
+                    global_cxn.sd_tracker_global.set_measurements_with_one_line(submission, cl.client_name)
+                elif parameter_name == "S-1/2D-1/2":
+                    current_S12D52_line = global_cxn.sd_tracker_global.get_current_line("S-1/2D-5/2", cl.client_name)
+                    submission = [(parameter_name, U(parameter_value, "MHz")), ("S-1/2D-5/2", current_S12D52_line)]
+                    global_cxn.sd_tracker_global.set_measurements(submission, cl.client_name)
             except:
                 logger.error("Failed to connect to SD tracker global to update line {0}".format(parameter_name), exc_info=True)
                 return False

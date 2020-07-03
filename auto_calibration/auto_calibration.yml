@@ -72,8 +72,8 @@ fits:
 
 jobs:
 
-   CalibLinesSpectrum-Line1:
-      description: Calibrating Line 1 using spectrum scan.
+   Spectrum-LineS12D52:
+      description: Calibrating S-1/2D-5/2 line using spectrum scan.
       valid-time: 30
       scan:
          name: Spectrum
@@ -82,29 +82,31 @@ jobs:
          stop: 7e3
          n-points: 15
       parameters:
-         Excitation_729.line_selection: S-1/2D-1/2
+         Excitation_729.line_selection: S-1/2D-5/2
          Excitation_729.channel_729: 729G
       fit:
          name: Gaussian
          parameter-source: DriftTrackerGlobal
-         parameter-name: S-1/2D-1/2
+         parameter-name: S-1/2D-5/2
          parameter-value: center
 
-   CalibLinesSpectrum-Line2:
-      description: Calibrating Line 2 using spectrum scan.
-      inherits-from: CalibLinesSpectrum-Line1
+   Spectrum-LineS12D12:
+      description: Calibrating S-1/2D-1/2 line using spectrum scan.
+      inherits-from: Spectrum-LineS12D52
+      prerequisites:
+         - Spectrum-LineS12D52
       scan:
          name: Spectrum
       parameters:
-         Excitation_729.line_selection: S-1/2D-5/2
+         Excitation_729.line_selection: S-1/2D-1/2
       fit:
-         parameter-name: S-1/2D-5/2
+         parameter-name: S-1/2D-1/2
 
    CalibLinesSpectrum:
       description: Calibrates carrier spectrum.
       prerequisites:
-         - CalibLinesSpectrum-Line1
-         - CalibLinesSpectrum-Line2
+         - Spectrum-LineS12D12
+         - Spectrum-LineS12D52
 
    CalibPiTime729G-Line1:
       description: Calibrates the 729G pi time on S-1/2 D-1/2 carrier.
