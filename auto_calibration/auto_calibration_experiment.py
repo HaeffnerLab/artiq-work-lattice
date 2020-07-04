@@ -1,7 +1,7 @@
 import logging
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, date, time, timedelta
 
 import labrad
 import numpy as np
@@ -31,6 +31,18 @@ class AutoCalibrationManager:
         db_dir = os.path.join(os.path.expanduser("~"), "data", "calibration")
         os.makedirs(db_dir, exist_ok=True)
         self.db_path = os.path.join(db_dir, "db.json")
+
+        # if the DB contains anything more than a day old, move it to an archive file
+        with TinyDB(self.db_path) as db:
+            timestamp_yesterday_start = datetime.combine(date.today() - timedelta(days=1), time())
+            archive_query_condition = where("timestamp") < timestamp_yesterday_start.timestamp()
+            old_entries = db.search(archive_query_condition)
+            if old_entries:
+                archive_date = timestamp_yesterday_start - timedelta(days=1)
+                archive_path = os.path.join(db_dir, archive_date.strftime("%Y-%m-%d.json"))
+                with TinyDB(archive_path) as archive_db:
+                    archive_db.insert_multiple(old_entries)
+                db.remove(cond=archive_query_condition)
 
     def save(self, scan, x, y, timestamp):
         with TinyDB(self.db_path) as db:
