@@ -69,10 +69,13 @@ class RabiFlopping(PulseSequence):
     @kernel
     def RabiFlopping(self):
         self.stateprep.run(self)
+        if self.RabiFlopping_noise:
+            self.mod397.on()
         if self.RabiFlopping_composite_pi_rotation:
             self.composite.run(self)
         else:    
             #delay(1*ms)
             self.rabi.run(self)
-        
+        if self.RabiFlopping_noise:
+            self.mod397.off()
         
