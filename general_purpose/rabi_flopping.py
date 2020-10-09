@@ -16,7 +16,7 @@ class RabiFlopping(PulseSequence):
         "RabiFlopping.order",
         "RabiFlopping.detuning",
         "RabiFlopping.composite_pi_rotation",
-        "RabiFlopping.noise",
+        "RabiFlopping.noise"
     }
 
     PulseSequence.scan_params = dict(
