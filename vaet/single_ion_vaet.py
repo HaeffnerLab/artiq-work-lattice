@@ -77,7 +77,7 @@ class SingleIonVAET(PulseSequence):
 
         #setting up a ref rf for testing phase
         self.dds_SP_729L1_bichro.set(80*MHz, amplitude=0.3, ref_time_mu=np.int64(-1))
-        self.dds_SP_729L1_bichro.set_att(2)
+        self.dds_SP_729L1_bichro.set_att(2*dB)
 
         self.stateprep.run(self)
 
