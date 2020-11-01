@@ -82,7 +82,7 @@ class SingleIonVAET(PulseSequence):
         self.stateprep.run(self)
 
         self.dds_SP_729L1_bichro.sw.on()
-        delay(200*us)
+        delay(100*us)
         if self.SingleIonVAET_rotate_in_y:
             self.basis_rotation.phase_729 = 0.
             self.basis_rotation.run(self)
