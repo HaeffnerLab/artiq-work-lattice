@@ -76,8 +76,8 @@ class SingleIonVAET(PulseSequence):
         self.vaet.phase_ref_time = self.basis_rotation.phase_ref_time
 
         #setting up a ref rf for testing phase
-        # self.dds_SP_729L1_bichro.set(80.3*MHz, amplitude=0.7)
-        # self.dds_SP_729L1_bichro.set_att(5*dB)
+        self.dds_SP_729L1_bichro.set(80.3*MHz, amplitude=0.7)
+        self.dds_SP_729L1_bichro.set_att(5*dB)
 
         self.stateprep.run(self)
 
@@ -91,4 +91,4 @@ class SingleIonVAET(PulseSequence):
             self.basis_rotation.phase_729 = 180.
             self.basis_rotation.run(self)
 
-        # self.dds_SP_729L1_bichro.sw.off()
+        self.dds_SP_729L1_bichro.sw.off()
