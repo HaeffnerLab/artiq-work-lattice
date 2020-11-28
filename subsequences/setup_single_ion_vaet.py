@@ -78,7 +78,7 @@ class SetupSingleIonVAET:
             freq_blue,
             amplitude=s.BSB_amp,
             ref_time_mu=s.phase_ref_time,
-            phase=0.75
+            phase=0. #0.75
         )
 
         # Hard-coded to SP_729L2_bicrho
