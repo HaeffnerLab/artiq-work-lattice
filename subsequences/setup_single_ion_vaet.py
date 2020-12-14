@@ -86,7 +86,7 @@ class SetupSingleIonVAET:
             freq_red,
             amplitude=s.RSB_amp,
             ref_time_mu=s.phase_ref_time,
-            phase=0.25
+            phase=0.5
         )
 
         self.dds_729.set_att(s.DP_att)
