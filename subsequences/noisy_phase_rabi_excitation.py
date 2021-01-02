@@ -15,24 +15,6 @@ class RabiExcitation:
     #detuning = "RabiFlopping.detuning"
     
     phase_ref_time=np.int64(-1)
-    ramp_has_been_programmed= False  # always initialize to False; gets set to True inside setup_ramping
-
-    @kernel
-    def setup_ramping(self):
-        # This function programs the appropriate ramp into the DDS memory.
-        #
-        # If a PulseSequence wants to use ramping, call setup_ramping() inside 
-        # its set_subsequence function.
-        # To disable ramping for a PulseSequence, the easiest way to do this is
-        # comment or remove the call to setup_ramping() in the set_subsequence function.
-        r = RabiExcitation        
-        self.get_729_dds(r.channel_729)
-        self.prepare_pulse_with_amplitude_ramp(
-            pulse_duration=r.duration,
-            ramp_duration=25.0*us,
-            dds1_amp=r.amp_729)
-        r.ramp_has_been_programmed = True
-        print('is ramp set?')
 
     def subsequence(self):
         r = RabiExcitation
@@ -65,7 +47,9 @@ class RabiExcitation:
             with parallel:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
-            delay(r.duration)
+            for i in range(0, 100):
+                self.dds_729_SP.set_phase(10*i / 360)
+                delay(r.duration)
             with parallel:
-                self.dds_729.sw.off()
+                # self.dds_729.sw.off()
                 self.dds_729_SP.sw.off()

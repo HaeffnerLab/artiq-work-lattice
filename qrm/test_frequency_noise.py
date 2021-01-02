@@ -1,5 +1,5 @@
 from pulse_sequence import PulseSequence
-from subsequences.rabi_excitation import RabiExcitation
+from subsequences.noisy_phase_rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
 import numpy as np
@@ -48,8 +48,6 @@ class RabiFlopping(PulseSequence):
     def RabiFlopping(self):
         self.rabi.phase_ref_time = now_mu()
         self.stateprep.run(self)
-        for i in range(0, 3):
-            self.rabi.phase_729 = 50.*i
-            self.rabi.run(self)
+        self.rabi.run(self)
        
 
