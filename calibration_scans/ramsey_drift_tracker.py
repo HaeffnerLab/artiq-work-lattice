@@ -63,11 +63,24 @@ class RamseyDriftTracker(PulseSequence):
             "log_level": 30,
             "repo_rev": None
         }
+
         if self.p.DriftTrackerRamsey.first_run:
             cxn = labrad.connect()
             cxn.parametervault.set_parameter("DriftTrackerRamsey", "first_run", False)
             cxn.disconnect()
             self.scheduler.submit("main", self.expid, priority=100)
+
+        try:
+            global_cxn = labrad.connect(cl.global_address, password=cl.global_password,
+                                        tls_mode="off")
+            self.old_carr1 = global_cxn.sd_tracker_global.get_current_line(self.p.DriftTracker.line_selection_1, cl.client_name)
+            self.old_carr2 = global_cxn.sd_tracker_global.get_current_line(self.p.DriftTracker.line_selection_2, cl.client_name)
+            print('old_carr1 =', self.old_carr1)
+            print('old_carr2 =', self.old_carr2)
+        except:
+            logger.error("Failed to connect to global drift tracker.", exc_info=True)
+        finally:
+            global_cxn.disconnect()
 
     @kernel
     def set_subsequence_trackline1(self):
@@ -202,31 +215,24 @@ class RamseyDriftTracker(PulseSequence):
         cxn.disconnect()
 
     def run_finally(self):
-        
-        line1 = self.p.DriftTracker.line_selection_1
-        line2 = self.p.DriftTracker.line_selection_2
-
-        old_carr1 = self.carrier_values[self.carrier_dict[line1]] 
-        old_carr2 = self.carrier_values[self.carrier_dict[line2]]
-
-        carr1 = old_carr1 - self.detuning_1_global
-        carr2 = old_carr2 - self.detuning_2_global
 
         print("RamseyDriftTracker detuning_1_global =", self.detuning_1_global, "Hz")
         print("RamseyDriftTracker detuning_2_global =", self.detuning_2_global, "Hz")
     
 
-        submission = [(line1, U(carr1 * 1e-6, "MHz")), (line2, U(carr2 * 1e-6, "MHz"))]
+        carr1 = self.old_carr1 - U(self.detuning_1_global, "Hz")
+        carr2 = self.old_carr2 - U(self.detuning_2_global, "Hz")
+
+        print("new_carr1 =", carr1)
+        print("new_carr2 =", carr2)
 
         try:
             global_cxn = labrad.connect(cl.global_address, password=cl.global_password,
                                         tls_mode="off")
+
+            submission = [(self.p.DriftTracker.line_selection_1, carr1), (self.p.DriftTracker.line_selection_2, carr2)]
             global_cxn.sd_tracker_global.set_measurements(submission, cl.client_name)
         except:
             logger.error("Failed to connect to global drift tracker.", exc_info=True)
-            return
-        global_cxn.disconnect()
-
-
-
-       
+        finally:
+            global_cxn.disconnect()

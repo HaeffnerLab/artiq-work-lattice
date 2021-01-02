@@ -34,8 +34,6 @@ class CalibSideband(PulseSequence):
         # Use calibration_channel_729 from CalibrationScans parameter group
         # instead of RabiFlopping.channel_729
         self.rabi.channel_729 = self.p.CalibrationScans.calibration_channel_729
-        self.kernel_invariants.update({"sideband"})
-        self.sideband = self.p.CalibrationScans.selection_sideband
         self.set_subsequence["CalibSideband"] = self.set_subsequence_calibsideband
         rt = self.rcg_tabs
         assert int(self.p.CalibrationScans.order) == self.p.CalibrationScans.order, "SB order needs to be int"
@@ -54,7 +52,7 @@ class CalibSideband(PulseSequence):
         self.rabi.att_729 = self.CalibrationScans_sideband_calibration_att
         self.rabi.duration = self.Spectrum_manual_excitation_time
         self.rabi.freq_729 = self.calc_frequency(
-                rabi_line, delta, sideband=self.sideband, order=self.CalibrationScans_order, 
+                rabi_line, delta, sideband=self.CalibrationScans_selection_sideband, order=self.CalibrationScans_order, 
                 dds=rabi_dds, bound_param="Spectrum_sideband_detuning"
             )
    
