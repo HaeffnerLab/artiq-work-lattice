@@ -48,7 +48,7 @@ class RabiFlopping(PulseSequence):
     def RabiFlopping(self):
         self.rabi.phase_ref_time = now_mu()
         self.stateprep.run(self)
-        for i in range(0, 100):
+        for i in range(0, 2):
             self.rabi.phase_729 = 10.*i
             self.rabi.run(self)
        
