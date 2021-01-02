@@ -1,8 +1,8 @@
 from pulse_sequence import PulseSequence
 from subsequences.rabi_excitation import RabiExcitation
-from subsequences.composite_pi import CompositePi #added for composite_pi 02/20/2020
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
+import numpy as np
 
 
 class RabiFlopping(PulseSequence):
@@ -26,9 +26,7 @@ class RabiFlopping(PulseSequence):
         ])
 
     def run_initially(self):
-        self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
-        self.composite = self.add_subsequence(CompositePi)
         self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.composite.channel_729 = self.p.RabiFlopping.channel_729
         self.set_subsequence["RabiFlopping"] = self.set_subsequence_rabiflopping
@@ -50,5 +48,5 @@ class RabiFlopping(PulseSequence):
     def RabiFlopping(self):
         self.rabi.phase_ref_time = now_mu()
         for i in range(0, 100):
-            self.rabi.phase_729 = int(10*i)
+            self.rabi.phase_729 = np.int(10*i)
             self.rabi.run(self)
