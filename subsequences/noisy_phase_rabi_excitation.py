@@ -31,6 +31,7 @@ class RabiExcitation:
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
         for i in range(0, 100):
-            # self.dds_729_SP.set_phase(45 / 360.)
+            self.dds_729_SP.set(sp_freq_729, 
+                         phase=45/360.)#, ref_time_mu=r.phase_ref_time))
             delay(r.duration)
         self.dds_729_SP.sw.off()
