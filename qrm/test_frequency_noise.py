@@ -26,6 +26,7 @@ class RabiFlopping(PulseSequence):
         ])
 
     def run_initially(self):
+        self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.set_subsequence["RabiFlopping"] = self.set_subsequence_rabiflopping
@@ -46,7 +47,9 @@ class RabiFlopping(PulseSequence):
     @kernel
     def RabiFlopping(self):
         self.rabi.phase_ref_time = now_mu()
-        self.rabi.phase_729 = 10.
-        self.rabi.run(self)
+        self.stateprep.run(self)
+        for i in range(0, 100):
+            self.rabi.phase_729 = 10.*i
+            self.rabi.run(self)
        
 
