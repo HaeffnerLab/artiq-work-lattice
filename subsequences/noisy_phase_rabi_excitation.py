@@ -34,8 +34,8 @@ class RabiExcitation:
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
-        # for i in range(0, 10):
-        with parallel:
+        for i in range(0, 10):
+        # with parallel:
             self.dds_729_SP.set(sp_freq_729, phase=(1%2) * 0.5)
             self.dds_729_SP_bichro.set(sp_freq_729, phase=-(1%2) * 0.5)
         with parallel:
