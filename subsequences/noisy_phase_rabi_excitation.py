@@ -23,7 +23,7 @@ class RabiExcitation:
                         amplitude=r.amp_729,
                         ref_time_mu=r.phase_ref_time)
         self.dds_729.set_att(r.att_729)
-        sp_freq_729 = 10*MHz#10*MHz + self.get_offset_frequency(r.channel_729)
+        sp_freq_729 = 80*MHz + self.get_offset_frequency(r.channel_729)
         self.dds_729_SP.set(sp_freq_729, amplitude=r.sp_amp_729, 
                          phase=r.phase_729 / 360.)#, ref_time_mu=r.phase_ref_time)
         self.dds_729_SP_bichro.set(1*MHz, amplitude=r.sp_amp_729, 
@@ -34,11 +34,11 @@ class RabiExcitation:
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
-        for i in range(0, 10):
+        for i in range(0, 100):
             # start_mu = now_mu()
-            self.dds_729_SP.set(sp_freq_729)#, phase=(1%2) * 0.5)
+            # self.dds_729_SP.set(sp_freq_729)#, phase=(1%2) * 0.5)
             # at_mu(start_mu)
-            self.dds_729_SP_bichro.set(1*MHz)#, phase=-(1%2) * 0.5)
+            self.dds_729_SP_bichro.set(1*MHz, phase=(i%2) * 0.5)
         # with parallel:
         #     self.dds_729_SP.sw.off()
         #     self.dds_729_SP_bichro.sw.off()
