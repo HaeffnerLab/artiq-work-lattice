@@ -20,7 +20,7 @@ class NoisyPhaseRabiExcitation:
     def subsequence(self):
         r = NoisyPhaseRabiExcitation
         self.get_729_dds(r.channel_729)
-        trap_frequency = self.get_trap_frequency(b.selection_sideband)
+        trap_frequency = self.get_trap_frequency(r.selection_sideband)
         
         self.dds_729.set(r.freq_729,
                         amplitude=r.amp_729,
