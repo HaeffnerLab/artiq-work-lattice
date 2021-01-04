@@ -2,7 +2,7 @@ from artiq.experiment import *
 import numpy as np
 from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
 
-class RabiExcitation:
+class NoisyPhaseRabiExcitation:
     freq_729="Excitation_729.rabi_excitation_frequency"
     amp_729="Excitation_729.rabi_excitation_amplitude"
     att_729="Excitation_729.rabi_excitation_att"
@@ -12,12 +12,11 @@ class RabiExcitation:
     line_selection="Excitation_729.line_selection"
     sp_amp_729="Excitation_729.single_pass_amplitude"
     sp_att_729="Excitation_729.single_pass_att"
-    #detuning = "RabiFlopping.detuning"
-    
+    noise_list=[0.]  
     phase_ref_time=np.int64(-1)
 
     def subsequence(self):
-        r = RabiExcitation
+        r = NoisyPhaseRabiExcitation
         self.get_729_dds(r.channel_729)
         self.dds_729.set(r.freq_729,
                         amplitude=r.amp_729,
@@ -38,6 +37,7 @@ class RabiExcitation:
             # start_mu = now_mu()
             # self.dds_729_SP.set(sp_freq_729)#, phase=(1%2) * 0.5)
             # at_mu(start_mu)
+            np.random.randn()
             self.dds_729_SP_bichro.set(1*MHz, phase=(i%2) * 0.5)
         with parallel:
             self.dds_729_SP.sw.off()
