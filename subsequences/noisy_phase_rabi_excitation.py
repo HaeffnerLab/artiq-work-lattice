@@ -28,8 +28,10 @@ class NoisyPhaseRabiExcitation:
                         amplitude=r.amp_729,
                         ref_time_mu=r.phase_ref_time)
         self.dds_729.set_att(r.att_729)
-        sp_freq_729 = 80*MHz + r.delta + self.get_offset_frequency(r.channel_729)
-        sp_freq_729_bichro = trap_frequency - r.nu_eff
+
+        spo = self.get_offset_frequency(r.channel_729)
+        sp_freq_729 =        80*MHz + r.delta + spo + trap_frequency - r.nu_eff
+        sp_freq_729_bichro = 80*MHz + r.delta + spo - trap_frequency + r.nu_eff
         self.dds_729_SP.set(sp_freq_729, amplitude=r.sp_amp_729, 
                          phase=r.phase_729 / 360., ref_time_mu=r.phase_ref_time)
         self.dds_729_SP_bichro.set(sp_freq_729_bichro, amplitude=r.sp_amp_729, 
@@ -46,7 +48,7 @@ class NoisyPhaseRabiExcitation:
         for epsilon in r.noise_list:
             with parallel:
                 self.dds_729_SP.set(sp_freq_729, phase=-epsilon)
-                self.dds_729_SP_bichro.set(sp_freq_729_bichro, phase=epsilon)
+                self.dds_729_SP_bichro.set(sp_freq_729, phase=epsilon)
             if now_mu() > end_mu:
                 break
         with parallel:
