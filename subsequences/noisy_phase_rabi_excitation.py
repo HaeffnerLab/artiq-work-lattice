@@ -44,7 +44,9 @@ class NoisyPhaseRabiExcitation:
         start_mu = now_mu()
         end_mu = start_mu + self.core.seconds_to_mu(r.duration)
         for epsilon in r.noise_list:
-            self.dds_729_SP_bichro.set(sp_freq_729_bichro, phase=epsilon)
+            with parallel:
+                self.dds_729_SP.set(sp_freq_729, phase=-epsilon)
+                self.dds_729_SP_bichro.set(sp_freq_729_bichro, phase=epsilon)
             if now_mu() > end_mu:
                 break
         with parallel:
