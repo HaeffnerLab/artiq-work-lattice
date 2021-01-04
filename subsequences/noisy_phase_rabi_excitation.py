@@ -39,6 +39,5 @@ class NoisyPhaseRabiExcitation:
                 self.dds_729_SP_bichro.set(1*MHz, phase=r.noise_list[i])
             with sequential:
                 delay(r.duration)
-                with parallel:
-                    self.dds_729_SP.sw.off()
-                    self.dds_729_SP_bichro.sw.off()
+                self.dds_729_SP.sw.off()
+                self.dds_729_SP_bichro.sw.off()
