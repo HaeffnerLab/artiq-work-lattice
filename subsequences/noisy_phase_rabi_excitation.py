@@ -35,7 +35,7 @@ class NoisyPhaseRabiExcitation:
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
         start_mu = now_mu()
-        end_mu = start_mu + seconds_to_mu(r.duration)
+        end_mu = start_mu + core.seconds_to_mu(r.duration)
         for epsilon in r.noise_list:
             self.dds_729_SP_bichro.set(1*MHz, phase=epsilon)
             if now_mu() > end_mu:
