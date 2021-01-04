@@ -7,7 +7,7 @@ from artiq.experiment import *
 
 class QRM(PulseSequence):
     PulseSequence.accessed_params = {
-        # "QRM.line_selection",
+        "QRM.line_selection",
         # "QRM.amplitude_729",
         # "QRM.att_729",
         # "QRM.channel_729",
