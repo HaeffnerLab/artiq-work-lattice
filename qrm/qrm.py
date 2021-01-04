@@ -32,7 +32,7 @@ class QRM(PulseSequence):
     @kernel
     def set_subsequence_qrm(self):
         self.qrm.duration = self.get_variable_parameter("QRM_duration")
-        self.qrm.amp_729 = self.RabiFlopping_amplitude_729
+        self.qrm.amp_729 = self.QRM_amplitude_729
         self.qrm.att_729 = self.get_variable_parameter("QRM_att_729")
         self.qrm.freq_729 = self.calc_frequency(
             self.qrm_line_selection, 
