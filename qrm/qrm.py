@@ -38,7 +38,7 @@ class QRM(PulseSequence):
             self.QRM_line_selection, 
             detuning=self.QRM_delta,
             sideband=self.QRM_selection_sideband,
-            order=0, 
+            # order=0, 
             dds=self.QRM_channel_729
         )
         self.qrm.noise_list
