@@ -31,7 +31,12 @@ class QRM(PulseSequence):
         self.set_subsequence["QRM"] = self.set_subsequence_qrm
 
     def get_random_list(self) -> TList(TFloat):
-        return list(np.random.randn(10000)) 
+        rand_list = []
+        rand_val = 0
+        for _ in range(0, 100):
+            rand_val += np.random.randn()
+            rand.append(rand_val)
+        return rand_list
 
     @kernel
     def set_subsequence_qrm(self):
