@@ -2,7 +2,7 @@ from pulse_sequence import PulseSequence
 from subsequences.noisy_phase_rabi_excitation import NoisyPhaseRabiExcitation
 from subsequences.state_preparation import StatePreparation
 from artiq.experiment import *
-# import numpy as np
+import numpy as np
 
 
 class QRM(PulseSequence):

@@ -1,5 +1,4 @@
 from artiq.experiment import *
-import numpy as np
 from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
 
 class NoisyPhaseRabiExcitation:
