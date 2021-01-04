@@ -14,7 +14,8 @@ class QRM(PulseSequence):
         "QRM.duration",
         "QRM.selection_sideband",
         "QRM.delta",
-        "QRM.noise_parameter"
+        "QRM.noise_parameter",
+        "QRM.nu_eff"
     }
 
     PulseSequence.scan_params = dict(
