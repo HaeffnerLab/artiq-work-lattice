@@ -27,7 +27,7 @@ class QRM(PulseSequence):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.qrm = self.add_subsequence(NoisyPhaseRabiExcitation)
         self.qrm.channel_729 = self.p.QRM.channel_729
-        self.set_subsequence["QRM"] = self.set_subsequence_QRM
+        self.set_subsequence["QRM"] = self.set_subsequence_qrm
 
     @kernel
     def set_subsequence_rabiflopping(self):
