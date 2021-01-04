@@ -29,6 +29,9 @@ class QRM(PulseSequence):
         self.qrm.channel_729 = self.p.QRM.channel_729
         self.set_subsequence["QRM"] = self.set_subsequence_qrm
 
+    def get_random_list() -> TList(TFloat):
+        return np.random.randn(100) 
+
     @kernel
     def set_subsequence_qrm(self):
         self.qrm.duration = self.get_variable_parameter("QRM_duration")
@@ -41,7 +44,7 @@ class QRM(PulseSequence):
             # order=0, 
             dds=self.QRM_channel_729
         )
-        self.qrm.noise_list = np.random.randn(100)
+        self.qrm.noise_list = self.get_random_list()
 
     @kernel
     def QRM(self):
