@@ -35,11 +35,11 @@ class QRM(PulseSequence):
         self.qrm.amp_729 = self.QRM_amplitude_729
         self.qrm.att_729 = self.get_variable_parameter("QRM_att_729")
         self.qrm.freq_729 = self.calc_frequency(
-            self.qrm_line_selection, 
-            detuning=self.qrm_detuning,
-            sideband=self.qrm_selection_sideband,
-            order=self.qrm_order, 
-            dds=self.qrm_channel_729
+            self.QRM_line_selection, 
+            detuning=self.QRM_detuning,
+            sideband=self.QRM_selection_sideband,
+            order=0, 
+            dds=self.QRM_channel_729
         )
         self.qrm.noise_list
 
