@@ -7,21 +7,21 @@ from artiq.experiment import *
 
 class QRM(PulseSequence):
     PulseSequence.accessed_params = {
-        "QRM.line_selection",
-        "QRM.amplitude_729",
-        "QRM.att_729",
-        "QRM.channel_729",
-        "QRM.duration",
-        "QRM.selection_sideband",
-        "QRM.order",
-        "QRM.delta",
-        "QRM.noise_parameter"
+        "qrm.line_selection",
+        "qrm.amplitude_729",
+        "qrm.att_729",
+        "qrm.channel_729",
+        "qrm.duration",
+        "qrm.selection_sideband",
+        "qrm.order",
+        "qrm.delta",
+        "qrm.noise_parameter"
     }
 
     PulseSequence.scan_params = dict(
         QRM=[
-            ("QRM", ("QRM.duration", 0., 100e-6, 20, "us")),
-            ("QRM", ("QRM.att_729", 0*dB, 32*dB, 1*dB, "dB"))
+            ("QRM", ("qrm.duration", 0., 100e-6, 20, "us")),
+            ("QRM", ("qrm.att_729", 0*dB, 32*dB, 1*dB, "dB"))
         ])
 
     def run_initially(self):
@@ -42,6 +42,7 @@ class QRM(PulseSequence):
             order=self.qrm_order, 
             dds=self.qrm_channel_729
         )
+        self.qrm.noise_list
 
     @kernel
     def QRM(self):
