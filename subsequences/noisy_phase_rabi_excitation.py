@@ -1,5 +1,7 @@
 from artiq.experiment import *
 from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
+import numpy as np
+
 
 class NoisyPhaseRabiExcitation:
     freq_729="Excitation_729.rabi_excitation_frequency"
@@ -12,7 +14,7 @@ class NoisyPhaseRabiExcitation:
     sp_amp_729="Excitation_729.single_pass_amplitude"
     sp_att_729="Excitation_729.single_pass_att"
     noise_list=[0.]  
-    phase_ref_time=-1
+    phase_ref_time=np.int64(-1)
 
     def subsequence(self):
         r = NoisyPhaseRabiExcitation
