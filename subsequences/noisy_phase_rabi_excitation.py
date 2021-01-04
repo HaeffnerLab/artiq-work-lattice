@@ -12,7 +12,7 @@ class NoisyPhaseRabiExcitation:
     sp_amp_729="Excitation_729.single_pass_amplitude"
     sp_att_729="Excitation_729.single_pass_att"
     noise_list=[0.]  
-    phase_ref_time=np.int64(-1)
+    phase_ref_time=-1
 
     def subsequence(self):
         r = NoisyPhaseRabiExcitation
