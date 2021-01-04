@@ -45,7 +45,7 @@ class QRM(PulseSequence):
             dds=self.QRM_channel_729
         )
         self.qrm.noise_list = self.get_random_list()
-        print(self.qrm.noise_list)
+        # print(self.qrm.noise_list)
 
     @kernel
     def QRM(self):
