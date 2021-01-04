@@ -30,7 +30,7 @@ class QRM(PulseSequence):
         self.set_subsequence["QRM"] = self.set_subsequence_qrm
 
     def get_random_list(self) -> TList(TFloat):
-        return list(np.random.randn(100)) 
+        return list(np.random.randn(1000)) 
 
     @kernel
     def set_subsequence_qrm(self):
