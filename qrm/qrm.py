@@ -41,7 +41,7 @@ class QRM(PulseSequence):
             # order=0, 
             dds=self.QRM_channel_729
         )
-        self.qrm.noise_list
+        self.qrm.noise_list = np.random.randn(100)
 
     @kernel
     def QRM(self):

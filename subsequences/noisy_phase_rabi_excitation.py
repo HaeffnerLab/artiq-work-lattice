@@ -34,11 +34,7 @@ class NoisyPhaseRabiExcitation:
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
         for i in range(0, 100):
-            # start_mu = now_mu()
-            # self.dds_729_SP.set(sp_freq_729)#, phase=(1%2) * 0.5)
-            # at_mu(start_mu)
-            np.random.randn()
-            self.dds_729_SP_bichro.set(1*MHz, phase=(i%2) * 0.5)
+            self.dds_729_SP_bichro.set(1*MHz, phase=r.noise_list[i])
         with parallel:
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
