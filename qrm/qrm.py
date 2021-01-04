@@ -35,7 +35,7 @@ class QRM(PulseSequence):
         rand_val = 0
         for _ in range(0, 100):
             rand_val += np.random.randn()
-            rand.append(rand_val)
+            rand_list.append(rand_val)
         return rand_list
 
     @kernel
