@@ -43,7 +43,7 @@ class NoisyPhaseRabiExcitation:
         #     dds1_amp=b.amp)
         # b.ramp_has_been_programmed = True
         pulse_sequence.core.break_realtime()
-        # delay(12*ms)
+        delay(12*ms)
         pulse_sequence.prepare_noisy_single_pass(freq_noise=True)   
     
     def subsequence(self):
