@@ -69,8 +69,8 @@ class NoisyPhaseRabiExcitation:
         self.start_noisy_single_pass(r.phase_ref_time,
                         freq_noise=True,
                         freq_sp=sp_freq_729, amp_sp=r.sp_amp_729, att_sp=r.sp_att_729,
-                        use_bichro=False,)
-                        # freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
+                        use_bichro=True,
+                        freq_sp_bichro=p_freq_729, amp_sp_bichro=r.sp_amp_729, att_sp_bichro=r.sp_att_729)
 
         with parallel:
             self.dds_729.sw.on()
@@ -89,4 +89,4 @@ class NoisyPhaseRabiExcitation:
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
         
-        # self.stop_noisy_single_pass(use_bichro=True)
+        self.stop_noisy_single_pass(use_bichro=True)
