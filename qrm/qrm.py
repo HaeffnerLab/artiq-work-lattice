@@ -52,7 +52,8 @@ class QRM(PulseSequence):
         )
         # self.qrm.noise_list = self.get_random_list()
         # delay(1*ms)
-        self.prepare_noisy_single_pass(freq_noise=True)
+        self.setup_noise(self)
+        
 
     @kernel
     def QRM(self):
