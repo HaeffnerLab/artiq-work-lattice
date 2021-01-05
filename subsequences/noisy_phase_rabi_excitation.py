@@ -24,7 +24,7 @@ class NoisyPhaseRabiExcitation:
         r = NoisyPhaseRabiExcitation
         pulse_sequence.generate_single_pass_noise_waveform(
             mean=0,
-            std=1e6,
+            std=1e3,
             freq_noise=True)
     
     @kernel
