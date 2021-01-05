@@ -42,7 +42,7 @@ class NoisyPhaseRabiExcitation:
         #     ramp_duration=2.0*us,
         #     dds1_amp=b.amp)
         # b.ramp_has_been_programmed = True
-        pulse_sequence.prepare_noisy_single_pass(freq_noise=True)   
+        pulse_sequence.prepare_noisy_single_pass(freq_noise=False)   
     
     def subsequence(self):
         r = NoisyPhaseRabiExcitation
