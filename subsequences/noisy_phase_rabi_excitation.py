@@ -24,8 +24,9 @@ class NoisyPhaseRabiExcitation:
         r = NoisyPhaseRabiExcitation
         pulse_sequence.generate_single_pass_noise_waveform(
             mean=0,
-            std=0.2,
-            freq_noise=False)
+            std=1e6,
+            freq_noise=True)
+        pulse_sequence.prepare_noisy_single_pass(freq_noise=True)
     
     def subsequence(self):
         r = NoisyPhaseRabiExcitation
@@ -48,7 +49,7 @@ class NoisyPhaseRabiExcitation:
         self.dds_729_SP_bichro.set_att(r.sp_att_729)          
         
         self.start_noisy_single_pass(r.phase_ref_time,
-                        freq_noise=False,
+                        freq_noise=True,
                         freq_sp=sp_freq_729, amp_sp=r.sp_amp_729, att_sp=r.sp_att_729,
                         use_bichro=False,)
                         # freq_sp_bichro=freq_red, amp_sp_bichro=b.amp_red, att_sp_bichro=b.att_red)
