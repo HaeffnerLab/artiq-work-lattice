@@ -49,7 +49,9 @@ class QRM(PulseSequence):
             sideband=self.QRM_selection_sideband,
             dds=self.QRM_channel_729
         )
-        self.qrm.noise_list = self.get_random_list()
+        # self.qrm.noise_list = self.get_random_list()
+        # delay(1*ms)
+        self.qrm.set_noisy_single_pass(self)
 
     @kernel
     def QRM(self):

@@ -17,8 +17,16 @@ class NoisyPhaseRabiExcitation:
     selection_sideband="QRM.selection_sideband"
     delta="QRM.delta"
     noise_list=[0.]  
+    noise_parameter="QRM.noise_parameter"
     phase_ref_time=np.int64(-1)
 
+    def setup_noisy_single_pass(pulse_sequence):
+        r = NoisyPhaseRabiExcitation
+        pulse_sequence.generate_single_pass_noise_waveform(
+            mean=0,
+            std=r.noise_parameter,
+            freq_noise=True)
+    
     def subsequence(self):
         r = NoisyPhaseRabiExcitation
         self.get_729_dds(r.channel_729)
@@ -37,21 +45,21 @@ class NoisyPhaseRabiExcitation:
         self.dds_729_SP_bichro.set(sp_freq_729_bichro, amplitude=r.sp_amp_729, 
                          phase=r.phase_729 / 360., ref_time_mu=r.phase_ref_time)         
         self.dds_729_SP.set_att(r.sp_att_729)
-        self.dds_729_SP_bichro.set_att(r.sp_att_729)           
+        self.dds_729_SP_bichro.set_att(r.sp_att_729)          
         
         with parallel:
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
-        start_mu = now_mu()
-        end_mu = start_mu + self.core.seconds_to_mu(r.duration)
-        for epsilon in r.noise_list:
-            with parallel:
-                self.dds_729_SP_bichro.set(sp_freq_729, phase=epsilon)
-                self.dds_729_SP.set(sp_freq_729, phase=-epsilon)
-            
-            if now_mu() > end_mu:
-                break
+        # start_mu = now_mu()
+        # end_mu = start_mu + self.core.seconds_to_mu(r.duration)
+        # for epsilon in r.noise_list:
+        #     with parallel:
+        #         self.dds_729_SP_bichro.set(sp_freq_729, phase=epsilon)
+        #         self.dds_729_SP.set(sp_freq_729, phase=-epsilon)
+        #     if now_mu() > end_mu:
+        #         break
+        delay(r.duration)
         with parallel:
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
