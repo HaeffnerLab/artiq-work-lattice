@@ -26,7 +26,6 @@ class NoisyPhaseRabiExcitation:
             mean=0,
             std=1e6,
             freq_noise=True)
-        pulse_sequence.prepare_noisy_single_pass(freq_noise=True)
     
     def subsequence(self):
         r = NoisyPhaseRabiExcitation
