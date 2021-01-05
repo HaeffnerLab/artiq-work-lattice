@@ -89,4 +89,4 @@ class NoisyPhaseRabiExcitation:
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
         
-        self.stop_noisy_single_pass(use_bichro=True)
+        # self.stop_noisy_single_pass(use_bichro=True)
