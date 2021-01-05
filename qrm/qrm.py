@@ -29,6 +29,7 @@ class QRM(PulseSequence):
         self.qrm = self.add_subsequence(NoisyPhaseRabiExcitation)
         self.qrm.channel_729 = self.p.QRM.channel_729
         self.set_subsequence["QRM"] = self.set_subsequence_qrm
+        self.qrm.setup_noisy_single_pass(self)
 
     def get_random_list(self) -> TList(TFloat):
         rand_list = []
@@ -51,7 +52,6 @@ class QRM(PulseSequence):
         )
         # self.qrm.noise_list = self.get_random_list()
         # delay(1*ms)
-        self.qrm.setup_noisy_single_pass(self)
 
     @kernel
     def QRM(self):
