@@ -25,7 +25,7 @@ class NoisyPhaseRabiExcitation:
         pulse_sequence.generate_single_pass_noise_waveform(
             mean=0,
             std=0.289,
-            freq_noise=False)
+            freq_noise=True)
     
     def subsequence(self):
         r = NoisyPhaseRabiExcitation
