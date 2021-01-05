@@ -70,7 +70,7 @@ class NoisyPhaseRabiExcitation:
                         freq_noise=True,
                         freq_sp=sp_freq_729, amp_sp=r.sp_amp_729, att_sp=r.sp_att_729,
                         use_bichro=True,
-                        freq_sp_bichro=p_freq_729, amp_sp_bichro=r.sp_amp_729, att_sp_bichro=r.sp_att_729)
+                        freq_sp_bichro=sp_freq_729, amp_sp_bichro=r.sp_amp_729, att_sp_bichro=r.sp_att_729)
 
         with parallel:
             self.dds_729.sw.on()
