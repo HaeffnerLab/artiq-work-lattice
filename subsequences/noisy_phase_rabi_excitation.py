@@ -26,10 +26,23 @@ class NoisyPhaseRabiExcitation:
             mean=0,
             std=1e6,
             freq_noise=True)
-
+    
     @kernel
-    def setup_noise(pulse_sequence):
-        pulse_sequence.prepare_noisy_single_pass(freq_noise=True)
+    def prepare_noisy(pulse_sequence):
+        # This function programs the appropriate ramp into the DDS memory.
+        #
+        # If a PulseSequence wants to use ramping, call setup_ramping() inside 
+        # its set_subsequence function.
+        # To disable ramping for a PulseSequence, the easiest way to do this is
+        # comment or remove the call to setup_ramping() in the set_subsequence function.
+        # b = BichroExcitation
+        
+        # pulse_sequence.prepare_pulse_with_amplitude_ramp(
+        #     pulse_duration=b.duration,
+        #     ramp_duration=2.0*us,
+        #     dds1_amp=b.amp)
+        # b.ramp_has_been_programmed = True
+        pulse_sequence.prepare_noisy_single_pass(freq_noise=True)   
     
     def subsequence(self):
         r = NoisyPhaseRabiExcitation
