@@ -37,7 +37,8 @@ class SingleIonVAET(PulseSequence):
     PulseSequence.scan_params = dict(
         SingleIonVAET=[
             ("vaet_time", ("SingleIonVAET.duration", 0., 1000*us, 20, "us")),
-            ("scan_nu_eff", ("SingleIonVAET.nu_eff", 0., 1000*kHz, 20, "kHz"))
+            ("scan_nu_eff", ("SingleIonVAET.nu_eff", 0., 1000*kHz, 20, "kHz")),
+            ("scan_delta_amp",("SingleIonVAET.delta_amp", 0.05, 0.25, 20)),
         ]
     )
 
@@ -59,6 +60,7 @@ class SingleIonVAET(PulseSequence):
     def set_subsequence_single_ion_vaet(self):
         self.vaet.duration = self.get_variable_parameter("SingleIonVAET_duration")
         self.vaet.nu_eff = self.get_variable_parameter("SingleIonVAET_nu_eff")
+        self.vaet.delta_amp = self.get_variable_parameter("SingleIonVAET_delta_amp")
         if self.SingleIonVAET_phase_implemented_sigmay:
             self.vaet.implemented_phase = self.implemented_phase
             self.vaet.implemented_amp = self.implemented_amp
