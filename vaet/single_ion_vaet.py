@@ -38,7 +38,7 @@ class SingleIonVAET(PulseSequence):
         SingleIonVAET=[
             ("vaet_time", ("SingleIonVAET.duration", 0., 1000*us, 20, "us")),
             ("scan_nu_eff", ("SingleIonVAET.nu_eff", 0., 1000*kHz, 20, "kHz")),
-            ("scan_delta_amp",("SingleIonVAET.delta_amp", 0.05, 0.25, 20)),
+            ("scan_nu_eff",("SingleIonVAET.delta_amp", 0.05, 0.25, 20)),
         ]
     )
 
