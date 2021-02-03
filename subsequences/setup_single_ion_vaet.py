@@ -9,6 +9,8 @@ class SetupSingleIonVAET:
     J_att="SingleIonVAET.J_att"
     delta_amp="SingleIonVAET.delta_amp"
     delta_att="SingleIonVAET.delta_att"
+    noise_amp="SingleIonVAET.noise_amp"
+    noise_att="SingleIonVAET.noise_att"
     RSB_amp="SingleIonVAET.RSB_amp"
     RSB_att="SingleIonVAET.RSB_att"
     BSB_amp="SingleIonVAET.BSB_amp"
@@ -59,6 +61,17 @@ class SetupSingleIonVAET:
                 ref_time_mu=s.phase_ref_time,
                 phase=0.368  # sigma_y 0.551
             )
+
+            #hard code noise to L1_SP_Bichro
+            self.dds_SP_729L1_bichro.set(
+                freq_carr,
+                amplitude=s.noise_amp,
+                ref_time_mu=s.phase_ref_time,
+                phase=0.368
+
+            )
+
+
         else:
             self.dds_729_SP.set(
                 freq_carr,
@@ -92,6 +105,7 @@ class SetupSingleIonVAET:
         self.dds_729.set_att(s.DP_att)
         self.dds_729_SP.set_att(s.J_att)
         self.dds_729_SP_bichro.set_att(s.delta_att)
+        self.dds_SP_729L1_bichro.set_att(s.noise_att)
         self.dds_729_SP_line1_bichro.set_att(s.BSB_att)
         self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
 
@@ -99,6 +113,7 @@ class SetupSingleIonVAET:
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
+            self.dds_SP_729L1_bichro.sw.on()
             self.dds_729_SP_line1_bichro.sw.on()
             self.dds_729_SP_line2_bichro.sw.on()
         delay(s.duration)
@@ -106,5 +121,6 @@ class SetupSingleIonVAET:
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
+            self.dds_SP_729L1_bichro.sw.off()
             self.dds_729_SP_line1_bichro.sw.off()
             self.dds_729_SP_line2_bichro.sw.off()
