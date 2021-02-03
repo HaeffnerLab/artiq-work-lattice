@@ -15,6 +15,7 @@ class SingleIonVAET(PulseSequence):
         "SingleIonVAET.J_att",
         "SingleIonVAET.delta_amp",
         "SingleIonVAET.delta_att",
+        "SingleIonVAET.delta_phase",
         "SingleIonVAET.noise_amp",
         "SingleIonVAET.noise_att",
         "SingleIonVAET.RSB_amp",

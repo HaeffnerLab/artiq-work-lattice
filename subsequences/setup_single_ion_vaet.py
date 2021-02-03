@@ -9,6 +9,7 @@ class SetupSingleIonVAET:
     J_att="SingleIonVAET.J_att"
     delta_amp="SingleIonVAET.delta_amp"
     delta_att="SingleIonVAET.delta_att"
+    delta_phase = "SingleIonVAET.delta_phase"
     noise_amp="SingleIonVAET.noise_amp"
     noise_att="SingleIonVAET.noise_att"
     RSB_amp="SingleIonVAET.RSB_amp"
@@ -53,24 +54,39 @@ class SetupSingleIonVAET:
                 amplitude=s.J_amp,
                 ref_time_mu=s.phase_ref_time
             )
+            if not s.delta_phase: # normal nueff
+                # Hard-coded to SP_729G_bichro
+                self.dds_729_SP_bichro.set(
+                    freq_carr,
+                    amplitude=s.delta_amp,
+                    ref_time_mu=s.phase_ref_time,
+                    phase=0.368  # sigma_y 0.551
+                )
 
-            # Hard-coded to SP_729G_bichro
-            self.dds_729_SP_bichro.set(
-                freq_carr,
-                amplitude=s.delta_amp,
-                ref_time_mu=s.phase_ref_time,
-                phase=0.368  # sigma_y 0.551
-            )
+                #hard code noise to L1_SP_Bichro
+                self.dds_SP_729L1_bichro.set(
+                    freq_carr,
+                    amplitude=s.noise_amp,
+                    ref_time_mu=s.phase_ref_time,
+                    phase=0.368
 
-            #hard code noise to L1_SP_Bichro
-            self.dds_SP_729L1_bichro.set(
-                freq_carr,
-                amplitude=s.noise_amp,
-                ref_time_mu=s.phase_ref_time,
-                phase=0.368
+                )
+            else: # negative nueff
+                self.dds_729_SP_bichro.set(
+                    freq_carr,
+                    amplitude=s.delta_amp,
+                    ref_time_mu=s.phase_ref_time,
+                    phase=0.368+0.5  # sigma_y 0.551
+                )
 
-            )
+                #hard code noise to L1_SP_Bichro
+                self.dds_SP_729L1_bichro.set(
+                    freq_carr,
+                    amplitude=s.noise_amp,
+                    ref_time_mu=s.phase_ref_time,
+                    phase=0.368+0.5
 
+                )
 
         else:
             self.dds_729_SP.set(
