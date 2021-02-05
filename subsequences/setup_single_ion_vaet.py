@@ -63,22 +63,22 @@ class SetupSingleIonVAET:
                     phase=0.368  # sigma_y 0.551
                 )
 
-                #hard code noise to L1_SP_Bichro
-                # self.dds_SP_729L1_bichro.set(
-                #     freq_carr,
-                #     amplitude=s.noise_amp,
-                #     ref_time_mu=s.phase_ref_time,
-                #     phase=0.368
-
-                # )
-
-                self.dds_729L1.set(
+                #hard code noise to L1_SP_Bichro or 729 L1
+                self.dds_SP_729L1_bichro.set(
                     freq_carr,
                     amplitude=s.noise_amp,
                     ref_time_mu=s.phase_ref_time,
                     phase=0.368
 
                 )
+
+                # self.dds_729L1.set(
+                #     freq_carr,
+                #     amplitude=s.noise_amp,
+                #     ref_time_mu=s.phase_ref_time,
+                #     phase=0.368
+
+                # )
             else: # negative nueff
                 self.dds_729_SP_bichro.set(
                     freq_carr,
@@ -88,20 +88,20 @@ class SetupSingleIonVAET:
                 )
 
                 #hard code noise to L1_SP_Bichro or 729 L1
-                # self.dds_SP_729L1_bichro.set(
-                #     freq_carr,
-                #     amplitude=s.noise_amp,
-                #     ref_time_mu=s.phase_ref_time,
-                #     phase=0.368+0.5
-
-                # )
-                self.dds_729L1.set(
+                self.dds_SP_729L1_bichro.set(
                     freq_carr,
                     amplitude=s.noise_amp,
                     ref_time_mu=s.phase_ref_time,
                     phase=0.368+0.5
 
                 )
+                # self.dds_729L1.set(
+                #     freq_carr,
+                #     amplitude=s.noise_amp,
+                #     ref_time_mu=s.phase_ref_time,
+                #     phase=0.368+0.5
+
+                # )
 
         else:
             self.dds_729_SP.set(
