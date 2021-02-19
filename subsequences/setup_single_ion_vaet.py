@@ -33,7 +33,7 @@ class SetupSingleIonVAET:
         trap_frequency = self.get_trap_frequency(s.selection_sideband)
         offset = self.get_offset_frequency("729G")
         freq_blue = 80*MHz +trap_frequency + s.nu_eff + offset
-        freq_red = 80*MHz +offset#- trap_frequency - s.nu_eff + offset
+        freq_red = 80*MHz - trap_frequency - s.nu_eff + offset
         freq_carr = 80*MHz + offset
         dp_freq = self.calc_frequency(
             s.line_selection,
