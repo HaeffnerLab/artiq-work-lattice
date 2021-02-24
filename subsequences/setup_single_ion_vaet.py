@@ -91,7 +91,7 @@ class SetupSingleIonVAET:
                     freq_carr,
                     amplitude=s.noise_amp,
                     ref_time_mu=s.phase_ref_time,
-                    phase=0.38
+                    phase=0.38+0.494
 
                 )
                 # self.dds_729L1.set(
