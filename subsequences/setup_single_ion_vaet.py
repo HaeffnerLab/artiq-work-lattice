@@ -50,7 +50,7 @@ class SetupSingleIonVAET:
         if not s.phase_implemented_sigmay:
             # Hard-coded to SP_729G
             self.dds_729_SP.set(
-                freq_carr+26.45e3,
+                freq_carr,
                 amplitude=s.J_amp,
                 ref_time_mu=s.phase_ref_time,
                 phase=0.
