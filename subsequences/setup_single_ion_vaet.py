@@ -61,14 +61,14 @@ class SetupSingleIonVAET:
                     freq_carr,
                     amplitude=s.delta_amp,
                     ref_time_mu=s.phase_ref_time,
-                    phase=0.394  # sigma_y 0.381
+                    phase=0.40  # sigma_y 0.381
                 )
                 #hard code noise to L1_SP_Bichro or 729 L1
                 self.dds_SP_729L1_bichro.set(
                     freq_carr,
                     amplitude=s.noise_amp,
                     ref_time_mu=s.phase_ref_time,
-                    phase=0.394   #0.381
+                    phase=0.40   #0.381
 
                 )
 
