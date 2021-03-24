@@ -93,8 +93,9 @@ class SingleIonVAET(PulseSequence):
             self.basis_rotation.run(self)
         self.dds_SP_729L1.sw.on()
         self.vaet.run(self)
+        self.dds_SP_729L1.sw.off()
         if self.SingleIonVAET_rotate_out_y:
             self.basis_rotation.phase_729 = 180.
             self.basis_rotation.run(self)
 
-        self.dds_SP_729L1.sw.off()
+        
