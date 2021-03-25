@@ -52,8 +52,7 @@ class SetupSingleIonVAET:
             self.dds_729_SP.set(
                 freq_carr,
                 amplitude=s.J_amp,
-                ref_time_mu=s.phase_ref_time,
-                phase=0.
+                ref_time_mu=s.phase_ref_time#,phase=0.
             )
             if not s.delta_phase: # normal nueff
                 # Hard-coded to SP_729G_bichro
