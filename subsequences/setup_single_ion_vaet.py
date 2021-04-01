@@ -68,7 +68,7 @@ class SetupSingleIonVAET:
                     freq_carr,
                     amplitude=s.noise_amp,
                     ref_time_mu=s.phase_ref_time,
-                    phase=0.16   #0.381
+                    phase=0.16+0.25   #0.381
 
                 )
 
@@ -137,7 +137,7 @@ class SetupSingleIonVAET:
         self.dds_729_SP.set_att(s.J_att)
         self.dds_729_SP_bichro.set_att(s.delta_att)
         self.dds_SP_729L1.set_att(s.noise_att)
-        #self.dds_729L1.set_att(s.noise_att)
+        
         self.dds_729_SP_line1_bichro.set_att(s.BSB_att)
         self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
 
