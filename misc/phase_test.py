@@ -11,7 +11,7 @@ class phase_test(EnvExperiment):
         self.dds1 = self.get_device("SP_729G")
         self.dds2 = self.get_device("SP_729G_bichro")
         self.dds_sum = self.get_device("729L1")
-        #self.dds4 = self.get_device("729L2")
+        self.dds4 = self.get_device("729L2")
 
         self.dds_397 = self.get_device("397")
         self.dds_866 = self.get_device("866")
@@ -24,49 +24,49 @@ class phase_test(EnvExperiment):
         self.dds1.init()
         self.dds2.init()
         self.dds_sum.init()
-        #self.dds4.init()
+        self.dds4.init()
 
         self.dds1.sw.off()
         self.dds2.sw.off()
         self.dds_sum.sw.off()
-        #self.dds4.sw.off()
+        self.dds4.sw.off()
 
         # This calibration needs to be done only once to find good values.
         # The rest is happening at each future init() of the DDS.
-        # if self.dds1.sync_delay_seed == -1:
-        #     delay(100*us)
-        #     d0, w0 = self.dds1.tune_sync_delay()
-        #     t0 = self.dds1.tune_io_update_delay()
-        #     d1, w1 = self.dds2.tune_sync_delay()
-        #     t1 = self.dds2.tune_io_update_delay()
-        #     d2, w2 = self.dds_sum.tune_sync_delay()
-        #     t2 = self.dds_sum.tune_io_update_delay()
-        #     d3, w3 = self.dds4.tune_sync_delay()
-        #     t3 = self.dds4.tune_io_update_delay()
-        #     # Add the values found to each of the four channels in your
-        #     # device_db.py so that e.g. for urukul0_ch0 it looks like:
-        #     #    "urukul0_ch0": {
-        #     #       ...
-        #     #        "class": "AD9910",
-        #     #        "arguments": {
-        #     #            "pll_n": 32,
-        #     #            "chip_select": 4,
-        #     #           "sync_delay_seed": D,
-        #     #           "io_update_delay": T,
-        #     #           "cpld_device": "urukul0_cpld",
-        #     #           ...
-        #     #       }
-        #     # where T is the io_update_delay of the channel and
-        #     # D is the sync_delay_seed of the channel below:
-        #     print("sync_delay_seed", [d0, d1, d2, d3])
-        #     print("io_update_delay", [t0, t1, t2, t3])
-        #     # As long as the values don't differ too much between the channels,
-        #     # using the mean for them is also fine.
-        #     # This one is for information purposes only:
-        #     print("validation delays", [w0, w1, w2, w3])
-        #     #
-        #     # then run this script again
-        #     return
+        if True:# self.dds1.sync_delay_seed == -1:
+            delay(100*us)
+            d0, w0 = self.dds1.tune_sync_delay()
+            t0 = self.dds1.tune_io_update_delay()
+            d1, w1 = self.dds2.tune_sync_delay()
+            t1 = self.dds2.tune_io_update_delay()
+            d2, w2 = self.dds_sum.tune_sync_delay()
+            t2 = self.dds_sum.tune_io_update_delay()
+            d3, w3 = self.dds4.tune_sync_delay()
+            t3 = self.dds4.tune_io_update_delay()
+            # Add the values found to each of the four channels in your
+            # device_db.py so that e.g. for urukul0_ch0 it looks like:
+            #    "urukul0_ch0": {
+            #       ...
+            #        "class": "AD9910",
+            #        "arguments": {
+            #            "pll_n": 32,
+            #            "chip_select": 4,
+            #           "sync_delay_seed": D,
+            #           "io_update_delay": T,
+            #           "cpld_device": "urukul0_cpld",
+            #           ...
+            #       }
+            # where T is the io_update_delay of the channel and
+            # D is the sync_delay_seed of the channel below:
+            print("sync_delay_seed", [d0, d1, d2, d3])
+            print("io_update_delay", [t0, t1, t2, t3])
+            # As long as the values don't differ too much between the channels,
+            # using the mean for them is also fine.
+            # This one is for information purposes only:
+            print("validation delays", [w0, w1, w2, w3])
+            #
+            # then run this script again
+            return
 
         self.dds1.set_phase_mode(PHASE_MODE_TRACKING)
         self.dds2.set_phase_mode(PHASE_MODE_TRACKING)
