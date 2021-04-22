@@ -68,7 +68,7 @@ class SetupSingleIonVAET:
                     freq_carr,
                     amplitude=s.noise_amp,
                     ref_time_mu=s.phase_ref_time,
-                    phase=1.8   #0.381
+                    phase=2.0   #0.381
 
                 )
 
