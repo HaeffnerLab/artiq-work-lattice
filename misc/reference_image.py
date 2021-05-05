@@ -5,7 +5,7 @@ import logging
 import threading
 import time
 from artiq.experiment import *
-from artiq.remoting import Client
+from sipyco.pc_rpc import Client
 
 logger = logging.getLogger(__name__)
 
