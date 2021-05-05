@@ -1,7 +1,7 @@
 import time
 import numpy as np
 from artiq.experiment import *
-from artiq.remoting import Client
+from sipyco.pc_rpc import Client
 
 
 class FloppingF(EnvExperiment):
