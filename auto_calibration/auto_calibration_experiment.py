@@ -7,7 +7,11 @@ import labrad
 import numpy as np
 from labrad.units import WithUnit as U
 from scipy.optimize import curve_fit
-from tinydb import TinyDB, where
+
+# TODO: tinydb causes errors when ARTIQ 6 tries to load this file
+# from tinydb import TinyDB, where
+TinyDB = None
+where = None
 
 import artiq.dashboard.drift_tracker.client_config as cl
 from artiq.experiment import *
