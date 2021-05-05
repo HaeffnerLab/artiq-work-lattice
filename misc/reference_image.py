@@ -5,7 +5,7 @@ import logging
 import threading
 import time
 from artiq.experiment import *
-from artiq.protocols.pc_rpc import Client
+from artiq.remoting import Client
 
 logger = logging.getLogger(__name__)
 

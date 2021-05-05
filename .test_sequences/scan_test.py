@@ -9,7 +9,7 @@ import numpy as np
 import h5py as h5
 import os
 import csv
-from artiq.protocols.pc_rpc import Client
+from artiq.remoting import Client
 
 
 class scanTest(EnvExperiment):
