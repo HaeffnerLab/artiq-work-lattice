@@ -1,4 +1,4 @@
-import visa
+import pyvisa as visa
 from pulse_sequence import PulseSequence
 from subsequences.rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
