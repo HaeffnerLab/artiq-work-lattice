@@ -55,7 +55,7 @@ class SetupSingleIonVAET:
             self.dds_729_SP.set(
                 freq_carr,
                 amplitude=s.J_amp,
-                phase_mode=PHASE_MODE_TRACKING,
+                phase_mode=PHASE_MODE_CONTINUOUS,
                 ref_time_mu=s.phase_ref_time, 
                 phase=0.0
             )
