@@ -1,5 +1,7 @@
 from artiq.experiment import *
 import numpy as np
+from artiq.coredevice.ad9910 import PHASE_MODE_ABSOLUTE, PHASE_MODE_CONTINUOUS, PHASE_MODE_TRACKING
+
 
 
 class SetupSingleIonVAET:
