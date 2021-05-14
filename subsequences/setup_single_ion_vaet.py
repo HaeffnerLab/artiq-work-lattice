@@ -26,13 +26,14 @@ class SetupSingleIonVAET:
     phase_ref_time=np.int64(-1)
     implemented_phase=0.
     implemented_amp=0.
+    test_phase="SingleIonVAET.test_phase"
 
 
     def subsequence(self):
         s = SetupSingleIonVAET
         trap_frequency = self.get_trap_frequency(s.selection_sideband)
         offset = self.get_offset_frequency("729G")
-        freq_blue = 80*MHz +trap_frequency + s.nu_eff + offset
+        freq_blue = 80*MHz + trap_frequency + s.nu_eff + offset
         freq_red = 80*MHz - trap_frequency - s.nu_eff + offset
         freq_carr = 80*MHz + offset
         dp_freq = self.calc_frequency(
@@ -68,7 +69,7 @@ class SetupSingleIonVAET:
                     freq_carr,
                     amplitude=s.noise_amp,
                     ref_time_mu=s.phase_ref_time,
-                    phase=0.26   #0.381
+                    phase=0.25   #0.381
 
                 )
 
@@ -137,7 +138,6 @@ class SetupSingleIonVAET:
         self.dds_729_SP.set_att(s.J_att)
         self.dds_729_SP_bichro.set_att(s.delta_att)
         self.dds_SP_729L1.set_att(s.noise_att)
-        
         self.dds_729_SP_line1_bichro.set_att(s.BSB_att)
         self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
 
@@ -146,15 +146,14 @@ class SetupSingleIonVAET:
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
             self.dds_SP_729L1.sw.on()
-            
             self.dds_729_SP_line1_bichro.sw.on()
             self.dds_729_SP_line2_bichro.sw.on()
         delay(s.duration)
+        
         with parallel:
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
-            
             self.dds_729L1.sw.off()
             self.dds_729_SP_line1_bichro.sw.off()
             self.dds_729_SP_line2_bichro.sw.off()
