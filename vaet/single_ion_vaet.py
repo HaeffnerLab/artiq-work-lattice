@@ -35,6 +35,7 @@ class SingleIonVAET(PulseSequence):
         "Rotation729G.att",
         "Rotation729G.pi_time",
         "Rotation729G.line_selection",
+        "SingleIonVAET.test_phase",
     }
 
     PulseSequence.scan_params = dict(
@@ -42,6 +43,7 @@ class SingleIonVAET(PulseSequence):
             ("vaet_time", ("SingleIonVAET.duration", 0., 1000*us, 20, "us")),
             ("scan_nu_eff", ("SingleIonVAET.nu_eff", 0., 1000*kHz, 20, "kHz")),
             ("scan_nu_eff",("SingleIonVAET.delta_amp", 0.05, 0.25, 20)),
+            ("scan_nu_eff",("SingleIonVAET.test_phase", 0, 360, 20)),
         ]
     )
 
