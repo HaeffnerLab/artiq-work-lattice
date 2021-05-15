@@ -42,7 +42,7 @@ class SetupSingleIonVAET:
             s.line_selection,
             dds="729G"
         )
-        s.phase_ref_time = now_mu()
+        # s.phase_ref_time = now_mu()
 
         # Hard-coded to 729G
         self.dds_729.set(
@@ -57,7 +57,7 @@ class SetupSingleIonVAET:
                 freq_carr,
                 amplitude=s.J_amp,
                 phase_mode=PHASE_MODE_TRACKING,
-                ref_time_mu=s.phase_ref_time, 
+                # ref_time_mu=s.phase_ref_time, 
                 phase=0.0
             )
             if not s.delta_phase: # normal nueff
@@ -73,7 +73,7 @@ class SetupSingleIonVAET:
                     freq_carr,
                     amplitude=s.noise_amp,
                     phase_mode=PHASE_MODE_TRACKING,
-                    ref_time_mu=s.phase_ref_time,
+                    # ref_time_mu=s.phase_ref_time,
                     phase=s.test_phase / 360 #0.25   #0.381
 
                 )

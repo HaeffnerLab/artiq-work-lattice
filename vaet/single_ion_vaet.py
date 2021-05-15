@@ -80,8 +80,8 @@ class SingleIonVAET(PulseSequence):
 
     @kernel
     def SingleIonVAET(self):
-        self.basis_rotation.phase_ref_time = now_mu()
-        self.vaet.phase_ref_time = self.basis_rotation.phase_ref_time
+        # self.basis_rotation.phase_ref_time = now_mu()
+        # self.vaet.phase_ref_time = self.basis_rotation.phase_ref_time
 
         #setting up a ref rf for testing phase
         # self.dds_SP_729L1.set(80.3*MHz, amplitude=0.2, phase=0.344, ref_time_mu=self.basis_rotation.phase_ref_time)
