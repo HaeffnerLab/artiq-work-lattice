@@ -43,7 +43,6 @@ class SetupSingleIonVAET:
                 s.line_selection,
                 dds="729G"
             )
-        s.phase_ref_time = now_mu()
 
         # Hard-coded to 729G
         self.dds_729.set(
