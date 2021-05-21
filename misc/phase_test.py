@@ -10,8 +10,8 @@ class phase_test(EnvExperiment):
         # Get all 4 DDS channels on Urukul1
         self.dds1 = self.get_device("SP_729G")
         self.dds2 = self.get_device("SP_729L1")
-        self.dds_sum = self.get_device("729L1")
-        self.dds4 = self.get_device("729L2")
+        self.dds_sum = self.get_device("SP_729L2")
+        self.dds4 = self.get_device("SP_729G_bichro")
 
         self.dds_397 = self.get_device("397")
         self.dds_866 = self.get_device("866")
@@ -21,6 +21,7 @@ class phase_test(EnvExperiment):
         self.core.reset()
         self.core.break_realtime()
         self.dds1.cpld.init()
+        self.dds2.cpld.init()
         self.dds1.init()
         self.dds2.init()
         self.dds_sum.init()

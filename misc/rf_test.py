@@ -5,8 +5,8 @@ from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE
 class rf_test(EnvExperiment):
     def build(self):
         self.setattr_device("core")
-        self.dds = self.get_device("729G")
-        self.dds2 = self.get_device("729L1")
+        self.dds = self.get_device("SP_729G")
+        self.dds2 = self.get_device("SP_729L1")
 
     @kernel
     def run(self):
