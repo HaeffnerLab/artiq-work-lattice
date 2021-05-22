@@ -77,12 +77,11 @@ class SingleIonVAET(PulseSequence):
             self.Rotation729G_line_selection,
             dds="729G"
         )
-        self.basis_rotation.phase_ref_time = now_mu()
-        self.vaet.phase_ref_time = self.basis_rotation.phase_ref_time
 
     @kernel
     def SingleIonVAET(self):
-        
+        self.basis_rotation.phase_ref_time = now_mu()
+        self.vaet.phase_ref_time = self.basis_rotation.phase_ref_time
         # print(self.basis_rotation.phase_ref_time)
 
         #setting up a ref rf for testing phase
