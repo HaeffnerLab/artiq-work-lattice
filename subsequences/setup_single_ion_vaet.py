@@ -32,7 +32,7 @@ class SetupSingleIonVAET:
 
 
     def subsequence(self):
-        phase_mode = PHASE_MODE_ABSOLUTE
+        phase_mode = PHASE_MODE_TRACKING
         s = SetupSingleIonVAET
         trap_frequency = self.get_trap_frequency(s.selection_sideband)
         offset = self.get_offset_frequency("729G")
