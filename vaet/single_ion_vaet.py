@@ -60,8 +60,7 @@ class SingleIonVAET(PulseSequence):
         else:
             self.implemented_amp = 0.
             self.implemented_phase = 0.
-        self.ref_time = now_mu()
-
+        
     @kernel
     def set_subsequence_single_ion_vaet(self):
         self.vaet.duration = self.get_variable_parameter("SingleIonVAET_duration")
@@ -78,6 +77,8 @@ class SingleIonVAET(PulseSequence):
             self.Rotation729G_line_selection,
             dds="729G"
         )
+        self.ref_time = now_mu()
+
 
     @kernel
     def SingleIonVAET(self):
