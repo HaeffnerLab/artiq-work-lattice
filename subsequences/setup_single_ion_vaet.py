@@ -44,7 +44,7 @@ class SetupSingleIonVAET:
                 dds="729G"
             )
 
-        at_mu(now_mu())
+        # at_mu(now_mu())
         # Hard-coded to 729G
         self.dds_729.set(
                 dp_freq,
