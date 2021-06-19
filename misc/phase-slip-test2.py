@@ -5,6 +5,7 @@ from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE, PH
 class phase_slip_test2(EnvExperiment):
     def build(self):
         self.setattr_device("core")
+        self.blue = self.get_device("SP_729L2_bichro")
         self.SP_729G = self.get_device("SP_729G")
         self.SP_729L1 = self.get_device("SP_729L1")
         self.SP_729L2 = self.get_device("SP_729L2")
@@ -32,18 +33,19 @@ class phase_slip_test2(EnvExperiment):
 
         #-----------------------------------------------------------
         self.loop(
-                pmode, base_freq, freq1, freq2, delay_time, 
+                pmode, base_freq, freq1, freq2, delay_time,
                 trigger_before, phase1, phase2
             )
 
     @kernel
     def loop(
-                self, pmode, base_freq, freq1, freq2, delay_time, 
+                self, pmode, base_freq, freq1, freq2, delay_time,
                 trigger_before, phase1, phase2
             ):
         self.core.reset()
         self.core.break_realtime()
 
+        self.blue.cpld.init()
         self.SP_729G.cpld.init()
         self.SP_729L1.cpld.init()
         self.SP_729L2.cpld.init()
@@ -55,17 +57,17 @@ class phase_slip_test2(EnvExperiment):
         self.trigger.sw.off()
 
         self.SP_729G.set_phase_mode(pmode)
-        self.SP_729L1.set_phase_mode(pmode)        
+        self.SP_729L1.set_phase_mode(pmode)
         self.SP_729L2.set_phase_mode(pmode)
         self.trigger.set_phase_mode(PHASE_MODE_CONTINUOUS)
 
         # self.SP_729G.set_phase_mode(PHASE_MODE_TRACKING)
-        # self.SP_729L1.set_phase_mode(PHASE_MODE_TRACKING)        
+        # self.SP_729L1.set_phase_mode(PHASE_MODE_TRACKING)
         # self.SP_729L2.set_phase_mode(PHASE_MODE_ABSOLUTE)
         # self.trigger.set_phase_mode(PHASE_MODE_CONTINUOUS)
 
         ref_time = now_mu()
-    
+
         self.SP_729G.set(base_freq, ref_time_mu=ref_time)
         self.SP_729L1.set(base_freq, ref_time_mu=ref_time, phase=phase1)
         self.SP_729L2.set(base_freq, ref_time_mu=ref_time, phase=phase2)
@@ -105,5 +107,5 @@ class phase_slip_test2(EnvExperiment):
                 self.SP_729L1.sw.off()
                 self.SP_729L2.sw.off()
                 self.trigger.sw.off()
-            
+
             delay(1*ms)

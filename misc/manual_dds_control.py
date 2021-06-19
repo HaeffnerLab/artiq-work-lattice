@@ -23,7 +23,9 @@ class change_cw(EnvExperiment):
         self.att_list = []
         self.state_list = []
         self.amp_list = []
+        self.dds_name_list = []
         for dds, settings in self.specs.items():
+            self.dds_name_list.append(dds)
             self.dds_list.append(self.dds_dict[dds])
             self.freq_list.append(settings["frequency"])
             self.att_list.append(settings["att"])
@@ -38,6 +40,7 @@ class change_cw(EnvExperiment):
         self.core.break_realtime()
         with parallel:
             for i in range(len(self.dds_list)):
+                print(self.dds_name_list[i])
                 self.dds_list[i].init()
                 self.dds_list[i].set(self.freq_list[i],
                                      amplitude=self.amp_list[i])
