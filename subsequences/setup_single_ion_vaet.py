@@ -49,6 +49,7 @@ class SetupSingleIonVAET:
         self.dds_729.set(
                 dp_freq,
                 amplitude=s.DP_amp,
+                phase_mode=phase_mode,
                 ref_time_mu=s.phase_ref_time
             )
 
@@ -66,6 +67,7 @@ class SetupSingleIonVAET:
                 self.dds_729_SP_bichro.set(
                         freq_carr,
                         amplitude=s.delta_amp,
+                        phase_mode=phase_mode,
                         ref_time_mu=s.phase_ref_time,
                         phase=0.25  # sigma_y 0.381
                     )
@@ -89,6 +91,7 @@ class SetupSingleIonVAET:
                 self.dds_729_SP_bichro.set(
                         freq_carr,
                         amplitude=s.delta_amp,
+                        phase_mode=phase_mode,
                         ref_time_mu=s.phase_ref_time,
                         phase=0.381+0.5  # sigma_y 0.551
                     )
@@ -97,6 +100,7 @@ class SetupSingleIonVAET:
                 self.dds_SP_729L1.set(
                         freq_carr,
                         amplitude=s.noise_amp,
+                        phase_mode=phase_mode,
                         ref_time_mu=s.phase_ref_time,
                         phase=0.381+0.5
                     )
@@ -113,12 +117,14 @@ class SetupSingleIonVAET:
                     freq_carr,
                     amplitude=s.implemented_amp,
                     ref_time_mu=s.phase_ref_time,
+                    phase_mode=phase_mode,
                     phase=s.implemented_phase
                 )
 
             self.dds_729_SP_bichro.set(
                     freq_carr,
                     amplitude=0.0,
+                    phase_mode=phase_mode,
                     ref_time_mu=s.phase_ref_time,
                 )
 
@@ -127,6 +133,7 @@ class SetupSingleIonVAET:
                 freq_blue,
                 amplitude=s.BSB_amp,
                 ref_time_mu=s.phase_ref_time,
+                phase_mode=phase_mode,
                 phase=0.75
             )
 
@@ -134,7 +141,7 @@ class SetupSingleIonVAET:
         self.dds_729_SP_line2_bichro.set(
                 freq_red,
                 amplitude=s.RSB_amp,
-                phase_mode=PHASE_MODE_TRACKING,
+                phase_mode=phase_mode,
                 ref_time_mu=s.phase_ref_time,
                 phase=0.25
             )
