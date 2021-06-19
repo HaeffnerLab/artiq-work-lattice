@@ -24,7 +24,7 @@ class phase_slip_test(EnvExperiment):
                 PHASE_MODE_ABSOLUTE,   # 1
                 PHASE_MODE_TRACKING    # 2
             ]
-        pmode = pmodes[0]
+        pmode = pmodes[2]
 
         # toggle trigger to run every loop iteration or just once
         trigger_every_iteration = False
