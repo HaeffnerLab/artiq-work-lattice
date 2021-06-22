@@ -34,7 +34,7 @@ class change_cw(EnvExperiment):
 
     @kernel
     def run(self):
-        #self.core.reset()
+        self.core.reset()
         for cpld in self.cpld_list:
             cpld.init()
         self.core.break_realtime()
