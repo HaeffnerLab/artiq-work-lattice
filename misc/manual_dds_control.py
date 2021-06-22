@@ -26,6 +26,7 @@ class change_cw(EnvExperiment):
         self.dds_name_list = []
         for dds, settings in self.specs.items():
             self.dds_name_list.append(dds)
+            print(dds)
             self.dds_list.append(self.dds_dict[dds])
             self.freq_list.append(settings["frequency"])
             self.att_list.append(settings["att"])
