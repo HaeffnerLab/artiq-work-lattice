@@ -60,17 +60,19 @@ sync_delay_seeds = [
     [11, 11, 11, 11],
     [10, 9, 13, 12],
     [10, 11, 11, 11],
+    [10, 11, 11, 11],
 ]
 
 io_update_delays = [
     [3, 3, 3, 3],
     [1, 1, 3, 0],
     [3, 3, 3, 3],
+    [3, 3, 3, 3],
 ]
 
 
 
-for j in range(3):
+for j in range(4):
     device_db.update({
         "spi_urukul{}".format(j): {
             "type": "local",
@@ -148,18 +150,18 @@ for j in range(3):
 
 
 
-device_db.update(urukul3_cpld={
-        "type": "local",
-        "module": "artiq.coredevice.urukul",
-        "class": "CPLD",
-       "arguments": {
-            "spi_device": "spi_urukul3",
-            "io_update_device": "ttl_urukul3_io_update",
-            "refclk": 100e6,
-            "clk_sel": 0
-        }
-    }
-)
+#device_db.update(urukul3_cpld={
+#        "type": "local",
+#        "module": "artiq.coredevice.urukul",
+#        "class": "CPLD",
+#       "arguments": {
+#            "spi_device": "spi_urukul3",
+#            "io_update_device": "ttl_urukul3_io_update",
+#            "refclk": 100e6,
+#            "clk_sel": 0
+#        }
+#    }
+#)
 #
 #for i in range(4):
 #    device_db["urukul3_ch" + str(i)] = {

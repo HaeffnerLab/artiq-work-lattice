@@ -39,9 +39,7 @@ class change_cw(EnvExperiment):
             cpld.init()
         self.core.break_realtime()
         for i in range(len(self.dds_list)):
-            # print(self.dds_name_list[i])
             self.dds_list[i].init()
-            delay(1*ms)
             self.dds_list[i].set(self.freq_list[i],
                                      amplitude=self.amp_list[i])
             self.dds_list[i].set_att(self.att_list[i]*dB)

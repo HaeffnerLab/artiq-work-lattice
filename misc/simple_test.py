@@ -6,7 +6,7 @@ class phase_slip_test(EnvExperiment):
     def build(self):
         self.setattr_device("core")
         #self.dds = self.get_device("urukul0_ch0")
-        self.dds = self.get_device("SP_729G_bichro")
+        self.dds = self.get_device("urukul1_ch3")
         self.ttl = self.get_device("pmt")
         self.led0 = self.get_device("led0")
         self.led1 = self.get_device("led1")
