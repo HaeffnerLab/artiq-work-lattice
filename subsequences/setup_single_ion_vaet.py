@@ -164,7 +164,7 @@ class SetupSingleIonVAET:
                         ref_time_mu=s.phase_ref_time,
                         phase=0.25  # sigma_y 0.381
                     )
-        
+        delay(s.duration)
         with parallel:
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
