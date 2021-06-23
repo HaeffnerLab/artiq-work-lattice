@@ -1,3 +1,4 @@
+
 try:
     from HardwareConfiguration import *
     config_found = True
@@ -56,20 +57,14 @@ device_db = {
 # })
 
 
-sync_delay_seeds = [
-    [11, 11, 11, 11],
-    [10, 9, 13, 12],
-    [10, 11, 11, 11],
-    [10, 11, 11, 11],
-]
-
-io_update_delays = [
-    [3, 3, 3, 3],
-    [1, 1, 3, 0],
-    [3, 3, 3, 3],
-    [3, 3, 3, 3],
-]
-
+sync_delay_seeds = [ [10, 12, 11, 13] ,
+                     [20, 20, 19, 9] ,
+                     [15, 15, 16, 16] ,
+                     [15, 15, 15, 15] ]
+io_update_delays = [ [3, 3, 0, 3] ,
+                    [0, 0, 0, 3] ,
+                    [0, 0, 0, 0] ,
+                    [3, 3, 3, 3] ]
 
 
 for j in range(4):
