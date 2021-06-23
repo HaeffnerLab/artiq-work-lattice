@@ -80,13 +80,6 @@ class SetupSingleIonVAET:
                         phase=s.test_phase / 360 #0.25   #0.381
                     )
 
-                # self.dds_729L1.set(
-                #     freq_carr,
-                #     amplitude=s.noise_amp,
-                #     ref_time_mu=s.phase_ref_time,
-                #     phase=0.368
-
-                # )
             else: # negative nueff
                 self.dds_729_SP_bichro.set(
                         freq_carr,
@@ -161,6 +154,16 @@ class SetupSingleIonVAET:
             self.dds_729_SP_line1_bichro.sw.on()
             self.dds_729_SP_line2_bichro.sw.on()
         delay(s.duration)
+
+        self.dds_729_SP_bichro.set(1*MHz, phase_mode=phase_mode, ref_time_mu=s.phase_ref_time)
+        delay(s.duration)
+        self.dds_729_SP_bichro.set(
+                        freq_carr,
+                        amplitude=s.delta_amp,
+                        phase_mode=phase_mode,
+                        ref_time_mu=s.phase_ref_time,
+                        phase=0.25  # sigma_y 0.381
+                    )
         
         with parallel:
             self.dds_729.sw.off()
