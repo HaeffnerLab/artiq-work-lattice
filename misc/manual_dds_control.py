@@ -38,15 +38,14 @@ class change_cw(EnvExperiment):
         for cpld in self.cpld_list:
             cpld.init()
         self.core.break_realtime()
-        with parallel:
-            for i in range(len(self.dds_list)):
-               # print(self.dds_name_list[i])
-                self.dds_list[i].init()
-                delay(1*ms)
-                self.dds_list[i].set(self.freq_list[i],
+        for i in range(len(self.dds_list)):
+            # print(self.dds_name_list[i])
+            self.dds_list[i].init()
+            delay(1*ms)
+            self.dds_list[i].set(self.freq_list[i],
                                      amplitude=self.amp_list[i])
-                self.dds_list[i].set_att(self.att_list[i]*dB)
-                if self.state_list[i]:
-                    self.dds_list[i].sw.on()
-                else:
-                    self.dds_list[i].sw.off()
+            self.dds_list[i].set_att(self.att_list[i]*dB)
+            if self.state_list[i]:
+                self.dds_list[i].sw.on()
+            else:
+                self.dds_list[i].sw.off()
