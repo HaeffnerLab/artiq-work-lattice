@@ -13,7 +13,7 @@ device_db = {
         "type": "local",
         "module": "artiq.coredevice.core",
         "class": "Core",
-        "arguments": {"host": core_addr, "ref_period": 1.25e-9}
+        "arguments": {"host": core_addr, "ref_period": 1.25e-9, "target": "or1k"}
     },
     "core_log": {
         "type": "controller",
@@ -58,14 +58,14 @@ device_db = {
 
 sync_delay_seeds = [
     [11, 11, 11, 11],
-    [10, 9, 9, 10],
-    [15, 11, 10, 11],
+    [10, 9, 13, 12],
+    [10, 11, 11, 11],
 ]
 
 io_update_delays = [
     [3, 3, 3, 3],
-    [1, 1, 0, 1],
-    [3, 3, 1, 3],
+    [1, 1, 3, 0],
+    [3, 3, 3, 3],
 ]
 
 
@@ -146,75 +146,8 @@ for j in range(3):
         } for i in range(4)
     })
 
-# device_db.update({
-#     "866": {
-#         "type": "local",
-#         "module": "artiq.coredevice.ad9910",
-#         "class": "AD9910",
-#         "arguments": {
-#             "pll_n": 32,
-#             "pll_vco": 4,
-#             "chip_select": 4,
-#             "cpld_device": "urukul0_cpld",
-#             "sw_device": "ttl_urukul0_sw0",
-#             "sync_delay_seed": sync_delay_seeds[0][0],
-#             "io_update_delay": io_update_delays[0][0],
-#             }
-#         },
-#     "397": {
-#         "type": "local",
-#         "module": "artiq.coredevice.ad9910",
-#         "class": "AD9910",
-#         "arguments":{
-#             "pll_n": 32,
-#             "pll_vco": 4,
-#             "chip_select": 5,
-#             "cpld_device": "urukul0_cpld",
-#             "sw_device": "ttl_urukul0_sw1",
-#             "sync_delay_seed": sync_delay_seeds[0][1],
-#             "io_update_delay": io_update_delays[0][1],
-#             }
-#         }
-#     })
 
 
-#device_db.update(
-#    spi_urukul3={
-#        "type": "local",
-#        "module": "artiq.coredevice.spi2",
-#        "class": "SPIMaster",
-#        "arguments": {"channel": 37}
-#    },
-#    ttl_urukul3_io_update={
-#        "type": "local",
-#        "module": "artiq.coredevice.ttl",
-#        "class": "TTLOut",
-#        "arguments": {"channel": 38}
-#    },
-#    ttl_urukul3_sw0={
-#        "type": "local",
-#        "module": "artiq.coredevice.ttl",
-#        "class": "TTLOut",
-#        "arguments": {"channel": 39}
-#    },
-#    ttl_urukul3_sw1={
-#        "type": "local",
-#        "module": "artiq.coredevice.ttl",
-#        "class": "TTLOut",
-#        "arguments": {"channel": 40}
-#    },
-#    ttl_urukul3_sw2={
-#        "type": "local",
-#        "module": "artiq.coredevice.ttl",
-#        "class": "TTLOut",
-#        "arguments": {"channel": 41}
-#    },
-#    ttl_urukul3_sw3={
-#        "type": "local",
-#        "module": "artiq.coredevice.ttl",
-#        "class": "TTLOut",
-#        "arguments": {"channel": 42}
-#    },
 device_db.update(urukul3_cpld={
         "type": "local",
         "module": "artiq.coredevice.urukul",
@@ -326,7 +259,7 @@ if config_found:
                 "arguments": {"channel": 19 + channel + 7 * dev}
                 }
             })
-        if dev < 3:
+        if dev < 4:
             module = "artiq.coredevice.ad9910"
             cls = "AD9910"
             device_db.update({
@@ -344,18 +277,18 @@ if config_found:
                         "io_update_delay": io_update_delays[dev][channel]
                         }}
                     })
-        elif dev == 3:
-            #pass
-            module = "artiq.coredevice.ad9912"
-            cls = "AD9912"
-            device_db.update({
-                "type": "local",
-                "module": module,
-                "class": "AD9912",
-                "arguments": {
-                    "pll_n": 8,
-                    "chip_select": 4 + channel,
-                    "cpld_device": "urukul3_cpld",
-                    "sw_device": "ttl_urukul3_sw" + str(channel)
-                    }})
+        #elif dev == 3:
+        #    #pass
+        #    module = "artiq.coredevice.ad9912"
+        #    cls = "AD9912"
+        #    device_db.update({
+        #        "type": "local",
+        #        "module": module,
+        #        "class": "AD9912",
+        #        "arguments": {
+        #            "pll_n": 8,
+        #            "chip_select": 4 + channel,
+        #            "cpld_device": "urukul3_cpld",
+        #            "sw_device": "ttl_urukul3_sw" + str(channel)
+        #            }})
 
