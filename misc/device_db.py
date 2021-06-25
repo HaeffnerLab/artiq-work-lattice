@@ -1,4 +1,3 @@
-
 try:
     from HardwareConfiguration import *
     config_found = True
@@ -65,7 +64,6 @@ io_update_delays = [ [3, 3, 0, 3] ,
                     [0, 0, 0, 3] ,
                     [0, 0, 0, 0] ,
                     [3, 3, 3, 3] ]
-
 
 for j in range(4):
     device_db.update({
