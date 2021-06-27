@@ -60,7 +60,7 @@ class SingleIonVAET(PulseSequence):
         else:
             self.implemented_amp = 0.
             self.implemented_phase = 0.
-        
+
     @kernel
     def set_subsequence_single_ion_vaet(self):
         self.vaet.duration = self.get_variable_parameter("SingleIonVAET_duration")
@@ -84,11 +84,11 @@ class SingleIonVAET(PulseSequence):
     def SingleIonVAET(self):
         self.basis_rotation.phase_ref_time = 0
         self.vaet.phase_ref_time = self.basis_rotation.phase_ref_time
-        self.stateprep.run(self)         
+        self.stateprep.run(self)
         if self.SingleIonVAET_rotate_in_y:
             self.basis_rotation.phase_729 = 0.
             self.basis_rotation.run(self)
-        self.vaet.run(self)
+        self.vaet.run()
         if self.SingleIonVAET_rotate_out_y:
             self.basis_rotation.phase_729 = 180.
             self.basis_rotation.run(self)

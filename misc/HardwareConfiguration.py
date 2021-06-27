@@ -160,7 +160,7 @@ dds_config = {
                 offset=0
             ),
         "SP_729G_bichro": dds_specs(
-                urukul=1,
+                urukul=3,
                 channel=3,
                 default_freq=80.3,
                 min_freq=0,
