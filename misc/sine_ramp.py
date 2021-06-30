@@ -15,7 +15,7 @@ class SineRamp(EnvExperiment):
 
     def run(self):
         n = 1024
-        datar= np.sin([(np.pi / 2)* (i / (n-1)) for i in range(n)])**2
+        datar = np.sin([(np.pi / 2)* (i / (n-1)) for i in range(n)])**2
         self.dataf = np.flip(datar)
         self.krun()
 
@@ -31,7 +31,6 @@ class SineRamp(EnvExperiment):
         self.u.set_cfr1(ram_enable=0)
         self.u.cpld.set_profile(0)
         self.u.cpld.io_update.pulse_mu(8)
-        delay(1*ms)
 
         self.u.set_profile_ram(
                                 start=0,
@@ -41,16 +40,18 @@ class SineRamp(EnvExperiment):
                                 mode=RAM_MODE_CONT_BIDIR_RAMP,
                                 # nodwell_high=1
                             )
+        self.u.cpld.set_profile(0)
+        self.u.cpld.io_update.pulse_mu(8)
         self.u.write_ram(data)
-        delay(10*ms)
+        delay(1*ms)
         self.u.set_cfr1(
                     ram_enable=1,
                     ram_destination=RAM_DEST_ASF,
                     phase_autoclear=1,
-                    internal_profile=0,
+                    #internal_profile=0,
                 )
-        self.u.set_frequency(125*MHz)
         self.u.cpld.io_update.pulse_mu(8)
+        self.u.set_frequency(125*MHz)
         self.u.set_att(10*dB)
         self.u.sw.on()
 
@@ -64,5 +65,4 @@ class SineRamp(EnvExperiment):
             delay(10*us)
             self.ttl.off()
             self.u.sw.off()
-
 
