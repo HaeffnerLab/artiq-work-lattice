@@ -60,6 +60,7 @@ class SingleIonVAET(PulseSequence):
         else:
             self.implemented_amp = 0.
             self.implemented_phase = 0.
+            
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
