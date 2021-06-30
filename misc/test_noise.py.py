@@ -165,16 +165,15 @@ class test_noise(EnvExperiment):
         amp1 = [0.01, 0.25, 0.3, 0.4, 0.95]
         self.data1 = [0] * len(amp1)
         self.dds.amplitude_to_ram(amp1, self.data1)
-        print("1"*32)
-        self.dds.amplitude_to_ram(amp1, self.data1)
-        for i in range(len(amp1)):
-                # self.data1[i] = np.uint32(round(amp1[i]*0x3fff) << 18)
-                print("{:32b}".format(self.data1[i]))
-                print(type(self.data1[i]))
+    
+        # for i in range(len(amp1)):
+        #         # self.data1[i] = np.uint32(round(amp1[i]*0x3fff) << 18)
+        #         print("{:32b}".format(self.data1[i]))
+        #         print(type(self.data1[i]))
         # prepare time step array
         # in units of 4ns: 100us, 200us, 1ms, 100ms, 10s
         # for a 16-bit integer, the last 3 values should be max value of around 260us
-        self.steps = np.array([1000], dtype=np.int32)
+        self.steps = np.array([1000])
 
         # n = len(amp1)                                                              #defines variable n for list length exponent
         # self.data1 = [0]*(1 << n)                                                 #declares list as 2^n integer values
@@ -201,7 +200,7 @@ class test_noise(EnvExperiment):
 
     @kernel
     def run_ram(self, timestep_mu):
-        self.dds.cpld.io_update.pulse_mu(8)
+        # self.dds.cpld.io_update.pulse_mu(8)
         # prepare ram
         delay(5 * us)
         self.dds.set_cfr1(ram_enable=0)
