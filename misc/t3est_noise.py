@@ -9,8 +9,8 @@ import numpy as np
 class AD9910RAM(EnvExperiment):
     def build(self):
         self.setattr_device("core")
-        self.u = self.get_device("urukul1_ch2")
-        self.u1 = self.get_device("urukul2_ch0")
+        self.u = self.get_device("urukul3_ch2")
+        self.u1 = self.get_device("urukul3_ch0")
         self.ttl = self.get_device("blue_PIs")
 
     @kernel

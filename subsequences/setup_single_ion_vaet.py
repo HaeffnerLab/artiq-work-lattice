@@ -4,7 +4,7 @@ from artiq.coredevice.ad9910 import PHASE_MODE_ABSOLUTE, PHASE_MODE_CONTINUOUS, 
 
 
 
-class SetupSingleIonVAET(HasEnvironment):
+class SetupSingleIonVAET:
     DP_amp="SingleIonVAET.DP_amp"
     DP_att="SingleIonVAET.DP_att"
     J_amp="SingleIonVAET.J_amp"

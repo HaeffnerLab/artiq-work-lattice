@@ -78,7 +78,6 @@ class SingleIonVAET(PulseSequence):
             self.Rotation729G_line_selection,
             dds="729G"
         )
-        self.basis_rotation.phase_ref_time = now_mu()
 
 
     @kernel
