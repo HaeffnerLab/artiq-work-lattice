@@ -13,7 +13,7 @@ device_db = {
         "type": "local",
         "module": "artiq.coredevice.core",
         "class": "Core",
-        "arguments": {"host": core_addr, "ref_period": 1.25e-9, "target": "or1k"}
+        "arguments": {"host": core_addr, "ref_period": 1.25e-9}
     },
     "core_log": {
         "type": "controller",
@@ -66,7 +66,7 @@ io_update_delays = [ [0, 0, 0, 0] ,
                     [3, 0, 3, 3] ]
 
 
-for j in range(4):
+for j in range(1,4):
     device_db.update({
         "spi_urukul{}".format(j): {
             "type": "local",

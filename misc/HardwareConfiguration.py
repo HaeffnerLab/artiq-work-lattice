@@ -17,8 +17,8 @@ dds_specs = namedtuple("dds_specs",
 
 dds_config = {
         "866": dds_specs(
-                urukul=0,
-                channel=1,
+                urukul=1,
+                channel=2,
                 default_freq=80,
                 min_freq=50,
                 max_freq=100,
@@ -30,8 +30,8 @@ dds_config = {
                 offset=0
             ),
         "397": dds_specs(
-                urukul=0,
-                channel=0,
+                urukul=1,
+                channel=3,
                 default_freq=80,
                 min_freq=50,
                 max_freq=100,

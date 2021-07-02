@@ -14,7 +14,7 @@ class change_cw(EnvExperiment):
                 self.dds_dict[name] = self.get_device(name)
         except AttributeError:
             pass
-        self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(3)]
+        self.cpld_list = [self.get_device("urukul{}_cpld".format(i)) for i in range(1,4)]
 
     def prepare(self):
         self.archive = False
