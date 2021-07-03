@@ -68,8 +68,8 @@ class RabiFlopping(PulseSequence):
 
     @kernel
     def RabiFlopping(self):
-        print(self.current_data_point)
-        print(self.current_experiment_iteration)
+        # print(self.current_data_point)
+        # print(self.current_experiment_iteration)
         self.stateprep.run(self)
         if self.RabiFlopping_noise:
             self.mod397.on()
