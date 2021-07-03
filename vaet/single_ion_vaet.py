@@ -66,7 +66,7 @@ class SingleIonVAET(PulseSequence):
             self.implemented_amp = 0.
             self.implemented_phase = 0.
 
-        # self.mod_wfs = []
+        self.mod_wfs = []
         if self.p.SingleIonVAET.with_noise:
             self.setup_noise_waveforms()
 
@@ -115,12 +115,14 @@ class SingleIonVAET(PulseSequence):
         noise_time_step = 2*us  # 1/sampling rate
         self.vaet.step = round(2*us / 4*ns)
         rng = np.random.default_rng()
-        n = round(self.vaet.duration / noise_time_step)
+        m = self.p.StateReadout.repeat_each_measurement
+        n = 1024
+        self.mod_wfs = np.zeros(shape=(m, n*2))
         if self.SingleIonVAET_noise_type in ["white_delta", "lorentzian_delta"]:
             std = self.SingleIonVAET_amplitude_noise_depth
             delta = self.SingleIonVAET_delta_amp
             J = self.SingleIonVAET_J_amp
-            for i in range(self.p.StateReadout.repeat_each_measurement):
+            for i in range(m):
                 if self.SingleIonVAET_noise_type == "white_delta":
                     d = std * rng.standard_normal(n) + delta
                 elif self.SingleIonVAET_noise_type == "lorentzian_delta":
@@ -129,14 +131,18 @@ class SingleIonVAET(PulseSequence):
                 d[d < 0] = 0.
                 amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
                 phase_wf = np.sqrt(J*2 + delta**2)
-                self.mod_wfs.append([amp_wf, phase_wf])
+                self.mod_wfs[i, 0:n] = amp_wf
+                self.mod_wfs[i, n+1:-1] = phase_wf
+                # self.mod_wfs.append([amp_wf, phase_wf])
         elif self.SingleIonVAET_noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
             std = self.SingleIonVAET_frequency_noise_strength
-            for i in range(self.p.StateReadout.repeat_each_measurement):
+            for i in range(m):
                 if self.SingleIonVAET_noise_type == "white_nu_eff":
                     blue_wf = freq_blue + std * rng.standard_normal(n)
                     red_wf = freq_red - std * rng.standard_normal(n)
                 elif self.SingleIonVAET_noise_type == "lorentzian_nu_eff":
                     blue_wf = freq_blue + std * rng.standard_cauchy(n)
                     red_wf = freq_red - std * rng.standard_cauchy(n)
-                self.mod_wfs.append([blue_wf, red_wf])
+                self.mod_wfs[i, 0:n] = blue_wf
+                self.mod_wfs[i, n+1:-1] = red_wf
+                # self.mod_wfs.append([blue_wf, red_wf])
