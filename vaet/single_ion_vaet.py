@@ -3,6 +3,7 @@ from subsequences.rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
 from subsequences.setup_single_ion_vaet import SetupSingleIonVAET
 from artiq.experiment import *
+from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP
 import numpy as np
 
 
@@ -36,6 +37,10 @@ class SingleIonVAET(PulseSequence):
         "Rotation729G.pi_time",
         "Rotation729G.line_selection",
         "SingleIonVAET.test_phase",
+        "SingleIonVAET.with_noise",
+        "SingleIonVAET.noise_type",
+        "SingleIonVAET.amplitude_noise_depth",
+        "SingleIonVATE.frequency_noise_strength"
     }
 
     PulseSequence.scan_params = dict(
@@ -60,7 +65,7 @@ class SingleIonVAET(PulseSequence):
         else:
             self.implemented_amp = 0.
             self.implemented_phase = 0.
-            
+
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
@@ -79,6 +84,63 @@ class SingleIonVAET(PulseSequence):
             dds="729G"
         )
 
+        trap_frequency = self.get_trap_frequency(s.selection_sideband)
+        offset = self.get_offset_frequency("729G")
+        nu_eff = self.SingleIonVAET_nu_eff
+        self.vaet.freq_blue = 80*MHz + trap_frequency + nu_eff + offset
+        self.vaet.freq_red = 80*MHz - trap_frequency - nu_eff + offset
+
+        if not self.SingleIonVAET_with_noise:
+            return
+
+        noise_time_step = 2*us  # 1/sampling rate
+        step = round(2*us / 4*ns)
+        rng = np.random.default_rng()
+        n = round(self.vaet.duration / noise_time_step)
+        if self.SingleIonVAET_noise_type in ["white_delta", "lorentzian_delta"]:
+            std = self.SingleIonVAET_amplitude_noise_depth
+            delta = self.SingleIonVAET_delta_amp
+            J = self.SingleIonVAET_J_amp
+            if self.SingleIonVAET_noise_type == "white_delta":
+                d =  std * rng.standard_normal(n) + delta
+            elif self.SingleIonVAET_noise_type == "lorentzian_delta":
+                d = std * rng.standard_cauchy(n) + delta
+            d[d > 1] = 1.
+            d[d < 0] = 0.
+            amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
+            phase_wf = np.sqrt(J*2 + delta**2)
+            mod_wfs = [amp_wf, phase_wf]
+            self.setup_ram_modulation(
+                                    self.dds_729_SP,  # hard coded
+                                    modulation_waveform=mod_wfs,
+                                    modulation_type="phase_and_amp",
+                                    step=step,
+                                    ram_mode=RAM_MODE_RAMPUP
+                                )
+        elif self.SingleIonVAET_noise_type in ["white_nu_eff", "lorentzian_nu_eff"]
+            std = self.SingleIonVAET_frequency_noise_strength
+            if self.SingleIonVAET_noise_type == "white_nu_eff":
+                d1 =  freq_blue + std * rng.standard_normal(n)
+                d2 =  freq_red - std * rng.standard_normal(n)
+            elif self.SingleIonVAET_noise_type == "lorentzian_nu_eff":
+                d1 = freq_blue + std * rng.standard_cauchy(n)
+                d2 = freq_red - std * rng.standard_cauchy(n)
+            self.setup_ram_modulation(
+                                    self.dds_SP_729G_bichro,  # hard coded
+                                    modulation_waveform=d1,
+                                    modulation_type="frequency",
+                                    step=step,
+                                    ram_mode=RAM_MODE_RAMPUP
+                                )
+            self.setup_ram_modulation(
+                                    self.dds_SP_729L1,  # hard coded
+                                    modulation_waveform=d2,
+                                    modulation_type="frequency",
+                                    step=step,
+                                    ram_mode=RAM_MODE_RAMPUP
+                                )
+
+        self.basis_rotation.phase_ref_time = now_mu()
 
     @kernel
     def SingleIonVAET(self):
@@ -92,3 +154,6 @@ class SingleIonVAET(PulseSequence):
         if self.SingleIonVAET_rotate_out_y:
             self.basis_rotation.phase_729 = 180.
             self.basis_rotation.run(self)
+
+    def run_finally(self):
+        self.stop_ram_modulation(self.dds_729_SP)
