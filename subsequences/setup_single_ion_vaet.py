@@ -148,6 +148,6 @@ class SetupSingleIonVAET:
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
-            self.dds_729L1.sw.off()
+            self.dds_SP_729L1.sw.off()
             # self.dds_729_SP_line1_bichro.sw.off()
             # self.dds_729_SP_line2_bichro.sw.off()
