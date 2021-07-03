@@ -36,6 +36,7 @@ class SetupSingleIonVAET:
     freq_red=0.
     with_noise="SingleIonVAET.with_noise"
     noise_type="SingleIonVAET.noise_type"
+    step=1
 
 
     def subsequence(self):
