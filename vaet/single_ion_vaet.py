@@ -144,6 +144,9 @@ class SingleIonVAET(PulseSequence):
 
     @kernel
     def SingleIonVAET(self):
+        print(self.current_data_point)
+        print(self.current_experiment_iteration)
+        print()
         self.basis_rotation.phase_ref_time = 0
         self.vaet.phase_ref_time = self.basis_rotation.phase_ref_time
         self.stateprep.run(self)
