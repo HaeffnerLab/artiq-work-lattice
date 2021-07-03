@@ -54,7 +54,7 @@ class SingleIonVAET(PulseSequence):
 
     def run_initially(self):
         self.stateprep = self.add_subsequence(StatePreparation)
-        self.ba2sis_rotation = self.add_subsequence(RabiExcitation)
+        self.basis_rotation = self.add_subsequence(RabiExcitation)
         self.vaet = self.add_subsequence(SetupSingleIonVAET)
         self.set_subsequence["SingleIonVAET"] = self.set_subsequence_single_ion_vaet
         if self.p.SingleIonVAET.phase_implemented_sigmay:
