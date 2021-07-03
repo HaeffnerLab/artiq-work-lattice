@@ -102,7 +102,7 @@ class SingleIonVAET(PulseSequence):
             delta = self.SingleIonVAET_delta_amp
             J = self.SingleIonVAET_J_amp
             if self.SingleIonVAET_noise_type == "white_delta":
-                d =  std * rng.standard_normal(n) + delta
+                d = std * rng.standard_normal(n) + delta
             elif self.SingleIonVAET_noise_type == "lorentzian_delta":
                 d = std * rng.standard_cauchy(n) + delta
             d[d > 1] = 1.
