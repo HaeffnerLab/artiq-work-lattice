@@ -108,7 +108,7 @@ class SetupSingleIonVAET:
 
         # Hard-coded to SP_729G_bichro
         self.dds_SP_729G_bichro.set(
-                self.freq_blue,
+                s.freq_blue,
                 amplitude=s.BSB_amp,
                 ref_time_mu=s.phase_ref_time,
                 phase_mode=phase_mode,
@@ -117,7 +117,7 @@ class SetupSingleIonVAET:
 
         # Hard-coded to SP_729L1
         self.dds_SP_729L1.set(
-                self.freq_red,
+                s.freq_red,
                 amplitude=s.RSB_amp,
                 phase_mode=phase_mode,
                 ref_time_mu=s.phase_ref_time,
