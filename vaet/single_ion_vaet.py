@@ -93,10 +93,10 @@ class SingleIonVAET(PulseSequence):
         if not self.SingleIonVAET_with_noise:
             return
 
-        noise_time_step = 2*us  # 1/sampling rate
-        step = round(2*us / 4*ns)
-        rng = np.random.default_rng()
-        n = round(self.vaet.duration / noise_time_step)
+        # noise_time_step = 2*us  # 1/sampling rate
+        # step = round(2*us / 4*ns)
+        # rng = np.random.default_rng()
+        # n = round(self.vaet.duration / noise_time_step)
         # if self.SingleIonVAET_noise_type in ["white_delta", "lorentzian_delta"]:
         #     std = self.SingleIonVAET_amplitude_noise_depth
         #     delta = self.SingleIonVAET_delta_amp
