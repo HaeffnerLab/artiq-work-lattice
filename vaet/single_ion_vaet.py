@@ -40,7 +40,7 @@ class SingleIonVAET(PulseSequence):
         "SingleIonVAET.with_noise",
         "SingleIonVAET.noise_type",
         "SingleIonVAET.amplitude_noise_depth",
-        "SingleIonVATE.frequency_noise_strength"
+        "SingleIonVAET.frequency_noise_strength"
     }
 
     PulseSequence.scan_params = dict(
