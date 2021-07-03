@@ -113,11 +113,12 @@ class SingleIonVAET(PulseSequence):
 
     def setup_noise_waveforms(self):
         noise_time_step = 2*us  # 1/sampling rate
-        self.vaet.step = round(2*us / 4*ns)
+        self.vaet.step = round(noise_time_step / 4*ns)
         rng = np.random.default_rng()
         m = self.p.StateReadout.repeat_each_measurement
         n = 1024
-        self.mod_wfs = [[np.zeros(n), np.zeros(n)] for i in range(m)]
+        self.mod_wf1 = [np.zeros(n) for i in range(m)]
+        self.mod_wf2 = [np.zeros(n) for i in range(m)]
         if self.SingleIonVAET_noise_type in ["white_delta", "lorentzian_delta"]:
             std = self.SingleIonVAET_amplitude_noise_depth
             delta = self.SingleIonVAET_delta_amp
@@ -131,16 +132,16 @@ class SingleIonVAET(PulseSequence):
                 d[d < 0] = 0.
                 amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
                 phase_wf = np.sqrt(J*2 + delta**2)
-                self.mod_wfs[i][0] = amp_wf
-                self.mod_wfs[i][1] = phase_wf
+                self.mod_wf1[i] = amp_wf
+                self.mod_wf2[i] = phase_wf
         elif self.SingleIonVAET_noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
             std = self.SingleIonVAET_frequency_noise_strength
             for i in range(m):
                 if self.SingleIonVAET_noise_type == "white_nu_eff":
-                    blue_wf = freq_blue + std * rng.standard_normal(n)
-                    red_wf = freq_red - std * rng.standard_normal(n)
+                    blue_wf = self.vaet.freq_blue + std * rng.standard_normal(n)
+                    red_wf = self.vaet.freq_red - std * rng.standard_normal(n)
                 elif self.SingleIonVAET_noise_type == "lorentzian_nu_eff":
-                    blue_wf = freq_blue + std * rng.standard_cauchy(n)
-                    red_wf = freq_red - std * rng.standard_cauchy(n)
-                self.mod_wfs[i][0] = blue_wf
-                self.mod_wfs[i][1] = red_wf
+                    blue_wf = self.vaet.freq_blue + std * rng.standard_cauchy(n)
+                    red_wf = self.vaet.freq_red - std * rng.standard_cauchy(n)
+                self.mod_wf1[i] = blue_wf
+                self.mod_wf2[i] = red_wf
