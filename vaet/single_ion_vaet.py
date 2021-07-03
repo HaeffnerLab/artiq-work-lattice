@@ -120,11 +120,11 @@ class SingleIonVAET(PulseSequence):
         elif self.SingleIonVAET_noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
             std = self.SingleIonVAET_frequency_noise_strength
             if self.SingleIonVAET_noise_type == "white_nu_eff":
-                d1 =  freq_blue + std * rng.standard_normal(n)
-                d2 =  freq_red - std * rng.standard_normal(n)
+                d1 = self.vaet.freq_blue + std * rng.standard_normal(n)
+                d2 = self.vaet.freq_red - std * rng.standard_normal(n)
             elif self.SingleIonVAET_noise_type == "lorentzian_nu_eff":
-                d1 = freq_blue + std * rng.standard_cauchy(n)
-                d2 = freq_red - std * rng.standard_cauchy(n)
+                d1 = self.vaet.freq_blue + std * rng.standard_cauchy(n)
+                d2 = self.vaet.freq_red - std * rng.standard_cauchy(n)
             self.setup_ram_modulation(
                                     self.dds_SP_729G_bichro,  # hard coded
                                     modulation_waveform=d1,
