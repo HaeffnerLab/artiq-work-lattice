@@ -1,6 +1,9 @@
 from artiq.experiment import *
 import numpy as np
-from artiq.coredevice.ad9910 import PHASE_MODE_ABSOLUTE, PHASE_MODE_CONTINUOUS, PHASE_MODE_TRACKING
+from artiq.coredevice.ad9910 import (
+        PHASE_MODE_ABSOLUTE, PHASE_MODE_CONTINUOUS, PHASE_MODE_TRACKING, 
+        RAM_MODE_RAMPUP
+    )
 
 
 
@@ -130,6 +133,33 @@ class SetupSingleIonVAET:
         self.dds_SP_729L1.set_att(s.noise_att)
         # self.dds_729_SP_line1_bichro.set_att(s.BSB_att)
         # self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
+
+        if s.with_noise:
+            j = self.get_variable_parameter("current_experiment_iteration")
+            if s.noise_type == "white_delta" or s.noise_type == "lorentzian_delta":
+                self.setup_ram_modulation(
+                                    self.dds_729_SP,  # hard coded
+                                    modulation_waveform=self.mod_wfs[j],
+                                    modulation_type="phase_and_amp",
+                                    step=s.step,
+                                    ram_mode=RAM_MODE_RAMPUP
+                                )
+            else:
+                self.setup_ram_modulation(
+                                    self.dds_SP_729G_bichro,  # hard coded
+                                    modulation_waveform=self.mod_wfs[j][1],
+                                    modulation_type="frequency",
+                                    step=s.step,
+                                    ram_mode=RAM_MODE_RAMPUP
+                                )
+                self.setup_ram_modulation(
+                                    self.dds_SP_729L1,  # hard coded
+                                    modulation_waveform=self.mod_wfs[j][2],
+                                    modulation_type="frequency",
+                                    step=s.step,
+                                    ram_mode=RAM_MODE_RAMPUP
+                                )   
+
 
         self.dds_729.sw.on()
         with parallel:
