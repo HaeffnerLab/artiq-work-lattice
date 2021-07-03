@@ -117,7 +117,7 @@ class SingleIonVAET(PulseSequence):
                                     step=step,
                                     ram_mode=RAM_MODE_RAMPUP
                                 )
-        elif self.SingleIonVAET_noise_type in ["white_nu_eff", "lorentzian_nu_eff"]
+        elif self.SingleIonVAET_noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
             std = self.SingleIonVAET_frequency_noise_strength
             if self.SingleIonVAET_noise_type == "white_nu_eff":
                 d1 =  freq_blue + std * rng.standard_normal(n)
