@@ -144,6 +144,7 @@ class SingleIonVAET(PulseSequence):
 
     @kernel
     def SingleIonVAET(self):
+        delay(100*ms)
         print(self.get_variable_parameter("current_data_point"))
         print(self.get_variable_parameter("current_experiment_iteration"))
         print()
