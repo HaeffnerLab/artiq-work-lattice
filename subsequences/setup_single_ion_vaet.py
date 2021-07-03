@@ -29,22 +29,19 @@ class SetupSingleIonVAET(HasEnvironment):
     implemented_phase=0.
     implemented_amp=0.
     test_phase="SingleIonVAET.test_phase"
+    freq_blue=0.
+    freq_red=0.
 
 
     def subsequence(self):
         phase_mode = PHASE_MODE_ABSOLUTE
         s = SetupSingleIonVAET
-        trap_frequency = self.get_trap_frequency(s.selection_sideband)
-        offset = self.get_offset_frequency("729G")
-        freq_blue = 80*MHz + trap_frequency + s.nu_eff + offset
-        freq_red = 80*MHz - trap_frequency - s.nu_eff + offset
         freq_carr = 80*MHz + offset
         dp_freq = self.calc_frequency(
                 s.line_selection,
                 dds="729G"
             )
 
-        # at_mu(now_mu())
         # Hard-coded to 729G
         self.dds_729.set(
                 dp_freq,
@@ -54,56 +51,50 @@ class SetupSingleIonVAET(HasEnvironment):
             )
 
         if not s.phase_implemented_sigmay:
-            # Hard-coded to SP_729G
-            self.dds_729_SP.set(
-                    freq_carr,
-                    amplitude=s.J_amp,
-                    phase_mode=phase_mode,
-                    ref_time_mu=s.phase_ref_time,
-                    phase=0.0
-                )
-            if not s.delta_phase: # normal nueff
-                # Hard-coded to SP_729G_bichro
-                self.dds_729_SP_bichro.set(
-                        freq_carr,
-                        amplitude=s.delta_amp,
-                        phase_mode=phase_mode,
-                        ref_time_mu=s.phase_ref_time,
-                        phase=0.25  # sigma_y 0.381
-                    )
-                #hard code noise to L1_SP
-                self.dds_SP_729L1.set(
-                        freq_carr,
-                        amplitude=s.noise_amp,
-                        phase_mode=phase_mode,
-                        ref_time_mu=s.phase_ref_time,
-                        phase=s.test_phase / 360 #0.25   #0.381
-                    )
+            return
+            # # Hard-coded to SP_729G
+            # self.dds_729_SP.set(
+            #         freq_carr,
+            #         amplitude=s.J_amp,
+            #         phase_mode=phase_mode,
+            #         ref_time_mu=s.phase_ref_time,
+            #         phase=0.0
+            #     )
+            # if not s.delta_phase: # normal nueff
+            #     # Hard-coded to SP_729G_bichro
+            #     self.dds_729_SP_bichro.set(
+            #             freq_carr,
+            #             amplitude=s.delta_amp,
+            #             phase_mode=phase_mode,
+            #             ref_time_mu=s.phase_ref_time,
+            #             phase=0.25  # sigma_y 0.381
+            #         )
+            #     #hard code noise to L1_SP
+            #     self.dds_SP_729L1.set(
+            #             freq_carr,
+            #             amplitude=s.noise_amp,
+            #             phase_mode=phase_mode,
+            #             ref_time_mu=s.phase_ref_time,
+            #             phase=s.test_phase / 360 #0.25   #0.381
+            #         )
 
-            else: # negative nueff
-                self.dds_729_SP_bichro.set(
-                        freq_carr,
-                        amplitude=s.delta_amp,
-                        phase_mode=phase_mode,
-                        ref_time_mu=s.phase_ref_time,
-                        phase=0.381+0.5  # sigma_y 0.551
-                    )
+            # else: # negative nueff
+            #     self.dds_729_SP_bichro.set(
+            #             freq_carr,
+            #             amplitude=s.delta_amp,
+            #             phase_mode=phase_mode,
+            #             ref_time_mu=s.phase_ref_time,
+            #             phase=0.381+0.5  # sigma_y 0.551
+            #         )
 
-                #hard code noise to L1_SP_Bichro or 729 L1
-                self.dds_SP_729L1.set(
-                        freq_carr,
-                        amplitude=s.noise_amp,
-                        phase_mode=phase_mode,
-                        ref_time_mu=s.phase_ref_time,
-                        phase=0.381+0.5
-                    )
-                # self.dds_729L1.set(
-                #     freq_carr,
-                #     amplitude=s.noise_amp,
-                #     ref_time_mu=s.phase_ref_time,
-                #     phase=0.368+0.5
-
-                # )
+            #     #hard code noise to L1_SP_Bichro or 729 L1
+            #     self.dds_SP_729L1.set(
+            #             freq_carr,
+            #             amplitude=s.noise_amp,
+            #             phase_mode=phase_mode,
+            #             ref_time_mu=s.phase_ref_time,
+            #             phase=0.381+0.5
+            #         )
 
         else:
             self.dds_729_SP.set(
@@ -114,15 +105,8 @@ class SetupSingleIonVAET(HasEnvironment):
                     phase=s.implemented_phase
                 )
 
-            self.dds_729_SP_bichro.set(
-                    freq_carr,
-                    amplitude=0.0,
-                    phase_mode=phase_mode,
-                    ref_time_mu=s.phase_ref_time,
-                )
-
-        # Hard-coded to SP_729L2
-        self.dds_729_SP_line1_bichro.set(
+        # Hard-coded to SP_729G_bichro
+        self.dds_SP_729G_bichro.set(
                 freq_blue,
                 amplitude=s.BSB_amp,
                 ref_time_mu=s.phase_ref_time,
@@ -130,8 +114,8 @@ class SetupSingleIonVAET(HasEnvironment):
                 phase=0.75
             )
 
-        # Hard-coded to SP_729L2_bicrho
-        self.dds_729_SP_line2_bichro.set(
+        # Hard-coded to SP_729L1
+        self.dds_SP_729L1.set(
                 freq_red,
                 amplitude=s.RSB_amp,
                 phase_mode=phase_mode,
@@ -146,29 +130,23 @@ class SetupSingleIonVAET(HasEnvironment):
         self.dds_729_SP_line1_bichro.set_att(s.BSB_att)
         self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
 
+        self.dds_729.sw.on()
         with parallel:
-            self.dds_729.sw.on()
+            self.dds_729_SP.cpld.io_update.pulse_mu(8)
+            self.dds_729_SP_bichro.cpld.io_update.pulse_mu(8)
+            self.dds_SP_729L1.cpld.io_update.pulse_mu(8)
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
             self.dds_SP_729L1.sw.on()
-            self.dds_729_SP_line1_bichro.sw.on()
-            self.dds_729_SP_line2_bichro.sw.on()
+            # self.dds_729_SP_line1_bichro.sw.on()
+            # self.dds_729_SP_line2_bichro.sw.on()
+        
         delay(s.duration)
-
-        self.dds_729_SP_bichro.set(1*MHz, phase_mode=phase_mode, ref_time_mu=s.phase_ref_time)
-        delay(s.duration)
-        self.dds_729_SP_bichro.set(
-                        freq_carr,
-                        amplitude=s.delta_amp,
-                        phase_mode=phase_mode,
-                        ref_time_mu=s.phase_ref_time,
-                        phase=0.25  # sigma_y 0.381
-                    )
-        delay(s.duration)
+        
         with parallel:
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
             self.dds_729L1.sw.off()
-            self.dds_729_SP_line1_bichro.sw.off()
-            self.dds_729_SP_line2_bichro.sw.off()
+            # self.dds_729_SP_line1_bichro.sw.off()
+            # self.dds_729_SP_line2_bichro.sw.off()
