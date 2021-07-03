@@ -66,7 +66,7 @@ class SingleIonVAET(PulseSequence):
             self.implemented_amp = 0.
             self.implemented_phase = 0.
 
-        self.mode_wfs = []
+        self.mod_wfs = []
         if self.p.SingleIonVAET.with_noise:
             self.setup_noise_waveforms()
 
@@ -129,7 +129,7 @@ class SingleIonVAET(PulseSequence):
                 d[d < 0] = 0.
                 amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
                 phase_wf = np.sqrt(J*2 + delta**2)
-                self.mod_wf.append([amp_wf, phase_wf])
+                self.mod_wfs.append([amp_wf, phase_wf])
         elif self.SingleIonVAET_noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
             std = self.SingleIonVAET_frequency_noise_strength
             for i in range(self.p.StateReadout.repeat_each_measurement):
