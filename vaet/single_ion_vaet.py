@@ -54,7 +54,7 @@ class SingleIonVAET(PulseSequence):
 
     def run_initially(self):
         self.stateprep = self.add_subsequence(StatePreparation)
-        self.basis_rotation = self.add_subsequence(RabiExcitation)
+        self.ba2sis_rotation = self.add_subsequence(RabiExcitation)
         self.vaet = self.add_subsequence(SetupSingleIonVAET)
         self.set_subsequence["SingleIonVAET"] = self.set_subsequence_single_ion_vaet
         if self.p.SingleIonVAET.phase_implemented_sigmay:
@@ -97,48 +97,48 @@ class SingleIonVAET(PulseSequence):
         step = round(2*us / 4*ns)
         rng = np.random.default_rng()
         n = round(self.vaet.duration / noise_time_step)
-        if self.SingleIonVAET_noise_type in ["white_delta", "lorentzian_delta"]:
-            std = self.SingleIonVAET_amplitude_noise_depth
-            delta = self.SingleIonVAET_delta_amp
-            J = self.SingleIonVAET_J_amp
-            if self.SingleIonVAET_noise_type == "white_delta":
-                d = std * rng.standard_normal(n) + delta
-            elif self.SingleIonVAET_noise_type == "lorentzian_delta":
-                d = std * rng.standard_cauchy(n) + delta
-            d[d > 1] = 1.
-            d[d < 0] = 0.
-            amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
-            phase_wf = np.sqrt(J*2 + delta**2)
-            mod_wfs = [amp_wf, phase_wf]
-            self.setup_ram_modulation(
-                                    self.dds_729_SP,  # hard coded
-                                    modulation_waveform=mod_wfs,
-                                    modulation_type="phase_and_amp",
-                                    step=step,
-                                    ram_mode=RAM_MODE_RAMPUP
-                                )
-        elif self.SingleIonVAET_noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
-            std = self.SingleIonVAET_frequency_noise_strength
-            if self.SingleIonVAET_noise_type == "white_nu_eff":
-                d1 = self.vaet.freq_blue + std * rng.standard_normal(n)
-                d2 = self.vaet.freq_red - std * rng.standard_normal(n)
-            elif self.SingleIonVAET_noise_type == "lorentzian_nu_eff":
-                d1 = self.vaet.freq_blue + std * rng.standard_cauchy(n)
-                d2 = self.vaet.freq_red - std * rng.standard_cauchy(n)
-            self.setup_ram_modulation(
-                                    self.dds_SP_729G_bichro,  # hard coded
-                                    modulation_waveform=d1,
-                                    modulation_type="frequency",
-                                    step=step,
-                                    ram_mode=RAM_MODE_RAMPUP
-                                )
-            self.setup_ram_modulation(
-                                    self.dds_SP_729L1,  # hard coded
-                                    modulation_waveform=d2,
-                                    modulation_type="frequency",
-                                    step=step,
-                                    ram_mode=RAM_MODE_RAMPUP
-                                )
+        # if self.SingleIonVAET_noise_type in ["white_delta", "lorentzian_delta"]:
+        #     std = self.SingleIonVAET_amplitude_noise_depth
+        #     delta = self.SingleIonVAET_delta_amp
+        #     J = self.SingleIonVAET_J_amp
+        #     if self.SingleIonVAET_noise_type == "white_delta":
+        #         d = std * rng.standard_normal(n) + delta
+        #     elif self.SingleIonVAET_noise_type == "lorentzian_delta":
+        #         d = std * rng.standard_cauchy(n) + delta
+        #     d[d > 1] = 1.
+        #     d[d < 0] = 0.
+        #     amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
+        #     phase_wf = np.sqrt(J*2 + delta**2)
+        #     mod_wfs = [amp_wf, phase_wf]f
+        #     self.setup_ram_modulation(
+        #                             self.dds_729_SP,  # hard coded
+        #                             modulation_waveform=mod_wfs,
+        #                             modulation_type="phase_and_amp",
+        #                             step=step,
+        #                             ram_mode=RAM_MODE_RAMPUP
+        #                         )
+        # elif self.SingleIonVAET_noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
+        #     std = self.SingleIonVAET_frequency_noise_strength
+        #     if self.SingleIonVAET_noise_type == "white_nu_eff":
+        #         d1 = self.vaet.freq_blue + std * rng.standard_normal(n)
+        #         d2 = self.vaet.freq_red - std * rng.standard_normal(n)
+        #     elif self.SingleIonVAET_noise_type == "lorentzian_nu_eff":
+        #         d1 = self.vaet.freq_blue + std * rng.standard_cauchy(n)
+        #         d2 = self.vaet.freq_red - std * rng.standard_cauchy(n)
+        #     self.setup_ram_modulation(
+        #                             self.dds_SP_729G_bichro,  # hard coded
+        #                             modulation_waveform=d1,
+        #                             modulation_type="frequency",
+        #                             step=step,
+        #                             ram_mode=RAM_MODE_RAMPUP
+        #                         )
+        #     self.setup_ram_modulation(
+        #                             self.dds_SP_729L1,  # hard coded
+        #                             modulation_waveform=d2,
+        #                             modulation_type="frequency",
+        #                             step=step,
+        #                             ram_mode=RAM_MODE_RAMPUP
+        #                         )
 
         self.basis_rotation.phase_ref_time = now_mu()
 
