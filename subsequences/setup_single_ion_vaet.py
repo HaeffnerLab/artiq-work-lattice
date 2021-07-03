@@ -135,7 +135,7 @@ class SetupSingleIonVAET:
         # self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
 
         if s.with_noise:
-            j = self.get_variable_parameter("current_experiment_iteration")
+            j = round(self.get_variable_parameter("current_experiment_iteration"))
             if s.noise_type == "white_delta" or s.noise_type == "lorentzian_delta":
                 self.setup_ram_modulation(
                                     self.dds_729_SP,  # hard coded
