@@ -34,6 +34,8 @@ class SetupSingleIonVAET:
     test_phase="SingleIonVAET.test_phase"
     freq_blue=0.
     freq_red=0.
+    with_noise="SingleIonVAET.with_noise"
+    noise_type="SingleIonVAET.noise_type"
 
 
     def subsequence(self):
@@ -131,7 +133,7 @@ class SetupSingleIonVAET:
         self.dds_729_SP.set_att(s.J_att)
         self.dds_729_SP_bichro.set_att(s.delta_att)
         self.dds_SP_729L1.set_att(s.noise_att)
-        # self.dds_729_SP_line1_bichro.set_att(s.BSB_att)
+        # self.dds_729n_SP_line1_bichro.set_att(s.BSB_att)
         # self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
 
         if s.with_noise:
