@@ -66,8 +66,11 @@ class SingleIonVAET(PulseSequence):
             self.implemented_amp = 0.
             self.implemented_phase = 0.
 
+        m = self.p.StateReadout.repeat_each_measurement
+        self.mod_wf1 = [np.zeros(n) for i in range(m)]
+        self.mod_wf2 = [np.zeros(n) for i in range(m)]
         if self.p.SingleIonVAET.with_noise:
-            self.setup_noise_waveforms()
+            self.setup_noise_waveforms(m)
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
@@ -110,14 +113,11 @@ class SingleIonVAET(PulseSequence):
     def run_finally(self):
         self.stop_ram_modulation(self.dds_729_SP)
 
-    def setup_noise_waveforms(self):
+    def setup_noise_waveforms(self, m):
         noise_time_step = 2*us  # 1/sampling rate
         self.vaet.step = round(noise_time_step / 4*ns)
         rng = np.random.default_rng()
-        m = self.p.StateReadout.repeat_each_measurement
         n = 1024
-        self.mod_wf1 = [np.zeros(n) for i in range(m)]
-        self.mod_wf2 = [np.zeros(n) for i in range(m)]
         if self.SingleIonVAET_noise_type in ["white_delta", "lorentzian_delta"]:
             std = self.SingleIonVAET_amplitude_noise_depth
             delta = self.SingleIonVAET_delta_amp
