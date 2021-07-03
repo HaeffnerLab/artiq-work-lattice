@@ -66,7 +66,6 @@ class SingleIonVAET(PulseSequence):
             self.implemented_amp = 0.
             self.implemented_phase = 0.
 
-        self.mod_wfs = []
         if self.p.SingleIonVAET.with_noise:
             self.setup_noise_waveforms()
 
