@@ -146,3 +146,6 @@ class SingleIonVAET(PulseSequence):
                     red_wf = self.vaet.freq_red - std * rng.standard_cauchy(n)
                 self.mod_wf1[i] = blue_wf
                 self.mod_wf2[i] = red_wf
+        print(self.mod_wf1)
+        print(self.mod_wf2)
+        print()
