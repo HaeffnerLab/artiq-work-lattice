@@ -137,8 +137,8 @@ class SetupSingleIonVAET:
         # self.dds_729n_SP_line1_bichro.set_att(s.BSB_att)
         # self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
 
-        # if s.with_noise:
-        #     j = round(self.get_variable_parameter("current_experiment_iteration"))
+        if s.with_noise:
+            j = round(self.get_variable_parameter("current_experiment_iteration"))
         #     if s.noise_type == "white_delta" or s.noise_type == "lorentzian_delta":
         #         self.setup_ram_modulation(
         #                             0,  # hard coded to self.dds_729_SP
@@ -173,8 +173,6 @@ class SetupSingleIonVAET:
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
             self.dds_SP_729L1.sw.on()
-            # self.dds_729_SP_line1_bichro.sw.on()
-            # self.dds_729_SP_line2_bichro.sw.on()
         
         delay(s.duration)
         
@@ -183,5 +181,3 @@ class SetupSingleIonVAET:
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
             self.dds_SP_729L1.sw.off()
-            # self.dds_729_SP_line1_bichro.sw.off()
-            # self.dds_729_SP_line2_bichro.sw.off()
