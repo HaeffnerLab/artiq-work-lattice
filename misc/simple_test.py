@@ -5,7 +5,7 @@ from artiq.coredevice.ad9910 import PHASE_MODE_TRACKING, PHASE_MODE_ABSOLUTE, PH
 class phase_slip_test(EnvExperiment):
     def build(self):
         self.setattr_device("core")
-        self.dds = self.get_device("urukul1_ch3")
+        self.dds = self.get_device("urukul3_ch1")
         # self.dds = self.get_device("729G")
         self.ttl = self.get_device("pmt")
         self.led0 = self.get_device("led0")
