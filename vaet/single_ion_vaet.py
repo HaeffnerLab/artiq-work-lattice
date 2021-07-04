@@ -133,7 +133,7 @@ class SingleIonVAET(PulseSequence):
                 amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
                 phase_wf = np.sqrt(J*2 + d**2)
                 ram_wf = [0] * n
-                self.turns_amplitude_to_ram(amp_wf, phase_wf, ram_wf)
+                self.dds_729.turns_amplitude_to_ram(amp_wf, phase_wf, ram_wf)
                 self.vaet.mod_wf[i] = np.int32(ram_wf)
         elif noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
             std = self.p.SingleIonVAET.frequency_noise_strength
@@ -146,8 +146,8 @@ class SingleIonVAET(PulseSequence):
                     blue_wf = self.vaet.freq_blue + std * rng.standard_cauchy(n)
                     red_wf = self.vaet.freq_red - std * rng.standard_cauchy(n)
                 ram_wf_blue = [0] * n
-                self.frequency_to_ram(blue_wf, ram_wf_blue)
+                self.dds_729.frequency_to_ram(blue_wf, ram_wf_blue)
                 ram_wf_red = [0] * n
-                self.frequency_to_ram(red_wf, ram_wf_red)
+                self.dds_729.frequency_to_ram(red_wf, ram_wf_red)
                 self.vaet.mod_wf[i] = np.int32(ram_wf_blue)
                 self.vaet.mod_wf2[i] = np.int32(ram_wf_red)
