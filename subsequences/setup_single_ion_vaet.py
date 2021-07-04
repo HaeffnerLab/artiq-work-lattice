@@ -137,32 +137,32 @@ class SetupSingleIonVAET:
         # self.dds_729n_SP_line1_bichro.set_att(s.BSB_att)
         # self.dds_729_SP_line2_bichro.set_att(s.RSB_att)
 
-        if s.with_noise:
-            j = round(self.get_variable_parameter("current_experiment_iteration"))
-            if s.noise_type == "white_delta" or s.noise_type == "lorentzian_delta":
-                self.setup_ram_modulation(
-                                    0,  # hard coded to self.dds_729_SP
-                                    modulation_waveform=list(self.mod_wf1[j]),
-                                    modulation_waveform2=list(self.mod_wf2[j]),
-                                    modulation_type="phase_and_amp",
-                                    step=s.step,
-                                    ram_mode=RAM_MODE_RAMPUP
-                                )
-            else:
-                self.setup_ram_modulation(
-                                    1,  # hard coded to self.dds_SP_729G_bichro
-                                    modulation_waveform=list(self.mod_wf1[j]),
-                                    modulation_type="frequency",
-                                    step=s.step,
-                                    ram_mode=RAM_MODE_RAMPUP
-                                )
-                self.setup_ram_modulation(
-                                    2,  # hard coded to self.dds_SP_729L1
-                                    modulation_waveform=list(self.mod_wf2[j]),
-                                    modulation_type="frequency",
-                                    step=s.step,
-                                    ram_mode=RAM_MODE_RAMPUP
-                                )   
+        # if s.with_noise:
+        #     j = round(self.get_variable_parameter("current_experiment_iteration"))
+        #     if s.noise_type == "white_delta" or s.noise_type == "lorentzian_delta":
+        #         self.setup_ram_modulation(
+        #                             0,  # hard coded to self.dds_729_SP
+        #                             modulation_waveform=list(self.mod_wf1[j]),
+        #                             modulation_waveform2=list(self.mod_wf2[j]),
+        #                             modulation_type="phase_and_amp",
+        #                             step=s.step,
+        #                             ram_mode=RAM_MODE_RAMPUP
+        #                         )
+        #     else:
+        #         self.setup_ram_modulation(
+        #                             1,  # hard coded to self.dds_SP_729G_bichro
+        #                             modulation_waveform=list(self.mod_wf1[j]),
+        #                             modulation_type="frequency",
+        #                             step=s.step,
+        #                             ram_mode=RAM_MODE_RAMPUP
+        #                         )
+        #         self.setup_ram_modulation(
+        #                             2,  # hard coded to self.dds_SP_729L1
+        #                             modulation_waveform=list(self.mod_wf2[j]),
+        #                             modulation_type="frequency",
+        #                             step=s.step,
+        #                             ram_mode=RAM_MODE_RAMPUP
+        #                         )   
 
 
         self.dds_729.sw.on()
