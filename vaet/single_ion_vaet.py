@@ -132,8 +132,8 @@ class SingleIonVAET(PulseSequence):
                 d[d < 0] = 0.
                 amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
                 phase_wf = np.sqrt(J*2 + d**2)
-                self.mod_wf1[i] = amp_wf
-                self.mod_wf2[i] = phase_wf
+                self.mod_wf1[i] = amp_wf.to_list()
+                self.mod_wf2[i] = phase_wf.to_list()
         elif noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
             std = self.p.SingleIonVAET.frequency_noise_strength
             for i in range(m):
@@ -144,5 +144,5 @@ class SingleIonVAET(PulseSequence):
                 elif noise_type == "lorentzian_nu_eff":
                     blue_wf = self.vaet.freq_blue + std * rng.standard_cauchy(n)
                     red_wf = self.vaet.freq_red - std * rng.standard_cauchy(n)
-                self.mod_wf1[i] = blue_wf
-                self.mod_wf2[i] = red_wf
+                self.mod_wf1[i] = blue_wf.to_list()
+                self.mod_wf2[i] = red_wf.to_list()
