@@ -37,7 +37,8 @@ class SetupSingleIonVAET:
     with_noise="SingleIonVAET.with_noise"
     noise_type="SingleIonVAET.noise_type"
     step=1
-
+    mod_wf=[[np.int32(0)] for i in range(m)] 
+    mod_wf2=[[np.int32(0)] for i in range(m)]
 
     def subsequence(self):
         phase_mode = PHASE_MODE_ABSOLUTE
