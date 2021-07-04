@@ -68,8 +68,8 @@ class SingleIonVAET(PulseSequence):
 
         n = 1024
         m = int(self.p.StateReadout.repeat_each_measurement)
-        self.mod_wf = [[0] for i in range(m)]
-        self.mod_wf2 = [[0] for i in range(m)]
+        self.mod_wf = [[np.int32(0)] for i in range(m)]
+        self.mod_wf2 = [[np.int32(0)] for i in range(m)]
         if self.p.SingleIonVAET.with_noise:
             self.setup_noise_waveforms(n, m)
 
