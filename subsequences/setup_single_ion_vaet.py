@@ -139,7 +139,7 @@ class SetupSingleIonVAET:
 
         if s.with_noise:
             j = round(self.get_variable_parameter("current_experiment_iteration"))
-            if s.noise_type == "white_delta" or s.noise_type == "lorentzian_delta":
+            # if s.noise_type == "white_delta" or s.noise_type == "lorentzian_delta":
             #     self.setup_ram_modulation(
             #                         0,  # hard coded to self.dds_729_SP
             #                         modulation_waveform=self.mod_wf1[j],
