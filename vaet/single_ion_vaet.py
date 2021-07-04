@@ -68,8 +68,8 @@ class SingleIonVAET(PulseSequence):
 
         n = 1024
         m = int(self.p.StateReadout.repeat_each_measurement)
-        self.mod_wf1 = [np.zeros(n) for i in range(m)]
-        self.mod_wf2 = [np.zeros(n) for i in range(m)]
+        self.mod_wf1 = [0.]#[np.zeros(n) for i in range(m)]
+        self.mod_wf2 = [0.]#[np.zeros(n) for i in range(m)]
         # if self.p.SingleIonVAET.with_noise:
         #     self.setup_noise_waveforms(n, m)
 
@@ -90,11 +90,11 @@ class SingleIonVAET(PulseSequence):
             dds="729G"
         )
 
-        # trap_frequency = self.get_trap_frequency(self.SingleIonVAET_selection_sideband)
-        # offset = self.get_offset_frequency("729G")
-        # nu_eff = self.vaet.nu_eff
-        # self.vaet.freq_blue = 80*MHz #+ trap_frequency + nu_eff + offset
-        # self.vaet.freq_red = 80*MHz #- trap_frequency - nu_eff + offset
+        trap_frequency = self.get_trap_frequency(self.SingleIonVAET_selection_sideband)
+        offset = self.get_offset_frequency("729G")
+        nu_eff = self.vaet.nu_eff
+        self.vaet.freq_blue = 80*MHz #+ trap_frequency + nu_eff + offset
+        self.vaet.freq_red = 80*MHz #- trap_frequency - nu_eff + offset
 
         self.basis_rotation.phase_ref_time = now_mu()
 
