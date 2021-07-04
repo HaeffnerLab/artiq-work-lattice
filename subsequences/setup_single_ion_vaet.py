@@ -161,7 +161,7 @@ class SetupSingleIonVAET:
             #                         step=s.step,
             #                         ram_mode=RAM_MODE_RAMPUP
             #                     )
-            delay(1*ms)   
+            delay(2*ms)   
 
         self.dds_729.sw.on()
         with parallel:
