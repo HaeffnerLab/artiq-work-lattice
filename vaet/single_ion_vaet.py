@@ -75,6 +75,7 @@ class SingleIonVAET(PulseSequence):
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
+        self.core.break_realtime()
         self.vaet.duration = self.get_variable_parameter("SingleIonVAET_duration")
         self.vaet.nu_eff = self.get_variable_parameter("SingleIonVAET_nu_eff")
         self.vaet.delta_amp = self.get_variable_parameter("SingleIonVAET_delta_amp")
