@@ -142,8 +142,8 @@ class SetupSingleIonVAET:
             if s.noise_type == "white_delta" or s.noise_type == "lorentzian_delta":
                 self.setup_ram_modulation(
                                     0,  # hard coded to self.dds_729_SP
-                                    modulation_waveform=self.mod_wf1[j],
-                                    modulation_waveform2=self.mod_wf2[j],
+                                    modulation_waveform=list(self.mod_wf1[j]),
+                                    modulation_waveform2=list(self.mod_wf2[j]),
                                     modulation_type=self.AMP_PHASE_MOD,
                                     step=s.step,
                                     ram_mode=RAM_MODE_RAMPUP
@@ -151,14 +151,14 @@ class SetupSingleIonVAET:
             else:
                 self.setup_ram_modulation(
                                     1,  # hard coded to self.dds_SP_729G_bichro
-                                    modulation_waveform=self.mod_wf1[j],
+                                    modulation_waveform=list(self.mod_wf1[j]),
                                     modulation_type=self.FREQ_MOD,
                                     step=s.step,
                                     ram_mode=RAM_MODE_RAMPUP
                                 )
                 self.setup_ram_modulation(
                                     2,  # hard coded to self.dds_SP_729L1
-                                    modulation_waveform=self.mod_wf2[j],
+                                    modulation_waveform=list(self.mod_wf2[j]),
                                     modulation_type=self.FREQ_MOD,
                                     step=s.step,
                                     ram_mode=RAM_MODE_RAMPUP
