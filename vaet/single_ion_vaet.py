@@ -141,7 +141,7 @@ class SingleIonVAET(PulseSequence):
                 if noise_type == "white_nu_eff":
                     noise_wf = std * rng.standard_normal(n)
                     blue_wf = self.vaet.freq_blue + noise_wf
-                    red_wf = self.vaet.freq_red - noise_wf
+                    red_wf = self.vaet.freq_red - noise_wf 
                 elif noise_type == "lorentzian_nu_eff":
                     blue_wf = self.vaet.freq_blue + std * rng.standard_cauchy(n)
                     red_wf = self.vaet.freq_red - std * rng.standard_cauchy(n)
