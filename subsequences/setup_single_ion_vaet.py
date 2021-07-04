@@ -164,7 +164,6 @@ class SetupSingleIonVAET:
                                     ram_mode=RAM_MODE_RAMPUP
                                 )   
 
-
         self.dds_729.sw.on()
         with parallel:
             self.dds_729_SP.cpld.io_update.pulse_mu(8)
