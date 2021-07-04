@@ -148,21 +148,21 @@ class SetupSingleIonVAET:
                                     step=s.step,
                                     ram_mode=RAM_MODE_RAMPUP
                                 )
-        #     else:
-        #         self.setup_ram_modulation(
-        #                             1,  # hard coded to self.dds_SP_729G_bichro
-        #                             modulation_waveform=list(self.mod_wf1[j]),
-        #                             modulation_type="frequency",
-        #                             step=s.step,
-        #                             ram_mode=RAM_MODE_RAMPUP
-        #                         )
-        #         self.setup_ram_modulation(
-        #                             2,  # hard coded to self.dds_SP_729L1
-        #                             modulation_waveform=list(self.mod_wf2[j]),
-        #                             modulation_type="frequency",
-        #                             step=s.step,
-        #                             ram_mode=RAM_MODE_RAMPUP
-        #                         )   
+            else:
+                self.setup_ram_modulation(
+                                    1,  # hard coded to self.dds_SP_729G_bichro
+                                    modulation_waveform=list(self.mod_wf1[j]),
+                                    modulation_type="frequency",
+                                    step=s.step,
+                                    ram_mode=RAM_MODE_RAMPUP
+                                )
+                self.setup_ram_modulation(
+                                    2,  # hard coded to self.dds_SP_729L1
+                                    modulation_waveform=list(self.mod_wf2[j]),
+                                    modulation_type="frequency",
+                                    step=s.step,
+                                    ram_mode=RAM_MODE_RAMPUP
+                                )   
 
 
         self.dds_729.sw.on()
