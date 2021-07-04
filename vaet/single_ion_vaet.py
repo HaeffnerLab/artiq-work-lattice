@@ -75,7 +75,6 @@ class SingleIonVAET(PulseSequence):
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
-        self.core.break_realtime()
         self.vaet.duration = self.get_variable_parameter("SingleIonVAET_duration")
         self.vaet.nu_eff = self.get_variable_parameter("SingleIonVAET_nu_eff")
         self.vaet.delta_amp = self.get_variable_parameter("SingleIonVAET_delta_amp")
@@ -91,11 +90,11 @@ class SingleIonVAET(PulseSequence):
             dds="729G"
         )
 
-        trap_frequency = self.get_trap_frequency(self.SingleIonVAET_selection_sideband)
-        offset = self.get_offset_frequency("729G")
-        nu_eff = self.vaet.nu_eff
-        self.vaet.freq_blue = 80*MHz + trap_frequency + nu_eff + offset
-        self.vaet.freq_red = 80*MHz - trap_frequency - nu_eff + offset
+        trap_frequency = 0.#self.get_trap_frequency(self.SingleIonVAET_selection_sideband)
+        offset = 0.#self.get_offset_frequency("729G")
+        nu_eff = 0.#self.vaet.nu_eff
+        self.vaet.freq_blue = 80*MHz #+ trap_frequency + nu_eff + offset
+        self.vaet.freq_red = 80*MHz #- trap_frequency - nu_eff + offset
 
         self.basis_rotation.phase_ref_time = now_mu()
 
