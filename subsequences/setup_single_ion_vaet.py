@@ -132,7 +132,7 @@ class SetupSingleIonVAET:
             )
 
         self.dds_729.set_att(s.DP_att)
-        self.dds_729_SP.set_att(s.J_att)
+        self.dds_729_SP.set_att(5*dB)#s.J_att)
         self.dds_729_SP_bichro.set_att(s.delta_att)
         self.dds_SP_729L1.set_att(s.noise_att)
 
