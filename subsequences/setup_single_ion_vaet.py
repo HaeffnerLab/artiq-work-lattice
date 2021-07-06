@@ -138,6 +138,7 @@ class SetupSingleIonVAET:
 
         self.dds_729.sw.on()
         with parallel:
+            self.blue_PIs.on()
             self.dds_729_SP.cpld.io_update.pulse_mu(8)
             self.dds_729_SP_bichro.cpld.io_update.pulse_mu(8)
             self.dds_SP_729L1.cpld.io_update.pulse_mu(8)
@@ -152,3 +153,4 @@ class SetupSingleIonVAET:
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
             self.dds_SP_729L1.sw.off()
+            self.blue_PIs.off()
