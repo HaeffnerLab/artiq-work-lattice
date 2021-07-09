@@ -68,8 +68,8 @@ class SingleIonVAET(PulseSequence):
 
         n = 1024
         m = int(self.p.StateReadout.repeat_each_measurement)
-        self.vaet.mod_wf = []
-        self.vaet.mod_wf2 = []
+        self.vaet.mod_wf = [np.int32([0])]
+        self.vaet.mod_wf2 = [np.int32([0])]
         if self.p.SingleIonVAET.with_noise:
             self.setup_noise_waveforms(n, m)
 
@@ -103,30 +103,31 @@ class SingleIonVAET(PulseSequence):
         self.basis_rotation.phase_ref_time = 0
         self.vaet.phase_ref_time = self.basis_rotation.phase_ref_time
 
-        j = round(self.get_variable_parameter("current_experiment_iteration"))
-        if self.vaet.noise_type == "white_delta" or self.vaet.noise_type == "lorentzian_delta":
-            self.setup_ram_modulation(
-                                0,  # hard coded to self.dds_729_SP
-                                ram_waveform=self.vaet.mod_wf[j],
-                                modulation_type=self.AMP_PHASE_MOD,
-                                step=self.vaet.step,
-                                ram_mode=RAM_MODE_RAMPUP
-                            )
-        else:
-            self.setup_ram_modulation(
-                                1,  # hard coded to self.dds_SP_729G_bichro
-                                ram_waveform=self.vaet.mod_wf[j],
-                                modulation_type=self.FREQ_MOD,
-                                step=self.vaet.step,
-                                ram_mode=RAM_MODE_RAMPUP
-                            )
-            self.setup_ram_modulation(
-                                2,  # hard coded to self.dds_SP_729L1
-                                ram_waveform=self.vaet.mod_wf2[j],
-                                modulation_type=self.FREQ_MOD,
-                                step=self.vaet.step,
-                                ram_mode=RAM_MODE_RAMPUP
-                            )
+        if self.vaet.with_noise:
+            j = round(self.get_variable_parameter("current_experiment_iteration"))
+            if self.vaet.noise_type == "white_delta" or self.vaet.noise_type == "lorentzian_delta":
+                self.setup_ram_modulation(
+                                    0,  # hard coded to self.dds_729_SP
+                                    ram_waveform=self.vaet.mod_wf[j],
+                                    modulation_type=self.AMP_PHASE_MOD,
+                                    step=self.vaet.step,
+                                    ram_mode=RAM_MODE_RAMPUP
+                                )
+            else:
+                self.setup_ram_modulation(
+                                    1,  # hard coded to self.dds_SP_729G_bichro
+                                    ram_waveform=self.vaet.mod_wf[j],
+                                    modulation_type=self.FREQ_MOD,
+                                    step=self.vaet.step,
+                                    ram_mode=RAM_MODE_RAMPUP
+                                )
+                self.setup_ram_modulation(
+                                    2,  # hard coded to self.dds_SP_729L1
+                                    ram_waveform=self.vaet.mod_wf2[j],
+                                    modulation_type=self.FREQ_MOD,
+                                    step=self.vaet.step,
+                                    ram_mode=RAM_MODE_RAMPUP
+                                )
 
         self.stateprep.run(self)
         if self.SingleIonVAET_rotate_in_y:
