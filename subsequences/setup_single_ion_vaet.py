@@ -81,13 +81,11 @@ class SetupSingleIonVAET:
         self.dds_SP_729L1.set_att(s.RSB_att)
 
         self.dds_729.sw.on()
-        # with parallel:
-        #     self.dds_729_SP.cpld.io_update.pulse_mu(8)
-        #     self.dds_729_SP_bichro.cpld.io_update.pulse_mu(8)
-        #     self.dds_SP_729L1.cpld.io_update.pulse_mu(8)
-        # delay(5*us)
         with parallel:
             self.blue_PIs.on()
+            self.dds_729_SP.cpld.io_update.pulse_mu(8)
+            self.dds_729_SP_bichro.cpld.io_update.pulse_mu(8)
+            self.dds_SP_729L1.cpld.io_update.pulse_mu(8)
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
             self.dds_SP_729L1.sw.on()
