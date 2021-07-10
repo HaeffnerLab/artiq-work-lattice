@@ -71,14 +71,14 @@ class SingleIonVAET(PulseSequence):
         delta = self.vaet.delta
         J = self.SingleIonVAET_J
         self.vaet.CARR_phase = np.arctan(2 * delta / J) / (2 * np.pi)
-        self.vaet.CARR_amp = np.sqrt(J**2 + delta**2) / np.sqrt(2)
+        self.vaet.CARR_amp = np.sqrt(J**2 + delta**2) / np.sqrt(2.)
         self.basis_rotation.amp_729 = self.Rotation729G_amplitude
         self.basis_rotation.att_729 = self.Rotation729G_att
         self.basis_rotation.duration = self.Rotation729G_pi_time / 2
         self.basis_rotation.freq_729 = self.calc_frequency(
-                                                        self.Rotation729G_line_selection,
-                                                        dds="729G"
-                                                    )
+                                                self.Rotation729G_line_selection,
+                                                dds="729G"
+                                            )
 
         trap_frequency = self.get_trap_frequency(self.SingleIonVAET_selection_sideband)
         offset = self.get_offset_frequency("729G")
