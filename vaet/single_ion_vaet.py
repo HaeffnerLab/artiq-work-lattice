@@ -135,37 +135,44 @@ class SingleIonVAET(PulseSequence):
         self.vaet.step = round(noise_time_step / 4*ns)
         noise_type = self.p.SingleIonVAET.noise_type
         rng = np.random.default_rng()
-        if noise_type in ["white_delta", "lorentzian_delta"]:
-            std = self.p.SingleIonVAET.amplitude_noise_depth
-            delta = self.p.SingleIonVAET.delta
-            J = self.p.SingleIonVAET.J
-            for i in range(m):
-                if noise_type == "white_delta":
-                    d = std * rng.standard_normal(n) + delta
-                elif noise_type == "lorentzian_delta":
-                    d = std * rng.standard_cauchy(n) + delta
-                d[d > 1] = 1.
-                d[d < 0] = 0.
-                amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
-                phase_wf = np.sqrt(J*2 + d**2) / np.sqrt(2.)
-                # amp_wf = [i%2 * 1. for i in range(n)]
-                # phase_wf = [0.5 * i%2 for i in range(n)]
-                ram_wf = [0] * n
-                self.turns_amplitude_to_ram(amp_wf, phase_wf, ram_wf)
-                self.vaet.mod_wf.append(ram_wf)
-        elif noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
-            std = self.p.SingleIonVAET.frequency_noise_strength
-            for i in range(m):
-                if noise_type == "white_nu_eff":
-                    noise_wf = std * rng.standard_normal(n)
-                    blue_wf = self.vaet.freq_blue + noise_wf
-                    red_wf = self.vaet.freq_red - noise_wf 
-                elif noise_type == "lorentzian_nu_eff":
-                    blue_wf = self.vaet.freq_blue + std * rng.standard_cauchy(n)
-                    red_wf = self.vaet.freq_red - std * rng.standard_cauchy(n)
-                ram_wf_blue = [0] * n
-                self.frequency_to_ram(blue_wf, ram_wf_blue)
-                ram_wf_red = [0] * n
-                self.frequency_to_ram(red_wf, ram_wf_red)
-                self.vaet.mod_wf.append(np.int32(ram_wf_blue))
-                self.vaet.mod_wf2.append(np.int32(ram_wf_red))
+        
+        for i in range(m):
+            amp_wf = [1.]
+            phase_wf = [0.]
+            self.turns_amplitude_to_ram(amp_wf, amp_wf, ram_wf)
+            self.vaet.mod_wf.append(ram_wf)
+        
+        # if noise_type in ["white_delta", "lorentzian_delta"]:
+        #     std = self.p.SingleIonVAET.amplitude_noise_depth
+        #     delta = self.p.SingleIonVAET.delta
+        #     J = self.p.SingleIonVAET.J
+        #     for i in range(m):
+        #         if noise_type == "white_delta":
+        #             d = std * rng.standard_normal(n) + delta
+        #         elif noise_type == "lorentzian_delta":
+        #             d = std * rng.standard_cauchy(n) + delta
+        #         d[d > 1] = 1.
+        #         d[d < 0] = 0.
+        #         amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
+        #         phase_wf = np.sqrt(J*2 + d**2) / np.sqrt(2.)
+        #         # amp_wf = [i%2 * 1. for i in range(n)]
+        #         # phase_wf = [0.5 * i%2 for i in range(n)]
+        #         ram_wf = [0] * n
+        #         self.turns_amplitude_to_ram(amp_wf, amp_wf, ram_wf)
+        #         self.vaet.mod_wf.append(ram_wf)
+        # elif noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
+        #     std = self.p.SingleIonVAET.frequency_noise_strength
+        #     for i in range(m):
+        #         if noise_type == "white_nu_eff":
+        #             noise_wf = std * rng.standard_normal(n)
+        #             blue_wf = self.vaet.freq_blue + noise_wf
+        #             red_wf = self.vaet.freq_red - noise_wf 
+        #         elif noise_type == "lorentzian_nu_eff":
+        #             blue_wf = self.vaet.freq_blue + std * rng.standard_cauchy(n)
+        #             red_wf = self.vaet.freq_red - std * rng.standard_cauchy(n)
+        #         ram_wf_blue = [0] * n
+        #         self.frequency_to_ram(blue_wf, ram_wf_blue)
+        #         ram_wf_red = [0] * n
+        #         self.frequency_to_ram(red_wf, ram_wf_red)
+        #         self.vaet.mod_wf.append(np.int32(ram_wf_blue))
+        #         self.vaet.mod_wf2.append(np.int32(ram_wf_red))
