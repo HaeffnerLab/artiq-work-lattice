@@ -151,7 +151,7 @@ class SingleIonVAET(PulseSequence):
                 amp_wf = [i%2 * 1. for i in range(n)]
                 phase_wf = [0.5 * i%2 for i in range(n)]
                 ram_wf = [0] * n
-                self.turns_amplitude_to_ram(amp_wf, phase_wf, ram_wf)
+                self.turns_amplitude_to_ram(phase_wf, amp_wf, ram_wf)
                 self.vaet.mod_wf.append(ram_wf)
         elif noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
             std = self.p.SingleIonVAET.frequency_noise_strength
