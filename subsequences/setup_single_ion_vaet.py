@@ -48,13 +48,14 @@ class SetupSingleIonVAET:
                 ref_time_mu=s.phase_ref_time
             )
 
-        self.dds_729_SP.set(
-                freq_carr,
-                amplitude=s.CARR_amp,
-                ref_time_mu=s.phase_ref_time,
-                phase_mode=phase_mode,
-                phase=s.CARR_phase
-            )
+        self.dds_729_SP.set_frequency(freq_carr)
+        # self.dds_729_SP.set(
+        #         freq_carr,
+        #         amplitude=s.CARR_amp,
+        #         ref_time_mu=s.phase_ref_time,
+        #         phase_mode=phase_mode,
+        #         phase=s.CARR_phase
+        #     )
 
         # Hard-coded to SP_729G_bichro
         self.dds_SP_729G_bichro.set(
