@@ -67,8 +67,7 @@ class SingleIonVAET(PulseSequence):
     def set_subsequence_single_ion_vaet(self):
         self.vaet.duration = self.get_variable_parameter("SingleIonVAET_duration")
         self.vaet.nu_eff = self.get_variable_parameter("SingleIonVAET_nu_eff")
-        self.vaet.delta = self.get_variable_parameter("SingleIonVAET_delta")
-        delta = self.vaet.delta
+        delta = self.get_variable_parameter("SingleIonVAET_delta")
         J = self.SingleIonVAET_J
         self.vaet.CARR_phase = np.arctan(2 * delta / J) / (2 * np.pi)
         self.vaet.CARR_amp = np.sqrt(J**2 + delta**2) / np.sqrt(2.)
