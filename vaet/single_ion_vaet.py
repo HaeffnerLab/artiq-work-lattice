@@ -139,9 +139,9 @@ class SingleIonVAET(PulseSequence):
         for i in range(m):
             amp_wf = [1.]
             phase_wf = [0.]
-            ram_wf = [np.int32(0)] * 1
+            ram_wf = [0] * 1
             self.turns_amplitude_to_ram(amp_wf, amp_wf, ram_wf)
-            self.vaet.mod_wf.append(ram_wf)
+            self.vaet.mod_wf.append(np.int32(ram_wf))
         
         # if noise_type in ["white_delta", "lorentzian_delta"]:
         #     std = self.p.SingleIonVAET.amplitude_noise_depth
