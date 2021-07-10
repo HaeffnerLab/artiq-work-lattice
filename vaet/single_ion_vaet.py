@@ -137,7 +137,7 @@ class SingleIonVAET(PulseSequence):
         rng = np.random.default_rng()
         
         for i in range(m):
-            n = 100
+            n = 1000
             amp_wf = [j%2 * 1. for j in range(n)]
             phase_wf = [0. for j in range(n)]
             ram_wf = [0] * n
