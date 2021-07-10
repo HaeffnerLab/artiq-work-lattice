@@ -104,14 +104,14 @@ class SingleIonVAET(PulseSequence):
                                 )
             else:
                 self.setup_ram_modulation(
-                                    1,  # hard coded to self.dds_SP_729G_bichro
+                                    0,  # hard coded to self.dds_SP_729G_bichro
                                     ram_waveform=self.vaet.mod_wf[j],
                                     modulation_type=self.FREQ_MOD,
                                     step=self.vaet.step,
                                     ram_mode=RAM_MODE_RAMPUP
                                 )
                 self.setup_ram_modulation(
-                                    2,  # hard coded to self.dds_SP_729L1
+                                    0,  # hard coded to self.dds_SP_729L1
                                     ram_waveform=self.vaet.mod_wf2[j],
                                     modulation_type=self.FREQ_MOD,
                                     step=self.vaet.step,
