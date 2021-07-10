@@ -148,7 +148,7 @@ class SingleIonVAET(PulseSequence):
                 d[d < 0] = 0.
                 # amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
                 # phase_wf = np.sqrt(J*2 + d**2) / np.sqrt(2.)
-                amp_wf = [i%2 * 0.5 + 0.4 for i in range(n)]
+                amp_wf = [i%2 * 1. for i in range(n)]
                 phase_wf = [0.5 * i%2 for i in range(n)]
                 ram_wf = [0] * n
                 self.turns_amplitude_to_ram(amp_wf, phase_wf, ram_wf)
