@@ -100,6 +100,10 @@ class SetupSingleIonVAET:
             self.blue_PIs.off()
 
         self.dds_729.set_cfr1()
+        delay(10*us)
         self.dds_729_SP.set_cfr1()
+        delay(10*us)
         self.dds_729_SP_bichro.set_cfr1()
+        delay(10*us)
         self.dds_SP_729L1.set_cfr1()
+        delay(10*us)
