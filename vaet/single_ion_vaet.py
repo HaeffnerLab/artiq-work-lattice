@@ -3,7 +3,7 @@ from subsequences.rabi_excitation import RabiExcitation
 from subsequences.state_preparation import StatePreparation
 from subsequences.setup_single_ion_vaet import SetupSingleIonVAET
 from artiq.experiment import *
-from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP
+from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP, RAM_MODE_CONT_RAMPUP
 import numpy as np
 
 
@@ -95,7 +95,7 @@ class SingleIonVAET(PulseSequence):
                                     ram_waveform=self.vaet.mod_wf[j],
                                     modulation_type=self.AMP_PHASE_MOD,
                                     step=self.vaet.step,
-                                    ram_mode=RAM_MODE_RAMPUP
+                                    ram_mode=RAM_MODE_CONT_RAMPUP
                                 )
             else:
                 self.setup_ram_modulation(
@@ -103,14 +103,14 @@ class SingleIonVAET(PulseSequence):
                                     ram_waveform=self.vaet.mod_wf[j],
                                     modulation_type=self.FREQ_MOD,
                                     step=self.vaet.step,
-                                    ram_mode=RAM_MODE_RAMPUP
+                                    ram_mode=RAM_MODE_CONT_RAMPUP
                                 )
                 self.setup_ram_modulation(
                                     0,  # hard coded to self.dds_SP_729L1
                                     ram_waveform=self.vaet.mod_wf2[j],
                                     modulation_type=self.FREQ_MOD,
                                     step=self.vaet.step,
-                                    ram_mode=RAM_MODE_RAMPUP
+                                    ram_mode=RAM_MODE_CONT_RAMPUP
                                 )
 
         self.stateprep.run(self)
