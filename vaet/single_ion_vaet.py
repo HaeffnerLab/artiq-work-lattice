@@ -56,7 +56,7 @@ class SingleIonVAET(PulseSequence):
         # self.CARR_amp = np.sqrt(J**2 + delta**2) / np.sqrt(2)
 
 
-        n = 20
+        n = 100
         m = int(self.p.StateReadout.repeat_each_measurement)
         self.vaet.mod_wf = [np.int32([0])]
         self.vaet.mod_wf2 = [np.int32([0])]
