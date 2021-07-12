@@ -116,7 +116,7 @@ class SingleIonVAET(PulseSequence):
                                     modulation_type=self.FREQ_MOD,
                                     step=self.vaet.step,
                                     ram_mode=RAM_MODE_RAMPUP
-                                )
+                                )#
 
         self.stateprep.run(self)
         if self.SingleIonVAET_rotate_in_y:
