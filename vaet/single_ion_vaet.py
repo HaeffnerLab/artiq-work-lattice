@@ -51,7 +51,7 @@ class SingleIonVAET(PulseSequence):
         self.vaet = self.add_subsequence(SetupSingleIonVAET)
         self.set_subsequence["SingleIonVAET"] = self.set_subsequence_single_ion_vaet
 
-        n = 500
+        n = 400
         m = int(self.p.StateReadout.repeat_each_measurement)
         self.vaet.mod_wf = [np.int32([0])]
         self.vaet.mod_wf2 = [np.int32([0])]

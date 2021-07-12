@@ -77,6 +77,6 @@ class RAMAmpPhaseExample(EnvExperiment):
                 self.u.sw.on()
                 self.ttl.on()
                 self.u.cpld.io_update.pulse_mu(8)
-            delay(4*us)
+            delay(400*us)
             self.ttl.off()
             self.u.sw.off()
