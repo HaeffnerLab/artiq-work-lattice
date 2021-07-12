@@ -50,13 +50,8 @@ class SingleIonVAET(PulseSequence):
         self.basis_rotation = self.add_subsequence(RabiExcitation)
         self.vaet = self.add_subsequence(SetupSingleIonVAET)
         self.set_subsequence["SingleIonVAET"] = self.set_subsequence_single_ion_vaet
-        # delta = self.p.SingleIonVAET.delta
-        # J = self.p.SingleIonVAET.J
-        # self.CARR_phase = np.arctan(2 * delta / J) / (2 * np.pi)
-        # self.CARR_amp = np.sqrt(J**2 + delta**2) / np.sqrt(2)
 
-
-        n = 200
+        n = 500
         m = int(self.p.StateReadout.repeat_each_measurement)
         self.vaet.mod_wf = [np.int32([0])]
         self.vaet.mod_wf2 = [np.int32([0])]
