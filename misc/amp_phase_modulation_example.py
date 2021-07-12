@@ -9,7 +9,7 @@ import numpy as np
 class RAMAmpPhaseExample(EnvExperiment):
     def build(self):
         self.setattr_device("core")
-        self.u = self.get_device("urukul0_ch0")
+        self.u = self.get_device("urukul3_ch1")
         # self.u = self.get_device("urukul2_ch0")
         self.ttl = self.get_device("blue_PIs")
 
@@ -29,12 +29,15 @@ class RAMAmpPhaseExample(EnvExperiment):
             elif val < min_:
                 self.data_amp[i] = min_
 
+        self.data = [0] * len(self.data_amp)
+        self.u.turns_amplitude_to_ram(self.data_phase, self.data_amp, self.data)
+        self.data = np.int32(self.data)
+
         self.krun()
 
     @kernel
     def krun(self):
-        data = [0] * len(self.data_amp)
-        self.u.turns_amplitude_to_ram(self.data_phase, self.data_amp, data)
+        data = self.data
 
         self.core.reset()
         self.u.cpld.init()
