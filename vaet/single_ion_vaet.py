@@ -111,7 +111,7 @@ class SingleIonVAET(PulseSequence):
                                     modulation_type=self.FREQ_MOD,
                                     step=self.vaet.step,
                                     ram_mode=RAM_MODE_RAMPUP
-                                )#
+                                )
 
         self.stateprep.run(self)
         if self.SingleIonVAET_rotate_in_y:
@@ -132,7 +132,7 @@ class SingleIonVAET(PulseSequence):
         rng = np.random.default_rng()
         
         for i in range(m):
-            amp_wf = [3%2 * 1. for j in range(n)]
+            amp_wf = [j%2 * 1. for j in range(n)]
             phase_wf = [j%2 * 0.5 for j in range(n)]
             ram_wf = [0] * n
             self.turns_amplitude_to_ram(phase_wf, amp_wf, ram_wf)
