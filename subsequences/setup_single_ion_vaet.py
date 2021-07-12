@@ -99,7 +99,7 @@ class SetupSingleIonVAET:
             self.dds_SP_729L1.sw.off()
             self.blue_PIs.off()
 
-        # self.dds_729.set_cfr1()
-        # self.dds_729_SP.set_cfr1()
-        # self.dds_729_SP_bichro.set_cfr1()
-        # self.dds_SP_729L1.set_cfr1()
+        self.dds_729.set_cfr1()
+        self.dds_729_SP.set_cfr1()
+        self.dds_729_SP_bichro.set_cfr1()
+        self.dds_SP_729L1.set_cfr1()
