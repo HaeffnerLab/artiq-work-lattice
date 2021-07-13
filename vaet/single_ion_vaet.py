@@ -107,7 +107,7 @@ class SingleIonVAET(PulseSequence):
                                     ram_mode=RAM_MODE_CONT_RAMPUP
                                 )
                 self.setup_ram_modulation(
-                                    1,  # hard coded to self.dds_SP_729L1
+                                    2,  # hard coded to self.dds_SP_729L1
                                     ram_waveform=self.vaet.mod_wf2[j],
                                     modulation_type=self.FREQ_MOD,
                                     step=self.vaet.step,
