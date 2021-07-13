@@ -177,7 +177,7 @@ class SingleIonVAET(PulseSequence):
                                             )
                     blue_wf = self.vaet.freq_blue + d
                     red_wf = self.vaet.freq_red - d
-                    print("blue: ", blue_wf)
+                    print("blue: ", self.vaet.freq_blue)
                     # print("red: ", self.vaet.freq_red)
                 elif noise_type == "lorentzian_nu_eff":
                     pass
