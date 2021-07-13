@@ -80,7 +80,6 @@ class SetupSingleIonVAET:
                 )
         
         if s.with_noise and not s.amplitude_noise:
-            print("s.amplitude_noise", s.amplitude_noise)
             self.dds_SP_729G_bichro.set_amplitude(s.BSB_amp)
             self.dds_SP_729G_bichro.set_phase(0.75)
             self.dds_SP_729L1.set_amplitude(s.RSB_amp)
