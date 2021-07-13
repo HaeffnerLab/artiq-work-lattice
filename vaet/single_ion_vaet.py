@@ -173,12 +173,13 @@ class SingleIonVAET(PulseSequence):
                 strength = self.p.SingleIonVAET.frequency_noise_strength
                 ram_wf_blue = [0] * n
                 ram_wf_red = [0] * n
+                frequency_bandwidth = 750*kHz
                 if noise_type == "white_nu_eff":
                     _, _, d = generate_white_noise(
                                                 strength, samples=n,
                                                 samplerate=1/noise_time_step,
-                                                min_value=-delta, max_value=1 - delta,
-                                                # min_freq=-250e3, max_freq=250e3,
+                                                min_value=-frequency_bandwidth, max_value=frequency_bandwidth,
+                                                # min_freq=-750e3, max_freq=750e3,
                                                 just_phase=False
                                             )
                     blue_wf = self.vaet.freq_blue + d
