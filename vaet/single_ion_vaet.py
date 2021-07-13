@@ -80,8 +80,6 @@ class SingleIonVAET(PulseSequence):
         nu_eff = self.vaet.nu_eff
         self.vaet.freq_blue = 80*MHz + trap_frequency + nu_eff + offset
         self.vaet.freq_red = 80*MHz - trap_frequency - nu_eff + offset
-        print("blue: ", self.vaet.freq_blue)
-        print("red: ", self.vaet.freq_red)
 
         self.basis_rotation.phase_ref_time = now_mu()
 
@@ -179,6 +177,8 @@ class SingleIonVAET(PulseSequence):
                                             )
                     blue_wf = self.vaet.freq_blue + d
                     red_wf = self.vaet.freq_red - d
+                    print("blue: ", blue_wf)
+                    # print("red: ", self.vaet.freq_red)
                 elif noise_type == "lorentzian_nu_eff":
                     pass
                 elif noise_type == "pink_nu_eff":
