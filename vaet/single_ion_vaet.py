@@ -143,6 +143,39 @@ class SingleIonVAET(PulseSequence):
             self.turns_amplitude_to_ram(phase_wf, amp_wf, ram_wf)
             self.vaet.mod_wf.append(np.int32(ram_wf))
         
+        if self.vaet.amplitude_noise:
+            strength = self.p.SingleIonVAET.amplitude_noise_depth
+            delta = self.p.SingleIonVAET.delta
+            J = self.p.SingleIonVAET.J
+            for i in range(m):
+                ram_wf = [0] * n
+                if noise_type == "white_delta":
+                        _, _, d = generate_white_noise(
+                                                strength, samples=n,
+                                                samplerate=1/noise_time_step,
+                                                min_value=0., max_value=1.,
+                                                min_freq=-250e3, max_freq=250e3,
+                                                just_phase=False
+                                            )
+                        amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
+                        phase_wf = np.sqrt(J**2 + d**2) / np.sqrt(2.)
+                        self.turns_amplitude_to_ram(amp_wf, amp_wf, ram_wf)
+                        self.vaet.mod_wf.append(ram_wf)
+                elif noise_type == "lorentzian_delta"
+                    pass
+                elif noise_type == "pink_delta":
+                    pass
+                elif noise_type == "brown_delta":
+                    pass
+        else:
+            if noise_type == "white_nu_eff":
+                pass
+            elif noise_type == "lorentzian_nu_eff"
+                pass
+            elif noise_type == "pink_nu_eff":
+                pass
+            elif noise_type == "brown_nu_eff":
+                pass
         # if noise_type in ["white_delta", "lorentzian_delta"]:
         #     std = self.p.SingleIonVAET.amplitude_noise_depth
         #     delta = self.p.SingleIonVAET.delta
@@ -177,3 +210,99 @@ class SingleIonVAET(PulseSequence):
         #         self.frequency_to_ram(red_wf, ram_wf_red)
         #         self.vaet.mod_wf.append(np.int32(ram_wf_blue))
         #         self.vaet.mod_wf2.append(np.int32(ram_wf_red))
+
+
+def fftnoise(f, just_phase=False):
+    # adapted from frank-zalkow's Stack Overflow answer
+    # https://stackoverflow.com/questions/33933842/how-to-generate-noise-in-frequency-range-with-numpy
+    assert len(f) % 2 == 0  # let's just work with even sample sizes for now
+    f = np.array(np.sqrt(f), dtype="complex")
+    Np = (len(f) - 1) // 2
+    rng = np.random.default_rng()
+    if just_phase:
+        phases = np.exp(2j * np.pi * rng.uniform(size=Np))
+        f[1:Np+1] *= phases
+        f[-1:-(1 + Np):-1] = np.conj(f[1:Np+1])
+    else:
+        reals = rng.standard_normal(Np) / np.sqrt(2)
+        ims = rng.standard_normal(Np) / np.sqrt(2)
+        f[1:Np+1] *= (reals + 1j * ims)
+        f[Np+1] *= rng.standard_normal() / np.sqrt(2)  # Nyquist frequency must be real for even sample sizes
+        f[-1:-(1 + Np):-1] = np.conj(f[1:Np+1])
+    fft = np.fft.ifft(f, norm="ortho").real 
+    fft[0] = 0 # zero-mean
+    return fft
+
+def lorentzian(f, std, f0, y):
+    return (std * y)**2 / ((f - f0)**2 + y**2)
+
+def pink(f, std, rolloff=0):
+    f1 = np.abs(f)
+    indx1 = np.where(f1 <= rolloff)
+    indx2 = np.where(f1 > rolloff)
+    f1[indx1] = std**2
+    f1[indx2] = std**2 * min(f1[indx2]) / (f1[indx2])
+    return f1
+
+def brown(f, std, rolloff=0):
+    f1 = np.abs(f)
+    indx1 = np.where(f1 <= rolloff)
+    indx2 = np.where(f1 > rolloff)
+    f1[indx1] = std**2
+    print(min(f1[indx2]))
+    f1[indx2] = (std * min(f1[indx2]))**2 / (f1[indx2]**2)
+    return f1
+
+def prune(array, min_value, max_value):
+    idxlow = np.where(array < min_value)[0]
+    idxhigh = np.where(array > max_value)[0]
+    array[idxhigh] = max_value
+    array[idxlow] = min_value
+    return array
+
+def generate_lorentzian_noise(
+                            s0, f0, y, 
+                            min_value=-1e10, max_value=1e10, 
+                            samples=1024, samplerate=1/2e-6, 
+                            just_phase=False
+                        ):
+    freqs = np.fft.fftfreq(int(samples), 1/samplerate)
+    rfreqs = np.fft.rfftfreq(int(samples), 1/samplerate)
+    f = lorentzian(freqs, s0, f0, y)
+    return rfreqs, f[:len(rfreqs)], prune(fftnoise(f, just_phase=just_phase), min_value, max_value)
+
+def generate_pink_noise(
+                    s0, rolloff=0, 
+                    min_value=-1e10, max_value=1e10, 
+                    samples=1024, samplerate=1/2e-6, 
+                    just_phase=False
+                ):
+    freqs = np.fft.fftfreq(int(samples), 1/samplerate)
+    rfreqs = np.fft.rfftfreq(int(samples), 1/samplerate)
+    f = pink(freqs, s0, rolloff=rolloff)
+    return rfreqs, f[:len(rfreqs)], prune(fftnoise(f, just_phase=just_phase), min_value, max_value)
+
+def generate_brown_noise(
+                        s0, rolloff=0, 
+                        min_value=-1e10, max_value=1e10, 
+                        samples=1024, samplerate=1/2e-6, 
+                        just_phase=False
+                    ):
+    freqs = np.fft.fftfreq(int(samples), 1/samplerate)
+    rfreqs = np.fft.rfftfreq(int(samples), 1/samplerate)
+    f = brown(freqs, s0, rolloff=rolloff)
+    return rfreqs, f[:len(rfreqs)], prune(fftnoise(f, just_phase=just_phase), min_value, max_value)
+
+def generate_white_noise(
+                        s0, 
+                        min_value=-1e10, max_value=1e10, 
+                        min_freq=-1e-10, max_freq=1e10, 
+                        samples=1024, samplerate=1/2e-6, 
+                        just_phase=False
+                    ):
+    freqs = np.fft.fftfreq(int(samples), 1/samplerate)
+    rfreqs = np.fft.rfftfreq(int(samples), 1/samplerate)
+    f = np.zeros(int(samples))
+    idx = np.where(np.logical_and(freqs>=min_freq, freqs<=max_freq))[0]
+    f[idx] = (s0 / 2)**2  # because zero-mean
+    return rfreqs, f[:len(rfreqs)], prune(fftnoise(f, just_phase=just_phase), min_value, max_value)
