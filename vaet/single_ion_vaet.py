@@ -170,7 +170,7 @@ class SingleIonVAET(PulseSequence):
         else:
             if noise_type == "white_nu_eff":
                 pass
-            elif noise_type == "lorentzian_nu_eff"
+            elif noise_type == "lorentzian_nu_eff":
                 pass
             elif noise_type == "pink_nu_eff":
                 pass
