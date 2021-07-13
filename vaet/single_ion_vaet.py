@@ -160,41 +160,39 @@ class SingleIonVAET(PulseSequence):
                         d = d + delta
                         amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
                         phase_wf = np.sqrt(J**2 + d**2) / np.sqrt(2.)
-                        self.turns_amplitude_to_ram(phase_wf, amp_wf, ram_wf)
-                        self.vaet.mod_wf.append(np.int32(ram_wf))
                 elif noise_type == "lorentzian_delta":
                     pass
                 elif noise_type == "pink_delta":
                     pass
                 elif noise_type == "brown_delta":
                     pass
+                self.turns_amplitude_to_ram(phase_wf, amp_wf, ram_wf)
+                self.vaet.mod_wf.append(np.int32(ram_wf))
         else:
-            if noise_type == "white_nu_eff":
-                pass
-            elif noise_type == "lorentzian_nu_eff":
-                pass
-            elif noise_type == "pink_nu_eff":
-                pass
-            elif noise_type == "brown_nu_eff":
-                pass
-        # if noise_type in ["white_delta", "lorentzian_delta"]:
-        #     std = self.p.SingleIonVAET.amplitude_noise_depth
-        #     delta = self.p.SingleIonVAET.delta
-        #     J = self.p.SingleIonVAET.J
-        #     for i in range(m):
-        #         if noise_type == "white_delta":
-        #             d = std * rng.standard_normal(n) + delta
-        #         elif noise_type == "lorentzian_delta":
-        #             d = std * rng.standard_cauchy(n) + delta
-        #         d[d > 1] = 1.
-        #         d[d < 0] = 0.
-        #         amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
-        #         phase_wf = np.sqrt(J*2 + d**2) / np.sqrt(2.)
-        #         # amp_wf = [i%2 * 1. for i in range(n)]
-        #         # phase_wf = [0.5 * i%2 for i in range(n)]
-        #         ram_wf = [0] * n
-        #         self.turns_amplitude_to_ram(amp_wf, amp_wf, ram_wf)
-        #         self.vaet.mod_wf.append(ram_wf)
+            for i in range(m):
+                strength = self.p.SingleIonVAET.frequency_noise_strength
+                ram_wf_blue = [0] * n
+                ram_wf_red = [0] * n
+                if noise_type == "white_nu_eff":
+                    _, _, d = generate_white_noise(
+                                                strength, samples=n,
+                                                samplerate=1/noise_time_step,
+                                                min_value=-delta, max_value=1 - delta,
+                                                # min_freq=-250e3, max_freq=250e3,
+                                                just_phase=False
+                                            )
+                    blue_wf = self.vaet.freq_blue + d
+                    red_wf = self.vaet.freq_red - d
+                elif noise_type == "lorentzian_nu_eff":
+                    pass
+                elif noise_type == "pink_nu_eff":
+                    pass
+                elif noise_type == "brown_nu_eff":
+                    pass
+                self.frequency_to_ram(blue_wf, ram_wf_blue)
+                self.frequency_to_ram(red_wf, ram_wf_red)
+                self.vaet.mod_wf.append(np.int32(ram_wf_blue))
+                self.vaet.mod_wf2.append(np.int32(ram_wf_red))
         # elif noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
         #     std = self.p.SingleIonVAET.frequency_noise_strength
         #     for i in range(m):
