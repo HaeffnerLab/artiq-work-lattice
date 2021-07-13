@@ -132,7 +132,7 @@ class SingleIonVAET(PulseSequence):
         print(self.vaet.step)
         print(2*us)
         print(4*ns)
-        print(2*us // 4*ns)
+        print(float(2*us) // float(4*ns))
         noise_type = self.p.SingleIonVAET.noise_type
         if "delta" in noise_type:
             self.vaet.amplitude_noise = True
