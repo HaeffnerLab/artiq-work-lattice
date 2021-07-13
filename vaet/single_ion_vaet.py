@@ -45,17 +45,26 @@ class SingleIonVAET(PulseSequence):
         ]
     )
 
+    ###########
+    # nu_eff / delta scans currently not working with noise implementation
+    ###########
+
     def run_initially(self):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.basis_rotation = self.add_subsequence(RabiExcitation)
         self.vaet = self.add_subsequence(SetupSingleIonVAET)
-        self.set_subsequence["SingleIonVAET"] = self.set_subsequence_single_ion_vaet
+        self.set_subsequence["SingleIonVAET"] = sself.set_subsequence_single_ion_vaet
         self.vaet.with_noise = bool(self.p.SingleIonVAET.with_noise)
 
         n = 1024
         m = int(self.p.StateReadout.repeat_each_measurement)
         self.vaet.mod_wf = [np.int32([0])]
         self.vaet.mod_wf2 = [np.int32([0])]
+        trap_frequency = self.get_trap_frequency(self.SingleIonVAET_selection_sideband)
+        offset = self.get_offset_frequency("729G")
+        nu_eff = self.p.SingleIonVAET.nu_eff
+        self.vaet.freq_blue = 80*MHz + trap_frequency + nu_eff + offset
+        self.vaet.freq_red = 80*MHz - trap_frequency - nu_eff + offset
         if self.p.SingleIonVAET.with_noise:
             self.setup_noise_waveforms(n, m)
 
@@ -177,8 +186,6 @@ class SingleIonVAET(PulseSequence):
                                             )
                     blue_wf = self.vaet.freq_blue + d
                     red_wf = self.vaet.freq_red - d
-                    print("blue: ", self.vaet.freq_blue)
-                    # print("red: ", self.vaet.freq_red)
                 elif noise_type == "lorentzian_nu_eff":
                     pass
                 elif noise_type == "pink_nu_eff":
