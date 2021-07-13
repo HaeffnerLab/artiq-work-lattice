@@ -154,7 +154,7 @@ class SingleIonVAET(PulseSequence):
                                                 strength, samples=n,
                                                 samplerate=1/noise_time_step,
                                                 min_value=-delta, max_value=1 - delta,
-                                                min_freq=-250e3, max_freq=250e3,
+                                                # min_freq=-250e3, max_freq=250e3,
                                                 just_phase=False
                                             )
                         d = d + delta
