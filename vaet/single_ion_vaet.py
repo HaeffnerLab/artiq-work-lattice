@@ -50,6 +50,7 @@ class SingleIonVAET(PulseSequence):
         self.basis_rotation = self.add_subsequence(RabiExcitation)
         self.vaet = self.add_subsequence(SetupSingleIonVAET)
         self.set_subsequence["SingleIonVAET"] = self.set_subsequence_single_ion_vaet
+        self.vaet.with_noise = bool(self.p.SingleIonVAET.with_noise)
 
         n = 1024
         m = int(self.p.StateReadout.repeat_each_measurement)
@@ -130,9 +131,9 @@ class SingleIonVAET(PulseSequence):
         self.vaet.step = round(noise_time_step / 4*ns)
         noise_type = self.p.SingleIonVAET.noise_type
         if "delta" in noise_type:
-            self.vaet.amplitude_noise = 1
+            self.vaet.amplitude_noise = True
         else:
-            self.vaet.amplitude_noise = 0
+            self.vaet.amplitude_noise = False
         rng = np.random.default_rng()
         
         for i in range(m):
