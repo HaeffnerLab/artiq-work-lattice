@@ -100,14 +100,14 @@ class SingleIonVAET(PulseSequence):
                                 )
             else:
                 self.setup_ram_modulation(
-                                    0,  # hard coded to self.dds_SP_729G_bichro
+                                    1,  # hard coded to self.dds_SP_729G_bichro
                                     ram_waveform=self.vaet.mod_wf[j],
                                     modulation_type=self.FREQ_MOD,
                                     step=self.vaet.step,
                                     ram_mode=RAM_MODE_CONT_RAMPUP
                                 )
                 self.setup_ram_modulation(
-                                    0,  # hard coded to self.dds_SP_729L1
+                                    1,  # hard coded to self.dds_SP_729L1
                                     ram_waveform=self.vaet.mod_wf2[j],
                                     modulation_type=self.FREQ_MOD,
                                     step=self.vaet.step,
@@ -128,20 +128,20 @@ class SingleIonVAET(PulseSequence):
 
     def setup_noise_waveforms(self, n, m):
         noise_time_step = 2*us  # 1/sampling rate
-        self.vaet.step = 200#round(noise_time_step / 4*ns)
+        self.vaet.step = round(noise_time_step / 4*ns)
         noise_type = self.p.SingleIonVAET.noise_type
         if "delta" in noise_type:
             self.vaet.amplitude_noise = True
         else:
             self.vaet.amplitude_noise = False
-        rng = np.random.default_rng()
+        # rng = np.random.default_rng()
         
-        for i in range(m):
-            amp_wf = [j%2 * 1. for j in range(n)]
-            phase_wf = [j%2 * 0.5 for j in range(n)]
-            ram_wf = [0] * n
-            self.turns_amplitude_to_ram(phase_wf, amp_wf, ram_wf)
-            self.vaet.mod_wf.append(np.int32(ram_wf))
+        # for i in range(m):
+        #     amp_wf = [j%2 * 1. for j in range(n)]
+        #     phase_wf = [j%2 * 0.5 for j in range(n)]
+        #     ram_wf = [0] * n
+        #     self.turns_amplitude_to_ram(phase_wf, amp_wf, ram_wf)
+        #     self.vaet.mod_wf.append(np.int32(ram_wf))
         
         if self.vaet.amplitude_noise:
             strength = self.p.SingleIonVAET.amplitude_noise_depth
@@ -161,7 +161,7 @@ class SingleIonVAET(PulseSequence):
                         amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
                         phase_wf = np.sqrt(J**2 + d**2) / np.sqrt(2.)
                         self.turns_amplitude_to_ram(amp_wf, amp_wf, ram_wf)
-                        self.vaet.mod_wf.append(ram_wf)
+                        self.vaet.mod_wf.append(np.int32(ram_wf))
                 elif noise_type == "lorentzian_delta":
                     pass
                 elif noise_type == "pink_delta":
