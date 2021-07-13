@@ -153,7 +153,7 @@ class SingleIonVAET(PulseSequence):
                         _, _, d = generate_white_noise(
                                                 strength, samples=n,
                                                 samplerate=1/noise_time_step,
-                                                min_value=0., max_value=1.,
+                                                min_value=-delta, max_value=1 - delta,
                                                 min_freq=-250e3, max_freq=250e3,
                                                 just_phase=False
                                             )
