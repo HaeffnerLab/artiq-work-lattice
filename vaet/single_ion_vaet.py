@@ -80,6 +80,8 @@ class SingleIonVAET(PulseSequence):
         nu_eff = self.vaet.nu_eff
         self.vaet.freq_blue = 80*MHz + trap_frequency + nu_eff + offset
         self.vaet.freq_red = 80*MHz - trap_frequency - nu_eff + offset
+        print("blue: ", self.vaet.freq_blue)
+        print("red: ", self.vaet.freq_red)
 
         self.basis_rotation.phase_ref_time = now_mu()
 
@@ -170,7 +172,8 @@ class SingleIonVAET(PulseSequence):
                     _, _, d = generate_white_noise(
                                                 strength, samples=n,
                                                 samplerate=1/noise_time_step,
-                                                min_value=-frequency_bandwidth, max_value=frequency_bandwidth,
+                                                min_value=-frequency_bandwidth, 
+                                                max_value=frequency_bandwidth,
                                                 # min_freq=-750e3, max_freq=750e3,
                                                 just_phase=False
                                             )
