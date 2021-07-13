@@ -23,6 +23,7 @@ class SetupSingleIonVAET:
     duration="SingleIonVAET.duration"
     with_noise="SingleIonVAET.with_noise"
     noise_type="SingleIonVAET.noise_type"
+    amplitude_noise=False
     phase_ref_time=np.int64(-1)
     freq_blue=0.
     freq_red=0.
@@ -40,40 +41,49 @@ class SetupSingleIonVAET:
                                     dds="729G"
                                 )
 
-        # Hard-coded to 729G
+        # DP is hard-coded to 729G
         self.dds_729.set(
                 dp_freq,
                 amplitude=s.DP_amp,
                 phase_mode=phase_mode,
                 ref_time_mu=s.phase_ref_time
             )
+        
+        if not s.with_noise or not s.amplitude_noise:
+            self.dds_729_SP.set(
+                    freq_carr,
+                    amplitude=s.CARR_amp,
+                    ref_time_mu=s.phase_ref_time,
+                    phase_mode=phase_mode,
+                    phase=s.CARR_phase
+                )
+        if s.with_noise and s.amplitude_noise:
+            self.dds_729_SP.set_frequency(freq_carr)
 
-        self.dds_729_SP.set_frequency(freq_carr)
-        # self.dds_729_SP.set(
-        #         freq_carr,
-        #         amplitude=s.CARR_amp,
-        #         # ref_time_mu=s.phase_ref_time,
-        #         # phase_mode=phase_mode,
-        #         phase=s.CARR_phase
-        #     )
+        if not s.with_noise or s.amplitude_noise:
+            # Hard-coded to SP_729G_bichro
+            self.dds_SP_729G_bichro.set(
+                    s.freq_blue,
+                    amplitude=s.BSB_amp,
+                    ref_time_mu=s.phase_ref_time,
+                    phase_mode=phase_mode,
+                    phase=0.75
+                )
 
-        # Hard-coded to SP_729G_bichro
-        self.dds_SP_729G_bichro.set(
-                s.freq_blue,
-                amplitude=s.BSB_amp,
-                ref_time_mu=s.phase_ref_time,
-                phase_mode=phase_mode,
-                phase=0.75
-            )
-
-        # Hard-coded to SP_729L1
-        self.dds_SP_729L1.set(
-                s.freq_red,
-                amplitude=s.RSB_amp,
-                phase_mode=phase_mode,
-                ref_time_mu=s.phase_ref_time,
-                phase=0.25
-            )
+            # Hard-coded to SP_729L1
+            self.dds_SP_729L1.set(
+                    s.freq_red,
+                    amplitude=s.RSB_amp,
+                    phase_mode=phase_mode,
+                    ref_time_mu=s.phase_ref_time,
+                    phase=0.25
+                )
+        
+        if s.with_noise and not s.amplitude_noise:
+            self.dds_SP_729G_bichro.set_amplitude(s.BSB_amp)
+            self.dds_SP_729G_bichro.set_phase(0.75)
+            self.dds_SP_729L1.set_amplitude(s.RSB_amp)
+            self.dds_SP_729L1.set_phase(0.25)
 
         self.dds_729.set_att(s.DP_att)
         self.dds_729_SP.set_att(s.CARR_att)
