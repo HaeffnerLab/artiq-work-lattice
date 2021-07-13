@@ -60,7 +60,7 @@ class SingleIonVAET(PulseSequence):
         m = int(self.p.StateReadout.repeat_each_measurement)
         self.vaet.mod_wf = [np.int32([0])]
         self.vaet.mod_wf2 = [np.int32([0])]
-        trap_frequency = self.get_trap_frequency(self.SingleIonVAET_selection_sideband)
+        trap_frequency = self.get_trap_frequency(self.p.SingleIonVAET.selection_sideband)
         offset = self.get_offset_frequency("729G")
         nu_eff = self.p.SingleIonVAET.nu_eff
         self.vaet.freq_blue = 80*MHz + trap_frequency + nu_eff + offset
