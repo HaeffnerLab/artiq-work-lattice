@@ -161,7 +161,7 @@ class SingleIonVAET(PulseSequence):
                         phase_wf = np.sqrt(J**2 + d**2) / np.sqrt(2.)
                         self.turns_amplitude_to_ram(amp_wf, amp_wf, ram_wf)
                         self.vaet.mod_wf.append(ram_wf)
-                elif noise_type == "lorentzian_delta"
+                elif noise_type == "lorentzian_delta":
                     pass
                 elif noise_type == "pink_delta":
                     pass
