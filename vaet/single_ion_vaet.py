@@ -53,7 +53,7 @@ class SingleIonVAET(PulseSequence):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.basis_rotation = self.add_subsequence(RabiExcitation)
         self.vaet = self.add_subsequence(SetupSingleIonVAET)
-        self.set_subsequence["SingleIonVAET"] = sself.set_subsequence_single_ion_vaet
+        self.set_subsequence["SingleIonVAET"] = self.set_subsequence_single_ion_vaet
         self.vaet.with_noise = bool(self.p.SingleIonVAET.with_noise)
 
         n = 1024
@@ -251,7 +251,6 @@ def brown(f, std, rolloff=0):
     indx1 = np.where(f1 <= rolloff)
     indx2 = np.where(f1 > rolloff)
     f1[indx1] = std**2
-    print(min(f1[indx2]))
     f1[indx2] = (std * min(f1[indx2]))**2 / (f1[indx2]**2)
     return f1
 
