@@ -128,7 +128,8 @@ class SingleIonVAET(PulseSequence):
 
     def setup_noise_waveforms(self, n, m):
         noise_time_step = 2*us  # 1/sampling rate
-        self.vaet.step = 400#round(noise_time_step / 4*ns)
+        self.vaet.step = round(noise_time_step / 4*ns)
+        print(self.vaet.step)
         noise_type = self.p.SingleIonVAET.noise_type
         if "delta" in noise_type:
             self.vaet.amplitude_noise = True
