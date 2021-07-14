@@ -87,8 +87,8 @@ class SingleIonVAET(PulseSequence):
         trap_frequency = self.get_trap_frequency(self.SingleIonVAET_selection_sideband)
         offset = self.get_offset_frequency("729G")
         nu_eff = self.vaet.nu_eff
-        self.vaet.freq_blue = 80*MHz + trap_frequency + nu_eff + offset
-        self.vaet.freq_red = 80*MHz - trap_frequency - nu_eff + offset
+        self.vaet.freq_blue = trap_frequency + nu_eff + offset
+        self.vaet.freq_red = trap_frequency - nu_eff + offset
 
         self.basis_rotation.phase_ref_time = now_mu()
 
@@ -169,7 +169,7 @@ class SingleIonVAET(PulseSequence):
                     pass
                 self.turns_amplitude_to_ram(phase_wf, amp_wf, ram_wf)
                 self.vaet.mod_wf.append(np.int32(ram_wf))
-        else:
+        else:  # scans of nu_eff are currently not supported with vu_eff noise
             for i in range(m):
                 strength = self.p.SingleIonVAET.frequency_noise_strength
                 ram_wf_blue = [0] * n
