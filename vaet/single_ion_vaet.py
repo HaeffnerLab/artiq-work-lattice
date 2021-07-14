@@ -63,8 +63,8 @@ class SingleIonVAET(PulseSequence):
         trap_frequency = self.p.TrapFrequencies[self.p.SingleIonVAET.selection_sideband]
         offset = self.get_offset_frequency("729G")
         nu_eff = self.p.SingleIonVAET.nu_eff
-        self.vaet.freq_blue = 80*MHz + trap_frequency + nu_eff + offset
-        self.vaet.freq_red = 80*MHz - trap_frequency - nu_eff + offset
+        self.vaet.freq_blue = trap_frequency + nu_eff + offset
+        self.vaet.freq_red = trap_frequency - nu_eff + offset
         if self.p.SingleIonVAET.with_noise:
             self.setup_noise_waveforms(n, m)
 
@@ -87,8 +87,8 @@ class SingleIonVAET(PulseSequence):
         trap_frequency = self.get_trap_frequency(self.SingleIonVAET_selection_sideband)
         offset = self.get_offset_frequency("729G")
         nu_eff = self.vaet.nu_eff
-        self.vaet.freq_blue = trap_frequency + nu_eff + offset
-        self.vaet.freq_red = trap_frequency - nu_eff + offset
+        self.vaet.freq_blue = 80*MHz + trap_frequency + nu_eff + offset
+        self.vaet.freq_red = 80*MHz - trap_frequency - nu_eff + offset
 
         self.basis_rotation.phase_ref_time = now_mu()
 
