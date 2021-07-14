@@ -20,8 +20,8 @@ class SingleIonVAET(PulseSequence):
         "SingleIonVAET.BSB_amp",
         "SingleIonVAET.BSB_att",
         "SingleIonVAET.nu_eff",
-        "SingleIonVAET.amplitude_noise_width",
-        "SingleIonVAET.frequency_noise_width",
+        "SingleIonVAET.lorentzian_width",
+        "SingleIonVAET.lorentzian_center",
         "SingleIonVAET.amplitude_noise_rolloff",
         "SingleIonVAET.frequency_noise_rolloff",
         "SingleIonVAET.rotate_in_y",
@@ -149,8 +149,8 @@ class SingleIonVAET(PulseSequence):
         if self.vaet.amplitude_noise:
             strength = self.p.SingleIonVAET.amplitude_noise_depth
             delta = self.p.SingleIonVAET.delta
-            amp_y = self.p.SingleIonVAET.amplitude_noise_width
-            freq_y = self.p.SingleIonVAET.frequency_noise_width
+            y = self.p.SingleIonVAET.lorentzian_width
+            f0 = self.p.SingleIonVAET.lorentzian_center
             amp_rolloff = self.p.SingleIonVAET.amplitude_noise_rolloff
             freq_rolloff = self.p.SingleIonVAET.frequency_noise_rolloff
             J = self.p.SingleIonVAET.J
@@ -164,10 +164,9 @@ class SingleIonVAET(PulseSequence):
                                             # min_freq=-250e3, max_freq=250e3,
                                             just_phase=False
                                         )
-                    d = d + delta
                 elif noise_type == "lorentzian_delta":
                     _, _, d = generate_lorentzian_noise(
-                                            strength, delta, amp_y, 
+                                            strength, f0, y, 
                                             samples=n,
                                             samplerate=1/noise_time_step,
                                             min_value=-delta, max_value=1 - delta,
@@ -183,7 +182,6 @@ class SingleIonVAET(PulseSequence):
                                             # min_freq=-250e3, max_freq=250e3,
                                             just_phase=False
                                         )
-                    d = d + delta
                 elif noise_type == "brown_delta":
                     _, _, d = generate_brown_noise(
                                             strength, amp_rolloff, 
@@ -193,6 +191,7 @@ class SingleIonVAET(PulseSequence):
                                             # min_freq=-250e3, max_freq=250e3,
                                             just_phase=False
                                         )
+                d = d + delta
                 amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
                 phase_wf = np.sqrt(J**2 + d**2) / np.sqrt(2.)
                 self.turns_amplitude_to_ram(phase_wf, amp_wf, ram_wf)
