@@ -20,13 +20,15 @@ class SingleIonVAET(PulseSequence):
         "SingleIonVAET.BSB_amp",
         "SingleIonVAET.BSB_att",
         "SingleIonVAET.nu_eff",
-        
+        "SingleIonVAET.amplitude_noise_width",
+        "SingleIonVAET.frequency_noise_width",
+        "SingleIonVAET.amplitude_noise_rolloff",
+        "SingleIonVAET.frequency_noise_rolloff",
         "SingleIonVAET.rotate_in_y",
         "SingleIonVAET.rotate_out_y",
         "SingleIonVAET.duration",
         "SingleIonVAET.selection_sideband",
         "SingleIonVAET.line_selection",
-        
         "Rotation729G.amplitude",
         "Rotation729G.att",
         "Rotation729G.pi_time",
@@ -147,26 +149,52 @@ class SingleIonVAET(PulseSequence):
         if self.vaet.amplitude_noise:
             strength = self.p.SingleIonVAET.amplitude_noise_depth
             delta = self.p.SingleIonVAET.delta
+            amp_y = self.p.SingleIonVAET.amplitude_noise_width
+            freq_y = self.p.SingleIonVAET.frequency_noise_width
+            amp_rolloff = self.p.SingleIonVAET.amplitude_noise_rolloff
+            freq_rolloff = self.p.SingleIonVAET.frequency_noise_rolloff
             J = self.p.SingleIonVAET.J
             for i in range(m):
                 ram_wf = [0] * n
                 if noise_type == "white_delta":
-                        _, _, d = generate_white_noise(
-                                                strength, samples=n,
-                                                samplerate=1/noise_time_step,
-                                                min_value=-delta, max_value=1 - delta,
-                                                # min_freq=-250e3, max_freq=250e3,
-                                                just_phase=False
-                                            )
-                        d = d + delta
-                        amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
-                        phase_wf = np.sqrt(J**2 + d**2) / np.sqrt(2.)
+                    _, _, d = generate_white_noise(
+                                            strength, samples=n,
+                                            samplerate=1/noise_time_step,
+                                            min_value=-delta, max_value=1 - delta,
+                                            # min_freq=-250e3, max_freq=250e3,
+                                            just_phase=False
+                                        )
+                    d = d + delta
                 elif noise_type == "lorentzian_delta":
-                    pass
+                    _, _, d = generate_lorentzian_noise(
+                                            strength, delta, amp_y, 
+                                            samples=n,
+                                            samplerate=1/noise_time_step,
+                                            min_value=-delta, max_value=1 - delta,
+                                            # min_freq=-250e3, max_freq=250e3,
+                                            just_phase=False
+                                        )
                 elif noise_type == "pink_delta":
-                    pass
+                    _, _, d = generate_pink_noise(
+                                            strength, amp_rolloff, 
+                                            samples=n,
+                                            samplerate=1/noise_time_step,
+                                            min_value=-delta, max_value=1 - delta,
+                                            # min_freq=-250e3, max_freq=250e3,
+                                            just_phase=False
+                                        )
+                    d = d + delta
                 elif noise_type == "brown_delta":
-                    pass
+                    _, _, d = generate_brown_noise(
+                                            strength, amp_rolloff, 
+                                            samples=n,
+                                            samplerate=1/noise_time_step,
+                                            min_value=-delta, max_value=1 - delta,
+                                            # min_freq=-250e3, max_freq=250e3,
+                                            just_phase=False
+                                        )
+                amp_wf = np.arctan(2 * d / J) / (2 * np.pi)
+                phase_wf = np.sqrt(J**2 + d**2) / np.sqrt(2.)
                 self.turns_amplitude_to_ram(phase_wf, amp_wf, ram_wf)
                 self.vaet.mod_wf.append(np.int32(ram_wf))
         else:  # scans of nu_eff are currently not supported with vu_eff noise
