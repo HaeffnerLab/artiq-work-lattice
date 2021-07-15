@@ -100,7 +100,7 @@ class SingleIonVAET(PulseSequence):
 
         if self.vaet.with_noise:
             j = round(self.get_variable_parameter("current_experiment_iteration"))
-            if self.vaet.noise_type == "white_delta" or self.vaet.noise_type == "lorentzian_delta":
+            if self.vaet.amplitude_noise:
                 self.setup_ram_modulation(
                                     0,  # hard coded to self.dds_729_SP
                                     ram_waveform=self.vaet.mod_wf[j],
