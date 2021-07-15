@@ -173,7 +173,7 @@ class SingleIonVAET(PulseSequence):
                                         )
                 elif noise_type == "pink_delta":
                     _, _, d = generate_pink_noise(
-                                            strength, amp_rolloff, 
+                                            strength, rolloff, 
                                             samples=n,
                                             samplerate=1/noise_time_step,
                                             min_value=-delta, max_value=1 - delta,
@@ -182,7 +182,7 @@ class SingleIonVAET(PulseSequence):
                                         )
                 elif noise_type == "brown_delta":
                     _, _, d = generate_brown_noise(
-                                            strength, amp_rolloff, 
+                                            strength, rolloff, 
                                             samples=n,
                                             samplerate=1/noise_time_step,
                                             min_value=-delta, max_value=1 - delta,
