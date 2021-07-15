@@ -145,12 +145,12 @@ class SingleIonVAET(PulseSequence):
         else:
             self.vaet.amplitude_noise = False
 
+        y = self.p.SingleIonVAET.lorentzian_width
+        f0 = self.p.SingleIonVAET.lorentzian_center
+        rolloff = self.p.SingleIonVAET.noise_rolloff
         if self.vaet.amplitude_noise:
             strength = self.p.SingleIonVAET.amplitude_noise_depth
             delta = self.p.SingleIonVAET.delta
-            y = self.p.SingleIonVAET.lorentzian_width
-            f0 = self.p.SingleIonVAET.lorentzian_center
-            rolloff = self.p.SingleIonVAET.noise_rolloff
             J = self.p.SingleIonVAET.J
             for i in range(m):
                 ram_wf = [0] * n
@@ -209,34 +209,42 @@ class SingleIonVAET(PulseSequence):
                                                 # min_freq=-750e3, max_freq=750e3,
                                                 just_phase=False
                                             )
-                    blue_wf = self.vaet.freq_blue + d
-                    red_wf = self.vaet.freq_red - d
                 elif noise_type == "lorentzian_nu_eff":
-                    pass
+                    _, _, d = generate_lorentzian_noise(
+                                                strength, f0, y,
+                                                samples=n,
+                                                samplerate=1/noise_time_step,
+                                                min_value=-frequency_bandwidth, 
+                                                max_value=frequency_bandwidth,
+                                                # min_freq=-750e3, max_freq=750e3,
+                                                just_phase=False
+                                            )
                 elif noise_type == "pink_nu_eff":
-                    pass
+                    _, _, d = generate_pink_noise(
+                                                strength, rolloff=rolloff,
+                                                samples=n,
+                                                samplerate=1/noise_time_step,
+                                                min_value=-frequency_bandwidth, 
+                                                max_value=frequency_bandwidth,
+                                                # min_freq=-750e3, max_freq=750e3,
+                                                just_phase=False
+                                            )
                 elif noise_type == "brown_nu_eff":
-                    pass
+                    _, _, d = generate_brown_noise(
+                                                strength, rolloff=rolloff,
+                                                samples=n,
+                                                samplerate=1/noise_time_step,
+                                                min_value=-frequency_bandwidth, 
+                                                max_value=frequency_bandwidth,
+                                                # min_freq=-750e3, max_freq=750e3,
+                                                just_phase=False
+                                            )
+                blue_wf = self.vaet.freq_blue + d
+                red_wf = self.vaet.freq_red - d
                 self.frequency_to_ram(blue_wf, ram_wf_blue)
                 self.frequency_to_ram(red_wf, ram_wf_red)
                 self.vaet.mod_wf.append(np.int32(ram_wf_blue))
                 self.vaet.mod_wf2.append(np.int32(ram_wf_red))
-        # elif noise_type in ["white_nu_eff", "lorentzian_nu_eff"]:
-        #     std = self.p.SingleIonVAET.frequency_noise_strength
-        #     for i in range(m):
-        #         if noise_type == "white_nu_eff":
-        #             noise_wf = std * rng.standard_normal(n)
-        #             blue_wf = self.vaet.freq_blue + noise_wf
-        #             red_wf = self.vaet.freq_red - noise_wf 
-        #         elif noise_type == "lorentzian_nu_eff":
-        #             blue_wf = self.vaet.freq_blue + std * rng.standard_cauchy(n)
-        #             red_wf = self.vaet.freq_red - std * rng.standard_cauchy(n)
-        #         ram_wf_blue = [0] * n
-        #         self.frequency_to_ram(blue_wf, ram_wf_blue)
-        #         ram_wf_red = [0] * n
-        #         self.frequency_to_ram(red_wf, ram_wf_red)
-        #         self.vaet.mod_wf.append(np.int32(ram_wf_blue))
-        #         self.vaet.mod_wf2.append(np.int32(ram_wf_red))
 
 
 def fftnoise(f, just_phase=False):
