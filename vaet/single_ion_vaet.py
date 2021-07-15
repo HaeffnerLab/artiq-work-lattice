@@ -22,8 +22,7 @@ class SingleIonVAET(PulseSequence):
         "SingleIonVAET.nu_eff",
         "SingleIonVAET.lorentzian_width",
         "SingleIonVAET.lorentzian_center",
-        "SingleIonVAET.amplitude_noise_rolloff",
-        "SingleIonVAET.frequency_noise_rolloff",
+        "SingleIonVAET.noise_rolloff",
         "SingleIonVAET.rotate_in_y",
         "SingleIonVAET.rotate_out_y",
         "SingleIonVAET.duration",
@@ -151,8 +150,7 @@ class SingleIonVAET(PulseSequence):
             delta = self.p.SingleIonVAET.delta
             y = self.p.SingleIonVAET.lorentzian_width
             f0 = self.p.SingleIonVAET.lorentzian_center
-            amp_rolloff = self.p.SingleIonVAET.amplitude_noise_rolloff
-            freq_rolloff = self.p.SingleIonVAET.frequency_noise_rolloff
+            rolloff = self.p.SingleIonVAET.noise_rolloff
             J = self.p.SingleIonVAET.J
             for i in range(m):
                 ram_wf = [0] * n
