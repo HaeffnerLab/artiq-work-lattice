@@ -37,6 +37,7 @@ class pmt_collect_pulsed(EnvExperiment):
     def run_pmt(self):
         self.core.break_realtime()
         self.cpld.init()
+        self.core.break_realtime()
         self.dds_866.init()
         self.dds_866.sw.on()
         while not self.scheduler.check_pause():
