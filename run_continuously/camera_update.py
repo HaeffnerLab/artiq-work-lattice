@@ -17,7 +17,7 @@ class camera_update(EnvExperiment):
     def run(self):
         self.core.reset()
         self.set_dataset("pmt_counts", [], broadcast=True)
-        self.set_dataset("collection_duration", [self.duration])
+        # self.set_dataset("collection_duration", [self.duration])
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
         self.set_dataset("pulsed", [False], broadcast=True)
         self.set_dataset("clear_pmt_plot", [False], broadcast=True)
