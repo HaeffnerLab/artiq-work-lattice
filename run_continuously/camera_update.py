@@ -32,9 +32,11 @@ class camera_update(EnvExperiment):
                 ystop = int(self.p.get_parameter(["PmtReadout", "camera_ystop"]))
                 xstart = int(self.p.get_parameter(["PmtReadout", "camera_xstart"]))
                 xstop = int(self.p.get_parameter(["PmtReadout", "camera_xstop"]))
-                count = sum(Data[ystart:ystop, xstart:xstop].flatten())
+                count = sum(Data[ystart:ystop, xstart:xstop].flatten()) / 1e9
                 self.append("pmt_counts", count)
                 self.append("pmt_counts_866_off", -1)
+                self.core.comm.close()
+                self.scheduler.pause()
             except TerminationRequested:
                 break
 
