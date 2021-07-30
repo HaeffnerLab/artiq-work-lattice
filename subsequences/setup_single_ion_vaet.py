@@ -70,8 +70,8 @@ class SetupSingleIonVAET:
                     phase=0.75
                 )
 
-            # Hard-coded to SP_729L1
-            self.dds_SP_729L1.set(
+            # Hard-coded to SP_729L2
+            self.dds_SP_729L2.set(
                     s.freq_red,
                     amplitude=s.RSB_amp,
                     phase_mode=phase_mode,
@@ -82,22 +82,22 @@ class SetupSingleIonVAET:
         if s.with_noise and not s.amplitude_noise:
             self.dds_SP_729G_bichro.set_amplitude(s.BSB_amp)
             self.dds_SP_729G_bichro.set_phase(0.75)
-            self.dds_SP_729L1.set_amplitude(s.RSB_amp)
-            self.dds_SP_729L1.set_phase(0.25)
+            self.dds_SP_729L2.set_amplitude(s.RSB_amp)
+            self.dds_SP_729L2.set_phase(0.25)
 
         self.dds_729.set_att(s.DP_att)
         self.dds_729_SP.set_att(s.CARR_att)
         self.dds_729_SP_bichro.set_att(s.BSB_att)
-        self.dds_SP_729L1.set_att(s.RSB_att)
+        self.dds_SP_729L2.set_att(s.RSB_att)
 
         self.dds_729.sw.on()
         with parallel:
             self.dds_729_SP.cpld.io_update.pulse_mu(8)
             self.dds_729_SP_bichro.cpld.io_update.pulse_mu(8)
-            self.dds_SP_729L1.cpld.io_update.pulse_mu(8)
+            self.dds_SP_729L2.cpld.io_update.pulse_mu(8)
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
-            self.dds_SP_729L1.sw.on()
+            self.dds_SP_729L2.sw.on()
         
         delay(s.duration)
         
@@ -105,7 +105,7 @@ class SetupSingleIonVAET:
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
-            self.dds_SP_729L1.sw.off()
+            self.dds_SP_729L2.sw.off()
 
         self.dds_729.set_cfr1()
         delay(10*us)
@@ -113,5 +113,5 @@ class SetupSingleIonVAET:
         delay(10*us)
         self.dds_729_SP_bichro.set_cfr1()
         delay(10*us)
-        self.dds_SP_729L1.set_cfr1()
+        self.dds_SP_729L2.set_cfr1()
         delay(10*us)
