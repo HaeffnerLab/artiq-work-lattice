@@ -27,12 +27,12 @@ class camera_update(EnvExperiment):
                 binx, biny, startx, stopx, starty, stopy = self.camera.get_image_region(None)
                 pixels_x = (stopx - startx + 1) // binx
                 pixels_y = (stopy - starty + 1) // biny
-                Data = np.reshape(data, (pixels_y, pixels_x))
-                ystart = int(self.p.get_parameter(["PmtReadout", "camera_ystart"]))
-                ystop = int(self.p.get_parameter(["PmtReadout", "camera_ystop"]))
-                xstart = int(self.p.get_parameter(["PmtReadout", "camera_xstart"]))
-                xstop = int(self.p.get_parameter(["PmtReadout", "camera_xstop"]))
-                count = np.sum(Data[ystart:ystop, xstart:xstop]) / 1e7
+                # Data = np.reshape(data, (pixels_y, pixels_x))
+                # ystart = int(self.p.get_parameter(["PmtReadout", "camera_ystart"]))
+                # ystop = int(self.p.get_parameter(["PmtReadout", "camera_ystop"]))
+                # xstart = int(self.p.get_parameter(["PmtReadout", "camera_xstart"]))
+                # xstop = int(self.p.get_parameter(["PmtReadout", "camera_xstop"]))
+                count = np.sum(data) / 1e7  # arbitrary factor
                 self.append("pmt_counts", count)
                 self.append("pmt_counts_866_off", -1)
                 self.core.comm.close()
