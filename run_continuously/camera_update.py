@@ -4,7 +4,7 @@ from artiq.language import *
 from artiq.language.core import TerminationRequested
 import numpy as np
 
-class pmt_collect_continuously(EnvExperiment):
+class camera_update_continuously(EnvExperiment):
 
     def build(self):
         self.cxn = labrad.connect()
