@@ -11,8 +11,8 @@ class camera_update_pulsed(EnvExperiment):
         self.p = self.cxn.parametervault
         self.camera = self.cxn.nuvu_camera_server
         self.setattr_device("core")
-        self.dds_866 = self.get_device("866")
         self.setattr_device("scheduler")
+        self.dds_866 = self.get_device("866")
         self.dataset_length = {}
 
     def run(self):
@@ -34,7 +34,7 @@ class camera_update_pulsed(EnvExperiment):
                 self.turn866off()
                 data = self.camera.get_most_recent_image()
                 count = np.sum(data) / 1e7  # arbitrary factor
-                self.append("pmt_counts_866_off", data)
+                # self.append("pmt_counts_866_off", data)
                 self.turn866on()
                 self.core.comm.close()
                 self.scheduler.pause()
