@@ -54,7 +54,7 @@ class camera_update_pulsed(EnvExperiment):
         delay(1*ms)
 
     @kernel
-    def turn866on(self):
+    def turn866off(self):
         self.core.break_realtime()
         self.dds_866.sw.off()
         delay(1*ms)
