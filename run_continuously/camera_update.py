@@ -37,7 +37,7 @@ class camera_update(EnvExperiment):
                 self.append("pmt_counts_866_off", -1)
                 self.core.comm.close()
                 self.scheduler.pause()
-            except TerminationRequested:
+            except:# TerminationRequested:
                 break
 
     def append(self, dataset_name, data_to_append):
