@@ -40,12 +40,12 @@ class camera_update_pulsed(EnvExperiment):
                 self.scheduler.pause()
             except TerminationRequested:
                 break
-            # except:
-            #     try:
-            #         self.camera.start_live_display()
-            #     except:
-            #         pass
-            #     continue
+            except:
+                try:
+                    self.camera.start_live_display()
+                except:
+                    pass
+                continue
 
     @kernel
     def turn866on(self):
