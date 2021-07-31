@@ -21,7 +21,10 @@ class camera_update(EnvExperiment):
         self.set_dataset("pmt_counts_866_off", [], broadcast=True)
         self.set_dataset("pulsed", [False], broadcast=True)
         self.set_dataset("clear_pmt_plot", [False], broadcast=True)
-        self.camera.start_live_display()
+        try:
+            self.camera.start_live_display()
+        except:
+            pass
         while True:
             try:
                 data = self.camera.get_most_recent_image()
@@ -41,7 +44,10 @@ class camera_update(EnvExperiment):
             except TerminationRequested:
                 break
             except:
-                self.camera.start_live_display()
+                try:
+                    self.camera.start_live_display()
+                except:
+                    pass
                 continue
 
     def append(self, dataset_name, data_to_append):
