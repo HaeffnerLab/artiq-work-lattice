@@ -24,9 +24,9 @@ class camera_update(EnvExperiment):
         while True:
             try:
                 data = self.camera.get_most_recent_image()
-                binx, biny, startx, stopx, starty, stopy = self.camera.get_image_region(None)
-                pixels_x = (stopx - startx + 1) // binx
-                pixels_y = (stopy - starty + 1) // biny
+                # binx, biny, startx, stopx, starty, stopy = self.camera.get_image_region(None)
+                # pixels_x = (stopx - startx + 1) // binx
+                # pixels_y = (stopy - starty + 1) // biny
                 # Data = np.reshape(data, (pixels_y, pixels_x))
                 # ystart = int(self.p.get_parameter(["PmtReadout", "camera_ystart"]))
                 # ystop = int(self.p.get_parameter(["PmtReadout", "camera_ystop"]))
