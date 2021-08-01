@@ -23,6 +23,7 @@ class SetupSingleIonVAET:
     duration="SingleIonVAET.duration"
     with_noise="SingleIonVAET.with_noise"
     noise_type="SingleIonVAET.noise_type"
+    test_phase="SingleIonVAET.test_phase"
     amplitude_noise=False
     phase_ref_time=np.int64(-1)
     freq_blue=0.
@@ -90,7 +91,7 @@ class SetupSingleIonVAET:
         self.dds_729_SP_bichro.set_att(s.BSB_att)
         self.dds_SP_729L2.set_att(s.RSB_att)
         self.dds_test1.set(freq_carr, 
-            amplitude=1.0, phase_mode=phase_mode, ref_time_mu=s.phase_ref_time, phase=0)
+            amplitude=1.0, phase_mode=phase_mode, ref_time_mu=s.phase_ref_time, phase=s.test_phase)
         self.dds_test1.set_att(5.)  # for beat note
 
         self.dds_729.sw.on()
