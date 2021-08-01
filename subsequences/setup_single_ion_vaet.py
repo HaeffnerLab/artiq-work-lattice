@@ -47,26 +47,27 @@ class SetupSingleIonVAET:
                 dp_freq,
                 amplitude=s.DP_amp,
                 phase_mode=phase_mode,
-                ref_time_mu=s.phase_ref_time
+                # ref_time_mu=s.phase_ref_time
             )
         
         if not s.with_noise or not s.amplitude_noise:
             self.dds_729_SP.set(
                     freq_carr,
                     amplitude=s.CARR_amp,
-                    ref_time_mu=s.phase_ref_time,
+                    # ref_time_mu=s.phase_ref_time,
                     phase_mode=phase_mode,
                     phase=s.CARR_phase
                 )
         if s.with_noise and s.amplitude_noise:
             self.dds_729_SP.set_frequency(freq_carr)
+            self.dds_729_SP.set_phase_mode(phase_mode)
 
         if not s.with_noise or s.amplitude_noise:
             # Hard-coded to SP_729G_bichro
             self.dds_SP_729G_bichro.set(
                     s.freq_blue,
                     amplitude=s.BSB_amp,
-                    ref_time_mu=s.phase_ref_time,
+                    # ref_time_mu=s.phase_ref_time,
                     phase_mode=phase_mode,
                     phase=0.75
                 )
@@ -76,13 +77,15 @@ class SetupSingleIonVAET:
                     s.freq_red,
                     amplitude=s.RSB_amp,
                     phase_mode=phase_mode,
-                    ref_time_mu=s.phase_ref_time,
+                    # ref_time_mu=s.phase_ref_time,
                     phase=0.25
                 )
         
         if s.with_noise and not s.amplitude_noise:
+            self.dds_SP_729G.set_phase_mode(phase_mode)
             self.dds_SP_729G_bichro.set_amplitude(s.BSB_amp)
             self.dds_SP_729G_bichro.set_phase(0.75)
+            self.dds_SP_729L2.set_phase_mode(phase_mode)
             self.dds_SP_729L2.set_amplitude(s.RSB_amp)
             self.dds_SP_729L2.set_phase(0.25)
 
@@ -91,7 +94,7 @@ class SetupSingleIonVAET:
         self.dds_729_SP_bichro.set_att(s.BSB_att)
         self.dds_SP_729L2.set_att(s.RSB_att)
         self.dds_test1.set(freq_carr, 
-            amplitude=1.0, phase_mode=phase_mode, ref_time_mu=s.phase_ref_time, phase=s.test_phase)
+            amplitude=1.0, phase_mode=phase_mode, phase=s.test_phase)
         self.dds_test1.set_att(5.)  # for beat note
 
         self.dds_729.sw.on()
