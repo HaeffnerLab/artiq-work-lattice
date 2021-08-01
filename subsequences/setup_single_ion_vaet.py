@@ -94,6 +94,7 @@ class SetupSingleIonVAET:
 
         self.dds_729.sw.on()
         with parallel:
+            self.trigger.on()
             self.dds_729_SP.cpld.io_update.pulse_mu(8)
             self.dds_729_SP_bichro.cpld.io_update.pulse_mu(8)
             self.dds_SP_729L2.cpld.io_update.pulse_mu(8)
@@ -105,6 +106,7 @@ class SetupSingleIonVAET:
         delay(s.duration)
         
         with parallel:
+            self.trigger.off()
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
