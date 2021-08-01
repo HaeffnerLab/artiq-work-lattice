@@ -90,7 +90,7 @@ class SetupSingleIonVAET:
         self.dds_729_SP_bichro.set_att(s.BSB_att)
         self.dds_SP_729L2.set_att(s.RSB_att)
         self.dds_test1.set(freq_carr, amplitude=1.0, ref_time_mu=s.phase_ref_time)
-        self.dds_test1.set_att(s.CARR_att)  # for beat note
+        self.dds_test1.set_att(5.0)  # for beat note
 
         self.dds_729.sw.on()
         with parallel:
