@@ -35,7 +35,7 @@ class SetupSingleIonVAET:
         phase_mode = PHASE_MODE_ABSOLUTE
         s = SetupSingleIonVAET
         offset = self.get_offset_frequency("729G")
-        freq_carr = 80*MHz + offset
+        freq_carr = 5*MHz + offset
         dp_freq = self.calc_frequency(
                                     s.line_selection,
                                     dds="729G"
