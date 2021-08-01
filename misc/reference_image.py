@@ -144,7 +144,7 @@ class ReferenceImage(EnvExperiment):
         self.camera.abort_acquisition()
         self.camera.set_trigger_mode(self.initial_trigger_mode)
         self.camera.set_exposure_time(self.initial_exposure)
-        self.camera.set_image_region(1, 1, 1, 512, 1, 512)
+        # self.camera.set_image_region(1, 1, 1, 512, 1, 512)
         self.camera.start_live_display()
         self.cxn.disconnect()
 
