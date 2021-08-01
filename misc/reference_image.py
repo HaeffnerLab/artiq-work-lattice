@@ -35,6 +35,10 @@ class ReferenceImage(EnvExperiment):
         self.amp_866 = p.get_parameter("StateReadout", "amplitude_866")[""]
         self.att_397 = p.get_parameter("StateReadout", "att_397")["dBm"]
         self.att_866 = p.get_parameter("StateReadout", "att_866")["dBm"]
+        self.initial_xstart = p.get_parameter("PmtReadout", "camera_xstart")
+        self.initial_xstop = p.get_parameter("PmtReadout", "camera_xstop")
+        self.initial_ystart = p.get_parameter("PmtReadout", "camera_ystart")
+        self.initial_ystop = p.get_parameter("PmtReadout", "camera_ystop")
 
         d = dict()
         d["dds_854"] = self.p.get_parameter("dds_cw_parameters", "854")[1]
@@ -144,7 +148,7 @@ class ReferenceImage(EnvExperiment):
         self.camera.abort_acquisition()
         self.camera.set_trigger_mode(self.initial_trigger_mode)
         self.camera.set_exposure_time(self.initial_exposure)
-        # self.camera.set_image_region(1, 1, 1, 512, 1, 512)
+        self.camera.set_image_region(1, 1, self.initial_xstart, self.initial_xstop, self.initial_ystart, self.initial_ystop)
         self.camera.start_live_display()
         self.cxn.disconnect()
 
