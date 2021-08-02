@@ -242,7 +242,7 @@ class SingleIonVAET(PulseSequence):
                                                 just_phase=False
                                             )
                 blue_wf = self.vaet.freq_blue + d
-                red_wf = self.vaet.freq_red + d
+                red_wf = self.vaet.freq_red - d
                 self.frequency_to_ram(blue_wf, ram_wf_blue)
                 self.frequency_to_ram(red_wf, ram_wf_red)
                 self.vaet.mod_wf.append(np.int32(ram_wf_blue))
