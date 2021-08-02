@@ -69,7 +69,7 @@ class SingleIonVAET(PulseSequence):
         self.vaet.freq_red = 80*MHz - trap_frequency - nu_eff + offset
         if self.p.SingleIonVAET.with_noise:
             self.setup_noise_waveforms(n, m)
-        self.dds_test1 = self.get_device("urukul1_ch0")
+        # self.dds_test1 = self.get_device("urukul1_ch0")
 
     @kernel
     def set_subsequence_single_ion_vaet(self):
@@ -160,7 +160,7 @@ class SingleIonVAET(PulseSequence):
                     _, _, d = generate_white_noise(
                                             strength, samples=n,
                                             samplerate=1/noise_time_step,
-                                            min_value=-delta, max_value=1 - delta,
+                                            min_value=-1-delta, max_value=1 - delta,
                                             # min_freq=-250e3, max_freq=250e3,
                                             just_phase=False
                                         )
@@ -169,7 +169,7 @@ class SingleIonVAET(PulseSequence):
                                             strength, f0, y, 
                                             samples=n,
                                             samplerate=1/noise_time_step,
-                                            min_value=-delta, max_value=1 - delta,
+                                            min_value=-1-delta, max_value=1 - delta,
                                             # min_freq=-250e3, max_freq=250e3,
                                             just_phase=False
                                         )
@@ -178,7 +178,7 @@ class SingleIonVAET(PulseSequence):
                                             strength, rolloff=rolloff, 
                                             samples=n,
                                             samplerate=1/noise_time_step,
-                                            min_value=-delta, max_value=1 - delta,
+                                            min_value=-1-delta, max_value=1 - delta,
                                             # min_freq=-250e3, max_freq=250e3,
                                             just_phase=False
                                         )
@@ -187,7 +187,7 @@ class SingleIonVAET(PulseSequence):
                                             strength, rolloff=rolloff, 
                                             samples=n,
                                             samplerate=1/noise_time_step,
-                                            min_value=-delta, max_value=1 - delta,
+                                            min_value=-1-delta, max_value=1 - delta,
                                             # min_freq=-250e3, max_freq=250e3,
                                             just_phase=False
                                         )
