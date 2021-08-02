@@ -93,23 +93,23 @@ class SetupSingleIonVAET:
         self.dds_729_SP.set_att(s.CARR_att)
         self.dds_SP_729G_bichro.set_att(s.BSB_att)
         self.dds_SP_729L2.set_att(s.RSB_att)
-        self.dds_test1.set(freq_carr, 
-            amplitude=1.0, phase_mode=phase_mode, phase=s.test_phase)
-        self.dds_test1.set_att(5.)  # for beat note
-        self.dds_test2.set(freq_carr, 
-            amplitude=1.0, phase_mode=phase_mode, phase=s.test_phase + 0.25)
-        self.dds_test2.set_att(5.)  # for beat note
+        
+        # self.dds_test1.set(freq_carr, 
+        #     amplitude=1.0, phase_mode=phase_mode, phase=s.test_phase)
+        # self.dds_test1.set_att(5.)  # for beat note
+        # self.dds_test2.set(freq_carr, 
+        #     amplitude=1.0, phase_mode=phase_mode, phase=s.test_phase + 0.25)
+        # self.dds_test2.set_att(5.)  # for beat note
 
         self.dds_729.sw.on()
 
-        self.dds_SP_729G_bichro.cpld.io_update.pulse_mu(8)
-        self.dds_SP_729L2.cpld.io_update.pulse_mu(8)
+        # self.dds_SP_729G_bichro.cpld.io_update.pulse_mu(8)
+        # self.dds_SP_729L2.cpld.io_update.pulse_mu(8)
+        self.dds_729_SP.cpld.io_update.pulse_mu(8)
         with parallel:
             self.trigger.on()
-            self.dds_test1.sw.on()  # for beat note
-            self.dds_test2.sw.on()  # for beat note
-            self.dds_729_SP.cpld.io_update.pulse_mu(8)
-            
+            # self.dds_test1.sw.on()  # for beat note
+            # self.dds_test2.sw.on()  # for beat note
             self.dds_729_SP.sw.on()
             self.dds_SP_729G_bichro.sw.on()
             self.dds_SP_729L2.sw.on()
@@ -122,8 +122,8 @@ class SetupSingleIonVAET:
             self.dds_729_SP.sw.off()
             self.dds_SP_729G_bichro.sw.off()
             self.dds_SP_729L2.sw.off()
-            self.dds_test1.sw.off()  # for beat note
-            self.dds_test2 .sw.off()  # for beat note
+            # self.dds_test1.sw.off()  # for beat note
+            # self.dds_test2 .sw.off()  # for beat note
 
         self.dds_729.set_cfr1()
         delay(10*us)
