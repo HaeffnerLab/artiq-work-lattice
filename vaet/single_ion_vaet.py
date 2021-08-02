@@ -196,6 +196,7 @@ class SingleIonVAET(PulseSequence):
                 amp_wf = np.sqrt(J**2 + d**2) / np.sqrt(2.)
                 self.turns_amplitude_to_ram(phase_wf, amp_wf, ram_wf)
                 self.vaet.mod_wf.append(np.int32(ram_wf))
+            self.vaet.mod_wf = self.vaet.mod_wf[1:]
         else:  # scans of nu_eff are currently not supported with vu_eff noise
             for i in range(m):
                 strength = self.p.SingleIonVAET.frequency_noise_strength
@@ -247,6 +248,8 @@ class SingleIonVAET(PulseSequence):
                 self.frequency_to_ram(red_wf, ram_wf_red)
                 self.vaet.mod_wf.append(np.int32(ram_wf_blue))
                 self.vaet.mod_wf2.append(np.int32(ram_wf_red))
+                self.vaet.mod_wf = self.vaet.mod_wf[1:]
+                self.vaet.mod_wf2 = self.vaet.mod_wf2[1:]
 
 
 def fftnoise(f, just_phase=False):
