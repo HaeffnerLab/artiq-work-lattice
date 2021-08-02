@@ -63,6 +63,7 @@ class SetupSingleIonVAET:
             self.dds_729_SP.set_phase_mode(phase_mode)
 
         if not s.with_noise or s.amplitude_noise:
+            print("blue: ", s.BSB_amp)
             # Hard-coded to SP_729G_bichro
             self.dds_SP_729G_bichro.set(
                     s.freq_blue,
