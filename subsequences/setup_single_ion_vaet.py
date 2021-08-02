@@ -69,7 +69,7 @@ class SetupSingleIonVAET:
                     amplitude=s.BSB_amp,
                     # ref_time_mu=s.phase_ref_time,
                     phase_mode=phase_mode,
-                    phase=0.75
+                    phase=0.25
                 )
 
             # Hard-coded to SP_729L2
@@ -78,7 +78,7 @@ class SetupSingleIonVAET:
                     amplitude=s.RSB_amp,
                     phase_mode=phase_mode,
                     # ref_time_mu=s.phase_ref_time,
-                    phase=0.25
+                    phase=-0.25
                 )
         
         if s.with_noise and not s.amplitude_noise:
@@ -121,7 +121,7 @@ class SetupSingleIonVAET:
             self.dds_729_SP_bichro.sw.off()
             self.dds_SP_729L2.sw.off()
             self.dds_test1.sw.off()  # for beat note
-            self.dds_test2.sw.off()  # for beat note
+            self.dds_test2 .sw.off()  # for beat note
 
         self.dds_729.set_cfr1()
         delay(10*us)
