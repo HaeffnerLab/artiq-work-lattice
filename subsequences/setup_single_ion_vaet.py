@@ -82,7 +82,7 @@ class SetupSingleIonVAET:
                 )
         
         if s.with_noise and not s.amplitude_noise:
-            self.dds_SP_729G.set_phase_mode(phase_mode)
+            self.dds_SP_729G_bichro.set_phase_mode(phase_mode)
             self.dds_SP_729G_bichro.set_amplitude(s.BSB_amp)
             self.dds_SP_729G_bichro.set_phase(0.75)
             self.dds_SP_729L2.set_phase_mode(phase_mode)
@@ -93,7 +93,7 @@ class SetupSingleIonVAET:
         self.dds_729_SP.set_att(s.CARR_att)
         self.dds_SP_729G_bichro.set_att(s.BSB_att)
         self.dds_SP_729L2.set_att(s.RSB_att)
-        
+
         # self.dds_test1.set(freq_carr, 
         #     amplitude=1.0, phase_mode=phase_mode, phase=s.test_phase)
         # self.dds_test1.set_att(5.)  # for beat note
