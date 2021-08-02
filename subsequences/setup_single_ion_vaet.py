@@ -63,7 +63,6 @@ class SetupSingleIonVAET:
             self.dds_729_SP.set_phase_mode(phase_mode)
 
         if not s.with_noise or s.amplitude_noise:
-            print("blue: ", s.BSB_amp)
             # Hard-coded to SP_729G_bichro
             self.dds_SP_729G_bichro.set(
                     s.freq_blue,
@@ -102,13 +101,15 @@ class SetupSingleIonVAET:
         self.dds_test2.set_att(5.)  # for beat note
 
         self.dds_729.sw.on()
+
+        self.dds_SP_729G_bichro.cpld.io_update.pulse_mu(8)
+        self.dds_SP_729L2.cpld.io_update.pulse_mu(8)
         with parallel:
             self.trigger.on()
             self.dds_test1.sw.on()  # for beat note
             self.dds_test2.sw.on()  # for beat note
             self.dds_729_SP.cpld.io_update.pulse_mu(8)
-            self.dds_SP_729G_bichro.cpld.io_update.pulse_mu(8)
-            self.dds_SP_729L2.cpld.io_update.pulse_mu(8)
+            
             self.dds_729_SP.sw.on()
             self.dds_SP_729G_bichro.sw.on()
             self.dds_SP_729L2.sw.on()
