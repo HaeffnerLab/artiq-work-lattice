@@ -54,7 +54,7 @@ class camera_update(EnvExperiment):
         if dataset_name not in self.dataset_length.keys():
             self.dataset_length[dataset_name] = 0
 
-        if self.dataset_length[dataset_name] % 1000 == 0:
+        if self.dataset_length[dataset_name] % 10000 == 0:
             self.set_dataset(dataset_name, [], broadcast=True)
 
         self.append_to_dataset(dataset_name, data_to_append)
