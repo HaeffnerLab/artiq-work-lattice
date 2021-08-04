@@ -35,6 +35,7 @@ class RabiExcitation:
         print('is ramp set?')
 
     def subsequence(self):
+        self.dds = self.get_device("urukul2_ch3")
         r = RabiExcitation
         self.get_729_dds(r.channel_729)
 

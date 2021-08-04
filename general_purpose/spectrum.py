@@ -23,7 +23,6 @@ class Spectrum(PulseSequence):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.set_subsequence["spectrum"] = self.set_subsequence_spectrum
-        self.dds_729 = self.get_device("urukul2_ch3")
 
     @kernel
     def set_subsequence_spectrum(self):
