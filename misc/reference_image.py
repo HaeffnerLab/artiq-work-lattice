@@ -96,8 +96,8 @@ class ReferenceImage(EnvExperiment):
     def initialize_camera(self):
         camera = self.camera
         camera.abort_acquisition()
-        camera.create_bias_image()
         camera.set_processing_mode("bias_subtraction")
+        camera.create_bias_image()
         self.initial_exposure = camera.get_exposure_time()
         exposure = self.duration
         horizontal_bin  = self.p.get_parameter("IonsOnCamera", "horizontal_bin")
