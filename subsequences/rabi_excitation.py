@@ -62,7 +62,6 @@ class RabiExcitation:
             
             #self.dds_729_SP.sw.off()
         else:
-            self.dds_729.sw.on()
             with parallel:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
