@@ -43,7 +43,6 @@ class RabiExcitation:
                             amplitude=0.,
                             ref_time_mu=r.phase_ref_time)
         else:
-            print(r.freq_729)
             self.dds_729.set(r.freq_729,
                             amplitude=r.amp_729,
                             ref_time_mu=r.phase_ref_time)
