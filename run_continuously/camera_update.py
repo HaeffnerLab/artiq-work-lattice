@@ -27,7 +27,7 @@ class camera_update(EnvExperiment):
             pass
         while True:
             try:
-                data = self.camera.get_most_recent_image()
+                data = np.right_shift(self.camera.get_most_recent_image(), 16)
                 # binx, biny, startx, stopx, starty, stopy = self.camera.get_image_region(None)
                 # pixels_x = (stopx - startx + 1) // binx
                 # pixels_y = (stopy - starty + 1) // biny

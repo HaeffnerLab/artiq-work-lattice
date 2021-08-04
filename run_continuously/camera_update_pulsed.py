@@ -28,11 +28,11 @@ class camera_update_pulsed(EnvExperiment):
             pass
         while True:
             try:
-                data = self.camera.get_most_recent_image()
+                data = np.right_shift(self.camera.get_most_recent_image(), 16)
                 count = np.sum(data)
                 self.append("pmt_counts", count)
                 self.turn866off()
-                data = self.camera.get_most_recent_image()
+                data = np.right_shift(self.camera.get_most_recent_image(), 16)
                 count = np.sum(data)
                 self.append("pmt_counts_866_off", count)
                 self.turn866on()
