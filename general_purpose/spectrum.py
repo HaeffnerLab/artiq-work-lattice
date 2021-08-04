@@ -31,7 +31,7 @@ class Spectrum(PulseSequence):
         rabi_dds = self.rabi.channel_729
         self.rabi.freq_729 = self.calc_frequency(rabi_line, delta, dds=rabi_dds,
                 bound_param="Spectrum_carrier_detuning")
-        print(self.rabi.freq_729)
+
     ###
     @kernel
     def spectrum(self):
