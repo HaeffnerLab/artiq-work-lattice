@@ -54,7 +54,6 @@ class RabiExcitation:
         self.dds_729_SP.set_att(r.sp_att_729)
         # print("dp: ", r.frereq_729)
         # print("sp: ", sp_fq_729)
-        self.dds.sw.on()
         if r.ramp_has_been_programmed:
             self.dds_729_SP.sw.on()
             self.execute_pulse_with_amplitude_ramp(
