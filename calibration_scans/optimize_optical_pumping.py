@@ -36,7 +36,8 @@ class OptimizeOpticalPumping(PulseSequence):
         ("Current", ("StatePreparation.pulsed_amplitude", 0., 1., 20)),
         ("Current", ("StatePreparation.pulsed_854_duration", 1*us, 100*us, 20, "us")),
         ("Current", ("OpticalPumping.amplitude_729", 0., 1., 20)),
-        ("Current", ("OpticalPumpingContinuous.optical_pumping_continuous_duration", 0, 100*us, 20, "us"))        
+        ("Current", ("OpticalPumpingContinuous.optical_pumping_continuous_duration", 0, 100*us, 20, "us")),
+        ("Current", ("StatePreparation.pi_time", 0, 100*us, 20, "us")),        
     ]
 
     def run_initially(self):
