@@ -32,7 +32,6 @@ class OpticalPumpingContinuous:
                         freq_729, 
                          amplitude=o.amplitude_729
                     )
-        print(o.amplitude_729)
         self.dds_729.set_att(o.att_729)
         sp_freq_729 = 80*MHz + self.get_offset_frequency(o.channel_729)
         self.dds_729_SP.set(sp_freq_729, amplitude=o.sp_amp_729)
