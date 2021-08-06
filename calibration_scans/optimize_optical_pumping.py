@@ -86,7 +86,7 @@ class OptimizeOpticalPumping(PulseSequence):
             self.opp.run(self)
         else:
             self.opc.run(self)
-        if self.StatePreparation.sideband_cooling_enable:
+        if self.StatePreparation_sideband_cooling_enable:
             self.sideband_cooling.run(self)
         self.rabi.run(self)
     
