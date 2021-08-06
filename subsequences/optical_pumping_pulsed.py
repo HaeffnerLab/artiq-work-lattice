@@ -40,5 +40,8 @@ class OpticalPumpingPulsed:
             with parallel:
                 self.dds_729_SP.sw.off()
                 self.dds_854.sw.on()
+                self.dds_866.sw.on()
             delay(o.duration_854)
-            self.dds_854.sw.off()   
+            with parallel:
+                self.dds_854.sw.off()
+                self.dds_866.sw.off()   
