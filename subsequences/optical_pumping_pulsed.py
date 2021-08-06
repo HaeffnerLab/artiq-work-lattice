@@ -22,7 +22,6 @@ class OpticalPumpingPulsed:
         self.get_729_dds(o.channel_729)
         self.dds_866.set(o.frequency_866, amplitude=o.amplitude_866)
         self.dds_866.set_att(o.att_866)
-        self.dds_866.sw.on()
         freq_729 = self.calc_frequency(
                                     o.line_selection,
                                     dds=o.channel_729
@@ -40,8 +39,8 @@ class OpticalPumpingPulsed:
             with parallel:
                 self.dds_729_SP.sw.off()
                 self.dds_854.sw.on()
-                self.dds_866.sw.on()
             delay(o.duration_854)
-            with parallel:
-                self.dds_854.sw.off()
-                self.dds_866.sw.off()   
+            self.dds_854.sw.off()
+            self.dds_866.sw.on()
+            delay(20*us)
+            self.dds_866.sw.off()   
