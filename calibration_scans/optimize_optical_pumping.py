@@ -68,6 +68,8 @@ class OptimizeOpticalPumping(PulseSequence):
 
     @kernel
     def krun(self):
+        self.trigger.on()
         self.stateprep.run(self)
+        self.trigger.off()
         self.rabi.run(self)
     
