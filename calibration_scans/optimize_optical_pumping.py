@@ -1,6 +1,11 @@
 from pulse_sequence import PulseSequence
 from subsequences.rabi_excitation import RabiExcitation
-from subsequences.state_preparation import StatePreparation
+# from subsequences.state_preparation import StatePreparation
+from subsequences.doppler_cooling import DopplerCooling
+# from subsequences.optical_pumping import OpticalPumping
+from subsequences.optical_pumping_pulsed import OpticalPumpingPulsed
+from subsequences.optical_pumping_continuous import OpticalPumpingContinuous
+from subsequences.sideband_cooling import SidebandCooling
 from artiq.experiment import *
 
 
@@ -17,6 +22,7 @@ class OptimizeOpticalPumping(PulseSequence):
         "StatePreparation.channel_729",
         "StatePreparation.pulsed_amplitude",
         "StatePreparation.pulsed_att",
+        "StatePreparation.pulsed_optical_pumping",
         "OpticalPumping.optical_pumping_frequency_854",
         "OpticalPumping.optical_pumping_amplitude_854",
         "OpticalPumping.optical_pumping_att_854",
@@ -41,12 +47,15 @@ class OptimizeOpticalPumping(PulseSequence):
     ]
 
     def run_initially(self):
-        self.stateprep = self.add_subsequence(StatePreparation)
+        self.dopplercooling = self.add_subsequence(DopplerCooling)
+        self.opp = self.add_subsequence(OpticalPumpingPulsed)
+        self.opc = self.add_subsequence(OpticalPumpingContinuous)
+        self.sidebandcooling = self.add_subsequence(SidebandCooling)
+        # self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.set_subsequence["krun"] = self.set_subsequence_krun
         
-
     @kernel
     def set_subsequence_krun(self):
         self.rabi.duration = self.RabiFlopping_duration
@@ -57,20 +66,27 @@ class OptimizeOpticalPumping(PulseSequence):
             detuning=0.,
             dds=self.RabiFlopping_channel_729
         )
-        self.stateprep.op.opp.number_of_cycles = self.get_variable_parameter("StatePreparation_number_of_cycles")
-        self.stateprep.op.opp.frequency_854 = self.get_variable_parameter("OpticalPumping_optical_pumping_frequency_854")
-        self.stateprep.op.opp.amplitude_854 = self.get_variable_parameter("OpticalPumping_optical_pumping_amplitude_854")
-        self.stateprep.op.opp.amplitude_729 = self.get_variable_parameter("StatePreparation_pulsed_amplitude")
-        self.stateprep.op.opp.duration_854 = self.get_variable_parameter("StatePreparation_pulsed_854_duration")
+        self.opp.number_of_cycles = self.get_variable_parameter("StatePreparation_number_of_cycles")
+        self.opp.frequency_854 = self.get_variable_parameter("OpticalPumping_optical_pumping_frequency_854")
+        self.opp.amplitude_854 = self.get_variable_parameter("OpticalPumping_optical_pumping_amplitude_854")
+        self.opp.amplitude_729 = self.get_variable_parameter("StatePreparation_pulsed_amplitude")
+        self.opp.duration_854 = self.get_variable_parameter("StatePreparation_pulsed_854_duration")
         #self.stateprep.op.opp.amplitude_866 = self.get_variable_parameter("DopplerCooling_doppler_cooling_amplitude_866")
-        self.stateprep.op.opc.amplitude_729 = self.get_variable_parameter("OpticalPumping_amplitude_729")
-        self.stateprep.op.opc.duration = self.get_variable_parameter("OpticalPumpingContinuous_optical_pumping_continuous_duration")
-        print(self.stateprep.op.opp.amplitude_729)
+        self.opc.amplitude_729 = self.get_variable_parameter("OpticalPumping_amplitude_729")
+        self.opc.duration = self.get_variable_parameter("OpticalPumpingContinuous_optical_pumping_continuous_duration")
+        # print(self.stateprep.op.opp.amplitude_729)
 
     @kernel
     def krun(self):
-        self.trigger.on()
-        self.stateprep.run(self)
-        self.trigger.off()
+        # self.trigger.on()
+        # self.stateprep.run(self)
+        # self.trigger.off()
+        self.dopplercooling.run(self)
+        if self.StatePreparation_pulsed_optical_pumping
+            self.opp.run(self)
+        else:
+            self.opc.run(self)
+        if self.StatePreparation.sideband_cooling_enable:
+            self.sideband_cooling.run(self)
         self.rabi.run(self)
     
