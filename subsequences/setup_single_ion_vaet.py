@@ -78,7 +78,7 @@ class SetupSingleIonVAET:
                     amplitude=s.RSB_amp,
                     phase_mode=phase_mode,
                     # ref_time_mu=s.phase_ref_time,
-                    phase=-0.25
+                    phase=0.25
                 )
         
         if s.with_noise and not s.amplitude_noise:
