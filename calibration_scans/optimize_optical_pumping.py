@@ -74,6 +74,8 @@ class OptimizeOpticalPumping(PulseSequence):
         #self.stateprep.op.opp.amplitude_866 = self.get_variable_parameter("DopplerCooling_doppler_cooling_amplitude_866")
         self.opc.amplitude_729 = self.get_variable_parameter("OpticalPumping_amplitude_729")
         self.opc.duration = self.get_variable_parameter("OpticalPumpingContinuous_optical_pumping_continuous_duration")
+        self.opc.amplitude_854 = self.opp.amplitude_854
+        self.opc.frequency_854 = self.opp.frequency_854
         # print(self.stateprep.op.opp.amplitude_729)
 
     @kernel
