@@ -161,9 +161,15 @@ class ReferenceImage(EnvExperiment):
         return acquired_images
 
     def analyze(self):
+        image_region = self.image_region
+        x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
+        y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
+        bright_images = np.reshape(self.bright_images, (self.N, y_pixels, x_pixels))
+        dark_images = np.reshape(self.dark_images, (self.N, y_pixels, x_pixels))
+        
         # only works for a single ion at the moment
-        dark_counts = list(map(np.sum, self.dark_images))
-        bright_counts = list(map(np.sum, self.bright_images))
+        dark_counts = list(map(np.sum, dark_images))
+        bright_counts = list(map(np.sum, bright_images))
         offset = np.min(dark_counts)
         lb = np.mean(bright_counts) - offset
         ld = np.mean(dark_counts) - offset
@@ -171,11 +177,7 @@ class ReferenceImage(EnvExperiment):
         self.p.set_parameter("IonsOnCamera", "threshold1", nc)
         
         camera_dock = Client("::1", 3288, "camera_reference_image")
-        image_region = self.image_region
-        x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
-        y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
-        images = np.reshape(self.bright_images, (self.N, y_pixels, x_pixels))
-        image = np.average(images, axis=0)
+        image = np.average(bright_images, axis=0)
         self.close_camera()
         camera_dock.plot(image, image_region)
         camera_dock.enable_button()
