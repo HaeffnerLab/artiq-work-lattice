@@ -25,7 +25,7 @@ class ReferenceImage(EnvExperiment):
         p = cxn.parametervault
         self.p = p
         self.camera = cxn.nuvu_camera_server
-        self.N = 200
+        self.N = 500
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.camera_trigger_width = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
         self.camera_transfer_additional = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
@@ -100,6 +100,7 @@ class ReferenceImage(EnvExperiment):
         for i in range(self.N * 2):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration + 10*ms)
+        self.reset_cw_settings()
 
     @kernel
     def reset_cw_settings(self):
@@ -161,9 +162,11 @@ class ReferenceImage(EnvExperiment):
 
     def analyze(self):
         # only works for a single ion at the moment
-        offset = np.min(self.dark_images)
-        lb = np.mean(self.bright_images) - offset
-        ld = np.mean(self.dark_images) - offset
+        dark_counts = list(map(np.sum, self.dark_images))
+        bright_counts = list(map(np.sum, self.bright_images))
+        offset = np.min(dark_counts)
+        lb = np.mean(bright_counts) - offset
+        ld = np.mean(dark_counts) - offset
         nc = lb / np.log(1 + lb / ld) + offset
         self.p.set_parameter("IonsOnCamera", "threshold1", nc)
         
