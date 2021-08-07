@@ -56,8 +56,16 @@ class ReferenceImage(EnvExperiment):
             self.att_list.append(float(settings[3]))
             self.state_list.append(bool(float(settings[2])))
 
-    @kernel
     def run(self):
+        self.krun1()
+        self.camera.abort_acquisition()
+        self.bright_images = self.get_data_from_camera()
+        self.krun2()
+        self.camera.abort_acquisition()
+        self.dark_images = self.get_data_from_camera()
+    
+    @kernel
+    def krun1(self):
         self.initialize_camera()
         self.core.reset()
         for cpld in self.cpld_list:
@@ -74,8 +82,24 @@ class ReferenceImage(EnvExperiment):
         for i in range(self.N * 2):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration + 10*ms)
-        self.reset_cw_settings()
-        self.camera_ttl.off()
+    
+    @kernel
+    def krun2(self):
+        self.core.reset()
+        for cpld in self.cpld_list:
+            cpld.init()
+        self.dds_397.set(self.freq_397, amplitude=self.amp_397)
+        self.dds_397.set_att(self.att_397)
+        self.dds_866.set(self.freq_866, amplitude=0.)
+        self.dds_866.set_att(30.0)
+        self.dds_866.sw.off()
+        self.dds_397.sw.on()
+        self.dds_854.sw.pulse(200*us)
+        self.prepare_camera()
+        self.core.break_realtime()
+        for i in range(self.N * 2):
+            self.camera_ttl.pulse(self.camera_trigger_width)
+            delay(self.duration + 10*ms)
 
     @kernel
     def reset_cw_settings(self):
@@ -121,9 +145,7 @@ class ReferenceImage(EnvExperiment):
         self.camera.set_number_images_to_acquire(self.N)
         self.camera.start_acquisition()
 
-    def analyze(self):
-        camera_dock = Client("::1", 3288, "camera_reference_image")
-
+    def get_data_from_camera(self):
         acquired_images = []
         try:
             timeout_in_seconds = 60
@@ -135,11 +157,21 @@ class ReferenceImage(EnvExperiment):
              camera_dock.close_rpc()
              self.close_camera()
              return
+        return acquired_images
 
+    def analyze(self):
+        # only works for a single ion at the moment
+        offset = np.min(self.dark_images)
+        lb = np.mean(self.bright_images) - offset
+        ld = np.mean(self.dark_images) - offset
+        nc = lb / np.log(1 + lb / ld) + offset
+        self.p.set_parameter("IonsOnCamera", "threshold1", nc)
+        
+        camera_dock = Client("::1", 3288, "camera_reference_image")
         image_region = self.image_region
         x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
         y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
-        images = np.reshape(acquired_images, (self.N, y_pixels, x_pixels))
+        images = np.reshape(self.bright_images, (self.N, y_pixels, x_pixels))
         image = np.average(images, axis=0)
         self.close_camera()
         camera_dock.plot(image, image_region)
