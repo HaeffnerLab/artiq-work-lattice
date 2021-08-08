@@ -27,35 +27,35 @@ class OptimizeDopplerCooling(PulseSequence):
     ]
 
     def run_initially(self):
-        # self.dopplercooling = self.add_subsequence(DopplerCooling)
-        # self.opp = self.add_subsequence(OpticalPumpingPulsed)
-        # self.opc = self.add_subsequence(OpticalPumpingContinuous)
-        # self.rabi = self.add_subsequence(RabiExcitation)
-        # self.rabi.channel_729 = self.p.RabiFlopping.channel_729
+        self.dopplercooling = self.add_subsequence(DopplerCooling)
+        self.opp = self.add_subsequence(OpticalPumpingPulsed)
+        self.opc = self.add_subsequence(OpticalPumpingContinuous)
+        self.rabi = self.add_subsequence(RabiExcitation)
+        self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.set_subsequence["optimize_doppler_cooling"] = self.set_subsequence_optimize_doppler_cooling
 
     @kernel
     def set_subsequence_optimize_doppler_cooling(self):
         pass
-        # self.rabi.duration = self.RabiFlopping_duration
-        # self.rabi.amp_729 = self.RabiFlopping_amplitude_729
-        # self.rabi.att_729 = self.RabiFlopping_att_729
-        # self.rabi.freq_729 = self.calc_frequency(
-        #                                 self.RabiFlopping_line_selection, 
-        #                                 detuning=0.,
-        #                                 dds=self.RabiFlopping_channel_729
-        #                             )        
-        # self.dopplercooling.frequency_397 = self.get_variable_parameter("DopplerCooling_doppler_cooling_frequency_397")
-        # self.dopplercooling.amplitude_397 = self.get_variable_parameter("DopplerCooling_doppler_cooling_amplitude_397")
-        # self.dopplercooling.duration = self.get_variable_parameter("DopplerCooling_doppler_cooling_duration")
+        self.rabi.duration = self.RabiFlopping_duration
+        self.rabi.amp_729 = self.RabiFlopping_amplitude_729
+        self.rabi.att_729 = self.RabiFlopping_att_729
+        self.rabi.freq_729 = self.calc_frequency(
+                                        self.RabiFlopping_line_selection, 
+                                        detuning=0.,
+                                        dds=self.RabiFlopping_channel_729
+                                    )        
+        self.dopplercooling.frequency_397 = self.get_variable_parameter("DopplerCooling_doppler_cooling_frequency_397")
+        self.dopplercooling.amplitude_397 = self.get_variable_parameter("DopplerCooling_doppler_cooling_amplitude_397")
+        self.dopplercooling.duration = self.get_variable_parameter("DopplerCooling_doppler_cooling_duration")
 
 
     @kernel
     def optimize_doppler_cooling(self):
         pass
-        # self.dopplercooling.run(self)
-        # if self.StatePreparation_pulsed_optical_pumping:
-        #     self.opp.run(self)
-        # else:
-        #     self.opc.run(self)
-        # self.rabi.run(self)
+        self.dopplercooling.run(self)
+        if self.StatePreparation_pulsed_optical_pumping:
+            self.opp.run(self)
+        else:
+            self.opc.run(self)
+        self.rabi.run(self)
