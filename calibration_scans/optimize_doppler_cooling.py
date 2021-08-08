@@ -34,7 +34,7 @@ class OptimizeDopplerCooling(PulseSequence):
         self.set_subsequence["optimize_doppler_cooling"] = self.set_subsequence_optimize_doppler_cooling
 
     @kernel
-    def set_subsequence(self):
+    def set_subsequence_optimize_doppler_cooling(self):
         self.rabi.duration = self.RabiFlopping_duration
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
         self.rabi.att_729 = self.RabiFlopping_att_729
