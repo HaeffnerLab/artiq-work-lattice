@@ -83,6 +83,7 @@ class ReferenceImage(EnvExperiment):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             self.core.wait_until_mu(now_mu())
+            delay(1*ms)
     
     @kernel
     def krun2(self):
@@ -102,7 +103,7 @@ class ReferenceImage(EnvExperiment):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             self.core.wait_until_mu(now_mu())
-            # delay(10*ms)
+            delay(1*ms)
         self.reset_cw_settings()
 
     @kernel
