@@ -51,7 +51,7 @@ class OptimizeSidebandCooling(PulseSequence):
                                             order=self.RabiFlopping_order, 
                                             dds=self.RabiFlopping_channel_729
                                         )
-        self.stateprep.enable_sideband_cooling = 0
+        self.stateprep.enable_sideband_cooling = 0.
         self.sidebandcooling.att_729 = self.get_variable_parameter("SidebandCooling_att_729")
         self.sidebandcooling.att_854 = self.get_variable_parameter("SidebandCooling_att_854")
         self.sidebandcooling.stark_shift = self.get_variable_parameter("SidebandCooling_stark_shift")
