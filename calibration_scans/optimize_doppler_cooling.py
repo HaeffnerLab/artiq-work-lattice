@@ -22,8 +22,8 @@ class OptimizeDopplerCooling(PulseSequence):
 
     PulseSequence.scan_params["optimize_doppler_cooling"] = [
         ("Current", ("DopplerCooling.doppler_cooling_frequency_397", 50*MHz, 70*MHz, 20, "MHz")),
-        ("Current", ("DopplerCooling.doppler_cooling_amplitude_397", 0., 1., 20)),
-        ("Current", ("DopplerCooling.doppler_cooling_duration", 0, 4*ms, 20, "ms")),
+        # ("Current", ("DopplerCooling.doppler_cooling_amplitude_397", 0., 1., 20)),
+        # ("Current", ("DopplerCooling.doppler_cooling_duration", 0, 4*ms, 20, "ms")),
     ]
 
     def run_initially(self):
