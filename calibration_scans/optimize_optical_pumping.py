@@ -85,6 +85,7 @@ class OptimizeOpticalPumping(PulseSequence):
         # self.trigger.off()
         self.dopplercooling.run(self)
         if self.StatePreparation_pulsed_optical_pumping:
+            print("here")
             self.opp.run(self)
         else:
             self.opc.run(self)
