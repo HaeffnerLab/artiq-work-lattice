@@ -21,10 +21,9 @@ class OptimizeDopplerCooling(PulseSequence):
     }
 
     PulseSequence.scan_params["optimize_doppler_cooling"] = [
-        ("Current", ("OpticalPumping.optical_pumping_frequency_854", -2*MHz, 2*MHz, 20, "MHz")),
-        # ("Current", ("DopplerCooling.doppler_cooling_frequency_397", 50*MHz, 70*MHz, 20, "MHz")),
-        # ("Current", ("DopplerCooling.doppler_cooling_amplitude_397", 0., 1., 20)),
-        # ("Current", ("DopplerCooling.doppler_cooling_duration", 0, 4*ms, 20, "ms")),
+        ("Current", ("DopplerCooling.doppler_cooling_frequency_397", 50*MHz, 70*MHz, 20, "MHz")),
+        ("Current", ("DopplerCooling.doppler_cooling_amplitude_397", 0., 1., 20)),
+        ("Current", ("DopplerCooling.doppler_cooling_duration", 0, 4*ms, 20, "ms")),
     ]
 
     def run_initially(self):
@@ -37,14 +36,15 @@ class OptimizeDopplerCooling(PulseSequence):
 
     @kernel
     def set_subsequence_optimize_doppler_cooling(self):
-        self.rabi.duration = self.RabiFlopping_duration
-        self.rabi.amp_729 = self.RabiFlopping_amplitude_729
-        self.rabi.att_729 = self.RabiFlopping_att_729
-        self.rabi.freq_729 = self.calc_frequency(
-                                        self.RabiFlopping_line_selection, 
-                                        detuning=0.,
-                                        dds=self.RabiFlopping_channel_729
-                                    )        
+        pass
+        # self.rabi.duration = self.RabiFlopping_duration
+        # self.rabi.amp_729 = self.RabiFlopping_amplitude_729
+        # self.rabi.att_729 = self.RabiFlopping_att_729
+        # self.rabi.freq_729 = self.calc_frequency(
+        #                                 self.RabiFlopping_line_selection, 
+        #                                 detuning=0.,
+        #                                 dds=self.RabiFlopping_channel_729
+        #                             )        
         # self.dopplercooling.frequency_397 = self.get_variable_parameter("DopplerCooling_doppler_cooling_frequency_397")
         # self.dopplercooling.amplitude_397 = self.get_variable_parameter("DopplerCooling_doppler_cooling_amplitude_397")
         # self.dopplercooling.duration = self.get_variable_parameter("DopplerCooling_doppler_cooling_duration")
