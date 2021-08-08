@@ -46,38 +46,6 @@ class SidebandCooling:
     def subsequence(self):
         s = SidebandCooling
 
-        def run_sideband_cooling(self, channel, sideband, sideband_order):
-            self.get_729_dds(channel)
-            freq_729 = self.calc_frequency(
-                            s.line_selection,
-                            detuning=s.stark_shift,
-                            sideband=sideband,
-                            order=sideband_order,
-                            dds=channel
-                        )
-            self.dds_729.set(freq_729, amplitude=s.amplitude_729)
-            self.dds_729.set_att(s.att_729)
-            sp_freq_729 = 80*MHz + self.get_offset_frequency(channel)
-            self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
-            self.dds_729_SP.set_att(s.sp_att_729)
-            self.dds_854.set(s.freq_854, amplitude=s.amp_854)
-            self.dds_854.set_att(s.att_854)
-            self.dds_866.set(s.freq_866, amplitude=s.amp_866)
-            self.dds_866.set_att(s.att_866)
-
-            with parallel:
-                self.dds_854.sw.on()
-                self.dds_866.sw.on()
-                self.dds_729.sw.on()
-                self.dds_729_SP.sw.on()
-            delay(s.duration)
-            with parallel:
-                self.dds_854.sw.off()
-                self.dds_866.sw.off()
-                self.dds_729.sw.off()
-                #self.dds_729_SP.sw.off()  keep SP on all the time 2/24/2020
-            s.op.run(self)
-
         num_cycles = int(s.sideband_cooling_cycles)
 
         i = 0
@@ -122,3 +90,36 @@ class SidebandCooling:
         with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()
+
+
+    def run_sideband_cooling(self, channel, sideband, sideband_order):
+            self.get_729_dds(channel)
+            freq_729 = self.calc_frequency(
+                            s.line_selection,
+                            detuning=s.stark_shift,
+                            sideband=sideband,
+                            order=sideband_order,
+                            dds=channel
+                        )
+            self.dds_729.set(freq_729, amplitude=s.amplitude_729)
+            self.dds_729.set_att(s.att_729)
+            sp_freq_729 = 80*MHz + self.get_offset_frequency(channel)
+            self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
+            self.dds_729_SP.set_att(s.sp_att_729)
+            self.dds_854.set(s.freq_854, amplitude=s.amp_854)
+            self.dds_854.set_att(s.att_854)
+            self.dds_866.set(s.freq_866, amplitude=s.amp_866)
+            self.dds_866.set_att(s.att_866)
+
+            with parallel:
+                self.dds_854.sw.on()
+                self.dds_866.sw.on()
+                self.dds_729.sw.on()
+                self.dds_729_SP.sw.on()
+            delay(s.duration)
+            with parallel:
+                self.dds_854.sw.off()
+                self.dds_866.sw.off()
+                self.dds_729.sw.off()
+                #self.dds_729_SP.sw.off()  keep SP on all the time 2/24/2020
+            s.op.run(self)
