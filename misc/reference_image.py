@@ -84,7 +84,7 @@ class ReferenceImage(EnvExperiment):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             self.core.wait_until_mu(now_mu())
-            delay(3*ms)
+            delay(5*ms)
     
     @kernel
     def krun2(self):
@@ -104,7 +104,7 @@ class ReferenceImage(EnvExperiment):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             self.core.wait_until_mu(now_mu())
-            delay(3*ms)
+            delay(5*ms)
         self.reset_cw_settings()
 
     @kernel
@@ -182,7 +182,7 @@ class ReferenceImage(EnvExperiment):
             nc = lb / np.log(1 + lb / ld) + offset
             print(nc)
             self.p.set_parameter("IonsOnCamera", "threshold1", nc)
-            
+
             camera_dock = Client("::1", 3288, "camera_reference_image")
             image = np.average(bright_images, axis=0)
         finally:
