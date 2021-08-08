@@ -79,11 +79,11 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N + 1):
+        for i in range(self.N):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             self.core.wait_until_mu(now_mu())
-            delay(10*ms)
+            delay(2*ms)
     
     @kernel
     def krun2(self):
@@ -99,11 +99,11 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N + 1):
+        for i in range(self.N):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             self.core.wait_until_mu(now_mu())
-            delay(10*ms)
+            delay(2*ms)
         self.reset_cw_settings()
 
     @kernel
