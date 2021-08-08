@@ -32,7 +32,7 @@ class OptimizeDopplerCooling(PulseSequence):
         # self.opc = self.add_subsequence(OpticalPumpingContinuous)
         # self.rabi = self.add_subsequence(RabiExcitation)
         # self.rabi.channel_729 = self.p.RabiFlopping.channel_729
-        self.set_subsequence["optimize_doppler_cooling"] = self.set_subsequence_optimize_doppler_cooling
+        # self.set_subsequence["optimize_doppler_cooling"] = self.set_subsequence_optimize_doppler_cooling
 
     @kernel
     def set_subsequence_optimize_doppler_cooling(self):
