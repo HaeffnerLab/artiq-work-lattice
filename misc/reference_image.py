@@ -39,6 +39,7 @@ class ReferenceImage(EnvExperiment):
         self.initial_xstop = p.get_parameter("PmtReadout", "camera_xstop")
         self.initial_ystart = p.get_parameter("PmtReadout", "camera_ystart")
         self.initial_ystop = p.get_parameter("PmtReadout", "camera_ystop")
+        self.ion_number = self.p.get_parameter("IonsOnCamera", "ion_number")
 
         d = dict()
         d["dds_854"] = self.p.get_parameter("dds_cw_parameters", "854")[1]
@@ -172,16 +173,76 @@ class ReferenceImage(EnvExperiment):
             y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
             bright_images = np.reshape(self.bright_images, (self.N, y_pixels, x_pixels))
             dark_images = np.reshape(self.dark_images, (self.N, y_pixels, x_pixels))
+            mapfunc = lambda x, h, v, s: np.sum(x[h:h+s, v:v+s])
             
-            # only works for a single ion at the moment
-            dark_counts = list(map(np.sum, dark_images))
-            bright_counts = list(map(np.sum, bright_images))
-            offset = np.min(dark_counts)
-            lb = np.mean(bright_counts) - offset
-            ld = np.mean(dark_counts) - offset
-            nc = lb / np.log(1 + lb / ld) + offset
-            print(nc)
-            self.p.set_parameter("IonsOnCamera", "threshold1", nc)
+            # only works for 1-3 ions at the moment
+            if int(self.ion_number) == 1:
+                dark_counts = list(map(np.sum, dark_images))
+                bright_counts = list(map(np.sum, bright_images))
+                offset = np.min(dark_counts)
+                lb = np.mean(bright_counts) - offset
+                ld = np.mean(dark_counts) - offset
+                nc = lb / np.log(1 + lb / ld) + offset
+                self.p.set_parameter("IonsOnCamera", "threshold1", nc)
+
+            elif int(self.ion_number) == 2:
+                tlh1 = self.p.get_parameter("IonsOnCamera", "top_left_pixel_horizontal1")
+                tlh2 = self.p.get_parameter("IonsOnCamera", "top_left_pixel_horizontal2")
+                tlv1 = self.p.get_parameter("IonsOnCamera", "top_left_pixel_vertical1")
+                tlv2 = self.p.get_parameter("IonsOnCamera", "top_left_pixel_vertical2")
+                sidelength1 = self.p.get_parameter("IonsOnCamera", "side_length1")
+                sidelength2 = self.p.get_parameter("IonsOnCamera", "side_length2")
+
+                dark_counts1 = list(map(np.sum, dark_images))
+                bright_counts1 = list(map(np.sum, bright_images))
+                offset = np.min(dark_counts1)
+                lb = np.mean(bright_counts1) - offset
+                ld = np.mean(dark_counts1) - offset
+                nc = lb / np.log(1 + lb / ld) + offset
+                self.p.set_parameter("IonsOnCamera", "threshold1", nc)
+
+                dark_counts2 = list(map(np.sum, dark_images2))
+                bright_counts2 = list(map(np.sum, bright_images2))
+                offset = np.min(dark_counts2)
+                lb = np.mean(bright_counts2) - offset
+                ld = np.mean(dark_counts2) - offset
+                nc = lb / np.log(1 + lb / ld) + offset
+                self.p.set_parameter("IonsOnCamera", "threshold2", nc)
+            
+            elif int(self.ion_number) == 3:
+                tlh1 = self.p.get_parameter("IonsOnCamera", "top_left_pixel_horizontal1")
+                tlh2 = self.p.get_parameter("IonsOnCamera", "top_left_pixel_horizontal2")
+                tlh3 = self.p.get_parameter("IonsOnCamera", "top_left_pixel_horizontal3")
+                tlv1 = self.p.get_parameter("IonsOnCamera", "top_left_pixel_vertical1")
+                tlv2 = self.p.get_parameter("IonsOnCamera", "top_left_pixel_vertical2")
+                tlv3 = self.p.get_parameter("IonsOnCamera", "top_left_pixel_vertical3")
+                sidelength1 = self.p.get_parameter("IonsOnCamera", "side_length1")
+                sidelength2 = self.p.get_parameter("IonsOnCamera", "side_length2")
+                sidelength3 = self.p.get_parameter("IonsOnCamera", "side_length3")
+
+                dark_counts1 = list(map(np.sum, dark_images1))
+                bright_counts1 = list(map(np.sum, bright_images1))
+                offset = np.min(dark_counts1)
+                lb = np.mean(bright_counts1) - offset
+                ld = np.mean(dark_counts1) - offset
+                nc = lb / np.log(1 + lb / ld) + offset
+                self.p.set_parameter("IonsOnCamera", "threshold1", nc)
+
+                dark_counts2 = list(map(np.sum, dark_images2))
+                bright_counts2 = list(map(np.sum, bright_images2))
+                offset = np.min(dark_counts2)
+                lb = np.mean(bright_counts2) - offset
+                ld = np.mean(dark_counts2) - offset
+                nc = lb / np.log(1 + lb / ld) + offset
+                self.p.set_parameter("IonsOnCamera", "threshold2", nc)
+
+                dark_counts3 = list(map(np.sum, dark_images3))
+                bright_counts3 = list(map(np.sum, bright_images3))
+                offset = np.min(dark_counts3)
+                lb = np.mean(bright_counts3) - offset
+                ld = np.mean(dark_counts3) - offset
+                nc = lb / np.log(1 + lb / ld) + offset
+                self.p.set_parameter("IonsOnCamera", "threshold3", nc)
 
             camera_dock = Client("::1", 3288, "camera_reference_image")
             image = np.average(bright_images, axis=0)
@@ -203,5 +264,17 @@ class ReferenceImage(EnvExperiment):
                                     int(self.initial_ystop))
         self.camera.start_live_display()
         self.cxn.disconnect()
+
+    def compute_threshold(
+                        self, bright_images, dark_images, parameter,
+                        horizontal_start=0, vertical_start=0
+                    ):
+        dark_counts = list(map(np.sum, dark_images))
+        bright_counts = list(map(np.sum, bright_images))
+        offset = np.min(dark_counts)
+        lb = np.mean(bright_counts) - offset
+        ld = np.mean(dark_counts) - offset
+        nc = lb / np.log(1 + lb / ld) + offset
+        self.p.set_parameter("IonsOnCamera", "threshold1", nc)        
 
 
