@@ -19,7 +19,7 @@ class OptimizeDopplerCooling(PulseSequence):
         "DopplerCooling.doppler_cooling_amplitude_397"
     }
 
-    PulseSequence.scan_params["krun"] = [
+    PulseSequence.scan_params["optimize_doppler_cooling"] = [
         ("Current", ("DopplerCooling.doppler_cooling_frequency_397", 50*MHz, 70*MHz, 20, "MHz")),
         ("Current", ("DopplerCooling.doppler_cooling_amplitude_397", 0., 1., 20)),
         ("Current", ("DopplerCooling.doppler_cooling_duration", 0, 4*ms, 20, "ms")),
@@ -31,7 +31,7 @@ class OptimizeDopplerCooling(PulseSequence):
         self.opc = self.add_subsequence(OpticalPumpingContinuous)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.RabiFlopping.channel_729
-        self.set_subsequence["optimize_doppler_cooling"] = self.set_subsequence
+        self.set_subsequence["optimize_doppler_cooling"] = self.set_subsequence_optimize_doppler_cooling
 
     @kernel
     def set_subsequence(self):
