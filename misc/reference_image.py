@@ -79,9 +79,10 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N * 2):
+        for i in range(self.N):
             self.camera_ttl.pulse(self.camera_trigger_width)
-            delay(self.duration + 10*ms)
+            delay(self.duration)
+            delay(100*us)
     
     @kernel
     def krun2(self):
@@ -97,9 +98,10 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N * 2):
+        for i in range(self.N):
             self.camera_ttl.pulse(self.camera_trigger_width)
-            delay(self.duration + 10*ms)
+            delay(self.duration)
+            delay(100*us)
         self.reset_cw_settings()
 
     @kernel
@@ -174,6 +176,7 @@ class ReferenceImage(EnvExperiment):
         lb = np.mean(bright_counts) - offset
         ld = np.mean(dark_counts) - offset
         nc = lb / np.log(1 + lb / ld) + offset
+        print(nc)
         self.p.set_parameter("IonsOnCamera", "threshold1", nc)
         
         camera_dock = Client("::1", 3288, "camera_reference_image")
