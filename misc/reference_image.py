@@ -81,7 +81,7 @@ class ReferenceImage(EnvExperiment):
         self.core.break_realtime()
         for i in range(self.N):
             self.camera_ttl.pulse(self.camera_trigger_width)
-            delay(self.duration)
+            delay(self.duration + 1)
             delay(10*ms)
     
     @kernel
@@ -98,7 +98,7 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N):
+        for i in range(self.N + 1):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             delay(10*ms)
@@ -162,29 +162,29 @@ class ReferenceImage(EnvExperiment):
              return
         return acquired_images
 
-    def analyze(self):
-        image_region = self.image_region
-        x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
-        y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
-        bright_images = np.reshape(self.bright_images, (self.N, y_pixels, x_pixels))
-        dark_images = np.reshape(self.dark_images, (self.N, y_pixels, x_pixels))
+    # def analyze(self):
+    #     image_region = self.image_region
+    #     x_pixels = int((image_region[3] - image_region[2] + 1) / image_region[0])
+    #     y_pixels = int((image_region[5] - image_region[4] + 1) / image_region[1])
+    #     bright_images = np.reshape(self.bright_images, (self.N, y_pixels, x_pixels))
+    #     dark_images = np.reshape(self.dark_images, (self.N, y_pixels, x_pixels))
         
-        # only works for a single ion at the moment
-        dark_counts = list(map(np.sum, dark_images))
-        bright_counts = list(map(np.sum, bright_images))
-        offset = np.min(dark_counts)
-        lb = np.mean(bright_counts) - offset
-        ld = np.mean(dark_counts) - offset
-        nc = lb / np.log(1 + lb / ld) + offset
-        print(nc)
-        self.p.set_parameter("IonsOnCamera", "threshold1", nc)
+    #     # only works for a single ion at the moment
+    #     dark_counts = list(map(np.sum, dark_images))
+    #     bright_counts = list(map(np.sum, bright_images))
+    #     offset = np.min(dark_counts)
+    #     lb = np.mean(bright_counts) - offset
+    #     ld = np.mean(dark_counts) - offset
+    #     nc = lb / np.log(1 + lb / ld) + offset
+    #     print(nc)
+    #     self.p.set_parameter("IonsOnCamera", "threshold1", nc)
         
-        camera_dock = Client("::1", 3288, "camera_reference_image")
-        image = np.average(bright_images, axis=0)
-        self.close_camera()
-        camera_dock.plot(image, image_region)
-        camera_dock.enable_button()
-        camera_dock.close_rpc()
+    #     camera_dock = Client("::1", 3288, "camera_reference_image")
+    #     image = np.average(bright_images, axis=0)
+    #     self.close_camera()
+    #     camera_dock.plot(image, image_region)
+    #     camera_dock.enable_button()
+    #     camera_dock.close_rpc()
 
     def close_camera(self):
         self.camera.abort_acquisition()
