@@ -46,7 +46,7 @@ class RabiFlopping(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )- 0*1.60511*MHz
-        print()
+        # print()
         self.composite.duration = self.get_variable_parameter("RabiFlopping_duration")
         self.composite.att_729 = self.get_variable_parameter("RabiFlopping_att_729")
         self.composite.amp_729 = self.RabiFlopping_amplitude_729
@@ -57,7 +57,7 @@ class RabiFlopping(PulseSequence):
             order=self.RabiFlopping_order, 
             dds=self.RabiFlopping_channel_729
         )- 0*1.60511*MHz
-        print(self.rabi.freq_729)
+        # print(self.rabi.freq_729)
 
         # Uncomment this to enable ramping for RabiFlopping sequence
         #if self.rabi.duration > 0:

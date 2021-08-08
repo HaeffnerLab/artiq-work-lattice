@@ -44,9 +44,9 @@ class OptimizeDopplerCooling(PulseSequence):
                                         detuning=0.,
                                         dds=self.RabiFlopping_channel_729
                                     )        
-        self.dopplercooling.frequency_397 = self.get_variable_parameter("DopplerCooling_doppler_cooling_frequency_397")
-        self.dopplercooling.amplitude_397 = self.get_variable_parameter("DopplerCooling_doppler_cooling_amplitude_397")
-        self.dopplercooling.duration = self.get_variable_parameter("DopplerCooling_doppler_cooling_duration")
+        # self.dopplercooling.frequency_397 = self.get_variable_parameter("DopplerCooling_doppler_cooling_frequency_397")
+        # self.dopplercooling.amplitude_397 = self.get_variable_parameter("DopplerCooling_doppler_cooling_amplitude_397")
+        # self.dopplercooling.duration = self.get_variable_parameter("DopplerCooling_doppler_cooling_duration")
 
 
     @kernel
