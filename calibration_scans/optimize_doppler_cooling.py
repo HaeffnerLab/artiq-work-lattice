@@ -27,6 +27,7 @@ class OptimizeDopplerCooling(PulseSequence):
     ]
 
     def run_initially(self):
+        pass
         # self.dopplercooling = self.add_subsequence(DopplerCooling)
         # self.opp = self.add_subsequence(OpticalPumpingPulsed)
         # self.opc = self.add_subsequence(OpticalPumpingContinuous)
