@@ -16,7 +16,8 @@ class OptimizeDopplerCooling(PulseSequence):
         "DopplerCooling.doppler_cooling_duration",
         "DopplerCooling.doppler_cooling_frequency_397",
         "DopplerCooling.doppler_cooling_att_397",
-        "DopplerCooling.doppler_cooling_amplitude_397"
+        "DopplerCooling.doppler_cooling_amplitude_397",
+        "StatePreparation.pulsed_optical_pumping"
     }
 
     PulseSequence.scan_params["optimize_doppler_cooling"] = [
