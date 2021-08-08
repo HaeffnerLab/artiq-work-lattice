@@ -27,5 +27,5 @@ class DopplerCooling:
         #     delay(d.pre_duration)
         delay(d.duration)
         self.dds_397.sw.off()
-        delay(10*us)
+        delay(d.additional_repump_duration)  # in case we don't run OP or SBC
         self.dds_866.sw.off()
