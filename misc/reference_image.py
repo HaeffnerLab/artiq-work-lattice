@@ -83,6 +83,7 @@ class ReferenceImage(EnvExperiment):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             delay(100*us)
+        delay(10*ms)
     
     @kernel
     def krun2(self):
