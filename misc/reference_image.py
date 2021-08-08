@@ -63,6 +63,7 @@ class ReferenceImage(EnvExperiment):
         self.krun2()
         self.camera.abort_acquisition()
         self.dark_images = self.get_data_from_camera()
+        self.camera.abort_acquisition()
     
     @kernel
     def krun1(self):
@@ -83,7 +84,7 @@ class ReferenceImage(EnvExperiment):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             self.core.wait_until_mu(now_mu())
-            delay(2*ms)
+            delay(3*ms)
     
     @kernel
     def krun2(self):
@@ -103,7 +104,7 @@ class ReferenceImage(EnvExperiment):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             self.core.wait_until_mu(now_mu())
-            delay(2*ms)
+            delay(3*ms)
         self.reset_cw_settings()
 
     @kernel
@@ -189,7 +190,6 @@ class ReferenceImage(EnvExperiment):
         camera_dock.close_rpc()
 
     def close_camera(self):
-        self.camera.abort_acquisition()
         self.camera.set_trigger_mode(self.initial_trigger_mode)
         self.camera.set_exposure_time(self.initial_exposure)
         self.camera.set_image_region(1, 1, 
