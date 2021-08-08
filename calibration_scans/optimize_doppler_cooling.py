@@ -27,11 +27,11 @@ class OptimizeDopplerCooling(PulseSequence):
     ]
 
     def run_initially(self):
-        self.dopplercooling = self.add_subsequence(DopplerCooling)
-        self.opp = self.add_subsequence(OpticalPumpingPulsed)
-        self.opc = self.add_subsequence(OpticalPumpingContinuous)
-        self.rabi = self.add_subsequence(RabiExcitation)
-        self.rabi.channel_729 = self.p.RabiFlopping.channel_729
+        # self.dopplercooling = self.add_subsequence(DopplerCooling)
+        # self.opp = self.add_subsequence(OpticalPumpingPulsed)
+        # self.opc = self.add_subsequence(OpticalPumpingContinuous)
+        # self.rabi = self.add_subsequence(RabiExcitation)
+        # self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.set_subsequence["optimize_doppler_cooling"] = self.set_subsequence_optimize_doppler_cooling
 
     @kernel
@@ -52,9 +52,10 @@ class OptimizeDopplerCooling(PulseSequence):
 
     @kernel
     def optimize_doppler_cooling(self):
-        self.dopplercooling.run(self)
-        if self.StatePreparation_pulsed_optical_pumping:
-            self.opp.run(self)
-        else:
-            self.opc.run(self)
-        self.rabi.run(self)
+        pass
+        # self.dopplercooling.run(self)
+        # if self.StatePreparation_pulsed_optical_pumping:
+        #     self.opp.run(self)
+        # else:
+        #     self.opc.run(self)
+        # self.rabi.run(self)
