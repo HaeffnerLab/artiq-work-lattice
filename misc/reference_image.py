@@ -28,7 +28,6 @@ class ReferenceImage(EnvExperiment):
         self.N = 500
         self.duration = p.get_parameter("StateReadout", "camera_readout_duration")["s"]
         self.camera_trigger_width = p.get_parameter("StateReadout", "camera_trigger_width")["s"]
-        self.camera_transfer_additional = p.get_parameter("StateReadout", "camera_transfer_additional")["s"]
         self.freq_397 = p.get_parameter("StateReadout", "frequency_397")["Hz"]
         self.freq_866 = p.get_parameter("StateReadout", "frequency_866")["Hz"]
         self.amp_397 = p.get_parameter("StateReadout", "amplitude_397")[""]
