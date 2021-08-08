@@ -82,7 +82,7 @@ class ReferenceImage(EnvExperiment):
         for i in range(self.N):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
-            delay(1000*us)
+            delay(5*ms)
         # delay(10*ms)
     
     @kernel
@@ -102,7 +102,7 @@ class ReferenceImage(EnvExperiment):
         for i in range(self.N):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
-            delay(1000*us)
+            delay(5*ms)
         self.reset_cw_settings()
 
     @kernel
