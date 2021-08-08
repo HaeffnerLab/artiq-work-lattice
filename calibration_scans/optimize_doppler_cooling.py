@@ -6,7 +6,7 @@ from subsequences.doppler_cooling import DopplerCooling
 from artiq.experiment import *
 
 
-class OptimizeOpticalPumping(PulseSequence):
+class OptimizeDopplerCooling(PulseSequence):
     PulseSequence.accessed_params = {
         "RabiFlopping.amplitude_729",
         "RabiFlopping.att_729",
