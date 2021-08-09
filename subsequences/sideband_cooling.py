@@ -118,7 +118,7 @@ class SidebandCooling:
             s.sp_freq_729_sequential2 = 80*MHz + self.get_offset_frequency(s.sequential2_channel_729)
         
 
-        for i in range(1):#num_cycles):
+        for i in range(2):#num_cycles):
 
             ######################################################
             # SBC            
@@ -158,7 +158,7 @@ class SidebandCooling:
             self.dds_729.set_att(s.op_att_729)
             self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
             self.dds_729_SP.set_att(s.op_sp_att_729)
-            delay(50*us)
+            delay(100*us)
             #---------------------
 
 #             ######################################################
