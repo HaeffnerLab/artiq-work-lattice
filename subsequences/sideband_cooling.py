@@ -114,7 +114,7 @@ class SidebandCooling:
             self.dds_854.sw.on()
             self.dds_866.sw.on()
         #print('repump time',s.repump_additional)
-        delay(2*ms)#3 * s.repump_additional)
+        delay(3 * s.repump_additional)
         with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()
