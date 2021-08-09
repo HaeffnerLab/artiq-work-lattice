@@ -72,6 +72,7 @@ class SidebandCooling:
     def subsequence(self):
         s = SidebandCooling
         num_cycles = int(s.sideband_cooling_cycles)
+        i = 0
         
         s.freq_729 = self.calc_frequency(
                             s.line_selection,
@@ -98,7 +99,7 @@ class SidebandCooling:
                             )
             s.sp_freq_729_sequential = 80*MHz + self.get_offset_frequency(s.sequential_channel_729)
         if s.sequential1_enable:
-            s.freq_7292_sequential1 = self.calc_frequency(
+            s.freq_729_sequential1 = self.calc_frequency(
                                 s.line_selection,
                                 detuning=s.stark_shift,
                                 sideband=s.sequential1_selection_sideband,
@@ -162,7 +163,6 @@ class SidebandCooling:
 
         delay(10*us)
 
-        i = 0
         for i in range(num_cycles):
             run_sideband_cooling(s.channel_729, s.freq_729, s.sp_freq_729)
             
