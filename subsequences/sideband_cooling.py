@@ -39,14 +39,48 @@ class SidebandCooling:
     sequential2_selection_sideband="SequentialSBCooling2.selection_sideband"
     sequential2_order="SequentialSBCooling2.order"
 
+    op_frequency_866="DopplerCooling.doppler_cooling_frequency_866"
+    op_amplitude_866="DopplerCooling.doppler_cooling_amplitude_866"
+    op_att_866="DopplerCooling.doppler_cooling_att_866"
+    op_frequency_854="OpticalPumping.optical_pumping_frequency_854"
+    op_amplitude_854="OpticalPumping.optical_pumping_amplitude_854"
+    op_att_854="OpticalPumping.optical_pumping_att_854"
+    op_line_selection="OpticalPumping.line_selection"
+    op_channel_729="StatePreparation.channel_729"
+    op_duration="OpticalPumpingContinuous.optical_pumping_continuous_duration"
+    op_rempump_duration="OpticalPumpingContinuous.optical_pumping_continuous_repump_additional"
+    op_amplitude_729="OpticalPumping.amplitude_729"
+    op_att_729="OpticalPumping.att_729"
+    op_sp_amp_729="Excitation_729.single_pass_amplitude"
+    op_sp_att_729="Excitation_729.single_pass_att"
+
     def add_child_subsequences(pulse_sequence):
         s = SidebandCooling
-        s.op = pulse_sequence.add_subsequence(OpticalPumping)
+
 
     def subsequence(self):
         s = SidebandCooling
-
         num_cycles = int(s.sideband_cooling_cycles)
+
+        def fast_op():
+             self.dds_729.set(
+                        op_freq_729, 
+                         amplitude=s.op_amplitude_729
+                    )
+            self.dds_729.set_att(s.op_att_729)
+            self.dds_729_SP.set(op_sp_freq_729, amplitude=s.op_sp_amp_729)
+            self.dds_729_SP.set_att(s.op_sp_att_729)
+            with parallel:
+                self.dds_866.sw.on()
+                self.dds_854.sw.on()
+                self.dds_729.sw.on()
+                self.dds_729_SP.sw.on()
+            delay(50*us)
+            self.dds_729.sw.off()
+            delay(10*us)
+            with parallel:
+                self.dds_854.sw.off()
+                self.dds_866.sw.off()
 
         def run_sideband_cooling(channel, sideband, sideband_order):
             self.get_729_dds(channel)
@@ -57,6 +91,11 @@ class SidebandCooling:
                             order=sideband_order,
                             dds=channel
                         )
+            op_freq_729 = self.calc_frequency(
+                                    o.line_selection,
+                                    dds=o.channel_729
+                                )
+            op_sp_freq_729 = 80*MHz + self.get_offset_frequency(s.op_channel_729)
             self.dds_729.set(freq_729, amplitude=s.amplitude_729)
             self.dds_729.set_att(s.att_729)
             sp_freq_729 = 80*MHz + self.get_offset_frequency(channel)
@@ -78,7 +117,7 @@ class SidebandCooling:
                 self.dds_866.sw.off()
                 self.dds_729.sw.off()
                 #self.dds_729_SP.sw.off()  keep SP on all the time 2/24/2020
-            s.op.run(self)
+            fast_op()
 
         i = 0
         for i in range(num_cycles):
