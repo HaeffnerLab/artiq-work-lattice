@@ -106,7 +106,7 @@ class SidebandCooling:
                                 s.line_selection,
                                 detuning=s.stark_shift,
                                 sideband=s.sequential2_selection_sideband,
-                                order=s.sequential2_channel_729,
+                                order=s.sequential2_order,
                                 dds=s.sequential2_channel_729
                             )
             sp_freq_729_sequential2 = 80*MHz + self.get_offset_frequency(s.sequential2_channel_729)
