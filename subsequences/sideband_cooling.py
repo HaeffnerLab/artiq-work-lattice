@@ -117,7 +117,7 @@ class SidebandCooling:
                             )
             s.sp_freq_729_sequential2 = 80*MHz + self.get_offset_frequency(s.sequential2_channel_729)
 
-        def run_sideband_cooling(channel, freq_729, sp_freq_729):
+        def run_sideband_cooling(self, channel, freq_729, sp_freq_729):
             self.get_729_dds(channel)
             self.dds_729.set(freq_729, amplitude=s.amplitude_729)
             self.dds_729.set_att(s.att_729)
@@ -164,24 +164,24 @@ class SidebandCooling:
         delay(10*us)
 
         for i in range(num_cycles):
-            run_sideband_cooling(s.channel_729, s.freq_729, s.sp_freq_729)
+            run_sideband_cooling(self, s.channel_729, s.freq_729, s.sp_freq_729)
             
             if s.sequential_enable:
-                run_sideband_cooling(
+                run_sideband_cooling(self, 
                                 s.sequential_channel_729, 
                                 s.freq_729_sequential,
                                 s.sp_freq_729_sequential
                             )
 
             if s.sequential1_enable:
-                run_sideband_cooling(
+                run_sideband_cooling(self, 
                                 s.sequential1_channel_729,
                                 s.freq_729_sequential1,
                                 s.sp_freq_729_sequential1
                             )
 
             if s.sequential2_enable:
-                run_sideband_cooling(
+                run_sideband_cooling(self,
                                 s.sequential2_channel_729,
                                 s.freq_729_sequential2,
                                 s.sp_freq_729_sequential2
