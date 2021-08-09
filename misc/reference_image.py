@@ -242,13 +242,12 @@ class ReferenceImage(EnvExperiment):
                 ld = np.mean(dark_counts3) - offset
                 nc = lb / np.log(1 + lb / ld) + offset
                 self.p.set_parameter("IonsOnCamera", "threshold3", nc)
-
-            camera_dock = Client("::1", 3288, "camera_reference_image")
             image = np.average(bright_images, axis=0)
         finally:
             try:
                 self.close_camera()
             finally:
+                camera_dock = Client("::1", 3288, "camera_reference_image")
                 camera_dock.plot(image, image_region)
                 camera_dock.enable_button()
                 camera_dock.close_rpc()
