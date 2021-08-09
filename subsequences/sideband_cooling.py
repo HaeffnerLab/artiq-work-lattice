@@ -61,6 +61,20 @@ class SidebandCooling:
     def subsequence(self):
         s = SidebandCooling
         num_cycles = int(s.sideband_cooling_cycles)
+        self.get_729_dds(channel)
+            freq_729 = self.calc_frequency(
+                            s.line_selection,
+                            detuning=s.stark_shift,
+                            sideband=sideband,
+                            order=sideband_order,
+                            dds=channel
+                        )
+            op_freq_729 = self.calc_frequency(
+                                    o.line_selection,
+                                    dds=o.channel_729
+                                )
+            sp_freq_729 = 80*MHz + self.get_offset_frequency(channel)
+            op_sp_freq_729 = 80*MHz + self.get_offset_frequency(s.op_channel_729)
 
         def fast_op():
             self.dds_729.set(
@@ -83,22 +97,8 @@ class SidebandCooling:
                 self.dds_866.sw.off()
 
         def run_sideband_cooling(channel, sideband, sideband_order):
-            self.get_729_dds(channel)
-            freq_729 = self.calc_frequency(
-                            s.line_selection,
-                            detuning=s.stark_shift,
-                            sideband=sideband,
-                            order=sideband_order,
-                            dds=channel
-                        )
-            op_freq_729 = self.calc_frequency(
-                                    o.line_selection,
-                                    dds=o.channel_729
-                                )
-            op_sp_freq_729 = 80*MHz + self.get_offset_frequency(s.op_channel_729)
             self.dds_729.set(freq_729, amplitude=s.amplitude_729)
             self.dds_729.set_att(s.att_729)
-            sp_freq_729 = 80*MHz + self.get_offset_frequency(channel)
             self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
             self.dds_729_SP.set_att(s.sp_att_729)
             self.dds_854.set(s.freq_854, amplitude=s.amp_854)
