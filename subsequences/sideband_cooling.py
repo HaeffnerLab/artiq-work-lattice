@@ -62,54 +62,54 @@ class SidebandCooling:
         s = SidebandCooling
         num_cycles = int(s.sideband_cooling_cycles)
         
-        freq_729 = self.calc_frequency(
+        self.freq_729 = self.calc_frequency(
                             s.line_selection,
                             detuning=s.stark_shift,
                             sideband=s.selection_sideband,
                             order=s.order,
                             dds=s.channel_729
                         )
-        sp_freq_729 = 80*MHz + self.get_offset_frequency(s.channel_729)
+        self.sp_freq_729 = 80*MHz + self.get_offset_frequency(s.channel_729)
         
-        op_freq_729 = self.calc_frequency(
+        self.op_freq_729 = self.calc_frequency(
                                 s.op_line_selection,
                                 dds=s.op_channel_729
                             )
-        op_sp_freq_729 = 80*MHz + self.get_offset_frequency(s.op_channel_729)
+        self.op_sp_freq_729 = 80*MHz + self.get_offset_frequency(s.op_channel_729)
 
-        freq_729_sequential = 0.0
-        freq_729_sequential1 = 0.0
-        freq_729_sequential2 = 0.0 
-        sp_freq_729_sequential = 0.0
-        sp_freq_729_sequential1 = 0.0
-        sp_freq_729_sequential2 = 0.0            
+        self.freq_729_sequential = 0.0
+        self.freq_729_sequential1 = 0.0
+        self.freq_729_sequential2 = 0.0 
+        self.sp_freq_729_sequential = 0.0
+        self.sp_freq_729_sequential1 = 0.0
+        self.sp_freq_729_sequential2 = 0.0            
         if s.sequential_enable:
-            freq_729_sequential = self.calc_frequency(
+            self.freq_729_sequential = self.calc_frequency(
                                 s.line_selection,
                                 detuning=s.stark_shift,
                                 sideband=s.sequential_selection_sideband,
                                 order=s.sequential_order,
                                 dds=s.sequential_channel_729
                             )
-            sp_freq_729_sequential = 80*MHz + self.get_offset_frequency(s.sequential_channel_729)
+            self.sp_freq_729_sequential = 80*MHz + self.get_offset_frequency(s.sequential_channel_729)
         if s.sequential1_enable:
-            freq_7292_sequential1 = self.calc_frequency(
+            self.freq_7292_sequential1 = self.calc_frequency(
                                 s.line_selection,
                                 detuning=s.stark_shift,
                                 sideband=s.sequential1_selection_sideband,
                                 order=s.sequential1_order,
                                 dds=s.sequential1_channel_729
                             )
-            sp_freq_729_sequential1 = 80*MHz + self.get_offset_frequency(s.sequential1_channel_729)
+            self.sp_freq_729_sequential1 = 80*MHz + self.get_offset_frequency(s.sequential1_channel_729)
         if s.sequential2_enable:
-            freq_729_sequential2 = self.calc_frequency(
+            self.freq_729_sequential2 = self.calc_frequency(
                                 s.line_selection,
                                 detuning=s.stark_shift,
                                 sideband=s.sequential2_selection_sideband,
                                 order=s.sequential2_order,
                                 dds=s.sequential2_channel_729
                             )
-            sp_freq_729_sequential2 = 80*MHz + self.get_offset_frequency(s.sequential2_channel_729)
+            self.sp_freq_729_sequential2 = 80*MHz + self.get_offset_frequency(s.sequential2_channel_729)
 
         def run_sideband_cooling(self, channel, freq_729, sp_freq_729):
             self.get_729_dds(channel)
@@ -137,11 +137,11 @@ class SidebandCooling:
             # Fast OP
             self.get_729_dds(s.op_channel_729)
             self.dds_729.set(
-                            op_freq_729, 
+                            self.op_freq_729, 
                             amplitude=s.op_amplitude_729
                         )
             self.dds_729.set_att(s.op_att_729)
-            self.dds_729_SP.set(op_sp_freq_729, amplitude=s.op_sp_amp_729)
+            self.dds_729_SP.set(self.op_sp_freq_729, amplitude=s.op_sp_amp_729)
             self.dds_729_SP.set_att(s.op_sp_att_729)
             delay(10*us)
             with parallel:
@@ -159,27 +159,27 @@ class SidebandCooling:
 
         i = 0
         for i in range(num_cycles):
-            run_sideband_cooling(self, s.channel_729, freq_729, sp_freq_729)
+            run_sideband_cooling(self, s.channel_729, self.freq_729, self.sp_freq_729)
             
             if s.sequential_enable:
                 run_sideband_cooling(self,
                                 s.sequential_channel_729, 
-                                freq_729_sequential,
-                                sp_freq_729_sequential
+                                self.freq_729_sequential,
+                                self.sp_freq_729_sequential
                             )
 
             if s.sequential1_enable:
                 run_sideband_cooling(self,
                                 s.sequential1_channel_729,
-                                freq_729_sequential1,
-                                sp_freq_729_sequential1
+                                self.freq_729_sequential1,
+                                self.sp_freq_729_sequential1
                             )
 
             if s.sequential2_enable:
                 run_sideband_cooling(self,
                                 s.sequential2_channel_729,
-                                freq_729_sequential2,
-                                sp_freq_729_sequential2
+                                self.freq_729_sequential2,
+                                self.sp_freq_729_sequential2
                             )
             
         #
