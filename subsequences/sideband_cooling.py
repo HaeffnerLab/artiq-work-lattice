@@ -157,7 +157,7 @@ class SidebandCooling:
             self.dds_854.sw.off()
             self.dds_866.sw.off()
 
-    def run_sideband_cooling(self, channel, freq_729, sp_freq_729):
+    def run_sideband_cooling(self, channel, freq_729, sp_freq_729):#
         self.get_729_dds(channel)
         self.dds_729.set(freq_729, amplitude=s.amplitude_729)
         self.dds_729.set_att(s.att_729)
