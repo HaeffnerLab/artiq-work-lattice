@@ -117,10 +117,9 @@ class SidebandCooling:
                             )
             s.sp_freq_729_sequential2 = 80*MHz + self.get_offset_frequency(s.sequential2_channel_729)
 
-        
-
         for i in range(num_cycles):
             s.run_sideband_cooling(s.channel_729, s.freq_729, s.sp_freq_729)
+            s.fast_op()
             
             if s.sequential_enable:
                 s.run_sideband_cooling(
@@ -128,6 +127,7 @@ class SidebandCooling:
                                 s.freq_729_sequential,
                                 s.sp_freq_729_sequential
                             )
+                s.fast_op()
 
             if s.sequential1_enable:
                 s.run_sideband_cooling(
@@ -135,6 +135,7 @@ class SidebandCooling:
                                 s.freq_729_sequential1,
                                 s.sp_freq_729_sequential1
                             )
+                s.fast_op()
 
             if s.sequential2_enable:
                 s.run_sideband_cooling(
@@ -142,8 +143,8 @@ class SidebandCooling:
                                 s.freq_729_sequential2,
                                 s.sp_freq_729_sequential2
                             )
+                s.fast_op()
             
-        #
         self.dds_854.set(80*MHz, amplitude=1.0)
         self.dds_854.set_att(5.0)
         self.dds_866.set(80*MHz, amplitude=1.0)
@@ -151,8 +152,7 @@ class SidebandCooling:
         with parallel:
             self.dds_854.sw.on()
             self.dds_866.sw.on()
-        #print('repump time',s.repump_additional)
-        delay(3 * s.repump_additional)
+        delay(s.repump_additional)
         with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()
@@ -180,7 +180,7 @@ class SidebandCooling:
             self.dds_729.sw.off()
             #self.dds_729_SP.sw.off()  keep SP on all the time 2/24/2020
         
-        # Fast OP
+    def fast_op(self):
         self.get_729_dds(s.op_channel_729)
         self.dds_729.set(
                         s.op_freq_729, 
@@ -195,10 +195,8 @@ class SidebandCooling:
             self.dds_854.sw.on()
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
+        delay(30*us)
         self.dds_729.sw.off()
         with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()
-        delay(10*us)
-
-        delay(10*us)
