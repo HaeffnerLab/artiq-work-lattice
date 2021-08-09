@@ -55,7 +55,7 @@ class SidebandCooling:
     op_sp_att_729="Excitation_729.single_pass_att"
 
     freq_729=0.0
-    sp_freq729=0.0
+    sp_freq_729=0.0
     op_freq_729=0.0
     freq_729_sequential=0.0
     freq_729_sequential1=0.0
