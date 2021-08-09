@@ -101,7 +101,7 @@ class SidebandCooling:
                                 dds=s.sequential1_channel_729
                             )
             sp_freq_729_sequential1 = 80*MHz + self.get_offset_frequency(s.sequential1_channel_729)
-        is s.sequential2_enable:
+        if s.sequential2_enable:
             freq_729_sequential2 = self.calc_frequency(
                                 s.line_selection,
                                 detuning=s.stark_shift,
