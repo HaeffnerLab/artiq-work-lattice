@@ -110,27 +110,6 @@ class SidebandCooling:
                                 dds=s.sequential2_channel_729
                             )
             sp_freq_729_sequential2 = 80*MHz + self.get_offset_frequency(s.sequential2_channel_729)
-        
-        def fast_op(self):
-            self.get_729_dds(s.op_channel_729)
-            self.dds_729.set(
-                            op_freq_729, 
-                            amplitude=s.op_amplitude_729
-                        )
-            self.dds_729.set_att(s.op_att_729)
-            self.dds_729_SP.set(op_sp_freq_729, amplitude=s.op_sp_amp_729)
-            self.dds_729_SP.set_att(s.op_sp_att_729)
-            delay(10*us)
-            with parallel:
-                self.dds_866.sw.on()
-                self.dds_854.sw.on()
-                self.dds_729.sw.on()
-                self.dds_729_SP.sw.on()
-            self.dds_729.sw.off()
-            with parallel:
-                self.dds_854.sw.off()
-                self.dds_866.sw.off()
-            delay(10*us)
 
         def run_sideband_cooling(self, channel, freq_729, sp_freq_729):
             self.get_729_dds(channel)
@@ -154,7 +133,27 @@ class SidebandCooling:
                 self.dds_866.sw.off()
                 self.dds_729.sw.off()
                 #self.dds_729_SP.sw.off()  keep SP on all the time 2/24/2020
-            fast_op(self)
+            
+            # Fast OP
+            self.get_729_dds(s.op_channel_729)
+            self.dds_729.set(
+                            op_freq_729, 
+                            amplitude=s.op_amplitude_729
+                        )
+            self.dds_729.set_att(s.op_att_729)
+            self.dds_729_SP.set(op_sp_freq_729, amplitude=s.op_sp_amp_729)
+            self.dds_729_SP.set_att(s.op_sp_att_729)
+            delay(10*us)
+            with parallel:
+                self.dds_866.sw.on()
+                self.dds_854.sw.on()
+                self.dds_729.sw.on()
+                self.dds_729_SP.sw.on()
+            self.dds_729.sw.off()
+            with parallel:
+                self.dds_854.sw.off()
+                self.dds_866.sw.off()
+            delay(10*us)
 
         delay(10*us)
 
