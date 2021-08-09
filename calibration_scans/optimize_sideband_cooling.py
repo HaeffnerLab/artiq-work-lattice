@@ -45,7 +45,7 @@ class OptimizeSidebandCooling(PulseSequence):
         self.rabi.channel_729 = self.p.RabiFlopping.channel_729
         self.set_subsequence["krun"] = self.set_subsequence_krun
 
-    @kernel
+    @kernel#
     def set_subsequence_krun(self):
         self.rabi.duration = self.RabiFlopping_duration
         self.rabi.amp_729 = self.RabiFlopping_amplitude_729
