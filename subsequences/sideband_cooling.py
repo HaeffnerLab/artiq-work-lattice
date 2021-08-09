@@ -73,10 +73,9 @@ class SidebandCooling:
                                 o.line_selection,
                                 dds=o.channel_729
                             )
-        sp_freq_729 = 80*MHz + self.get_offset_frequency(channel)
-        op_sp_freq_729 = 80*MHz + self.get_offset_frequency(s.op_channel_729)
 
         def fast_op():
+            op_sp_freq_729 = 80*MHz + self.get_offset_frequency(s.op_channel_729)
             self.dds_729.set(
                         op_freq_729, 
                          amplitude=s.op_amplitude_729
@@ -97,6 +96,7 @@ class SidebandCooling:
                 self.dds_866.sw.off()
 
         def run_sideband_cooling(channel, sideband, sideband_order):
+            sp_freq_729 = 80*MHz + self.get_offset_frequency(channel)
             self.dds_729.set(freq_729, amplitude=s.amplitude_729)
             self.dds_729.set_att(s.att_729)
             self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
