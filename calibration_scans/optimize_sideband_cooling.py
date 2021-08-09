@@ -26,18 +26,18 @@ class OptimizeSidebandCooling(PulseSequence):
         "StatePreparation.sideband_cooling_enable",
         "StatePreparation.channel_729",
         "SidebandCooling.duration",
-        "SidebandCooling.sideband_cooling_cycles"
+        "SidebandCooling.cycles"
     }
 
     PulseSequence.scan_params["krun"] = [
-        ("Current", ("SidebandCooling.att_854", 5., 32.5, 15, "dB")),
-        ("Current", ("SidebandCooling.att_729", 5., 32.5, 12, "dB")),
+        ("Current", ("SidebandCooling.amplitude_854", 0.0, 1.0, 20)),
+        ("Current", ("SidebandCooling.amplitude_729", 0.0, 1.0, 20)),
         ("Current", ("SidebandCooling.stark_shift", -60*kHz, 60*kHz, 20, "kHz")),
         ("Current", ("SidebandCooling.duration", 0, 2*ms, 20, "ms")),
-        ("Current", ("SidebandCooling.sideband_cooling_cycles", 0, 10, 10)),
+        ("Current", ("SidebandCooling.cycles", 0, 10, 10)),
         ("Current", ("SidebandCooling.optical_pumping_duration", 0, 1*ms, 10, "ms"))
     ]
-
+d
     def run_initially(self):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.sidebandcooling = self.add_subsequence(SidebandCooling)
@@ -58,8 +58,8 @@ class OptimizeSidebandCooling(PulseSequence):
                                             dds=self.RabiFlopping_channel_729
                                         )
         self.stateprep.enable_sideband_cooling = 0.0
-        self.sidebandcooling.att_729 = self.get_variable_parameter("SidebandCooling_att_729")
-        self.sidebandcooling.att_854 = self.get_variable_parameter("SidebandCooling_att_854")
+        self.sidebandcooling.amp_729 = self.get_variable_parameter("SidebandCooling_amplitude_729")
+        self.sidebandcooling.amp_854 = self.get_variable_parameter("SidebandCooling_amplitude_854")
         self.sidebandcooling.stark_shift = self.get_variable_parameter("SidebandCooling_stark_shift")
         self.sidebandcooling.duration = self.get_variable_parameter("SidebandCooling_duration")
         self.sidebandcooling.sideband_cooling_cycles = self.get_variable_parameter("SidebandCooling_cycles")
