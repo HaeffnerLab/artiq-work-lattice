@@ -25,7 +25,7 @@ class DopplerCooling:
         # if d.recrystallize_pulse:
         #     self.dds_397.set(60*MHz, amplitude=1.0)
         #     delay(d.pre_duration)
-        delay(d.duration)
+        delay(0.5*ms + d.duration)  # need about 0.5 ms at least to avoid causing AUX DAC mismatch errors
         self.dds_397.sw.off()
         delay(d.additional_repump_duration)  # in case we don't run OP or SBC
         self.dds_866.sw.off()
