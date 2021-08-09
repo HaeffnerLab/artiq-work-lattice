@@ -163,12 +163,8 @@ class SidebandCooling:
                 self.dds_854.sw.on()
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
-            delay(30*us)
             self.dds_729.sw.off()
-            with parallel:
-                self.dds_854.sw.off()
-                self.dds_866.sw.off()
-            delay(10*us)
+            delay(30*us)
 
 #             ######################################################
 #             # SBC  sequential          
