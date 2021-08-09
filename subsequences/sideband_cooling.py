@@ -78,7 +78,7 @@ class SidebandCooling:
                 self.dds_866.sw.off()
                 self.dds_729.sw.off()
                 #self.dds_729_SP.sw.off()  keep SP on all the time 2/24/2020
-            # s.op.run(self)
+            s.op.run(self)
 
         i = 0
         for i in range(num_cycles):
@@ -114,7 +114,7 @@ class SidebandCooling:
             self.dds_854.sw.on()
             self.dds_866.sw.on()
         #print('repump time',s.repump_additional)
-        delay(3 * s.repump_additional)
+        delay(20*us)#3 * s.repump_additional)
         with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()
