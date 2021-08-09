@@ -98,7 +98,7 @@ class SidebandCooling:
                             )
             s.sp_freq_729_sequential = 80*MHz + self.get_offset_frequency(s.sequential_channel_729)
         if s.sequential1_enable:
-            s.freq_7292_sequential1 = self.calc_frequency(
+            s.freq_729_sequential1 = self.calc_frequency(
                                 s.line_selection,
                                 detuning=s.stark_shift,
                                 sideband=s.sequential1_selection_sideband,
