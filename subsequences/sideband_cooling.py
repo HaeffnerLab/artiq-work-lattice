@@ -124,7 +124,7 @@ class SidebandCooling:
 #####################################################################################################
             channel = s.channel_729
             freq_729 = s.freq_729
-            sp_freq_279 = s.sp_freq_729
+            sp_freq_729 = s.sp_freq_729
             self.get_729_dds(channel)
             self.dds_729.set(freq_729, amplitude=s.amplitude_729)
             self.dds_729.set_att(s.att_729)
@@ -174,7 +174,7 @@ class SidebandCooling:
             if s.sequential_enable:
                 channel = s.sequential_channel_729
                 freq_729 = s.freq_729_sequential
-                sp_freq_279 = s.sp_freq_729_sequential
+                sp_freq_729 = s.sp_freq_729_sequential
                 self.get_729_dds(channel)
                 self.dds_729.set(freq_729, amplitude=s.amplitude_729)
                 self.dds_729.set_att(s.att_729)
@@ -225,7 +225,7 @@ class SidebandCooling:
             if s.sequential1_enable:
                 channel = s.sequential1_channel_729
                 freq_729 = s.freq_729_sequential1
-                sp_freq_279 = s.sp_freq_729_sequential1
+                sp_freq_729 = s.sp_freq_729_sequential1
                 self.get_729_dds(channel)
                 self.dds_729.set(freq_729, amplitude=s.amplitude_729)
                 self.dds_729.set_att(s.att_729)
@@ -276,7 +276,7 @@ class SidebandCooling:
             if s.sequential2_enable:
                 channel = s.sequential2_channel_729
                 freq_729 = s.freq_729_sequential2
-                sp_freq_279 = s.sp_freq_729_sequential2
+                sp_freq_729 = s.sp_freq_729_sequential2
                 self.get_729_dds(channel)
                 self.dds_729.set(freq_729, amplitude=s.amplitude_729)
                 self.dds_729.set_att(s.att_729)
