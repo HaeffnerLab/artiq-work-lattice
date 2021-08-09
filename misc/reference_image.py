@@ -80,7 +80,7 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N):
+        for i in range(self.N + 10):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             self.core.wait_until_mu(now_mu())
@@ -100,7 +100,7 @@ class ReferenceImage(EnvExperiment):
         self.dds_854.sw.pulse(200*us)
         self.prepare_camera()
         self.core.break_realtime()
-        for i in range(self.N):
+        for i in range(self.N + 10):
             self.camera_ttl.pulse(self.camera_trigger_width)
             delay(self.duration)
             self.core.wait_until_mu(now_mu())
