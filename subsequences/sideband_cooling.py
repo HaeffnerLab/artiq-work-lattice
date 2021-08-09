@@ -62,19 +62,19 @@ class SidebandCooling:
         s = SidebandCooling
         num_cycles = int(s.sideband_cooling_cycles)
         self.get_729_dds(channel)
-            freq_729 = self.calc_frequency(
-                            s.line_selection,
-                            detuning=s.stark_shift,
-                            sideband=sideband,
-                            order=sideband_order,
-                            dds=channel
-                        )
-            op_freq_729 = self.calc_frequency(
-                                    o.line_selection,
-                                    dds=o.channel_729
-                                )
-            sp_freq_729 = 80*MHz + self.get_offset_frequency(channel)
-            op_sp_freq_729 = 80*MHz + self.get_offset_frequency(s.op_channel_729)
+        freq_729 = self.calc_frequency(
+                        s.line_selection,
+                        detuning=s.stark_shift,
+                        sideband=sideband,
+                        order=sideband_order,
+                        dds=channel
+                    )
+        op_freq_729 = self.calc_frequency(
+                                o.line_selection,
+                                dds=o.channel_729
+                            )
+        sp_freq_729 = 80*MHz + self.get_offset_frequency(channel)
+        op_sp_freq_729 = 80*MHz + self.get_offset_frequency(s.op_channel_729)
 
         def fast_op():
             self.dds_729.set(
