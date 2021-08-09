@@ -119,56 +119,56 @@ class SidebandCooling:
         
         delay(50*us)
 
-#         for i in range(num_cycles):
+        for i in range(1):#num_cycles):
 
-#             ######################################################
-#             # SBC            
-#             ######################################################
-#             channel = s.channel_729
-#             freq_729 = s.freq_729
-#             sp_freq_729 = s.sp_freq_729
-#             self.get_729_dds(channel)
-#             self.dds_729.set(freq_729, amplitude=s.amplitude_729)
-#             self.dds_729.set_att(s.att_729)
-#             self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
-#             self.dds_729_SP.set_att(s.sp_att_729)
-#             self.dds_854.set(s.freq_854, amplitude=s.amp_854)
-#             self.dds_854.set_att(s.att_854)
-#             self.dds_866.set(s.freq_866, amplitude=s.amp_866)
-#             self.dds_866.set_att(s.att_866)
-#             delay(10*us)
-#             with parallel:
-#                 self.dds_854.sw.on()
-#                 self.dds_866.sw.on()
-#                 self.dds_729.sw.on()
-#                 self.dds_729_SP.sw.on()
-#             delay(s.duration)
-#             with parallel:
-#                 self.dds_854.sw.off()
-#                 self.dds_866.sw.off()
-#                 self.dds_729.sw.off()
-#                 #self.dds_729_SP.sw.off()  keep SP on all the time 2/24/2020
+            ######################################################
+            # SBC            
+            ######################################################
+            channel = s.channel_729
+            freq_729 = s.freq_729
+            sp_freq_729 = s.sp_freq_729
+            self.get_729_dds(channel)
+            self.dds_729.set(freq_729, amplitude=s.amplitude_729)
+            self.dds_729.set_att(s.att_729)
+            self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
+            self.dds_729_SP.set_att(s.sp_att_729)
+            self.dds_854.set(s.freq_854, amplitude=s.amp_854)
+            self.dds_854.set_att(s.att_854)
+            self.dds_866.set(s.freq_866, amplitude=s.amp_866)
+            self.dds_866.set_att(s.att_866)
+            delay(10*us)
+            with parallel:
+                self.dds_854.sw.on()
+                self.dds_866.sw.on()
+                self.dds_729.sw.on()
+                self.dds_729_SP.sw.on()
+            delay(s.duration)
+            with parallel:
+                self.dds_854.sw.off()
+                self.dds_866.sw.off()
+                self.dds_729.sw.off()
+                #self.dds_729_SP.sw.off()  keep SP on all the time 2/24/2020
             
-#             # fast op
-#             self.get_729_dds(s.op_channel_729)
-#             self.dds_729.set(
-#                             s.op_freq_729, 
-#                             amplitude=s.op_amplitude_729
-#                         )
-#             self.dds_729.set_att(s.op_att_729)
-#             self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
-#             self.dds_729_SP.set_att(s.op_sp_att_729)
-#             delay(10*us)
-#             with parallel:
-#                 self.dds_866.sw.on()
-#                 self.dds_854.sw.on()
-#                 self.dds_729.sw.on()
-#                 self.dds_729_SP.sw.on()
-#             delay(30*us)
-#             self.dds_729.sw.off()
-#             with parallel:
-#                 self.dds_854.sw.off()
-#                 self.dds_866.sw.off()
+            # fast op
+            self.get_729_dds(s.op_channel_729)
+            self.dds_729.set(
+                            s.op_freq_729, 
+                            amplitude=s.op_amplitude_729
+                        )
+            self.dds_729.set_att(s.op_att_729)
+            self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+            self.dds_729_SP.set_att(s.op_sp_att_729)
+            delay(10*us)
+            with parallel:
+                self.dds_866.sw.on()
+                self.dds_854.sw.on()
+                self.dds_729.sw.on()
+                self.dds_729_SP.sw.on()
+            delay(30*us)
+            self.dds_729.sw.off()
+            with parallel:
+                self.dds_854.sw.off()
+                self.dds_866.sw.off()
 
 #             ######################################################
 #             # SBC  sequential          
