@@ -123,13 +123,13 @@ class SidebandCooling:
             ######################################################
             # SBC            
             ######################################################
-            # channel = s.channel_729
-            # freq_729 = s.freq_729
-            # sp_freq_729 = s.sp_freq_729
-            self.get_729_dds(s.channel_729)
-            self.dds_729.set(s.freq_729, amplitude=s.amplitude_729)
+            channel = s.channel_729
+            freq_729 = s.freq_729
+            sp_freq_729 = s.sp_freq_729
+            self.get_729_dds(channel)
+            self.dds_729.set(freq_729, amplitude=s.amplitude_729)
             self.dds_729.set_att(s.att_729)
-            self.dds_729_SP.set(s.sp_freq_729, amplitude=s.sp_amp_729)
+            self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
             self.dds_729_SP.set_att(s.sp_att_729)
             self.dds_854.set(s.freq_854, amplitude=s.amp_854)
             self.dds_854.set_att(s.att_854)
