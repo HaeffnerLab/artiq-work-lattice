@@ -15,6 +15,7 @@ class OptimizeSidebandCooling(PulseSequence):
         "SidebandCooling.amplitude_729",
         "SidebandCooling.att_729",
         "SidebandCooling.selection_sideband",
+        "SidebandCooling.optical_pumping_duration",
         "RabiFlopping.amplitude_729",
         "RabiFlopping.att_729",
         "RabiFlopping.duration",
@@ -33,7 +34,8 @@ class OptimizeSidebandCooling(PulseSequence):
         ("Current", ("SidebandCooling.att_729", 5., 32.5, 12, "dB")),
         ("Current", ("SidebandCooling.stark_shift", -60*kHz, 60*kHz, 20, "kHz")),
         ("Current", ("SidebandCooling.duration", 0, 2*ms, 20, "ms")),
-        ("Current", ("SidebandCooling.sideband_cooling_cycles", 0, 10, 10))
+        ("Current", ("SidebandCooling.sideband_cooling_cycles", 0, 10, 10)),
+        ("Current", ("SidebandCooling.optical_pumping_duration", 0, 1*ms, 10, "ms"))
     ]
 
     def run_initially(self):
@@ -60,8 +62,9 @@ class OptimizeSidebandCooling(PulseSequence):
         self.sidebandcooling.att_854 = self.get_variable_parameter("SidebandCooling_att_854")
         self.sidebandcooling.stark_shift = self.get_variable_parameter("SidebandCooling_stark_shift")
         self.sidebandcooling.duration = self.get_variable_parameter("SidebandCooling_duration")
-        self.sidebandcooling.sideband_cooling_cycles = self.get_variable_parameter("SidebandCooling_sideband_cooling_cycles")
-    
+        self.sidebandcooling.sideband_cooling_cycles = self.get_variable_parameter("SidebandCooling_cycles")
+        self.sidebandcooling.optical_pumping_duration = self.get_variable_parameter("SidebandCooling_optical_pumping_duration")
+
     @kernel
     def krun(self):
         self.stateprep.run(self)
