@@ -158,7 +158,7 @@ class SidebandCooling:
             self.dds_729.set_att(s.op_att_729)
             self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
             self.dds_729_SP.set_att(s.op_sp_att_729)
-            delay(200*us)
+            delay(300*us)
             #---------------------
 
 #             ######################################################
