@@ -63,7 +63,7 @@ class SidebandCooling:
         num_cycles = int(s.sideband_cooling_cycles)
 
         def fast_op():
-             self.dds_729.set(
+            self.dds_729.set(
                         op_freq_729, 
                          amplitude=s.op_amplitude_729
                     )
