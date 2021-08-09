@@ -135,7 +135,7 @@ class SidebandCooling:
             self.dds_854.set_att(s.att_854)
             self.dds_866.set(s.freq_866, amplitude=s.amp_866)
             self.dds_866.set_att(s.att_866)
-            delay(10*us)
+
             with parallel:
                 self.dds_854.sw.on()
                 self.dds_866.sw.on()
