@@ -117,7 +117,7 @@ class SidebandCooling:
                             )
             s.sp_freq_729_sequential2 = 80*MHz + self.get_offset_frequency(s.sequential2_channel_729)
         
-        delay(50*us)
+        # delay(50*us)
 
         for i in range(1):#num_cycles):
 
@@ -330,7 +330,7 @@ class SidebandCooling:
         with parallel:
             self.dds_854.sw.on()
             self.dds_866.sw.on()
-        delay(s.repump_additional)
+        delay(s.repump_additional)  # change this
         with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()
