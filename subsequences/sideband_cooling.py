@@ -142,11 +142,6 @@ class SidebandCooling:
                 self.dds_729.sw.on()
                 self.dds_729_SP.sw.on()
             delay(s.duration)
-            with parallel:
-                self.dds_854.sw.off()
-                self.dds_866.sw.off()
-                self.dds_729.sw.off()
-                #self.dds_729_SP.sw.off()  keep SP on all the time 2/24/2020
             
             #----------------------
             # Fast OP
@@ -163,14 +158,7 @@ class SidebandCooling:
             self.dds_729.set_att(s.op_att_729)
             self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
             self.dds_729_SP.set_att(s.op_sp_att_729)
-            delay(10*us)
-            with parallel:
-                self.dds_866.sw.on()
-                self.dds_854.sw.on()
-                self.dds_729.sw.on()
-                self.dds_729_SP.sw.on()
-            self.dds_729.sw.off()
-            delay(30*us)
+            delay(50*us)
             #---------------------
 
 #             ######################################################
@@ -331,6 +319,7 @@ class SidebandCooling:
         self.dds_866.set(80*MHz, amplitude=1.0)
         self.dds_866.set_att(5.0)
         with parallel:
+            self.dds_729.sw.off()
             self.dds_854.sw.on()
             self.dds_866.sw.on()
         delay(s.repump_additional)  # change this
