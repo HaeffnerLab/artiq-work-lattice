@@ -148,7 +148,9 @@ class SidebandCooling:
                 self.dds_729.sw.off()
                 #self.dds_729_SP.sw.off()  keep SP on all the time 2/24/2020
             
-            # fast OP
+            #----------------------
+            # Fast OP
+            #----------------------
             self.get_729_dds(s.op_channel_729)
             self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
             self.dds_866.set_att(s.op_att_866)
@@ -169,6 +171,7 @@ class SidebandCooling:
                 self.dds_729_SP.sw.on()
             self.dds_729.sw.off()
             delay(30*us)
+            #---------------------
 
 #             ######################################################
 #             # SBC  sequential          
