@@ -117,16 +117,15 @@ class SidebandCooling:
                             )
             s.sp_freq_729_sequential2 = 80*MHz + self.get_offset_frequency(s.sequential2_channel_729)
         
-
+        channel = s.channel_729
+        freq_729 = s.freq_729
+        sp_freq_729 = s.sp_freq_729
+        self.get_729_dds(channel)
         for i in range(num_cycles):
 
             ######################################################
             # SBC            
             ######################################################
-            channel = s.channel_729
-            freq_729 = s.freq_729
-            sp_freq_729 = s.sp_freq_729
-            self.get_729_dds(channel)
             self.dds_729.set(freq_729, amplitude=s.amplitude_729)
             self.dds_729.set_att(s.att_729)
             self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
