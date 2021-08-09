@@ -320,20 +320,19 @@ class SidebandCooling:
 #                     self.dds_854.sw.off()
 #                     self.dds_866.sw.off()
 
-# #####################################################################################################
-# # Finally            ################################################################################
-# #####################################################################################################
-            
-#         self.dds_854.set(80*MHz, amplitude=1.0)
-#         self.dds_854.set_att(5.0)
-#         self.dds_866.set(80*MHz, amplitude=1.0)
-#         self.dds_866.set_att(5.0)
-#         with parallel:
-#             self.dds_854.sw.on()
-#             self.dds_866.sw.on()
-#         delay(s.repump_additional)
-#         with parallel:
-#             self.dds_854.sw.off()
-#             self.dds_866.sw.off()
+        ###############################################################
+        # turn everything off (after we do a quick double-sure repump)          
+        ###############################################################
+        self.dds_854.set(80*MHz, amplitude=1.0)
+        self.dds_854.set_att(5.0)
+        self.dds_866.set(80*MHz, amplitude=1.0)
+        self.dds_866.set_att(5.0)
+        with parallel:
+            self.dds_854.sw.on()
+            self.dds_866.sw.on()
+        delay(s.repump_additional)
+        with parallel:
+            self.dds_854.sw.off()
+            self.dds_866.sw.off()
 
         
