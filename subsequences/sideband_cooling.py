@@ -57,6 +57,7 @@ class SidebandCooling:
     freq_729=0.0
     sp_freq_729=0.0
     op_freq_729=0.0
+    op_sp_freq_729=0.0
     freq_729_sequential=0.0
     freq_729_sequential1=0.0
     freq_729_sequential2=0.0
