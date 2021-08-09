@@ -123,7 +123,7 @@ class SidebandCooling:
             ######################################################
             # SBC            
             ######################################################
-            delay(10*us)
+            delay(50*us)
             channel = s.channel_729
             freq_729 = s.freq_729
             sp_freq_729 = s.sp_freq_729
