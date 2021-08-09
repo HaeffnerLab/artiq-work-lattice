@@ -37,7 +37,7 @@ class OptimizeSidebandCooling(PulseSequence):
         ("Current", ("SidebandCooling.cycles", 0, 10, 10)),
         ("Current", ("SidebandCooling.optical_pumping_duration", 0, 1*ms, 10, "ms"))
     ]
-d
+
     def run_initially(self):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.sidebandcooling = self.add_subsequence(SidebandCooling)
