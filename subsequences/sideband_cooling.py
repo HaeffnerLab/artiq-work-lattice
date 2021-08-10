@@ -287,6 +287,22 @@ class SidebandCooling:
         ###############################################################
         # turn everything off (after we do a quick double-sure repump)          
         ###############################################################
+        #----------------------
+            # Fast OP
+            #----------------------
+            self.get_729_dds(s.op_channel_729)
+            self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
+            self.dds_866.set_att(s.op_att_866)
+            self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
+            self.dds_854.set_att(s.op_att_854)
+            self.dds_729.set(
+                            s.op_freq_729, 
+                            amplitude=s.op_amplitude_729
+                        )
+            self.dds_729.set_att(s.op_att_729)
+            self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+            self.dds_729_SP.set_att(s.op_sp_att_729)
+            delay(s.optical_pumping_duration)
         self.dds_854.set(80*MHz, amplitude=1.0)
         self.dds_854.set_att(5.0)
         self.dds_866.set(80*MHz, amplitude=1.0)
