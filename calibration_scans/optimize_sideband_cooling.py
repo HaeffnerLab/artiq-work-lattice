@@ -26,7 +26,8 @@ class OptimizeSidebandCooling(PulseSequence):
         "StatePreparation.sideband_cooling_enable",
         "StatePreparation.channel_729",
         "SidebandCooling.duration",
-        "SidebandCooling.cycles"
+        "SidebandCooling.cycles",
+        "SidebandCooling.cycle_increase_rate"
     }
 
     PulseSequence.scan_params["krun"] = [
