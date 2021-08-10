@@ -20,7 +20,6 @@ class MotionalAnalysisRamsey(PulseSequence):
         "RabiFlopping.att_729",
         "RabiFlopping.order",
         "RabiFlopping.channel_729",
-        "DopplerCooling.doppler_cooling_frequency_397",
         "DopplerCooling.doppler_cooling_frequency_866",
         "DopplerCooling.doppler_cooling_amplitude_866",
         "DopplerCooling.doppler_cooling_att_866"

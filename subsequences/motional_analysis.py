@@ -2,7 +2,7 @@ from artiq.experiment import *
 
 
 class MotionalAnalysis:
-    freq_397="DopplerCooling.doppler_cooling_frequency_397"
+    freq_397=80*MHz
     amp_397="MotionAnalysis.amplitude_397"
     att_397="MotionAnalysis.att_397"
 
