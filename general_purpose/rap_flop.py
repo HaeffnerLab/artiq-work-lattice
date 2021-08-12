@@ -54,7 +54,7 @@ class RAPFlop(PulseSequence):
         t_dds = 5*ns
         T = np.ceil(T / (n * t_dds)) * t_dds * 1024
         step = 100#int((T / n) / t_dds / 2)
-        print(step)
+        # print(step)
         delta0 = self.rap.delta
         ss = self.rap.ss
         beta = self.rap.beta
