@@ -58,7 +58,7 @@ class RAPFlop(PulseSequence):
         ss = self.rap.stark_shift
         beta = self.rap.beta
 
-        amp_profile_raw = [0.0 for i in range(m)] + [0.1 * np.sin(np.pi * t / (2 * n)) for t in range(n-m)])
+        amp_profile_raw = [0.0 for i in range(m)] + [0.1 * np.sin(np.pi * t / (2 * n)) for t in range(n-m)]
         freq_profile_raw = [delta0 * np.cos(np.pi * t / (2 * n)) for t in range(n-m)]
         freq_profile_raw = [0 for i in range(m)] +  [self.freq_ramp(t, delta0, n, ss, beta) for t in range(n-m)]
         amp_profile_raw = np.flip(amp_profile_raw)
