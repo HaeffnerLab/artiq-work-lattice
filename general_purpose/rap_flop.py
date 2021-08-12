@@ -61,8 +61,8 @@ class RAPFlop(PulseSequence):
         amp_profile_raw = [0.0 for i in range(m)] + [0.1 * np.sin(np.pi * t / (2 * n)) for t in range(n-m)]
         freq_profile_raw = [delta0 * np.cos(np.pi * t / (2 * n)) for t in range(n-m)]
         freq_profile_raw = [0 for i in range(m)] +  [self.freq_ramp(t, delta0, n, ss, beta) for t in range(n-m)]
-        amp_profile_raw = np.flip(amp_profile_raw)
-        freq_profile_raw = np.flip(freq_profile_raw)
+        np.flip(amp_profile_raw)
+        np.flip(freq_profile_raw)
         amp_profile = [0] * n
         freq_profile = [0] * n
         self.dds_RAP_amp.amplitude_to_ram(amp_profile_raw, amp_profile)
