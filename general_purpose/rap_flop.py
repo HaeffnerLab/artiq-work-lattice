@@ -39,7 +39,7 @@ class RAPFlop(PulseSequence):
         self.rap = self.add_subsequence(RAP)
         self.set_subsequence["RAPFlop"] = self.set_subsequence_rap_flop
 
-    # @kernel
+    @kernel
     def set_subsequence_rap_flop(self):
         self.rap.T = self.get_variable_parameter("RAP_duration")
         self.rap.ss = self.get_variable_parameter("RAP_stark_shift")
