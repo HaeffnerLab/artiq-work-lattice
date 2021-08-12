@@ -64,5 +64,8 @@ class RAP:
             self.dds_RAP_amp.sw.off()
             self.dds_RAP_freq.sw.off()
             self.dds_RAP_aux.sw.off()
+
+        self.dds_RAP_amp.set_cfr1()
+        self.dds_RAP_freq.set_cfr1()
         
 
