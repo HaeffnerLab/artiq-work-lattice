@@ -93,5 +93,5 @@ class RAPFlop(PulseSequence):
         self.stop_ram_modulation(self.dds_RAP_freq)
 
     @portable
-    def freq_ramp(self, t, delta0, n, ss, beta):
+    def freq_ramp(self, t, delta0, n, ss, beta) -> TFloat:
         return 320*MHz + ss - ss * (beta**2 + np.sin(np.pi * t / (2. * n))**2) + delta0 * np.cos(np.pi * t / (2. * n))
