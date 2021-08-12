@@ -94,4 +94,4 @@ class RAPFlop(PulseSequence):
 
     @portable
     def freq_ramp(self, t, delta0, n, ss, beta):
-        return 320*MHz + ss - ss * (beta**2 + np.sin(np.pi * t / (2 * n))**2) + delta0 * np.cos(np.pi * t / (2 * n))
+        return 320*MHz + ss - ss * (beta**2 + np.sin(np.pi * t / (2. * n))**2) + delta0 * np.cos(np.pi * t / (2. * n))
