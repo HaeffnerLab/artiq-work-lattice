@@ -65,8 +65,8 @@ class RAPFlop(PulseSequence):
         freq_profile = [0. for i in n]
         amp_profile = [0] * n
         freq_profile = [0] * n
-        self.dds_RAP_amp.amplitude_to_ram(amp_profile_raw, amp_profile)
-        self.dds_RAP_freq.frequency_to_ram(freq_profile_raw, freq_profile)
+        # self.dds_RAP_amp.amplitude_to_ram(amp_profile_raw, amp_profile)
+        # self.dds_RAP_freq.frequency_to_ram(freq_profile_raw, freq_profile)
         
         # delay(100*ms)
         # self.setup_ram_modulation(
