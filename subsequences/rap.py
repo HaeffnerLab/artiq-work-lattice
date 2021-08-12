@@ -27,7 +27,7 @@ class RAP:
                 sideband=r.sideband_selection,
                 order=r.order,
             )
-        sp_freq = 80*MHz + self.get_offset_frequency(r.channel_729)
+        sp_offset_freq = self.get_offset_frequency(r.channel_729)
 
         # Setup DP
         self.dds_729.set(
@@ -38,9 +38,9 @@ class RAP:
         self.dds_729.set_att(r.dp_att)
 
         # Setup RAP_amp
-        self.dds_RAP_amp.set_frequency(400*MHz)
+        self.dds_RAP_amp.set_frequency(400*MHz + sp_offset_freq)
         self.dds_RAP_amp.set_phase_mode(PHASE_MODE_ABSOLUTE)
-        self.dds_RAP_amp.set_att()
+        self.dds_RAP_amp.set_att(s.att)
 
         # Setup RAP_freq
         self.dds_RAP_freq.set_amplitude(s.omega)
@@ -52,6 +52,7 @@ class RAP:
                 sp_freq,
                 amplitude=s.aux_strength
             )
+        self.dds_RAP.aux.set_att(s.aux_att)
 
         # Run it
         with parallel:
