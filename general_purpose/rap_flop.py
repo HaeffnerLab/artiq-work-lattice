@@ -67,13 +67,14 @@ class RAPFlop(PulseSequence):
         self.dds_RAP_freq.frequency_to_ram(freq_profile_raw, freq_profile)
         
         # delay(100*ms)
-        self.setup_ram_modulation(
-                3,
-                ram_waveform=amp_profile,
-                modulation_type=self.AMP_MOD,
-                step=step,
-                ram_mode=RAM_MODE_CONT_BIDIR_RAMP
-            )
+        self.rammod()
+        # self.setup_ram_modulation(
+        #         3,
+        #         ram_waveform=amp_profile,
+        #         modulation_type=self.AMP_MOD,
+        #         step=step,
+        #         ram_mode=RAM_MODE_CONT_BIDIR_RAMP
+        #     )
 
         # self.setup_ram_modulation(
         #         4,
@@ -95,3 +96,13 @@ class RAPFlop(PulseSequence):
     @kernel
     def freq_ramp(self, t, delta0, n, ss, beta) -> TFloat:
         return 320*MHz + ss - ss * (beta**2 + np.sin(np.pi * t / n)**2) + delta0 * np.cos(np.pi * t / n)
+
+    @kernel
+    def rammod(self):
+        self.setup_ram_modulation(
+                3,
+                ram_waveform=amp_profile,
+                modulation_type=self.AMP_MOD,
+                step=step,
+                ram_mode=RAM_MODE_CONT_BIDIR_RAMP
+            )
