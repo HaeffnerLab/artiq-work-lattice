@@ -25,12 +25,12 @@ class RAPFlop(PulseSequence):
 
     PulseSequence.scan_params = dict(
         RAPFlop=[
-            ("current", ("RAP.duration", 0., 1000*us, 20, "us")),
-            ("current", ("RAP.stark_shift", 0., 1000*kHz, 20, "kHz")),
-            ("current", ("RAP.detuning_max", 0., 1000*kHz, 20, "kHz")),
-            ("current", ("RAP.beta", 0., 1.0, 20)),
-            ("current", ("RAP.aux_strength", 0., 1.0, 20)),
-            ("current", ("RAP.amp_max", 0., 1.0, 20))
+            ("Current", ("RAP.duration", 0., 1000*us, 20, "us")),
+            ("Current", ("RAP.stark_shift", 0., 1000*kHz, 20, "kHz")),
+            ("Current", ("RAP.detuning_max", 0., 1000*kHz, 20, "kHz")),
+            ("Current", ("RAP.beta", 0., 1.0, 20)),
+            ("Current", ("RAP.aux_strength", 0., 1.0, 20)),
+            ("Current", ("RAP.amp_max", 0., 1.0, 20))
         ]
     )
 
