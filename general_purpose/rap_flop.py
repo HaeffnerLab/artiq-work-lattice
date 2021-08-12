@@ -42,7 +42,7 @@ class RAPFlop(PulseSequence):
     @kernel
     def set_subsequence_rap_flop(self):
         self.rap.T = self.get_variable_parameter("RAP_duration")
-        self.rap.stark_shift = self.get_variable_parameter("RAP_stark_shift")
+        self.rap.ss = self.get_variable_parameter("RAP_stark_shift")
         self.rap.detuning_max = self.get_variable_parameter("RAP_detuning_max")
         self.rap.beta = self.get_variable_parameter("RAP_beta")
         self.rap.aux_strength = self.get_variable_parameter("RAP_aux_strength")
@@ -55,7 +55,7 @@ class RAPFlop(PulseSequence):
         T = np.ceil(T / (n * t_dds)) * t_dds * 1024
         step = int((T / n) / t_dds / 2)
         delta0 = self.rap.detuning_max
-        ss = self.rap.stark_shift
+        ss = self.rap.ss
         beta = self.rap.beta
 
         amp_profile_raw = [0.0 for i in range(m)] + [0.1 * np.sin(np.pi * t / (2 * n)) for t in range(n-m)]
