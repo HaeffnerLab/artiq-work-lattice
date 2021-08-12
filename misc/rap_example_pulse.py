@@ -14,24 +14,25 @@ class RAPTest(EnvExperiment):
         self.trigger = self.get_device("trigger")
 
     def run(self):
-        n = 1024
+        n = 1023
+        m = 1024 - n
         T = 500*us
-        T = np.ceil(T / (1024 * 5*ns)) * 5*ns * 1024
-        self.n = n
+        t_dds = 5*ns
+        T = np.ceil(T / (n * t_dds)) * t_dds * 1024
         self.T = T
         self.f_amp = 400*MHz
         self.f_freq = 320*MHz 
         sigma = 0.3 * T / np.sqrt(8)
-        self.amp_profile_raw = np.exp([-(T * (t/n - 1))**2 / (8 * sigma**2) for t in range(n)])
+        self.amp_profile_raw = 0.1 * np.sin([0 for i in range(m)] + [np.pi * t / (2 * n) for t in range(n-m)])
         # self.amp_profile_raw = [1.0 if i>100 else 0 for i in range(n)]
-        self.freq_profile_raw = [self.f_freq + (10*MHz / 2) * (t/n - 1) for t in range(n)]
+        self.freq_profile_raw = [0 for i in range(m)] + [self.f_freq + np.cos(np.pi * t / (2 * n)) for t in range(n-m)]
         self.amp_profile_raw = np.flip(self.amp_profile_raw)
         self.freq_profile_raw = np.flip(self.freq_profile_raw)
         self.amp_profile = [0] * n
         self.freq_profile = [0] * n
-        self.step = int((self.T / self.n) / (5*ns) / 2)
+        self.step = int((self.T / n) / t_dds / 2)
         print(self.step)
-        print(self.step * n * 5*ns)
+        print(self.step * n * t_dds)
         self.krun()
 
     @kernel
@@ -98,9 +99,7 @@ class RAPTest(EnvExperiment):
             with parallel:
                 self.trigger.on()
                 self.amp_dds.cpld.io_update.pulse_mu(8)
-                self.freq_dds.cpld.io_update.pulse_mu(8)
-            # delay(6.5*us)
-            with parallel:
+                # self.freq_dds.cpld.io_update.pulse_mu(8)
                 self.amp_dds.sw.on()
                 self.freq_dds.sw.on()
             delay(self.T)
