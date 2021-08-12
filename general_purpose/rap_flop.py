@@ -54,6 +54,7 @@ class RAPFlop(PulseSequence):
         t_dds = 5*ns
         T = np.ceil(T / (n * t_dds)) * t_dds * 1024
         step = int((T / n) / t_dds / 2)
+        print(step)
         delta0 = self.rap.delta
         ss = self.rap.ss
         beta = self.rap.beta
@@ -65,7 +66,7 @@ class RAPFlop(PulseSequence):
         self.dds_RAP_amp.amplitude_to_ram(amp_profile_raw, amp_profile)
         self.dds_RAP_freq.frequency_to_ram(freq_profile_raw, freq_profile)
         
-        delay(100*ms)
+        # delay(100*ms)
         self.setup_ram_modulation(
                 3,
                 ram_waveform=amp_profile,
