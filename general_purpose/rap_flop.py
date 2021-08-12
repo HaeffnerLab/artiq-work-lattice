@@ -46,7 +46,7 @@ class RAPFlop(PulseSequence):
         self.rap.delta = self.get_variable_parameter("RAP_detuning_max")
         self.rap.beta = self.get_variable_parameter("RAP_beta")
         self.rap.aux_strength = self.get_variable_parameter("RAP_aux_strength")
-        self.rap.amp_max = self.get_variable_parameter("RAP_amp_max")
+        self.rap.omega = self.get_variable_parameter("RAP_amp_max")
         
         n = 1023
         m = 1024 - n
