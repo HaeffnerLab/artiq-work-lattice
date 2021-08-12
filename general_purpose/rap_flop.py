@@ -2,7 +2,7 @@ from pulse_sequence import PulseSequence
 from subsequences.state_preparation import StatePreparation
 from subsequences.rap import RAP
 from artiq.experiment import *
-from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP, RAM_MODE_CONT_BIDIR_RAMP
+from artiq.coredevice.ad9910 import RAM_MODE_RAMPUP, RAM_MODE_CONT_BIDIR_RAMP, RAM_MODE_CONT_RAMPUP
 import numpy as np
 
 
