@@ -65,21 +65,21 @@ class RAPFlop(PulseSequence):
         self.dds_RAP_amp.amplitude_to_ram(amp_profile_raw, amp_profile)
         self.dds_RAP_freq.frequency_to_ram(freq_profile_raw, freq_profile)
         
-        self.setup_ram_modulation(
-                3,
-                ram_waveform=amp_profile,
-                modulation_type=self.AMP_MOD,
-                step=step,
-                ram_mode=RAM_MODE_CONT_BIDIR_RAMP
-            )
+        # self.setup_ram_modulation(
+        #         3,
+        #         ram_waveform=amp_profile,
+        #         modulation_type=self.AMP_MOD,
+        #         step=step,
+        #         ram_mode=RAM_MODE_CONT_BIDIR_RAMP
+        #     )
 
-        self.setup_ram_modulation(
-                4,
-                ram_waveform=freq_profile,
-                modulation_type=self.FREQ_MOD,
-                step=step,
-                ram_mode=RAM_MODE_CONT_RAMPUP
-            )
+        # self.setup_ram_modulation(
+        #         4,
+        #         ram_waveform=freq_profile,
+        #         modulation_type=self.FREQ_MOD,
+        #         step=step,
+        #         ram_mode=RAM_MODE_CONT_RAMPUP
+        #     )
 
     @kernel
     def RAPFlop(self):
