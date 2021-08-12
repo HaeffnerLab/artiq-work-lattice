@@ -78,7 +78,7 @@ class RAPFlop(PulseSequence):
         self.setup_ram_modulation(
                 4,
                 ram_waveform=freq_profile,
-                modulaion_type=self.FREQ_MOD,
+                modulation_type=self.FREQ_MOD,
                 step=step,
                 ram_mode=RAM_MODE_CONT_BIDIR_RAMP
             )
