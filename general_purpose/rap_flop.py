@@ -11,6 +11,7 @@ class RAPFlop(PulseSequence):
         "RAP.amp_max",
         "RAP.att",
         "RAP.aux_strength",
+        "RAP.aux_att",
         "RAP.beta",
         "RAP.channel_729",
         "RAP.detuning_max",
@@ -25,7 +26,7 @@ class RAPFlop(PulseSequence):
 
     PulseSequence.scan_params = dict(
         RAPFlop=[
-            ("Current", ("RAP.duration", 0., 1000*us, 20, "us")),
+            ("Current", ("RAP.duration", 100*us, 1000*us, 20, "us")),
             ("Current", ("RAP.stark_shift", 0., 1000*kHz, 20, "kHz")),
             ("Current", ("RAP.detuning_max", 0., 1000*kHz, 20, "kHz")),
             ("Current", ("RAP.beta", 0., 1.0, 20)),
@@ -38,6 +39,22 @@ class RAPFlop(PulseSequence):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.rap = self.add_subsequence(RAP)
         self.set_subsequence["RAPFlop"] = self.set_subsequence_rap_flop
+        self.available_ram = 1024
+        self.num_points = 1024
+        self.less_points = self.available_ram - self.num_points
+        self.t_dds = 5*ns
+        self.amp_profile = [0] * self.available_ram
+        self.freq_profile = [0] * self.available_ram
+        self.amp_profile_raw = [0.0 for i in range(self.less_points)]
+        self.step = 1
+        for i in range(self.available_ram - self.less_points):
+            val = 0.1 * np.sin(np.pi/2 + np.pi * i / (2 * self.num_points))
+            if val < 0.0:
+                val = 0.0
+            elif val > 1.0:
+                val = 1.0
+            self.amp_profile_raw.append(val)
+        self.freq_profile_raw = [0.0] * self.available_ram
 
     @kernel
     def set_subsequence_rap_flop(self):
@@ -48,52 +65,57 @@ class RAPFlop(PulseSequence):
         self.rap.aux_strength = self.get_variable_parameter("RAP_aux_strength")
         self.rap.omega = self.get_variable_parameter("RAP_amp_max")
         
-        n = 1023
-        m = 1024 - n
+        n = self.num_points
+        m = self.less_points
         T = self.rap.T
-        t_dds = 5*ns
+        t_dds = self.t_dds
         T = np.ceil(T / (n * t_dds)) * t_dds * 1024
-        step = 1#int((T / n) / t_dds / 2)
-        # print(step)
+        step = int((T / n) / t_dds / 2)
+        self.step = step
         delta0 = self.rap.delta
         ss = self.rap.ss
         beta = self.rap.beta
 
-        # amp_profile_raw = [0.0 for i in range(m)] + [0.1 * np.sin(np.pi/2 + np.pi * t / (2 * n)) for t in range(n-m)]
-        # freq_profile_raw = [0.0 for i in range(m)] +  [self.freq_ramp(t, delta0, n, ss, beta) for t in range(n-m)]
-        amp_profile = [0. for i in n]
-        freq_profile = [0. for i in n]
-        amp_profile = [0] * n
-        freq_profile = [0] * n
-        # self.dds_RAP_amp.amplitude_to_ram(amp_profile_raw, amp_profile)
-        # self.dds_RAP_freq.frequency_to_ram(freq_profile_raw, freq_profile)
+        for i in range(m+1, self.num_points):
+            self.freq_profile_raw[i] = 320*MHz + ss - ss * (beta**2 + np.sin(np.pi * i / n)**2) + delta0 * np.cos(np.pi * i / n)
+        self.dds_RAP_amp.amplitude_to_ram(self.amp_profile_raw, self.amp_profile)
+        self.dds_RAP_freq.frequency_to_ram(self.freq_profile_raw, self.freq_profile)
         
-        # delay(100*ms)
-        # self.setup_ram_modulation(
-        #         3,
-        #         ram_waveform=amp_profile,
-        #         modulation_type=self.AMP_MOD,
-        #         step=step,
-        #         ram_mode=RAM_MODE_CONT_BIDIR_RAMP
-        #     )
-
-        # self.setup_ram_modulation(
-        #         4,
-        #         ram_waveform=freq_profile,
-        #         modulation_type=self.FREQ_MOD,
-        #         step=step,
-        #         ram_mode=RAM_MODE_CONT_RAMPUP
-        #     )
+        self.core.break_realtime()
+        self.setup_ram_modulation(
+                3,
+                ram_waveform=self.amp_profile,
+                modulation_type=self.AMP_MOD,
+                step=step,
+                ram_mode=RAM_MODE_CONT_BIDIR_RAMP
+            )
+        self.setup_ram_modulation(
+                4,
+                ram_waveform=self.freq_profile,
+                modulation_type=self.FREQ_MOD,
+                step=step * 2,
+                ram_mode=RAM_MODE_CONT_RAMPUP
+            )
 
     @kernel
     def RAPFlop(self):
+        self.setup_ram_modulation(
+                3,
+                ram_waveform=self.amp_profile,
+                modulation_type=self.AMP_MOD,
+                step=self.step,
+                ram_mode=RAM_MODE_CONT_BIDIR_RAMP
+            )
+        self.setup_ram_modulation(
+                4,
+                ram_waveform=self.freq_profile,
+                modulation_type=self.FREQ_MOD,
+                step=self.step * 2,
+                ram_mode=RAM_MODE_CONT_RAMPUP
+            )
         self.stateprep.run(self)
-        # self.rap.run(self)
+        self.rap.run(self)
 
     def run_finally(self):
         self.stop_ram_modulation(self.dds_RAP_amp)
         self.stop_ram_modulation(self.dds_RAP_freq)
-
-    @kernel
-    def freq_ramp(self, t, delta0, n, ss, beta) -> TFloat:
-        return 320*MHz + ss - ss * (beta**2 + np.sin(np.pi * t / n)**2) + delta0 * np.cos(np.pi * t / n)

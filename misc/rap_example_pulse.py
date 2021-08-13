@@ -21,18 +21,19 @@ class RAPTest(EnvExperiment):
         T = np.ceil(T / (n * t_dds)) * t_dds * 1024
         self.T = T
         self.f_amp = 400*MHz
-        self.f_freq = 320*MHz 
+        self.f_freq = 320*MHz
         sigma = 0.3 * T / np.sqrt(8)
-        self.amp_profile_raw = 0.1 * np.sin([0 for i in range(m)] + [np.pi * t / (2 * n) for t in range(n-m)])
+        self.amp_profile_raw = 0.1 * np.sin([0 for i in range(m)] + [np.pi/2  + np.pi * t / (2 * n) for t in range(n-m)])
         # self.amp_profile_raw = [1.0 if i>100 else 0 for i in range(n)]
         self.freq_profile_raw = [0 for i in range(m)] + [self.f_freq + np.cos(np.pi * t / (2 * n)) for t in range(n-m)]
-        self.amp_profile_raw = np.flip(self.amp_profile_raw)
+        # self.amp_profile_raw = np.flip(self.amp_profile_raw)
         self.freq_profile_raw = np.flip(self.freq_profile_raw)
         self.amp_profile = [0] * n
         self.freq_profile = [0] * n
         self.step = int((self.T / n) / t_dds / 2)
         print(self.step)
         print(self.step * n * t_dds)
+        print("length: ", len(self.amp_profile_raw))
         self.krun()
 
     @kernel
@@ -75,7 +76,7 @@ class RAPTest(EnvExperiment):
                     end=len(self.freq_profile) - 1,
                     step=self.step,
                     profile=0,
-                    mode=RAM_MODE_CONT_BIDIR_RAMP
+                    mode=RAM_MODE_CONT_RAMPUP
         )
         self.freq_dds.cpld.set_profile(0)
         self.freq_dds.cpld.io_update.pulse_mu(8)
