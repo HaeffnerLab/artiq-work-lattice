@@ -75,31 +75,30 @@ class Ramsey(PulseSequence):
             self.bsb_att = self.p.Rotation729L1.bsb_att
         self.wait_time = 0.
         self.phase = 0.
+        self.N = 1000
         
     @kernel
     def set_subsequence_ramsey(self):
-        self.rabi.duration = self.pi_time / 2
+        self.rabi.duration = self.pi_time
         self.rabi.amp_729 = self.amplitude
         self.rabi.att_729 = self.att
         self.rabi.freq_729 = self.calc_frequency(
-            self.line_selection, 
-            detuning=self.Ramsey_detuning,
-            sideband=self.Ramsey_selection_sideband,
-            order=self.Ramsey_order, 
-            dds=self.Ramsey_channel_729
-        )
-        print("freq: ", self.rabi.freq_729)
+                    self.line_selection, 
+                    detuning=self.Ramsey_detuning,
+                    sideband=self.Ramsey_selection_sideband,
+                    order=self.Ramsey_order, 
+                    dds=self.Ramsey_channel_729
+                )
         self.bsb_rabi.duration = self.bsb_pi_time
         self.bsb_rabi.amp_729 = self.bsb_amplitude
         self.bsb_rabi.att_729 = self.bsb_att
         self.bsb_rabi.freq_729 = self.calc_frequency(
-            self.line_selection, 
-            detuning=self.RabiFlopping_detuning,
-            sideband=self.Ramsey_selection_sideband,
-            order=1.0, 
-            dds=self.Ramsey_channel_729
-        )
-        print("freqbsb: ", self.bsb_rabi.freq_729)
+                    self.line_selection, 
+                    detuning=self.RabiFlopping_detuning,
+                    sideband=self.Ramsey_selection_sideband,
+                    order=1.0, 
+                    dds=self.Ramsey_channel_729
+                )
         self.wait_time = self.get_variable_parameter("Ramsey_wait_time")
 
     @kernel
@@ -107,18 +106,22 @@ class Ramsey(PulseSequence):
         self.rabi.phase_ref_time = now_mu()
         self.bsb_rabi.phase_ref_time = self.rabi.phase_ref_time
         self.stateprep.run(self)
+        
         self.rabi.phase_729 = 0.
         if not self.Ramsey_echo:
+            # self.trigger.on()
             self.rabi.run(self)
             if self.Ramsey_bsb_pulse:
                 self.bsb_rabi.run(self)
+            # delay(self.wait_time)
             delay_mu(self.core.seconds_to_mu(self.wait_time))
+            if self.Ramsey_bsb_pulse and not self.Ramsey_no_return:
+                self.bsb_rabi.phase_729 = 180.
+                self.bsb_rabi.run(self)
+                # self.trigger.off()
+            # delay(100*us)
             self.rabi.phase_729 = self.get_variable_parameter("Ramsey_phase")
-            if not self.Ramsey_no_return:
-                if self.Ramsey_bsb_pulse:
-                    # self.bsb_rabi.phase_729 = 90.0
-                    self.bsb_rabi.run(self)
-                self.rabi.run(self)
+            self.rabi.run(self)
         else:
             self.rabi.run(self)
             if self.Ramsey_bsb_pulse:

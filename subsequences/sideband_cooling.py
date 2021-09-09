@@ -89,224 +89,389 @@ class SidebandCooling:
                             )
         s.op_sp_freq_729 = 80*MHz + self.get_offset_frequency(s.op_channel_729)
        
-        if s.sequential_enable:
-            s.freq_729_sequential = self.calc_frequency(
-                                s.line_selection,
-                                detuning=s.stark_shift,
-                                sideband=s.sequential_selection_sideband,
-                                order=s.sequential_order,
-                                dds=s.sequential_channel_729
-                            )
-            s.sp_freq_729_sequential = 80*MHz + self.get_offset_frequency(s.sequential_channel_729)
-        if s.sequential1_enable:
-            s.freq_729_sequential1 = self.calc_frequency(
-                                s.line_selection,
-                                detuning=s.stark_shift,
-                                sideband=s.sequential1_selection_sideband,
-                                order=s.sequential1_order,
-                                dds=s.sequential1_channel_729
-                            )
-            s.sp_freq_729_sequential1 = 80*MHz + self.get_offset_frequency(s.sequential1_channel_729)
-        if s.sequential2_enable:
-            s.freq_729_sequential2 = self.calc_frequency(
-                                s.line_selection,
-                                detuning=s.stark_shift,
-                                sideband=s.sequential2_selection_sideband,
-                                order=s.sequential2_order,
-                                dds=s.sequential2_channel_729
-                            )
-            s.sp_freq_729_sequential2 = 80*MHz + self.get_offset_frequency(s.sequential2_channel_729)
+        # if s.sequential_enable:
+        #     s.freq_729_sequential = self.calc_frequency(
+        #                         s.line_selection,
+        #                         detuning=s.stark_shift,
+        #                         sideband=s.sequential_selection_sideband,
+        #                         order=s.sequential_order,
+        #                         dds=s.sequential_channel_729
+        #                     )
+        #     s.sp_freq_729_sequential = 80*MHz + self.get_offset_frequency(s.sequential_channel_729)
+        # if s.sequential1_enable:
+        #     s.freq_729_sequential1 = self.calc_frequency(
+        #                         s.line_selection,
+        #                         detuning=s.stark_shift,
+        #                         sideband=s.sequential1_selection_sideband,
+        #                         order=s.sequential1_order,
+        #                         dds=s.sequential1_channel_729
+        #                     )
+        #     s.sp_freq_729_sequential1 = 80*MHz + self.get_offset_frequency(s.sequential1_channel_729)
+        # if s.sequential2_enable:
+        #     s.freq_729_sequential2 = self.calc_frequency(
+        #                         s.line_selection,
+        #                         detuning=s.stark_shift,
+        #                         sideband=s.sequential2_selection_sideband,
+        #                         order=s.sequential2_order,
+        #                         dds=s.sequential2_channel_729
+        #                     )
+        #     s.sp_freq_729_sequential2 = 80*MHz + self.get_offset_frequency(s.sequential2_channel_729)
         
 
-        for i in range(num_cycles):
+        # for i in range(num_cycles):
 
-            ######################################################
-            # SBC            
-            ######################################################
-            channel = s.channel_729
-            freq_729 = s.freq_729
-            sp_freq_729 = s.sp_freq_729
-            self.get_729_dds(channel)
-            self.dds_729.set(freq_729, amplitude=s.amp_729)
-            self.dds_729.set_att(s.att_729)
-            self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
-            self.dds_729_SP.set_att(s.sp_att_729)
-            self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
-            self.dds_854.set_att(s.att_854)
-            self.dds_866.set(s.freq_866, amplitude=s.amp_866)
-            self.dds_866.set_att(s.att_866)
+        ######################################################
+        # SBC            
+        ######################################################
+        channel = s.channel_729
+        sbc_freq_729 = s.freq_729
+        sbc_sp_freq_729 = s.sp_freq_729
+        self.get_729_dds(channel)
+        self.dds_729.set(sbc_freq_729, amplitude=s.amp_729)
+        self.dds_729.set_att(s.att_729)
+        self.dds_729_SP.set(sbc_sp_freq_729, amplitude=s.sp_amp_729)
+        self.dds_729_SP.set_att(s.sp_att_729)
+        self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
+        self.dds_854.set_att(s.att_854)
+        self.dds_866.set(s.freq_866, amplitude=s.amp_866)
+        self.dds_866.set_att(s.att_866)
 
-            with parallel:
-                self.dds_854.sw.on()
-                self.dds_866.sw.on()
-                self.dds_729.sw.on()
-                self.dds_729_SP.sw.on()
-            delay(s.duration)
-            
-            #----------------------
-            # Fast OP
-            #----------------------
-            self.get_729_dds(s.op_channel_729)
-            self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
-            self.dds_866.set_att(s.op_att_866)
-            self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
-            self.dds_854.set_att(s.op_att_854)
-            self.dds_729.set(
-                            s.op_freq_729, 
-                            amplitude=s.op_amplitude_729
-                        )
-            self.dds_729.set_att(s.op_att_729)
-            self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
-            self.dds_729_SP.set_att(s.op_sp_att_729)
-            delay(s.optical_pumping_duration)
-            #---------------------
+        with parallel:
+            self.dds_854.sw.on()
+            self.dds_866.sw.on()
+            self.dds_729.sw.on()
+            self.dds_729_SP.sw.on()
+        delay(s.duration)
+        
+        #----------------------
+        # Fast OP
+        #----------------------
+        # self.get_729_dds(s.op_channel_729)
+        self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
+        self.dds_866.set_att(s.op_att_866)
+        self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
+        self.dds_854.set_att(s.op_att_854)
+        self.dds_729.set(
+                        s.op_freq_729, 
+                        amplitude=s.op_amplitude_729
+                    )
+        self.dds_729.set_att(s.op_att_729)
+        self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+        self.dds_729_SP.set_att(s.op_sp_att_729)
+        delay(s.optical_pumping_duration)
 
-            ######################################################
-            # SBC  sequential          
-            ######################################################
-            if s.sequential_enable:
-                channel = s.sequential_channel_729
-                freq_729 = s.freq_729_sequential
-                sp_freq_729 = s.sp_freq_729_sequential
-                self.get_729_dds(channel)
-                self.dds_729.set(freq_729, amplitude=s.amp_729)
-                self.dds_729.set_att(s.att_729)
-                self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
-                self.dds_729_SP.set_att(s.sp_att_729)
-                self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
-                self.dds_854.set_att(s.att_854)
-                self.dds_866.set(s.freq_866, amplitude=s.amp_866)
-                self.dds_866.set_att(s.att_866)
+        channel = s.channel_729
+        sbc_freq_729 = s.freq_729
+        sbc_sp_freq_729 = s.sp_freq_729
+        self.get_729_dds(channel)
+        self.dds_729.set(sbc_freq_729, amplitude=s.amp_729)
+        self.dds_729.set_att(s.att_729)
+        self.dds_729_SP.set(sbc_sp_freq_729, amplitude=s.sp_amp_729)
+        self.dds_729_SP.set_att(s.sp_att_729)
+        self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
+        self.dds_854.set_att(s.att_854)
+        self.dds_866.set(s.freq_866, amplitude=s.amp_866)
+        self.dds_866.set_att(s.att_866)
 
-                with parallel:
-                    self.dds_854.sw.on()
-                    self.dds_866.sw.on()
-                    self.dds_729.sw.on()
-                    self.dds_729_SP.sw.on()
-                delay(s.duration)
+        with parallel:
+            self.dds_854.sw.on()
+            self.dds_866.sw.on()
+            self.dds_729.sw.on()
+            self.dds_729_SP.sw.on()
+        delay(s.duration)
+        
+        #----------------------
+        # Fast OP
+        #----------------------
+        # self.get_729_dds(s.op_channel_729)
+        self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
+        self.dds_866.set_att(s.op_att_866)
+        self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
+        self.dds_854.set_att(s.op_att_854)
+        self.dds_729.set(
+                        s.op_freq_729, 
+                        amplitude=s.op_amplitude_729
+                    )
+        self.dds_729.set_att(s.op_att_729)
+        self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+        self.dds_729_SP.set_att(s.op_sp_att_729)
+        delay(s.optical_pumping_duration)
+
+        channel = s.channel_729
+        sbc_freq_729 = s.freq_729
+        sbc_sp_freq_729 = s.sp_freq_729
+        self.get_729_dds(channel)
+        self.dds_729.set(sbc_freq_729, amplitude=s.amp_729)
+        self.dds_729.set_att(s.att_729)
+        self.dds_729_SP.set(sbc_sp_freq_729, amplitude=s.sp_amp_729)
+        self.dds_729_SP.set_att(s.sp_att_729)
+        self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
+        self.dds_854.set_att(s.att_854)
+        self.dds_866.set(s.freq_866, amplitude=s.amp_866)
+        self.dds_866.set_att(s.att_866)
+
+        with parallel:
+            self.dds_854.sw.on()
+            self.dds_866.sw.on()
+            self.dds_729.sw.on()
+            self.dds_729_SP.sw.on()
+        delay(s.duration)
+        
+        #----------------------
+        # Fast OP
+        #----------------------
+        # self.get_729_dds(s.op_channel_729)
+        self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
+        self.dds_866.set_att(s.op_att_866)
+        self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
+        self.dds_854.set_att(s.op_att_854)
+        self.dds_729.set(
+                        s.op_freq_729, 
+                        amplitude=s.op_amplitude_729
+                    )
+        self.dds_729.set_att(s.op_att_729)
+        self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+        self.dds_729_SP.set_att(s.op_sp_att_729)
+        delay(s.optical_pumping_duration)
+
+        channel = s.channel_729
+        sbc_freq_729 = s.freq_729
+        sbc_sp_freq_729 = s.sp_freq_729
+        self.get_729_dds(channel)
+        self.dds_729.set(sbc_freq_729, amplitude=s.amp_729)
+        self.dds_729.set_att(s.att_729)
+        self.dds_729_SP.set(sbc_sp_freq_729, amplitude=s.sp_amp_729)
+        self.dds_729_SP.set_att(s.sp_att_729)
+        self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
+        self.dds_854.set_att(s.att_854)
+        self.dds_866.set(s.freq_866, amplitude=s.amp_866)
+        self.dds_866.set_att(s.att_866)
+
+        with parallel:
+            self.dds_854.sw.on()
+            self.dds_866.sw.on()
+            self.dds_729.sw.on()
+            self.dds_729_SP.sw.on()
+        delay(s.duration)
+        
+        #----------------------
+        # Fast OP
+        #----------------------
+        # self.get_729_dds(s.op_channel_729)
+        self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
+        self.dds_866.set_att(s.op_att_866)
+        self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
+        self.dds_854.set_att(s.op_att_854)
+        self.dds_729.set(
+                        s.op_freq_729, 
+                        amplitude=s.op_amplitude_729
+                    )
+        self.dds_729.set_att(s.op_att_729)
+        self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+        self.dds_729_SP.set_att(s.op_sp_att_729)
+        delay(s.optical_pumping_duration)
+
+        channel = s.channel_729
+        sbc_freq_729 = s.freq_729
+        sbc_sp_freq_729 = s.sp_freq_729
+        self.get_729_dds(channel)
+        self.dds_729.set(sbc_freq_729, amplitude=s.amp_729)
+        self.dds_729.set_att(s.att_729)
+        self.dds_729_SP.set(sbc_sp_freq_729, amplitude=s.sp_amp_729)
+        self.dds_729_SP.set_att(s.sp_att_729)
+        self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
+        self.dds_854.set_att(s.att_854)
+        self.dds_866.set(s.freq_866, amplitude=s.amp_866)
+        self.dds_866.set_att(s.att_866)
+
+        with parallel:
+            self.dds_854.sw.on()
+            self.dds_866.sw.on()
+            self.dds_729.sw.on()
+            self.dds_729_SP.sw.on()
+        delay(s.duration)
+        
+        #----------------------
+        # Fast OP
+        #----------------------
+        # self.get_729_dds(s.op_channel_729)
+        self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
+        self.dds_866.set_att(s.op_att_866)
+        self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
+        self.dds_854.set_att(s.op_att_854)
+        self.dds_729.set(
+                        s.op_freq_729, 
+                        amplitude=s.op_amplitude_729
+                    )
+        self.dds_729.set_att(s.op_att_729)
+        self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+        self.dds_729_SP.set_att(s.op_sp_att_729)
+        delay(s.optical_pumping_duration)
+        
+        # #----------------------
+        # # Fast OP
+        # #----------------------
+        # self.get_729_dds(s.op_channel_729)
+        # self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
+        # self.dds_866.set_att(s.op_att_866)
+        # self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
+        # self.dds_854.set_att(s.op_att_854)
+        # self.dds_729.set(
+        #                 s.op_freq_729, 
+        #                 amplitude=s.op_amplitude_729
+        #             )
+        # self.dds_729.set_att(s.op_att_729)
+        # self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+        # self.dds_729_SP.set_att(s.op_sp_att_729)
+        # delay(2 * s.optical_pumping_duration)
+        #     #---------------------
+
+        #     ######################################################
+        #     # SBC  sequential          
+        #     ######################################################
+        #     if s.sequential_enable:
+        #         channel = s.sequential_channel_729
+        #         freq_729 = s.freq_729_sequential
+        #         sp_freq_729 = s.sp_freq_729_sequential
+        #         self.get_729_dds(channel)
+        #         self.dds_729.set(freq_729, amplitude=s.amp_729)
+        #         self.dds_729.set_att(s.att_729)
+        #         self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
+        #         self.dds_729_SP.set_att(s.sp_att_729)
+        #         self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
+        #         self.dds_854.set_att(s.att_854)
+        #         self.dds_866.set(s.freq_866, amplitude=s.amp_866)
+        #         self.dds_866.set_att(s.att_866)
+
+        #         with parallel:
+        #             self.dds_854.sw.on()
+        #             self.dds_866.sw.on()
+        #             self.dds_729.sw.on()
+        #             self.dds_729_SP.sw.on()
+        #         delay(s.duration)
                 
-                #----------------------
-                # Fast OP
-                #----------------------
-                self.get_729_dds(s.op_channel_729)
-                self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
-                self.dds_866.set_att(s.op_att_866)
-                self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
-                self.dds_854.set_att(s.op_att_854)
-                self.dds_729.set(
-                                s.op_freq_729, 
-                                amplitude=s.op_amplitude_729
-                            )
-                self.dds_729.set_att(s.op_att_729)
-                self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
-                self.dds_729_SP.set_att(s.op_sp_att_729)
-                delay(s.optical_pumping_duration)
+        #         #----------------------
+        #         # Fast OP
+        #         #----------------------
+        #         self.get_729_dds(s.op_channel_729)
+        #         self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
+        #         self.dds_866.set_att(s.op_att_866)
+        #         self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
+        #         self.dds_854.set_att(s.op_att_854)
+        #         self.dds_729.set(
+        #                         s.op_freq_729, 
+        #                         amplitude=s.op_amplitude_729
+        #                     )
+        #         self.dds_729.set_att(s.op_att_729)
+        #         self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+        #         self.dds_729_SP.set_att(s.op_sp_att_729)
+        #         delay(s.optical_pumping_duration)
 
-            ######################################################
-            # SBC  sequential1          
-            ######################################################
-            if s.sequential1_enable:
-                channel = s.sequential1_channel_729
-                freq_729 = s.freq_729_sequential1
-                sp_freq_729 = s.sp_freq_729_sequential1
-                self.get_729_dds(channel)
-                self.dds_729.set(freq_729, amplitude=s.amp_729)
-                self.dds_729.set_att(s.att_729)
-                self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
-                self.dds_729_SP.set_att(s.sp_att_729)
-                self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
-                self.dds_854.set_att(s.att_854)
-                self.dds_866.set(s.freq_866, amplitude=s.amp_866)
-                self.dds_866.set_att(s.att_866)
+        #     ######################################################
+        #     # SBC  sequential1          
+        #     ######################################################
+        #     if s.sequential1_enable:
+        #         channel = s.sequential1_channel_729
+        #         freq_729 = s.freq_729_sequential1
+        #         sp_freq_729 = s.sp_freq_729_sequential1
+        #         self.get_729_dds(channel)
+        #         self.dds_729.set(freq_729, amplitude=s.amp_729)
+        #         self.dds_729.set_att(s.att_729)
+        #         self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
+        #         self.dds_729_SP.set_att(s.sp_att_729)
+        #         self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
+        #         self.dds_854.set_att(s.att_854)
+        #         self.dds_866.set(s.freq_866, amplitude=s.amp_866)
+        #         self.dds_866.set_att(s.att_866)
 
-                with parallel:
-                    self.dds_854.sw.on()
-                    self.dds_866.sw.on()
-                    self.dds_729.sw.on()
-                    self.dds_729_SP.sw.on()
-                delay(s.duration)
+        #         with parallel:
+        #             self.dds_854.sw.on()
+        #             self.dds_866.sw.on()
+        #             self.dds_729.sw.on()
+        #             self.dds_729_SP.sw.on()
+        #         delay(s.duration)
                 
-                #----------------------
-                # Fast OP
-                #----------------------
-                self.get_729_dds(s.op_channel_729)
-                self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
-                self.dds_866.set_att(s.op_att_866)
-                self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
-                self.dds_854.set_att(s.op_att_854)
-                self.dds_729.set(
-                                s.op_freq_729, 
-                                amplitude=s.op_amplitude_729
-                            )
-                self.dds_729.set_att(s.op_att_729)
-                self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
-                self.dds_729_SP.set_att(s.op_sp_att_729)
-                delay(s.optical_pumping_duration)
+        #         #----------------------
+        #         # Fast OP
+        #         #----------------------
+        #         self.get_729_dds(s.op_channel_729)
+        #         self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
+        #         self.dds_866.set_att(s.op_att_866)
+        #         self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
+        #         self.dds_854.set_att(s.op_att_854)
+        #         self.dds_729.set(
+        #                         s.op_freq_729, 
+        #                         amplitude=s.op_amplitude_729
+        #                     )
+        #         self.dds_729.set_att(s.op_att_729)
+        #         self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+        #         self.dds_729_SP.set_att(s.op_sp_att_729)
+        #         delay(s.optical_pumping_duration)
 
-            ######################################################
-            # SBC  sequential2          
-            ######################################################
-            if s.sequential2_enable:
-                channel = s.sequential2_channel_729
-                freq_729 = s.freq_729_sequential2
-                sp_freq_729 = s.sp_freq_729_sequential2
-                self.get_729_dds(channel)
-                self.dds_729.set(freq_729, amplitude=s.amp_729)
-                self.dds_729.set_att(s.att_729)
-                self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
-                self.dds_729_SP.set_att(s.sp_att_729)
-                self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
-                self.dds_854.set_att(s.att_854)
-                self.dds_866.set(s.freq_866, amplitude=s.amp_866)
-                self.dds_866.set_att(s.att_866)
+        #     ######################################################
+        #     # SBC  sequential2          
+        #     ######################################################
+        #     if s.sequential2_enable:
+        #         channel = s.sequential2_channel_729
+        #         freq_729 = s.freq_729_sequential2
+        #         sp_freq_729 = s.sp_freq_729_sequential2
+        #         self.get_729_dds(channel)
+        #         self.dds_729.set(freq_729, amplitude=s.amp_729)
+        #         self.dds_729.set_att(s.att_729)
+        #         self.dds_729_SP.set(sp_freq_729, amplitude=s.sp_amp_729)
+        #         self.dds_729_SP.set_att(s.sp_att_729)
+        #         self.dds_854.set(s.freq_854, amplitude=s.amp_854 + s.cycle_increase_rate * i)
+        #         self.dds_854.set_att(s.att_854)
+        #         self.dds_866.set(s.freq_866, amplitude=s.amp_866)
+        #         self.dds_866.set_att(s.att_866)
 
-                with parallel:
-                    self.dds_854.sw.on()
-                    self.dds_866.sw.on()
-                    self.dds_729.sw.on()
-                    self.dds_729_SP.sw.on()
-                delay(s.duration)
+        #         with parallel:
+        #             self.dds_854.sw.on()
+        #             self.dds_866.sw.on()
+        #             self.dds_729.sw.on()
+        #             self.dds_729_SP.sw.on()
+        #         delay(s.duration)
                 
-                #----------------------
-                # Fast OP
-                #----------------------
-                self.get_729_dds(s.op_channel_729)
-                self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
-                self.dds_866.set_att(s.op_att_866)
-                self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
-                self.dds_854.set_att(s.op_att_854)
-                self.dds_729.set(
-                                s.op_freq_729, 
-                                amplitude=s.op_amplitude_729
-                            )
-                self.dds_729.set_att(s.op_att_729)
-                self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
-                self.dds_729_SP.set_att(s.op_sp_att_729)
-                delay(s.optical_pumping_duration)
+        #         #----------------------
+        #         # Fast OP
+        #         #----------------------
+        #         self.get_729_dds(s.op_channel_729)
+        #         self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
+        #         self.dds_866.set_att(s.op_att_866)
+        #         self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
+        #         self.dds_854.set_att(s.op_att_854)
+        #         self.dds_729.set(
+        #                         s.op_freq_729, 
+        #                         amplitude=s.op_amplitude_729
+        #                     )
+        #         self.dds_729.set_att(s.op_att_729)
+        #         self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+        #         self.dds_729_SP.set_att(s.op_sp_att_729)
+        #         delay(s.optical_pumping_duration)
 
         ###############################################################
         # turn everything off (after we do a quick double-sure repump)          
         ###############################################################
-        #----------------------
-            # Fast OP
-            #----------------------
-            self.get_729_dds(s.op_channel_729)
-            self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
-            self.dds_866.set_att(s.op_att_866)
-            self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
-            self.dds_854.set_att(s.op_att_854)
-            self.dds_729.set(
-                            s.op_freq_729, 
-                            amplitude=s.op_amplitude_729
-                        )
-            self.dds_729.set_att(s.op_att_729)
-            self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
-            self.dds_729_SP.set_att(s.op_sp_att_729)
-            delay(s.optical_pumping_duration)
-        self.dds_854.set(80*MHz, amplitude=1.0)
-        self.dds_854.set_att(5.0)
-        self.dds_866.set(80*MHz, amplitude=1.0)
-        self.dds_866.set_att(5.0)
+        # #----------------------
+        # # Fast OP
+        # #----------------------
+        # self.get_729_dds(s.op_channel_729)
+        # self.dds_866.set(s.op_frequency_866, amplitude=s.op_amplitude_866)
+        # self.dds_866.set_att(s.op_att_866)
+        # self.dds_854.set(s.op_frequency_854, amplitude=s.op_amplitude_854)
+        # self.dds_854.set_att(s.op_att_854)
+        # self.dds_729.set(
+        #                 s.op_freq_729, 
+        #                 amplitude=s.op_amplitude_729
+        #             )
+        # self.dds_729.set_att(s.op_att_729)
+        # self.dds_729_SP.set(s.op_sp_freq_729, amplitude=s.op_sp_amp_729)
+        # self.dds_729_SP.set_att(s.op_sp_att_729)
+        # delay(s.optical_pumping_duration)
+        # self.dds_854.set(80*MHz, amplitude=1.0)
+        # self.dds_854.set_att(5.0)
+        # self.dds_866.set(80*MHz, amplitude=1.0)
+        # self.dds_866.set_att(5.0)
         with parallel:
             self.dds_729.sw.off()
             self.dds_854.sw.on()

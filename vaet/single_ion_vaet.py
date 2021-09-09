@@ -96,9 +96,8 @@ class SingleIonVAET(PulseSequence):
 
     @kernel
     def SingleIonVAET(self):
-        self.basis_rotation.phase_ref_time = 0
+        self.basis_rotation.phase_ref_time = now_mu()
         self.vaet.phase_ref_time = self.basis_rotation.phase_ref_time
-
         if self.vaet.with_noise:
             j = round(self.get_variable_parameter("current_experiment_iteration"))
             if self.vaet.amplitude_noise:
@@ -127,12 +126,16 @@ class SingleIonVAET(PulseSequence):
 
         self.stateprep.run(self)
         if self.SingleIonVAET_rotate_in_y:
+            delay(10*us)
             self.basis_rotation.phase_729 = 0.
             self.basis_rotation.run(self)
+            delay(10*us)
         self.vaet.run(self)
         if self.SingleIonVAET_rotate_out_y:
+            delay(10*us)
             self.basis_rotation.phase_729 = 180.
             self.basis_rotation.run(self)
+            delay(10*us)
 
     def run_finally(self):
         self.stop_ram_modulation(self.dds_729_SP)

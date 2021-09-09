@@ -9,7 +9,7 @@ class StatePreparation:
     enable_sideband_cooling="StatePreparation.sideband_cooling_enable"
     post_delay="StatePreparation.post_delay"
     enable_two_tone_sideband_cooling="StatePreparation.enable_two_tone_sideband_cooling"
-    enable_doppler_cooling=1
+    enable_doppler_cooling=1.0
 
     def add_child_subsequences(pulse_sequence):
         s = StatePreparation
@@ -29,4 +29,5 @@ class StatePreparation:
             s.op.run(self)
         if s.enable_sideband_cooling:
             s.sbc.run(self)
+            s.op.run(self)
         

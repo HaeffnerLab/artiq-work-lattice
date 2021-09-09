@@ -22,6 +22,7 @@ class RAPFlop(PulseSequence):
         "RAP.order",
         "RAP.sideband_selection",
         "RAP.stark_shift",
+        "RAP.detuning_offset"
     }
 
     PulseSequence.scan_params = dict(
@@ -77,7 +78,7 @@ class RAPFlop(PulseSequence):
         beta = self.rap.beta
 
         for i in range(m+1, self.num_points):
-            self.freq_profile_raw[i] = 320*MHz + ss - ss * (beta**2 + np.sin(np.pi * i / n)**2) + delta0 * np.cos(np.pi * i / n)
+            self.freq_profile_raw[i] = 320*MHz + self.RAP_detuning_offset + ss - ss * (beta**2 + np.sin(np.pi * i / n)**2) + delta0 * np.cos(np.pi * i / n)
         self.dds_RAP_amp.amplitude_to_ram(self.amp_profile_raw, self.amp_profile)
         self.dds_RAP_freq.frequency_to_ram(self.freq_profile_raw, self.freq_profile)
         
@@ -99,20 +100,6 @@ class RAPFlop(PulseSequence):
 
     @kernel
     def RAPFlop(self):
-        self.setup_ram_modulation(
-                3,
-                ram_waveform=self.amp_profile,
-                modulation_type=self.AMP_MOD,
-                step=self.step,
-                ram_mode=RAM_MODE_CONT_BIDIR_RAMP
-            )
-        self.setup_ram_modulation(
-                4,
-                ram_waveform=self.freq_profile,
-                modulation_type=self.FREQ_MOD,
-                step=self.step * 2,
-                ram_mode=RAM_MODE_CONT_RAMPUP
-            )
         self.stateprep.run(self)
         self.rap.run(self)
 

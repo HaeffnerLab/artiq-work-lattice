@@ -9,7 +9,7 @@ class TwoToneSidebandCooling:
     freq_866="SidebandCooling.frequency_866"
     amp_866="SidebandCooling.amplitude_866"
     att_866="SidebandCooling.att_866"
-    stark_shift="TwoToneSidebandCooling.stark_shift1"
+    stark_shift1="TwoToneSidebandCooling.stark_shift1"
     stark_shift2="TwoToneSidebandCooling.stark_shift2"
     dp_amp="TwoToneSidebandCooling.dp_amp"
     dp_att="TwoToneSidebandCooling.dp_att"
@@ -24,23 +24,28 @@ class TwoToneSidebandCooling:
     def subsequence(self):
         t = TwoToneSidebandCooling
         
+        sminus = self.calc_frequency("S-1/2D-1/2")
+        splus = self.calc_frequency("S+1/2D+1/2")
+        sdiff = (sminus - splus) / 2.
+
         # Calculate 729 set frequencies
-        t.freq_729 = self.calc_frequency(
-                            "S-1/2D-1/2",
+        freq_729 = self.calc_frequency(
+                            "S+1/2D+1/2",
                             sideband=t.selection_sideband,
                             order=t.order,
                             dds=t.channel_729
                         )
         offset = self.get_offset_frequency(t.channel_729)
-        sp_freq_7291 = 80*MHz + offset + t.stark_shift1
-        sminus = self.calc_frequency("S-1/2D-1/2")
-        splus = self.calc_frequency("S+1/2D+1/2")
-        sp_freq_7292 = 80*MHz + splus - sminus + t.stark_shift2
+        freq_729 -= offset / 2  # get rid of offset
+        freq_729 += sdiff / 2
+        sp_freq_7291 = 80*MHz + sdiff + t.stark_shift1
+        sp_freq_7292 = 80*MHz - sdiff + t.stark_shift2
+        # print("her ", splus -sminus)
         
         # Setup DP
         self.get_729_dds(t.channel_729)
         self.dds_729.set(
-                t.freq_729,
+                freq_729,
                 amplitude=t.dp_amp
             )
         self.dds_729.set_att(t.dp_att)
@@ -55,7 +60,7 @@ class TwoToneSidebandCooling:
         self.dds_729_SP_bichro.set_att(t.drive2_att)
 
         # Setup 854
-        self.dds_854.set(t.freq_854, amplitude=t.amp_864)
+        self.dds_854.set(t.freq_854, amplitude=t.amp_854)
         self.dds_854.set_att(t.att_854)
 
         # Setup 866
@@ -63,6 +68,7 @@ class TwoToneSidebandCooling:
         self.dds_866.set_att(t.att_866)
 
         # Run it
+        self.trigger.on()
         with parallel:
             self.dds_729_SP.sw.on()
             self.dds_729_SP_bichro.sw.on()
@@ -73,5 +79,8 @@ class TwoToneSidebandCooling:
             self.dds_729.sw.off()
             self.dds_729_SP.sw.off()
             self.dds_729_SP_bichro.sw.off()
+        delay(50*us)    
+        with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()
+        self.trigger.off()

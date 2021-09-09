@@ -25,7 +25,7 @@ class RAPTest(EnvExperiment):
         sigma = 0.3 * T / np.sqrt(8)
         self.amp_profile_raw = 0.1 * np.sin([0 for i in range(m)] + [np.pi/2  + np.pi * t / (2 * n) for t in range(n-m)])
         # self.amp_profile_raw = [1.0 if i>100 else 0 for i in range(n)]
-        self.freq_profile_raw = [0 for i in range(m)] + [self.f_freq + np.cos(np.pi * t / (2 * n)) for t in range(n-m)]
+        self.freq_profile_raw = [0 for i in range(m)] + [self.f_freq + 500e3 * np.cos(np.pi * t / (2 * n)) for t in range(n-m)]
         # self.amp_profile_raw = np.flip(self.amp_profile_raw)
         self.freq_profile_raw = np.flip(self.freq_profile_raw)
         self.amp_profile = [0] * n
@@ -74,7 +74,7 @@ class RAPTest(EnvExperiment):
         self.freq_dds.set_profile_ram(
                     start=0,
                     end=len(self.freq_profile) - 1,
-                    step=self.step,
+                    step=self.step * 2,
                     profile=0,
                     mode=RAM_MODE_CONT_RAMPUP
         )

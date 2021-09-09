@@ -43,8 +43,10 @@ class OpticalPumpingContinuous:
             self.dds_729.sw.on()
             self.dds_729_SP.sw.on()
         delay(o.duration)
-        self.dds_729.sw.off()
-        delay(2 * o.rempump_duration)
+        with parallel:
+            self.dds_729.sw.off()
+            self.dds_729_SP.sw.off()
+        delay(o.rempump_duration)
         with parallel:
             self.dds_854.sw.off()
             self.dds_866.sw.off()

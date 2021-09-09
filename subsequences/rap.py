@@ -17,6 +17,7 @@ class RAP:
     dp_att="RAP.dp_att"
     channel="RAP.channel_729"
     beta="RAP.beta"
+    detuning_offset="RAP.detuning_offset"
 
     def subsequence(self):
         r = RAP
@@ -42,7 +43,6 @@ class RAP:
         self.dds_RAP_amp.set_frequency(400*MHz + sp_offset_freq)
         self.dds_RAP_amp.set_phase_mode(PHASE_MODE_ABSOLUTE)
         self.dds_RAP_amp.set_att(r.att)
-        # self.dds_RAP_amp.set_amplitude(1.0)
 
         # Setup RAP_freq
         self.dds_RAP_freq.set_frequency(80*MHz)
@@ -53,11 +53,13 @@ class RAP:
         # Setup RAP_aux
         self.dds_RAP_aux.set(
                 sp_freq,
-                amplitude=r.aux_strength
+                amplitude=r.aux_strength,
+                phase=0.75
             )
         self.dds_RAP_aux.set_att(r.aux_att)
 
         # Run it
+        self.dds_729.sw.on()
         with parallel:
             self.trigger.on()
             self.dds_RAP_amp.cpld.io_update.pulse_mu(8)
@@ -71,8 +73,6 @@ class RAP:
             self.dds_RAP_freq.sw.off()
             self.dds_RAP_aux.sw.off()
             self.trigger.off()
+        self.dds_729.sw.off()
 
-        self.dds_RAP_amp.set_cfr1()
-        self.dds_RAP_freq.set_cfr1()
-        
 

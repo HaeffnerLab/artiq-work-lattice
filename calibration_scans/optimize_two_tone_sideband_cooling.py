@@ -1,7 +1,8 @@
 from pulse_sequence import PulseSequence
 from subsequences.rabi_excitation import RabiExcitation
-from subsequences.state_preparation import StatePreparation
-from subsequences.sideband_cooling import TwoToneSidebandCooling
+from subsequences.optical_pumping import OpticalPumping
+from subsequences.doppler_cooling import DopplerCooling
+from subsequences.two_tone_sideband_cooling import TwoToneSidebandCooling
 from artiq.experiment import *
 
 
@@ -47,10 +48,12 @@ class OptimizeTwoToneSidebandCooling(PulseSequence):
         ("Current", ("TwoToneSidebandCooling.stark_shift1", -60*kHz, 60*kHz, 20, "kHz")),
         ("Current", ("TwoToneSidebandCooling.stark_shift2", -60*kHz, 60*kHz, 20, "kHz")),
         ("Current", ("TwoToneSidebandCooling.duration", 0, 2*ms, 20, "ms")),
+        ("Current", ("SidebandCooling.frequency_854", -60*kHz, 60*kHz, 20, "kHz")),
     ]
 
     def run_initially(self):
-        self.stateprep = self.add_subsequence(StatePreparation)
+        self.dopplercooling = self.add_subsequence(DopplerCooling)
+        self.op = self.add_subsequence(OpticalPumping)
         self.sidebandcooling = self.add_subsequence(TwoToneSidebandCooling)
         self.rabi = self.add_subsequence(RabiExcitation)
         self.rabi.channel_729 = self.p.RabiFlopping.channel_729
@@ -64,13 +67,10 @@ class OptimizeTwoToneSidebandCooling(PulseSequence):
         self.rabi.att_729 = self.RabiFlopping_att_729
         self.rabi.freq_729 = self.calc_frequency(
                                             self.RabiFlopping_line_selection, 
-                                            detuning=0.,
                                             sideband=self.RabiFlopping_selection_sideband,
                                             order=self.RabiFlopping_order, 
                                             dds=self.RabiFlopping_channel_729
                                         )
-        self.stateprep.enable_sideband_cooling = 0.0
-        self.stateprep.enable_two_tone_sideband_cooling = 0.0
         self.sidebandcooling.amp_854 = self.get_variable_parameter("TwoToneSidebandCooling_amp_854")
         self.sidebandcooling.dp_amp = self.get_variable_parameter("TwoToneSidebandCooling_dp_amp")
         self.sidebandcooling.drive1_amp = self.get_variable_parameter("TwoToneSidebandCooling_drive1_amp")
@@ -78,17 +78,12 @@ class OptimizeTwoToneSidebandCooling(PulseSequence):
         self.sidebandcooling.stark_shift1 = self.get_variable_parameter("TwoToneSidebandCooling_stark_shift1")
         self.sidebandcooling.stark_shift2 = self.get_variable_parameter("TwoToneSidebandCooling_stark_shift2")
         self.sidebandcooling.duration = self.get_variable_parameter("TwoToneSidebandCooling_duration")
+        self.sidebandcooling.freq_854 = self.get_variable_parameter("SidebandCooling_frequency_854")
 
 
     @kernel
     def OptimizeTwoToneSidebandCooling(self):
-        self.stateprep.enable_optical_pumping = 0.0
-        self.stateprep.run(self)
-        
+        self.dopplercooling.run(self)
         self.sidebandcooling.run(self)
-
-        self.stateprep.enable_optical_pumping = 1.0
-        self.stateprep.enable_doppler_cooling = 0.0
-        self.stateprep.run(self)
-        
+        self.op.run(self)
         self.rabi.run(self)

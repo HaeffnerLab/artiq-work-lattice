@@ -33,7 +33,7 @@ class SetupSingleIonVAET:
     mod_wf2=[[np.int32(0)]]
 
     def subsequence(self):
-        phase_mode = PHASE_MODE_ABSOLUTE
+        phase_mode = PHASE_MODE_TRACKING
         s = SetupSingleIonVAET
         offset = self.get_offset_frequency("729G")
         freq_carr = 80*MHz + offset
@@ -47,16 +47,16 @@ class SetupSingleIonVAET:
                 dp_freq,
                 amplitude=s.DP_amp,
                 phase_mode=phase_mode,
-                # ref_time_mu=s.phase_ref_time
+                ref_time_mu=s.phase_ref_time
             )
         
         if not s.with_noise or not s.amplitude_noise:
             self.dds_729_SP.set(
                     freq_carr,
                     amplitude=s.CARR_amp,
-                    # ref_time_mu=s.phase_ref_time,
+                    ref_time_mu=s.phase_ref_time,
                     phase_mode=phase_mode,
-                    phase=s.CARR_phase
+                    phase=0.
                 )
         if s.with_noise and s.amplitude_noise:
             self.dds_729_SP.set_frequency(freq_carr)
@@ -67,9 +67,9 @@ class SetupSingleIonVAET:
             self.dds_SP_729G_bichro.set(
                     s.freq_blue,
                     amplitude=s.BSB_amp,
-                    # ref_time_mu=s.phase_ref_time,
+                    ref_time_mu=s.phase_ref_time,
                     phase_mode=phase_mode,
-                    phase=0.25
+                    phase=0.
                 )
 
             # Hard-coded to SP_729L2
@@ -77,17 +77,17 @@ class SetupSingleIonVAET:
                     s.freq_red,
                     amplitude=s.RSB_amp,
                     phase_mode=phase_mode,
-                    # ref_time_mu=s.phase_ref_time,
-                    phase=0.25
+                    ref_time_mu=s.phase_ref_time,
+                    phase=0.
                 )
         
         if s.with_noise and not s.amplitude_noise:
             self.dds_SP_729G_bichro.set_phase_mode(phase_mode)
             self.dds_SP_729G_bichro.set_amplitude(s.BSB_amp)
-            self.dds_SP_729G_bichro.set_phase(0.75)
+            self.dds_SP_729G_bichro.set_phase(0.)
             self.dds_SP_729L2.set_phase_mode(phase_mode)
             self.dds_SP_729L2.set_amplitude(s.RSB_amp)
-            self.dds_SP_729L2.set_phase(0.25)
+            self.dds_SP_729L2.set_phase(0.)
 
         self.dds_729.set_att(s.DP_att)
         self.dds_729_SP.set_att(s.CARR_att)
