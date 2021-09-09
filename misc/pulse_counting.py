@@ -20,7 +20,7 @@ def print_underflow():
 class pulse_counting5(EnvExperiment):
     def build(self):
          self.setattr_device('core') # need the core for everything
-         self.setattr_device('ttl0') # where pulses are being sent in by ttl
+         self.setattr_device('pmt') # where pulses are being sent in by ttl
          self.setattr_argument('time_count', NumberValue(default=400,unit='number of counts',scale=1,ndecimals=0,step=1)) #how many indices you have in time axis
          self.setattr_argument('detection_time',NumberValue(default=500,unit='ms',scale=1,ndecimals=0,step=1))
          self.setattr_device('scheduler') # scheduler used
@@ -45,8 +45,8 @@ class pulse_counting5(EnvExperiment):
         # read the counts and store into a dataset for live updating
         for j in range(self.time_count):
             #register rising edges for detection time
-            t_count= self.ttl0.gate_rising(self.detection_time*ms) # reads from the channel
-            count =self.ttl0.count(t_count)
+            t_count= self.pmt.gate_rising(self.detection_time*ms) # reads from the channel
+            count =self.pmt.count(t_count)
             print(count)
             # mutate dataset at index j with the value of counts/second
             self.mutate_dataset('count_tot',j,(count)/(self.detection_time*ms))
