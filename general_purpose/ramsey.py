@@ -75,7 +75,7 @@ class Ramsey(PulseSequence):
             self.bsb_att = self.p.Rotation729L1.bsb_att
         self.wait_time = 0.
         self.phase = 0.
-        self.N = 1000
+        #self.N = 1000
         
     @kernel
     def set_subsequence_ramsey(self):
