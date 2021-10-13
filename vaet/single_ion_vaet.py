@@ -168,7 +168,7 @@ class SingleIonVAET(PulseSequence):
                                         )
                 elif noise_type == "lorentzian_delta":
                     _, _, d = generate_lorentzian_noise(
-                                            strength, f0, y, 
+                                            strength, f0, y,
                                             samples=n,
                                             samplerate=1/noise_time_step,
                                             min_value=-1-delta, max_value=1 - delta,
@@ -177,7 +177,7 @@ class SingleIonVAET(PulseSequence):
                                         )
                 elif noise_type == "pink_delta":
                     _, _, d = generate_pink_noise(
-                                            strength, rolloff=rolloff, 
+                                            strength, rolloff=rolloff,
                                             samples=n,
                                             samplerate=1/noise_time_step,
                                             min_value=-1-delta, max_value=1 - delta,
@@ -186,7 +186,7 @@ class SingleIonVAET(PulseSequence):
                                         )
                 elif noise_type == "brown_delta":
                     _, _, d = generate_brown_noise(
-                                            strength, rolloff=rolloff, 
+                                            strength, rolloff=rolloff,
                                             samples=n,
                                             samplerate=1/noise_time_step,
                                             min_value=-1-delta, max_value=1 - delta,
@@ -209,7 +209,7 @@ class SingleIonVAET(PulseSequence):
                     _, _, d = generate_white_noise(
                                                 strength, samples=n,
                                                 samplerate=1/noise_time_step,
-                                                min_value=-frequency_bandwidth, 
+                                                min_value=-frequency_bandwidth,
                                                 max_value=frequency_bandwidth,
                                                 # min_freq=-750e3, max_freq=750e3,
                                                 just_phase=False
@@ -219,7 +219,7 @@ class SingleIonVAET(PulseSequence):
                                                 strength, f0, y,
                                                 samples=n,
                                                 samplerate=1/noise_time_step,
-                                                min_value=-frequency_bandwidth, 
+                                                min_value=-frequency_bandwidth,
                                                 max_value=frequency_bandwidth,
                                                 # min_freq=-750e3, max_freq=750e3,
                                                 just_phase=False
@@ -229,7 +229,7 @@ class SingleIonVAET(PulseSequence):
                                                 strength, rolloff=rolloff,
                                                 samples=n,
                                                 samplerate=1/noise_time_step,
-                                                min_value=-frequency_bandwidth, 
+                                                min_value=-frequency_bandwidth,
                                                 max_value=frequency_bandwidth,
                                                 # min_freq=-750e3, max_freq=750e3,
                                                 just_phase=False
@@ -239,7 +239,7 @@ class SingleIonVAET(PulseSequence):
                                                 strength, rolloff=rolloff,
                                                 samples=n,
                                                 samplerate=1/noise_time_step,
-                                                min_value=-frequency_bandwidth, 
+                                                min_value=-frequency_bandwidth,
                                                 max_value=frequency_bandwidth,
                                                 # min_freq=-750e3, max_freq=750e3,
                                                 just_phase=False
@@ -271,7 +271,7 @@ def fftnoise(f, just_phase=False):
         f[1:Np+1] *= (reals + 1j * ims)
         f[Np+1] *= rng.standard_normal() / np.sqrt(2)  # Nyquist frequency must be real for even sample sizes
         f[-1:-(1 + Np):-1] = np.conj(f[1:Np+1])
-    fft = np.fft.ifft(f, norm="ortho").real 
+    fft = np.fft.ifft(f, norm="ortho").real
     fft[0] = 0 # zero-mean
     return fft
 
@@ -302,9 +302,9 @@ def prune(array, min_value, max_value):
     return array
 
 def generate_lorentzian_noise(
-                            s0, f0, y, 
-                            min_value=-1e10, max_value=1e10, 
-                            samples=1024, samplerate=1/2e-6, 
+                            s0, f0, y,
+                            min_value=-1e10, max_value=1e10,
+                            samples=1024, samplerate=1/2e-6,
                             just_phase=False
                         ):
     freqs = np.fft.fftfreq(int(samples), 1/samplerate)
@@ -313,9 +313,9 @@ def generate_lorentzian_noise(
     return rfreqs, f[:len(rfreqs)], prune(fftnoise(f, just_phase=just_phase), min_value, max_value)
 
 def generate_pink_noise(
-                    s0, rolloff=0, 
-                    min_value=-1e10, max_value=1e10, 
-                    samples=1024, samplerate=1/2e-6, 
+                    s0, rolloff=0,
+                    min_value=-1e10, max_value=1e10,
+                    samples=1024, samplerate=1/2e-6,
                     just_phase=False
                 ):
     freqs = np.fft.fftfreq(int(samples), 1/samplerate)
@@ -324,9 +324,9 @@ def generate_pink_noise(
     return rfreqs, f[:len(rfreqs)], prune(fftnoise(f, just_phase=just_phase), min_value, max_value)
 
 def generate_brown_noise(
-                        s0, rolloff=0, 
-                        min_value=-1e10, max_value=1e10, 
-                        samples=1024, samplerate=1/2e-6, 
+                        s0, rolloff=0,
+                        min_value=-1e10, max_value=1e10,
+                        samples=1024, samplerate=1/2e-6,
                         just_phase=False
                     ):
     freqs = np.fft.fftfreq(int(samples), 1/samplerate)
@@ -335,10 +335,10 @@ def generate_brown_noise(
     return rfreqs, f[:len(rfreqs)], prune(fftnoise(f, just_phase=just_phase), min_value, max_value)
 
 def generate_white_noise(
-                        s0, 
-                        min_value=-1e10, max_value=1e10, 
-                        min_freq=-1e-10, max_freq=1e10, 
-                        samples=1024, samplerate=1/2e-6, 
+                        s0,
+                        min_value=-1e10, max_value=1e10,
+                        min_freq=-1e-10, max_freq=1e10,
+                        samples=1024, samplerate=1/2e-6,
                         just_phase=False
                     ):
     freqs = np.fft.fftfreq(int(samples), 1/samplerate)

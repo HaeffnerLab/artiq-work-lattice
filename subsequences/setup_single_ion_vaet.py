@@ -1,7 +1,7 @@
 from artiq.experiment import *
 import numpy as np
 from artiq.coredevice.ad9910 import (
-        PHASE_MODE_ABSOLUTE, PHASE_MODE_CONTINUOUS, PHASE_MODE_TRACKING, 
+        PHASE_MODE_ABSOLUTE, PHASE_MODE_CONTINUOUS, PHASE_MODE_TRACKING,
         RAM_MODE_RAMPUP
     )
 
@@ -29,7 +29,7 @@ class SetupSingleIonVAET:
     freq_blue=0.
     freq_red=0.
     step=1
-    mod_wf=[[np.int32(0)]] 
+    mod_wf=[[np.int32(0)]]
     mod_wf2=[[np.int32(0)]]
 
     def subsequence(self):
@@ -49,7 +49,7 @@ class SetupSingleIonVAET:
                 phase_mode=phase_mode,
                 ref_time_mu=s.phase_ref_time
             )
-        
+
         if not s.with_noise or not s.amplitude_noise:
             self.dds_729_SP.set(
                     freq_carr,
@@ -80,7 +80,7 @@ class SetupSingleIonVAET:
                     ref_time_mu=s.phase_ref_time,
                     phase=0.
                 )
-        
+
         if s.with_noise and not s.amplitude_noise:
             self.dds_SP_729G_bichro.set_phase_mode(phase_mode)
             self.dds_SP_729G_bichro.set_amplitude(s.BSB_amp)
@@ -94,10 +94,10 @@ class SetupSingleIonVAET:
         self.dds_SP_729G_bichro.set_att(s.BSB_att)
         self.dds_SP_729L2.set_att(s.RSB_att)
 
-        # self.dds_test1.set(freq_carr, 
+        # self.dds_test1.set(freq_carr,
         #     amplitude=1.0, phase_mode=phase_mode, phase=s.test_phase)
         # self.dds_test1.set_att(5.)  # for beat note
-        # self.dds_test2.set(freq_carr, 
+        # self.dds_test2.set(freq_carr,
         #     amplitude=1.0, phase_mode=phase_mode, phase=s.test_phase + 0.25)
         # self.dds_test2.set_att(5.)  # for beat note
 
@@ -113,9 +113,9 @@ class SetupSingleIonVAET:
             self.dds_729_SP.sw.on()
             self.dds_SP_729G_bichro.sw.on()
             self.dds_SP_729L2.sw.on()
-        
+
         delay(s.duration)
-        
+
         with parallel:
             self.trigger.off()
             self.dds_729.sw.off()
