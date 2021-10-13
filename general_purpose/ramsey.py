@@ -38,11 +38,11 @@ class Ramsey(PulseSequence):
             ("Ramsey", ("Ramsey.wait_time", 0*ms, 5*ms, 100, "ms")),
             ("Ramsey", ("Ramsey.phase", 0., 360., 20, "deg"))
         ])
-    
+
     def run_initially(self):
         self.stateprep = self.add_subsequence(StatePreparation)
         self.rabi = self.add_subsequence(RabiExcitation)
-        self.rabi.channel_729 = self.p.Ramsey.channel_729  
+        self.rabi.channel_729 = self.p.Ramsey.channel_729
         self.bsb_rabi = self.add_subsequence(RabiExcitation2)
         self.bsb_rabi.channel_729 = self.p.Ramsey.channel_729
         self.set_subsequence["Ramsey"] = self.set_subsequence_ramsey
@@ -75,38 +75,39 @@ class Ramsey(PulseSequence):
             self.bsb_att = self.p.Rotation729L1.bsb_att
         self.wait_time = 0.
         self.phase = 0.
-        self.N = 1000
-        
+        self.N = 100
+
     @kernel
     def set_subsequence_ramsey(self):
         self.rabi.duration = self.pi_time
         self.rabi.amp_729 = self.amplitude
         self.rabi.att_729 = self.att
         self.rabi.freq_729 = self.calc_frequency(
-                    self.line_selection, 
+                    self.line_selection,
                     detuning=self.Ramsey_detuning,
                     sideband=self.Ramsey_selection_sideband,
-                    order=self.Ramsey_order, 
+                    order=self.Ramsey_order,
                     dds=self.Ramsey_channel_729
                 )
         self.bsb_rabi.duration = self.bsb_pi_time
         self.bsb_rabi.amp_729 = self.bsb_amplitude
         self.bsb_rabi.att_729 = self.bsb_att
         self.bsb_rabi.freq_729 = self.calc_frequency(
-                    self.line_selection, 
+                    self.line_selection,
                     detuning=self.RabiFlopping_detuning,
                     sideband=self.Ramsey_selection_sideband,
-                    order=1.0, 
+                    order=1.0,
                     dds=self.Ramsey_channel_729
                 )
         self.wait_time = self.get_variable_parameter("Ramsey_wait_time")
+        self.get_729_dds("729G")
 
     @kernel
     def Ramsey(self):
         self.rabi.phase_ref_time = now_mu()
         self.bsb_rabi.phase_ref_time = self.rabi.phase_ref_time
         self.stateprep.run(self)
-        
+
         self.rabi.phase_729 = 0.
         if not self.Ramsey_echo:
             # self.trigger.on()
